@@ -226,6 +226,11 @@ def main():
     a = ap.parse_args()
     out = Path(a.out)
     root = ET.parse(a.xml).getroot()
+    attachments = {
+        it.find("wp:post_id", NS).text: it.find("wp:attachment_url", NS).text
+        for it in root.iter("item")
+        if it.find("wp:post_type", NS).text == "attachment"
+    }
     seen = set()
     for item in root.iter("item"):
         if item.find("wp:post_type", NS).text != "post":
@@ -241,6 +246,10 @@ def main():
         title = re.sub(r"\s+", " ", html.unescape(item.find("title").text)).strip()
         date = item.find("wp:post_date", NS).text[:10]
         chunks, pdfs, codes, texts, byline = convert_post(item)
+        thumb = None
+        for m in item.findall("wp:postmeta", NS):
+            if m.find("wp:meta_key", NS).text == "_thumbnail_id":
+                thumb = attachments.get(m.find("wp:meta_value", NS).text)
         desc = description(texts)
 
         fm = [
@@ -249,6 +258,7 @@ def main():
         ] + ([f"subtitle: {yaml_str(byline[0])}"] if byline else []) + [
             f"author: {AUTHOR}",
             f"date: {date}",
+        ] + ([f"image: {img_url(thumb)}"] if thumb else []) + [
             f"lang: {lang}",
             f"idioma: {'Italiano' if lang == 'it' else 'English'}",
             "categories: [" + ", ".join(cats) + "]",

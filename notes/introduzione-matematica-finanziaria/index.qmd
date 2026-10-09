@@ -2,6 +2,7 @@
 title: "Introduzione alla Matematica Finanziaria"
 author: Tommaso Zeri
 date: 2025-06-09
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/gemini_generated_image_ax9u5pax9u5pax9u.png
 lang: it
 idioma: Italiano
 categories: [Financial Mathematics]

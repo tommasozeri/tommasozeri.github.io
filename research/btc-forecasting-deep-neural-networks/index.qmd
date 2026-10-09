@@ -2,6 +2,7 @@
 title: "Forecasting Bitcoin Price using Deep Neural Networks"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_yvrn0ayvrn0ayvrn-1.png
 lang: en
 idioma: English
 categories: [Machine Learning, Crypto]

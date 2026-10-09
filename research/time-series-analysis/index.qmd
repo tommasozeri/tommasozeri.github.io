@@ -2,6 +2,7 @@
 title: "Time Series Analysis"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_jv5gt7jv5gt7jv5g.png
 lang: en
 idioma: English
 categories: [Econometrics, Time Series]

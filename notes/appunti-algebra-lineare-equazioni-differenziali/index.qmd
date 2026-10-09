@@ -2,6 +2,7 @@
 title: "Appunti di Algebra Lineare ed Equazioni Differenziali"
 author: Tommaso Zeri
 date: 2026-08-28
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/gemini_generated_image_nuppkhnuppkhnupp-1.jpg
 lang: it
 idioma: Italiano
 categories: [Linear Algebra, Differential Equations]

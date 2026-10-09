@@ -2,6 +2,7 @@
 title: "This is the closest you'll get to visualize a σ-algebra"
 author: Tommaso Zeri
 date: 2026-05-15
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_bwg9y8bwg9y8bwg9.png
 lang: en
 idioma: English
 categories: [Measure Theory]

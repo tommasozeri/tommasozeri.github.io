@@ -2,6 +2,7 @@
 title: "Distribuzioni di Probabilità su ℝⁿ"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_i9yp1xi9yp1xi9yp.png
 lang: it
 idioma: Italiano
 categories: [Probability]

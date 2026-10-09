@@ -2,6 +2,7 @@
 title: "Il ruolo dell'integrale di Lebesgue in Probabilità"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_drb5zudrb5zudrb5.png
 lang: it
 idioma: Italiano
 categories: [Measure Theory]

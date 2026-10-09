@@ -3,6 +3,7 @@ title: "Stochastic Modelling for Investment Portfolios Dynamics"
 subtitle: "Riot Investment Society, April 2025"
 author: Tommaso Zeri
 date: 2026-05-15
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_ygbbkqygbbkqygbb.png
 lang: en
 idioma: English
 categories: [Portfolio Optimization, Stochastic Processes]

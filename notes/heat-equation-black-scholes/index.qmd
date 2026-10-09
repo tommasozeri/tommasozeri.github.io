@@ -2,6 +2,7 @@
 title: "From the Heat Equation to the Black & Scholes"
 author: Tommaso Zeri
 date: 2026-08-04
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/gemini_generated_image_ihsjarihsjarihsj.png
 lang: en
 idioma: English
 categories: [Financial Mathematics, PDE]

@@ -2,6 +2,7 @@
 title: "From Tweet Classification to Trading Signals: NLP applied to Algorithmic Trading"
 author: Tommaso Zeri
 date: 2026-06-09
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/gemini_generated_image_egnr2fegnr2fegnr.png
 lang: en
 idioma: English
 categories: [Machine Learning, NLP, Trading]

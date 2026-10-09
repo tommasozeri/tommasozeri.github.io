@@ -2,6 +2,7 @@
 title: "Probabilità Discreta"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_1yl1mx1yl1mx1yl1.png
 lang: it
 idioma: Italiano
 categories: [Probability]

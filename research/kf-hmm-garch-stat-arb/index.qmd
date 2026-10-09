@@ -2,6 +2,7 @@
 title: "Statistical Arbitrage in Higher Dimensions: An Integrated KF-HMM-GARCH Framework for Dynamic Multi-Asset Trading"
 author: Tommaso Zeri
 date: 2026-09-10
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/0ec0bf81-751d-4999-8bdd-66ec0be9eda9.jpg
 lang: en
 idioma: English
 categories: [Statistical Arbitrage, Volatility]

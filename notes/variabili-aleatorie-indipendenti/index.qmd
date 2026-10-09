@@ -2,6 +2,7 @@
 title: "Variabili Aleatorie Indipendenti"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_pcrobipcrobipcro.png
 lang: it
 idioma: Italiano
 categories: [Probability]

@@ -2,6 +2,7 @@
 title: "Application of State-Space Models on Statistical Arbitrage Trading Strategies"
 author: Tommaso Zeri
 date: 2026-06-19
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_1llbmq1llbmq1llb.png
 lang: en
 idioma: English
 categories: [Statistical Arbitrage, Time Series]

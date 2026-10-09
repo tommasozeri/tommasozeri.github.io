@@ -9,7 +9,7 @@ listing:
     sort: "date desc"
     type: default
     max-items: 5
-    fields: [date, title, description]
+    fields: [image, date, title, description]
     date-format: "MMM YYYY"
   - id: latest-notes
     contents: "notes/*/index.qmd"

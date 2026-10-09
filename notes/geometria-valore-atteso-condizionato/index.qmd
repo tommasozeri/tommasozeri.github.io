@@ -2,6 +2,7 @@
 title: "Geometria del valore atteso condizionato: spazi di Hilbert, spazi di Banach e spazi L^p"
 author: Tommaso Zeri
 date: 2026-07-20
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/gemini_generated_image_vmc5shvmc5shvmc5.png
 lang: it
 idioma: Italiano
 categories: [Probability, Functional Analysis]

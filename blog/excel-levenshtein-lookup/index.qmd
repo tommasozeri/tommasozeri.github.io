@@ -2,6 +2,7 @@
 title: "Overcoming Excel's Lookup Limitations Using the Levenshtein Algorithm"
 author: Tommaso Zeri
 date: 2025-06-10
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/gemini_generated_image_obtu85obtu85obtu.png
 lang: en
 idioma: English
 categories: [Excel, VBA]

@@ -2,6 +2,7 @@
 title: "Appunti di Probabilità e Teoria della Misura"
 author: Tommaso Zeri
 date: 2026-08-28
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/gemini_generated_image_eisaq0eisaq0eisa.jpg
 lang: it
 idioma: Italiano
 categories: [Probability, Measure Theory]

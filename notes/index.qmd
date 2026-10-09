@@ -5,14 +5,12 @@ toc: false
 listing:
   contents: "*/index.qmd"
   sort: "date desc"
-  type: table
+  type: default
   categories: true
-  sort-ui: [date, title, idioma]
+  sort-ui: false
   filter-ui: true
-  fields: [date, title, idioma, categories]
-  field-display-names:
-    idioma: "Language"
-  date-format: "YYYY-MM-DD"
+  fields: [image, date, title, description, categories]
+  date-format: "MMM YYYY"
   feed: true
 ---
 

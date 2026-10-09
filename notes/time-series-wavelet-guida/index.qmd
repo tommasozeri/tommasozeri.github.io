@@ -2,6 +2,7 @@
 title: "Dalle Time Series alla Wavelet: guida intuitiva"
 author: Tommaso Zeri
 date: 2026-09-06
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/fe7583e4-9337-4385-9709-7880f554fe4a.jpg
 lang: it
 idioma: Italiano
 categories: [Signal Processing, Time Series]

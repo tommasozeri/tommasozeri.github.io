@@ -2,6 +2,7 @@
 title: "The Math Behind the \"Trillion Dollar Equation\": The Black-Scholes PDE"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_di0rhbdi0rhbdi0r.png
 lang: en
 idioma: English
 categories: [Financial Mathematics, Stochastic Calculus]

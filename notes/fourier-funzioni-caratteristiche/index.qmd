@@ -2,6 +2,7 @@
 title: "Trasformata di Fourier e Funzioni Caratteristiche"
 author: Tommaso Zeri
 date: 2026-05-25
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_g7d3yqg7d3yqg7d3-1.png
 lang: it
 idioma: Italiano
 categories: [Probability, Fourier Analysis]

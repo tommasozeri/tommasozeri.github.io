@@ -2,6 +2,7 @@
 title: "Dynamic Regime-Switching GARCH-LSTM Framework for Cryptocurrency Risk Management"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_26zrxz26zrxz26zr-1.png
 lang: en
 idioma: English
 categories: [Volatility, Machine Learning, Crypto]

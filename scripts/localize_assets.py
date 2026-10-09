@@ -17,6 +17,16 @@ ROOT = Path(__file__).resolve().parent.parent
 WP_URL = re.compile(r"https://[a-z0-9\-]+\.wordpress\.com/wp-content/uploads/[^\s\"')>\]]+")
 
 
+def save_cover(data: bytes, dest: Path, width: int = 800):
+    """Shrink cover images (WordPress originals are several MB) to a light JPEG."""
+    import io
+    from PIL import Image
+    im = Image.open(io.BytesIO(data)).convert("RGB")
+    if im.width > width:
+        im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    im.save(dest, "JPEG", quality=82, optimize=True, progressive=True)
+
+
 def site_url() -> str:
     m = re.search(r"^\s*site-url:\s*(\S+)", (ROOT / "_quarto.yml").read_text(), re.M)
     return m.group(1).rstrip("/") if m else ""
@@ -32,8 +42,12 @@ def main():
         urls = sorted(set(WP_URL.findall(text)))
         if not urls:
             continue
+        cover_m = re.search(r"^image:\s*(\S+)$", text, re.M)
+        cover_url = cover_m.group(1) if cover_m else None
         for url in urls:
             name = url.rsplit("/", 1)[-1]
+            if url == cover_url:
+                name = "cover.jpg"
             dest = qmd.parent / name
             print(f"{qmd.parent.relative_to(ROOT)}: {name}")
             if a.dry_run:
@@ -43,7 +57,11 @@ def main():
                 try:
                     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
                     with urllib.request.urlopen(req, timeout=120) as r:
-                        dest.write_bytes(r.read())
+                        data = r.read()
+                    if name == "cover.jpg":
+                        save_cover(data, dest)
+                    else:
+                        dest.write_bytes(data)
                 except Exception as e:  # keep the remote link if download fails
                     print(f"  FAILED: {e}", file=sys.stderr)
                     failures += 1

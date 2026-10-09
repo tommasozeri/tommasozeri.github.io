@@ -2,6 +2,7 @@
 title: "Wavelet-Based Signal Extraction and Regime Detection in Commodity Futures"
 author: Tommaso Zeri
 date: 2026-09-06
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/f8ddabd4-2201-4cf7-b1c1-752f48c9d09c.jpg
 lang: en
 idioma: English
 categories: [Signal Processing, Commodities, Trading]

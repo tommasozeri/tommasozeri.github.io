@@ -36,19 +36,26 @@ main table td, main table th { border: none; }
 .quarto-listing-default .quarto-post { border-bottom: 1px solid #eee; padding-bottom: 1rem; }
 .quarto-listing-default .listing-title { font-size: 1.15rem; }
 .quarto-listing-default .listing-description { color: #444; font-size: .95rem; }
-.quarto-post .thumbnail { display: none; }
 #title-block-header.quarto-title-block.default .quarto-title-meta { margin-top: .5rem; }
 
 /* compact two-column listing: date | title + abstract */
 .quarto-listing-default .quarto-post {
-  display: grid !important; grid-template-columns: 6.5rem 1fr;
-  grid-template-areas: "meta body"; column-gap: 1.25rem; margin-bottom: 1.25rem;
+  display: grid !important; grid-template-columns: 6.5rem 1fr 9.5rem;
+  grid-template-areas: "meta body thumb"; column-gap: 1.25rem; margin-bottom: 1.25rem;
 }
 .quarto-listing-default .quarto-post .body { grid-area: body; }
 .quarto-listing-default .quarto-post .metadata { grid-area: meta; padding-top: .3rem; }
+.quarto-listing-default .quarto-post .thumbnail { grid-area: thumb; padding-top: .3rem; }
+.quarto-listing-default .quarto-post .thumbnail img,
+.quarto-listing-default .quarto-post .thumbnail .listing-item-img-placeholder {
+  width: 9.5rem; height: 9.5rem; object-fit: cover; border: 1px solid #e3e3e3; border-radius: 2px;
+}
 .listing-date { font-size: .85rem; color: #666; }
-@media (max-width: 576px) {
-  .quarto-listing-default .quarto-post { grid-template-columns: 1fr; grid-template-areas: "meta" "body"; }
+@media (max-width: 768px) {
+  .quarto-listing-default .quarto-post {
+    grid-template-columns: 1fr 6rem; grid-template-areas: "meta thumb" "body thumb";
+  }
+  .quarto-listing-default .quarto-post .thumbnail img { width: 6rem; height: 6rem; }
 }
 
 /* the abstract is already the first paragraph of each page */

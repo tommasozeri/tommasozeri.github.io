@@ -2,6 +2,7 @@
 title: "Stylized facts in financial returns"
 author: Tommaso Zeri
 date: 2026-05-14
+image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_fe4gjtfe4gjtfe4g.png
 lang: en
 idioma: English
 categories: [Econometrics, Statistical Arbitrage]
