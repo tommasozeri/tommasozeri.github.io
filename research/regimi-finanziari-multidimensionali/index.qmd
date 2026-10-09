@@ -2,21 +2,21 @@
 title: "Analisi Multidimensionale dei Regimi Finanziari"
 author: Tommaso Zeri
 date: 2025-06-09
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/gemini_generated_image_yi18a4yi18a4yi18.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Financial Mathematics]
 description: "Il lavoro propone un cambio di paradigma rispetto alla tradizionale trattazione dei regimi finanziari a tasso fisso, introducendo un approccio multidimensionale che considera contemporaneamente il tempo t e il tasso d'interesse i come variabili indipendenti."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf
+pdf: matematica_finanziaria_3d.pdf
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf
+  pdf-url: https://tommasozeri.github.io/research/regimi-finanziari-multidimensionali/matematica_finanziaria_3d.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2025/06/09/analisi-multidimensionale-dei-regimi-finanziari/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="matematica_finanziaria_3d.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 Il lavoro propone un cambio di paradigma rispetto alla tradizionale trattazione dei regimi finanziari a tasso fisso, introducendo un **approccio multidimensionale** che considera contemporaneamente il tempo t e il tasso d\'interesse i come variabili indipendenti. Attraverso lo studio delle funzioni bivariate del montante M e del valore attuale A, l\'analisi mappa e confronta le proprietà geometriche dello spazio dei parametri dei regimi semplice e composto.
@@ -31,5 +31,5 @@ In conclusione, l\'integrazione della modellizzazione 3D offre un\'immediata **i
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="matematica_finanziaria_3d.pdf" type="application/pdf"><p><a href="matematica_finanziaria_3d.pdf">Download PDF</a></p></object>
 ```

@@ -2,21 +2,21 @@
 title: "Stylized facts in financial returns"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_fe4gjtfe4gjtfe4g.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Econometrics, Statistical Arbitrage]
 description: "This article establishes a rigorous theoretical and econometric framework for the development of statistical arbitrage trading strategies. The analysis begins by challenging the classical assumption of normality in financial returns, documenting robust \"stylized facts\" such as leptokurtosis (fat tails), volatility clustering, and the leverage effect."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stylized-facts-in-financial-returns.pdf
+pdf: stylized-facts-in-financial-returns.pdf
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stylized-facts-in-financial-returns.pdf
+  pdf-url: https://tommasozeri.github.io/research/stylized-facts-financial-returns/stylized-facts-in-financial-returns.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/stylized-facts-in-financial-returns/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stylized-facts-in-financial-returns.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="stylized-facts-in-financial-returns.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -30,5 +30,5 @@ Finally, the paper addresses the critical distinction between short-term correla
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stylized-facts-in-financial-returns.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stylized-facts-in-financial-returns.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="stylized-facts-in-financial-returns.pdf" type="application/pdf"><p><a href="stylized-facts-in-financial-returns.pdf">Download PDF</a></p></object>
 ```

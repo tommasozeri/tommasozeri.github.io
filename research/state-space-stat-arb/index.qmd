@@ -2,21 +2,21 @@
 title: "Application of State-Space Models on Statistical Arbitrage Trading Strategies"
 author: Tommaso Zeri
 date: 2026-06-19
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_1llbmq1llbmq1llb.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Statistical Arbitrage, Time Series]
 description: "This paper develops a state-space framework for enhancing signal generation in statistical arbitrage pairs trading strategies. Classical approaches — OLS and Dynamic OLS cointegrating regressions — estimate a static hedge ratio over the full sample, introducing three structural biases in the trading z-score: a non-stationary numerator caused by parameter drift, a denominator that ignores time-varying volatility, and an inability to distinguish genuine mean-reversion opportunities from structural breaks in cointegration."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/thesis_zeri_tommaso-4.pdf
+pdf: thesis_zeri_tommaso-4.pdf
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/thesis_zeri_tommaso-4.pdf
+  pdf-url: https://tommasozeri.github.io/research/state-space-stat-arb/thesis_zeri_tommaso-4.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/06/19/application-of-state-space-models-on-statistical-arbitragre-trading-strategies/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/thesis_zeri_tommaso-4.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="thesis_zeri_tommaso-4.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 This paper develops a state-space framework for enhancing signal generation in statistical arbitrage pairs trading strategies. Classical approaches --- OLS and Dynamic OLS cointegrating regressions --- estimate a static hedge ratio over the full sample, introducing three structural biases in the trading z-score: a non-stationary numerator caused by parameter drift, a denominator that ignores time-varying volatility, and an inability to distinguish genuine mean-reversion opportunities from structural breaks in cointegration. The proposed framework addresses all three limitations through the integration of two complementary models operating at different levels of the latent state space.
@@ -27,7 +27,7 @@ The integrated KF-HMM architecture is illustrated empirically on the GLD/SLV pai
 
 There is statistical evidence of the presence of heteroskedasticity on the Kalman Filter residuals, so there are several reasons to build a GARCH-based Z-score:
 
-![](https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/fig_kf_residuals_garch_diagnostics-1.png)
+![](fig_kf_residuals_garch_diagnostics-1.png)
 
 Table 10
 
@@ -96,5 +96,5 @@ The LM statistic of 102.01 far exceeds the *χ*^2^~10~ critical value at 1% (= 2
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/thesis_zeri_tommaso-4.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/thesis_zeri_tommaso-4.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="thesis_zeri_tommaso-4.pdf" type="application/pdf"><p><a href="thesis_zeri_tommaso-4.pdf">Download PDF</a></p></object>
 ```

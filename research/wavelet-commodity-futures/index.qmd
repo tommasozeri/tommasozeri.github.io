@@ -2,21 +2,21 @@
 title: "Wavelet-Based Signal Extraction and Regime Detection in Commodity Futures"
 author: Tommaso Zeri
 date: 2026-09-06
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/f8ddabd4-2201-4cf7-b1c1-752f48c9d09c.jpg
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Signal Processing, Commodities, Trading]
 description: "This report develops, tests, and critically evaluates a wavelet-based trading framework for commodity futures. Starting from the continuous wavelet transform (CWT) as introduced by Torrence and Compo [1], we build a fully causal, walk-forward pipeline for extracting band limited cyclical components from commodity log-returns, gate their use by formal statistical significance against a red-noise null, and combine them with a Hidden Markov Model (HMM) regime classifier and cross-wavelet analysis against macroeconomic drivers."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf
+pdf: wavelet-based-signal-extraction-and-regime-detection.pdf
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf
+  pdf-url: https://tommasozeri.github.io/research/wavelet-commodity-futures/wavelet-based-signal-extraction-and-regime-detection.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/09/06/wavelet-based-signal-extraction-and-regime-detection-in-commodity-futures/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="wavelet-based-signal-extraction-and-regime-detection.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 This report develops, tests, and critically evaluates a wavelet-based trading framework for\
@@ -39,5 +39,5 @@ validation framework, and finally the empirical results and their interpretation
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="wavelet-based-signal-extraction-and-regime-detection.pdf" type="application/pdf"><p><a href="wavelet-based-signal-extraction-and-regime-detection.pdf">Download PDF</a></p></object>
 ```

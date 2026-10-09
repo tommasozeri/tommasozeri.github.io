@@ -2,17 +2,17 @@
 title: "Il ruolo dell'integrale di Lebesgue in Probabilità"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_drb5zudrb5zudrb5.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Measure Theory]
 description: "Questo articolo costruisce il valore atteso nella sua forma più generale, identificandolo con l'integrale di Lebesgue rispetto alla misura di probabilità P, e ne esplora le proprietà fondamentali in ambito sia teorico che applicativo."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf
+pdf: probability_theory_for_quantitative_finance-6.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/il-ruolo-dellintegrale-di-lebesgue-in-probabilita/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-6.pdf">PDF</a></p>
 ```
 
 **L\'Integrale di Lebesgue in Probabilità: Valore Atteso, Convergenza e Spazi Lᵖ**
@@ -28,5 +28,5 @@ La parte finale introduce gli **spazi Lᵖ** come classi di equivalenza di VA qu
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-6.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-6.pdf">Download PDF</a></p></object>
 ```

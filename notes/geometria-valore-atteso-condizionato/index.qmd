@@ -2,17 +2,17 @@
 title: "Geometria del valore atteso condizionato: spazi di Hilbert, spazi di Banach e spazi L^p"
 author: Tommaso Zeri
 date: 2026-07-20
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/gemini_generated_image_vmc5shvmc5shvmc5.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Probability, Functional Analysis]
 description: "Il documento costruisce la nozione di valore atteso condizionato partendo dalla geometria degli spazi di Hilbert. Si parte dallo spazio delle variabili aleatorie a varianza finita, mostrando come il prodotto scalare naturale su questo spazio lo renda uno spazio lineare completo dotato di struttura euclidea."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf
+pdf: probability_theory_for_quantitative_finance-12-1.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/07/20/geometria-del-valore-atteso-condizionato-spazi-di-hilbert-spazidi-banach-e-spazi-lp/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-12-1.pdf">PDF</a></p>
 ```
 
 Il documento costruisce la nozione di valore atteso condizionato partendo dalla geometria degli spazi di Hilbert. Si parte dallo spazio delle variabili aleatorie a varianza finita, mostrando come il prodotto scalare naturale su questo spazio lo renda uno spazio lineare completo dotato di struttura euclidea. Su questa base si introducono ortogonalità, sottospazi chiusi e complemento ortogonale, fino al Teorema della Proiezione, che garantisce l\'esistenza e l\'unicità della migliore approssimazione di un elemento su un sottospazio.
@@ -22,5 +22,5 @@ Questo impianto viene poi usato per definire il valore atteso condizionato: si p
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-12-1.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-12-1.pdf">Download PDF</a></p></object>
 ```

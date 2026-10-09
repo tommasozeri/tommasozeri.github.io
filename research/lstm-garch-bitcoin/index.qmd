@@ -2,21 +2,21 @@
 title: "Long Short Term Memory GARCH: a hybrid econometric-machine learning approach on Bitcoin"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_9nmv899nmv899nmv-1.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Volatility, Machine Learning, Crypto]
 description: "This work applies the GARCH-NN framework of Zhao et al. (2024) to the daily volatility forecasting of Bitcoin (BTC/USD) on a dataset of 2,375 daily observations spanning January 2017 to February 2026."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf
+pdf: lstm_garch.pdf
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf
+  pdf-url: https://tommasozeri.github.io/research/lstm-garch-bitcoin/lstm_garch.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/long-short-term-memory-garch-a-hybrid-econometric-machine-learning-approach-on-bitcoin/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="lstm_garch.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -38,5 +38,5 @@ The optimal validation T-NLL is 2.5867, obtained at trial #17 with hyperparamete
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="lstm_garch.pdf" type="application/pdf"><p><a href="lstm_garch.pdf">Download PDF</a></p></object>
 ```

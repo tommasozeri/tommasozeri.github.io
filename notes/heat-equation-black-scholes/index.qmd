@@ -2,17 +2,17 @@
 title: "From the Heat Equation to the Black & Scholes"
 author: Tommaso Zeri
 date: 2026-08-04
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/gemini_generated_image_ihsjarihsjarihsj.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Financial Mathematics, PDE]
 description: "The Black–Scholes equation for pricing options is usually presented as the end result of either a hedging argument or a probabilistic construction involving a risk-neutral measure. Both approaches, while rigorous, tend to obscure the equation's deeper mathematical identity."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/from_the_heat_equation_to_the_bs_pde.pdf
+pdf: from_the_heat_equation_to_the_bs_pde.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/08/04/from-the-heat-equation-to-the-black-scholes/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/from_the_heat_equation_to_the_bs_pde.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="from_the_heat_equation_to_the_bs_pde.pdf">PDF</a></p>
 ```
 
 The Black--Scholes equation for pricing options is usually presented as the end result of either a hedging argument or a probabilistic construction involving a risk-neutral measure. Both approaches, while rigorous, tend to obscure the equation\'s deeper mathematical identity. This article takes a more direct route: it shows that the Black--Scholes equation is, after a precise and fully explicit sequence of variable changes, nothing other than the classical heat equation from physics. Starting from the physical derivation of heat diffusion and its well-known fundamental solution, the article builds step by step the transformation that turns the option-pricing equation into this same diffusion equation, and then reverses the process to recover the standard closed-form pricing formula. Along the way, the familiar option sensitivities, known as the Greeks, are reinterpreted as natural properties of the underlying diffusion process, offering an intuitive explanation for relationships that are often taken as given. The treatment is self-contained, with every step justified and checked, and closes with a discussion of the reach and the limits of this analogy between the physics of heat flow and the mathematics of option pricing.
@@ -20,5 +20,5 @@ The Black--Scholes equation for pricing options is usually presented as the end 
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/from_the_heat_equation_to_the_bs_pde.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/from_the_heat_equation_to_the_bs_pde.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="from_the_heat_equation_to_the_bs_pde.pdf" type="application/pdf"><p><a href="from_the_heat_equation_to_the_bs_pde.pdf">Download PDF</a></p></object>
 ```

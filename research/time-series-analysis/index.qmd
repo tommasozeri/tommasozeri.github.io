@@ -2,22 +2,22 @@
 title: "Time Series Analysis"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_jv5gt7jv5gt7jv5g.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Econometrics, Time Series]
 description: "This study provides a comprehensive econometric analysis of financial volatility dynamics and macroeconomic interdependencies across three distinct datasets."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf
+pdf: time-series-analysis.pdf
 code: https://github.com/tommasozeri/Econometrics-Of-Financial-Markets
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf
+  pdf-url: https://tommasozeri.github.io/research/time-series-analysis/time-series-analysis.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/time-series-analysis/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Econometrics-Of-Financial-Markets">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="time-series-analysis.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Econometrics-Of-Financial-Markets">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -33,5 +33,5 @@ Finally, the research explores the transmission of oil price shocks within a sma
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="time-series-analysis.pdf" type="application/pdf"><p><a href="time-series-analysis.pdf">Download PDF</a></p></object>
 ```

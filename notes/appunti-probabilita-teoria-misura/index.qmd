@@ -2,17 +2,17 @@
 title: "Appunti di Probabilità e Teoria della Misura"
 author: Tommaso Zeri
 date: 2026-08-28
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/gemini_generated_image_eisaq0eisaq0eisa.jpg
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Probability, Measure Theory]
 description: "Queste note raccolgono, con impostazione rigorosamente misurabile, i fondamenti della teoria della probabilità necessari alla finanza quantitativa."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf
+pdf: probability_theory_for_quantitative_finance-15.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/08/28/appunti-di-probabilita-e-teoria-della-misura/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-15.pdf">PDF</a></p>
 ```
 
 Queste note raccolgono, con impostazione rigorosamente misurabile, i fondamenti della teoria della probabilità necessari alla finanza quantitativa. Si parte dagli assiomi di Kolmogorov --- spazi di probabilità, σ-algebre, misure --- per poi trattare probabilità condizionata, indipendenza e le principali distribuzioni discrete e continue (binomiale, Poisson, gaussiana, lognormale, Cauchy, tra le altre).
@@ -26,5 +26,5 @@ Chiudono le note gli spazi di Hilbert e $L^{2}$ --- proiezioni, ortogonalità --
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-15.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-15.pdf">Download PDF</a></p></object>
 ```

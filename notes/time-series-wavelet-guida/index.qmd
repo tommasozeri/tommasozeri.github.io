@@ -2,17 +2,17 @@
 title: "Dalle Time Series alla Wavelet: guida intuitiva"
 author: Tommaso Zeri
 date: 2026-09-06
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/fe7583e4-9337-4385-9709-7880f554fe4a.jpg
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Signal Processing, Time Series]
 description: "Questa guida spiega, partendo da zero e con l’ausilio di grafici generati appositamente, perché e come si usa l’analisi wavelet per studiare serie temporali che cambiano nel tempo."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf
+pdf: wavelet_tutorial_ita.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/09/06/dalle-time-series-alla-wavelet-guida-intuitiva/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="wavelet_tutorial_ita.pdf">PDF</a></p>
 ```
 
 Questa guida spiega, partendo da zero e con l'ausilio di grafici generati appositamente, perché e\
@@ -27,5 +27,5 @@ della macchina che lo ha prodotto.
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="wavelet_tutorial_ita.pdf" type="application/pdf"><p><a href="wavelet_tutorial_ita.pdf">Download PDF</a></p></object>
 ```

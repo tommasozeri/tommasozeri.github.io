@@ -2,17 +2,17 @@
 title: "Introduzione alla Matematica Finanziaria"
 author: Tommaso Zeri
 date: 2025-06-09
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/gemini_generated_image_ax9u5pax9u5pax9u.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Financial Mathematics]
 description: "Il documento si configura come una guida teorico-pratica ideata per agevolare l'apprendimento della matematica finanziaria e fornire un metodo semplificato per la risoluzione degli esercizi . Sviluppato a partire dai feedback degli studenti , il testo copre in modo sistematico i concetti e le formule fondamentali della disciplina , strutturandosi nelle seguenti macro-aree:"
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf
+pdf: introduzione-alla-matematica-finanziaria.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2025/06/09/introduzione-alla-matematica-finanziaria/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="introduzione-alla-matematica-finanziaria.pdf">PDF</a></p>
 ```
 
 Il documento si configura come una guida teorico-pratica ideata per agevolare l\'apprendimento della matematica finanziaria e fornire un metodo semplificato per la risoluzione degli esercizi. Sviluppato a partire dai feedback degli studenti , il testo copre in modo sistematico i concetti e le formule fondamentali della disciplina, strutturandosi nelle seguenti macro-aree:
@@ -28,5 +28,5 @@ Il documento si configura come una guida teorico-pratica ideata per agevolare l\
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="introduzione-alla-matematica-finanziaria.pdf" type="application/pdf"><p><a href="introduzione-alla-matematica-finanziaria.pdf">Download PDF</a></p></object>
 ```

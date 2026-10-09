@@ -2,22 +2,22 @@
 title: "Univariate Volatility Modelling"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_wuyz33wuyz33wuyz-1.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Econometrics, Volatility]
 description: "This study presents a comprehensive framework for modeling and forecasting financial market volatility, addressing the inadequacy of classical homoskedastic assumptions in capturing the true dynamics of asset returns."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf
+pdf: univariate-volatility-modelling-1.pdf
 code: https://github.com/tommasozeri/Financial-Econometrics-Models
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf
+  pdf-url: https://tommasozeri.github.io/research/univariate-volatility-modelling/univariate-volatility-modelling-1.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/hello-world/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Financial-Econometrics-Models">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="univariate-volatility-modelling-1.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Financial-Econometrics-Models">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -31,5 +31,5 @@ The theoretical discussion is substantiated by a rigorous empirical application 
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="univariate-volatility-modelling-1.pdf" type="application/pdf"><p><a href="univariate-volatility-modelling-1.pdf">Download PDF</a></p></object>
 ```

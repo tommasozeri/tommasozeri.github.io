@@ -2,22 +2,22 @@
 title: "Forecasting Bitcoin Price using Deep Neural Networks"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_yvrn0ayvrn0ayvrn-1.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Machine Learning, Crypto]
 description: "Forecasting the price of Bitcoin presents significant challenges due to the inherent characteristics of its time series, including strong non-stationarity driven by multiple market cycles, regime shifts, and the presence of fat tails and extreme events."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf
+pdf: bitcoin_forecasting_using_deep_neural_networks-3.pdf
 code: https://github.com/tommasozeri/BTC-Forecasting-using-RNNs
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf
+  pdf-url: https://tommasozeri.github.io/research/btc-forecasting-deep-neural-networks/bitcoin_forecasting_using_deep_neural_networks-3.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/forecasting-bitcoin-price-using-deep-neural-networks/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/BTC-Forecasting-using-RNNs">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="bitcoin_forecasting_using_deep_neural_networks-3.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/BTC-Forecasting-using-RNNs">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -35,5 +35,5 @@ Finally, the predictive performance of these network architectures is measured n
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="bitcoin_forecasting_using_deep_neural_networks-3.pdf" type="application/pdf"><p><a href="bitcoin_forecasting_using_deep_neural_networks-3.pdf">Download PDF</a></p></object>
 ```

@@ -2,17 +2,17 @@
 title: "Distribuzioni di Probabilità su ℝⁿ"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_i9yp1xi9yp1xi9yp.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Probability]
 description: "Questo articolo esplora i fondamenti della teoria della misura applicata alla probabilità, partendo dalla costruzione formale della misura di Lebesgue su ℝ fino alle distribuzioni di probabilità in spazi multidimensionali ℝⁿ."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf
+pdf: probability_theory_for_quantitative_finance-9.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/distribuzioni-di-probabilita-su-%e2%84%9d%e2%81%bf/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-9.pdf">PDF</a></p>
 ```
 
 Questo articolo esplora i fondamenti della teoria della misura applicata alla probabilità, partendo dalla costruzione formale della misura di Lebesgue su ℝ fino alle distribuzioni di probabilità in spazi multidimensionali ℝⁿ.
@@ -26,5 +26,5 @@ L\'articolo si conclude con le distribuzioni bivariate --- Normale, Lognormale, 
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-9.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-9.pdf">Download PDF</a></p></object>
 ```

@@ -2,21 +2,21 @@
 title: "Dynamic Regime-Switching GARCH-LSTM Framework for Cryptocurrency Risk Management"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_26zrxz26zrxz26zr-1.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Volatility, Machine Learning, Crypto]
 description: "This article presents RS-GARCH-LSTM, an extension of the GARCH-LSTM hybrid framework introduced by Zhao et al. (2024) to the cryptocurrency volatility forecasting problem."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf
+pdf: versione-estesa.pdf
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf
+  pdf-url: https://tommasozeri.github.io/research/rs-garch-lstm-crypto-risk/versione-estesa.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/dynamic-regime-switching-garch-lstm-frameworkfor-cryptocurrency-risk-management/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="versione-estesa.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -34,5 +34,5 @@ On a representative \$100M BTC position under Basel III internal model framework
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="versione-estesa.pdf" type="application/pdf"><p><a href="versione-estesa.pdf">Download PDF</a></p></object>
 ```

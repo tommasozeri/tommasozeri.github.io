@@ -2,22 +2,22 @@
 title: "Multivariate Time Series Models"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_34s14u34s14u34s1.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Econometrics, Time Series]
 description: "This thesis provides a rigorous theoretical and empirical framework for the development of Statistical Arbitrage trading strategies, bridging the gap between advanced financial econometrics and algorithmic trading implementation."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf
+pdf: multivariate-models.pdf
 code: https://github.com/tommasozeri/Financial-Econometrics-Models
 citation:
   type: report
-  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf
+  pdf-url: https://tommasozeri.github.io/research/multivariate-time-series-models/multivariate-models.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/multivariate-time-series-models/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Financial-Econometrics-Models">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+<p class="paper-links"><a class="btn-paper" href="multivariate-models.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Financial-Econometrics-Models">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
 ```
 
 ## Abstract
@@ -35,5 +35,5 @@ Finally, the study proposes a hierarchical \"Decision Framework\" --- proceeding
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="multivariate-models.pdf" type="application/pdf"><p><a href="multivariate-models.pdf">Download PDF</a></p></object>
 ```

@@ -2,17 +2,17 @@
 title: "Trasformata di Fourier e Funzioni Caratteristiche"
 author: Tommaso Zeri
 date: 2026-05-25
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_g7d3yqg7d3yqg7d3-1.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Probability, Fourier Analysis]
 description: "Le funzioni caratteristiche sono lo strumento analitico più potente della teoria della probabilità moderna: a differenza della funzione generatrice dei momenti, esistono sempre (per qualsiasi distribuzione) e codificano in un'unica funzione a valori complessi tutta l'informazione probabilistica di una variabile aleatoria."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf
+pdf: probability_theory_for_quantitative_finance-11.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/25/trasformata-di-fourier-e-funzioni-caratteristiche/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-11.pdf">PDF</a></p>
 ```
 
 Le funzioni caratteristiche sono lo strumento analitico più potente della teoria della probabilità moderna: a differenza della funzione generatrice dei momenti, esistono sempre (per qualsiasi distribuzione) e codificano in un\'unica funzione a valori complessi tutta l\'informazione probabilistica di una variabile aleatoria.
@@ -24,5 +24,5 @@ Due risultati emergono con chiarezza: la funzione caratteristica della somma di 
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-11.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-11.pdf">Download PDF</a></p></object>
 ```

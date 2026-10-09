@@ -2,17 +2,17 @@
 title: "Distribuzioni di Probabilità su ℝ"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_6aslih6aslih6asl.png
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Probability]
 description: "Questo articolo consolida la teoria delle distribuzioni di probabilità su ℝ, chiarendo il ruolo della misura di Lebesgue e sviluppando gli strumenti per ricavare la distribuzione di variabili aleatorie trasformate."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf
+pdf: probability_theory_for_quantitative_finance-8.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/distribuzioni-di-probabilita-su-%e2%84%9d/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-8.pdf">PDF</a></p>
 ```
 
 **Distribuzioni di Probabilità su ℝ: Densità, Trasformazioni e Cambio di Variabile**
@@ -26,5 +26,5 @@ La seconda parte è dedicata alla **distribuzione di una VA trasformata** Y = g(
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-8.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-8.pdf">Download PDF</a></p></object>
 ```

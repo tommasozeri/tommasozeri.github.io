@@ -2,17 +2,17 @@
 title: "The Math Behind the \"Trillion Dollar Equation\": The Black-Scholes PDE"
 author: Tommaso Zeri
 date: 2026-05-14
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_di0rhbdi0rhbdi0r.png
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Financial Mathematics, Stochastic Calculus]
 description: "This article offers a comprehensive and logically structured exposition of the mathematical foundations underlying contingent claim pricing, culminating in the derivation of the Black–Scholes equation — often referred to as the \"Trillion Dollar Equation.\""
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf
+pdf: the_black_scholes_pde-2.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/the-math-behind-the-trillion-dollar-equation-the-black-scholes-pde/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="the_black_scholes_pde-2.pdf">PDF</a></p>
 ```
 
 ## Abstract
@@ -30,5 +30,5 @@ The document also discusses the model\'s limitations and includes an appendix su
 ## Full text
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="the_black_scholes_pde-2.pdf" type="application/pdf"><p><a href="the_black_scholes_pde-2.pdf">Download PDF</a></p></object>
 ```

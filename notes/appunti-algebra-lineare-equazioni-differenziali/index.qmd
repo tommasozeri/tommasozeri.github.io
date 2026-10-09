@@ -2,17 +2,17 @@
 title: "Appunti di Algebra Lineare ed Equazioni Differenziali"
 author: Tommaso Zeri
 date: 2026-08-28
-image: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/gemini_generated_image_nuppkhnuppkhnupp-1.jpg
+image: cover.jpg
 lang: it
 idioma: Italiano
 categories: [Linear Algebra, Differential Equations]
 description: "Queste note trattano l'algebra lineare e le equazioni differenziali con taglio orientato alla finanza quantitativa. La prima parte copre gli spazi lineari: sottospazi, span, dipendenza e indipendenza lineare, basi e dimensione, inner product e norme, ortogonalità, l'algoritmo di Gram-Schmidt, complementi ortogonali e proiezioni, fino alle somme dirette."
-pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf
+pdf: algebra_lineare_ed_equazioni_differenziali-3.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/08/28/appunti-di-algebra-lineare-ed-equazioni-differenziali/
 ---
 
 ```{=html}
-<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf">PDF</a></p>
+<p class="paper-links"><a class="btn-paper" href="algebra_lineare_ed_equazioni_differenziali-3.pdf">PDF</a></p>
 ```
 
 Queste note trattano l\'algebra lineare e le equazioni differenziali con taglio orientato alla finanza quantitativa. La prima parte copre gli spazi lineari: sottospazi, span, dipendenza e indipendenza lineare, basi e dimensione, inner product e norme, ortogonalità, l\'algoritmo di Gram-Schmidt, complementi ortogonali e proiezioni, fino alle somme dirette.
@@ -28,5 +28,5 @@ Numerose appendici tecniche completano il volume: trigonometria per l\'analisi, 
 ## Testo completo
 
 ```{=html}
-<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf">Download PDF</a></p></object>
+<object class="pdf-viewer" data="algebra_lineare_ed_equazioni_differenziali-3.pdf" type="application/pdf"><p><a href="algebra_lineare_ed_equazioni_differenziali-3.pdf">Download PDF</a></p></object>
 ```
