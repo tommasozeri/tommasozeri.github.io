@@ -1,0 +1,19 @@
+---
+title: "Notes"
+description: "Lecture notes in probability, measure theory, linear algebra and financial mathematics."
+toc: false
+listing:
+  contents: "*/index.qmd"
+  sort: "date desc"
+  type: table
+  categories: true
+  sort-ui: [date, title, idioma]
+  filter-ui: true
+  fields: [date, title, idioma, categories]
+  field-display-names:
+    idioma: "Language"
+  date-format: "YYYY-MM-DD"
+  feed: true
+---
+
+Course notes and expository write-ups, mostly in Italian. The PDFs are complete documents; each page has a short summary.

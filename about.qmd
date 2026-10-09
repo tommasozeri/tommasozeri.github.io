@@ -1,0 +1,26 @@
+---
+title: "About"
+toc: false
+---
+
+I'm Tommaso Zeri. I study quantitative finance and spend most of my time on statistical arbitrage, volatility models and the places where econometrics and machine learning overlap.
+
+## Education
+
+- **MSc in Financial Engineering**, Systematic Trading track, EDHEC Business School, Nice (2026–2027). Academic Excellence Scholarship.
+- **MSc in Quantitative Finance**, University of Bologna (2024–2026).
+- **BSc in Economics**, University of Ferrara, summa cum laude.
+
+## Activities
+
+- Portfolio Analyst, [Riot Investment Research](https://www.linkedin.com/company/riot-investment-research/)
+- Analyst, [Starting Finance Club Bologna](https://www.linkedin.com/company/starting-finance-club-bologna/)
+- Financial Mathematics tutor, [letuelezioni](https://www.letuelezioni.it/insegnanti/tommaso-zeri.htm)
+
+## Research interests
+
+Statistical arbitrage and pairs trading, state-space and regime-switching models, GARCH-family volatility models and their hybrids with neural networks, wavelet methods for financial time series, credit risk.
+
+## Contact
+
+[GitHub](https://github.com/tommasozeri) · [LinkedIn](https://www.linkedin.com/in/tommaso-zeri-74956319a/)

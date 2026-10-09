@@ -1,0 +1,39 @@
+---
+title: "This is the closest you'll get to visualize a σ-algebra"
+author: Tommaso Zeri
+date: 2026-05-15
+lang: en
+idioma: English
+categories: [Measure Theory]
+description: "A σ-algebra is one of those mathematical objects that feels abstract the first time you meet it, and honestly, the tenth time too."
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/15/this-is-the-closest-youll-get-to-visualize-a-%cf%83-algebra/
+---
+
+
+
+A σ-algebra is one of those mathematical objects that feels abstract the first time you meet it, and honestly, the tenth time too.
+
+Formally, given a set Ω (the \"sample space\"), a σ-algebra 𝒜 is a collection of subsets of Ω satisfying three properties:
+
+1.  It contains the empty set ∅ and the full space Ω.
+2.  It is closed under complements: if A ∈ 𝒜, then Aᶜ ∈ 𝒜.
+3.  It is closed under countable unions and intersections.
+
+The difference between an algebra and a σ-algebra is subtle but crucial: an algebra only requires closure under *finite* operations, while a σ-algebra demands closure under *countable* ones. Every σ-algebra is an algebra, but not vice versa.
+
+**A small example.** Let Ω = {1, 2, 3}. Then 𝒜 = {∅, Ω, {1}, {2,3}} is a valid σ-algebra: every element has its complement inside 𝒜, and every union or intersection of elements stays inside 𝒜. The largest possible σ-algebra on this space would contain all 2³ = 8 subsets.
+
+**So what does it look like?**
+
+The interactive visualization below represents Ω as the large outer sphere. Each colored inner sphere (A through L) is a measurable set --- an element of 𝒜. The glowing regions where spheres overlap represent intersections, which must also belong to 𝒜 by the closure property. The isolated label ∅ at the bottom of Ω is a reminder that the empty set is always included.
+
+You can rotate the model by dragging and zoom with the scroll wheel.
+
+```{=html}
+<iframe class="embed" height="520" style="width:100%" src="https://codepen.io/Tommaso-Zeri/embed/EaNNQrP?default-tab=result" title="Interactive visualization" loading="lazy" allowfullscreen></iframe>
+```
+
+The geometry is of course a simplification --- a real σ-algebra can contain uncountably many sets, and its structure can be far more intricate than anything we could draw. But the intuition holds: a σ-algebra is a universe of events that is self-contained under the operations of complement, union, and intersection. No matter how you combine its elements, you never escape it.
+
+This self-closure is precisely what makes σ-algebras the right foundation for probability theory: it guarantees that every event you can construct from measurable events is itself measurable, and therefore has a well-defined probability.
+

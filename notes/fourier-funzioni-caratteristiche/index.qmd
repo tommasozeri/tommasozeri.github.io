@@ -1,0 +1,27 @@
+---
+title: "Trasformata di Fourier e Funzioni Caratteristiche"
+author: Tommaso Zeri
+date: 2026-05-25
+lang: it
+idioma: Italiano
+categories: [Probability, Fourier Analysis]
+description: "Le funzioni caratteristiche sono lo strumento analitico più potente della teoria della probabilità moderna: a differenza della funzione generatrice dei momenti, esistono sempre (per qualsiasi distribuzione) e codificano in un'unica funzione a valori complessi tutta l'informazione probabilistica di una variabile aleatoria."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/25/trasformata-di-fourier-e-funzioni-caratteristiche/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf">PDF</a></p>
+```
+
+Le funzioni caratteristiche sono lo strumento analitico più potente della teoria della probabilità moderna: a differenza della funzione generatrice dei momenti, esistono sempre (per qualsiasi distribuzione) e codificano in un\'unica funzione a valori complessi tutta l\'informazione probabilistica di una variabile aleatoria.
+
+In questo articolo calcoliamo esplicitamente la funzione caratteristica φ_X(u) = E\[e\^{iuX}\] per le otto distribuzioni fondamentali (Bernoulli, Binomiale, Poisson, Uniforme, Normale (standard e generale), Esponenziale e Gamma) mostrando per ciascuna la derivazione passo-passo e un plot a tre pannelli (parte reale, immaginaria e modulo) al variare dei parametri.
+
+Due risultati emergono con chiarezza: la funzione caratteristica della somma di variabili indipendenti è il prodotto delle singole trasformate (proprietà sfruttata per Binomiale e Gamma), e la funzione caratteristica della Normale si ricava in modo elementare risolvendo un\'ODE senza ricorrere all\'analisi complessa. Completano la trattazione il Teorema di Unicità di Fourier e il Teorema di Continuità di Lévy, che sono le fondamenta su cui poggia la dimostrazione del Teorema del Limite Centrale.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-11.pdf">Download PDF</a></p></object>
+```

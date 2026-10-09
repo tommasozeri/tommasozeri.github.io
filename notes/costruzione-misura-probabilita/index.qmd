@@ -1,0 +1,29 @@
+---
+title: "Costruzione di una Misura di Probabilità"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Measure Theory]
+description: "Questo articolo affronta il passaggio fondamentale dalla probabilità discreta a quella continua, risolvendo il problema di come costruire una misura di probabilità quando lo spazio campionario Ω non è più numerabile."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-4.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/costruzione-di-una-misura-di-probabilita/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-4.pdf">PDF</a></p>
+```
+
+**Costruzione di una Misura di Probabilità: Distribuzioni Continue su ℝ**
+
+Questo articolo affronta il passaggio fondamentale dalla probabilità discreta a quella continua, risolvendo il problema di come costruire una misura di probabilità quando lo spazio campionario Ω non è più numerabile.
+
+La prima parte stabilisce i fondamenti teorici. Il **Teorema di estensione di Carathéodory** garantisce che ogni misura di probabilità definita su un\'algebra si estende in modo unico all\'intera σ-algebra generata. I **sistemi π e λ** (con il relativo Teorema della Classe Monotona) forniscono uno strumento elegante per dimostrare l\'unicità di tale estensione: basta verificare che due misure coincidano su un π-system per concludere che sono identiche ovunque. Si introduce infine il concetto di **null set** e completamento della misura, che garantisce coerenza quando si lavora con eventi di probabilità zero.
+
+La seconda parte specializza la costruzione a Ω = ℝ, introducendo la **funzione di ripartizione (CDF)** come strumento unificante tra probabilità discrete e continue, e chiarendo la distinzione fondamentale tra CDF e **PDF**. Vengono trattate sistematicamente nove distribuzioni continue, ciascuna con parametri, PDF e CDF: **Massa di Dirac**, **Uniforme**, **Esponenziale**, **Gamma**, **Weibull**, **Normale**, **Lognormale**, **Laplace** e **Cauchy**. Un filo logico le unisce: dall\'Esponenziale (assenza di memoria) si passa alla Gamma (generalizzazione a più eventi) e alla Weibull (che introduce l\'usura), mentre la Normale emerge come limite centrale e la Cauchy come controesempio patologico con code pesanti e momenti non definiti.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-4.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-4.pdf">Download PDF</a></p></object>
+```

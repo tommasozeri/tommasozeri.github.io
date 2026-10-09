@@ -1,0 +1,31 @@
+---
+title: "Assiomi della Probabilità"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Probability, Measure Theory]
+description: "Questo articolo costruisce le fondamenta rigorose della teoria della probabilità, partendo dalla struttura degli spazi misurabili fino alla continuità della misura di probabilità."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-1.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/assiomi-della-probabilita/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-1.pdf">PDF</a></p>
+```
+
+**Assiomi della Probabilità: Fondamenti Matematici per la Teoria della Misura**
+
+Questo articolo costruisce le fondamenta rigorose della teoria della probabilità, partendo dalla struttura degli spazi misurabili fino alla continuità della misura di probabilità.
+
+Si introduce innanzitutto la distinzione tra insiemi **finiti, numerabili e non numerabili**, illustrata con il celebre paradosso del Grand Hotel di Hilbert, che chiarisce intuitivamente il concetto di infinito numerabile. Si definisce poi la **σ-algebra** come struttura matematica che formalizza il concetto di \"evento misurabile\", distinguendola dall\'algebra ordinaria per la chiusura rispetto a operazioni numerabili anziché solo finite. Vengono trattate la σ-algebra generata, la σ-algebra di Borel su ℝ e il concetto di σ-algebre indipendenti.
+
+Sulla base di questa struttura si introducono i tre **assiomi di Kolmogorov** per la misura di probabilità, da cui derivano proprietà fondamentali come la monotonicità e l\'additività finita. Particolare attenzione è dedicata al **principio di inclusione-esclusione** e alle disuguaglianze di Bonferroni, che forniscono approssimazioni alternate (per eccesso e per difetto) della probabilità di un\'unione di eventi.
+
+Il documento si chiude con la **convergenza degli eventi** tramite la funzione indicatrice, definendo formalmente lim sup e lim inf di una successione di eventi e dimostrando la continuità della misura di probabilità per successioni monotone crescenti e decrescenti.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-1.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-1.pdf">Download PDF</a></p></object>
+```

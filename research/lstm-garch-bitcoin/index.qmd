@@ -1,0 +1,41 @@
+---
+title: "Long Short Term Memory GARCH: a hybrid econometric-machine learning approach on Bitcoin"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Volatility, Machine Learning, Crypto]
+description: "This work applies the GARCH-NN framework of Zhao et al. (2024) to the daily volatility forecasting of Bitcoin (BTC/USD) on a dataset of 2,375 daily observations spanning January 2017 to February 2026."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/long-short-term-memory-garch-a-hybrid-econometric-machine-learning-approach-on-bitcoin/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+This work applies the GARCH-NN framework of Zhao et al. (2024) to the daily volatility forecasting of Bitcoin (BTC/USD) on a dataset of 2,375 daily observations spanning January 2017 to February 2026.
+
+The proposed model, referred to as GARCH-LSTM, integrates a differentiable GJR-GARCH(1,1) kernel as the output gate of an LSTM cell, trained end-to-end with six blockchain on-chain metrics as exogenous features. Model parameters are optimised via Optuna with a TPE sampler (25 trials) on an NVIDIA A100-SXM4-40GB GPU.
+
+The forecasting target is the 5-day realised variance proxy, a backward-looking rolling average of squared log-returns that smooths microstructure noise while preserving strict causal ordering. At each step t, the target is computed exclusively from past residuals, ensuring zero look-ahead.
+
+$$
+RV^5_t = \frac{1}{5} \sum_{k=0}^{4} \varepsilon^2_{t-k}
+$$
+
+On this smoothed target, the GARCH-LSTM achieves the following out-of-sample improvements relative to the standalone GJR-GARCH: MAE reduced by 28.1%, RMSE reduced by 17.6%, and R² improved by +0.33 points.
+
+The optimal validation T-NLL is 2.5867, obtained at trial #17 with hyperparameters H = 32, w = 0.084, ν = 7.0, and learning rate 2.01 × 10⁻³.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/lstm_garch.pdf">Download PDF</a></p></object>
+```

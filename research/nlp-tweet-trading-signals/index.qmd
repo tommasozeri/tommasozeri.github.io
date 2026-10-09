@@ -1,0 +1,34 @@
+---
+title: "From Tweet Classification to Trading Signals: NLP applied to Algorithmic Trading"
+author: Tommaso Zeri
+date: 2026-06-09
+lang: en
+idioma: English
+categories: [Machine Learning, NLP, Trading]
+description: "This report documents an end-to-end NLP case study that transforms financial tweets into actionable trading signals for three U.S. equities: AAPL, TSLA, and MSFT . Three model families of increasing complexity are compared: TF-IDF with classical classifiers (baseline), a Bidirectional LSTM with GloVe embeddings, and a fine-tuned FinBERT Transformer ."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/sentiment_analysis_nlp-5.pdf
+code: https://github.com/tommasozeri/Sentiment-Analysis-Trading-Strategy
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/sentiment_analysis_nlp-5.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/06/09/from-tweet-classification-to-trading-signals-nlp-applied-to-alghorithmic-trading/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/sentiment_analysis_nlp-5.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Sentiment-Analysis-Trading-Strategy">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+This report documents an end-to-end NLP case study that transforms financial tweets into actionable trading signals for three U.S. equities: AAPL, TSLA, and MSFT. Three model families of increasing complexity are compared: TF-IDF with classical classifiers (baseline), a Bidirectional LSTM with GloVe embeddings, and a fine-tuned FinBERT Transformer. The central research question is whether a more accurate NLP classifier necessarily produces a better trading signal, or whether signal effectiveness is determined by asset-specific social-media dynamics independent of classifier quality.
+
+Models are trained on the zeroshot/twitter-financial-news-sentiment dataset (11,931 tweets, three classes: Bearish / Neutral Bullish) and evaluated on a held-out test set and a real-timestamp Kaggle corpus (October 2021-September 2022). FinBERT achieves F1 Macro \$=0.841\$, outperforming LinearSVC (0.754) and BiLSTM (0.760); the largest gain is on the Bearish class (+19.4%). On TSLA, the Weighted FinBERT signal yields a cumulative return of +19.91% (Sharpe 0.605) versus a buy-and-hold of +3.79%. On AAPL the signal is non-predictive; on MSFT it is contrarian (\$r=-0.141\$).
+
+The principal finding is that domain-specific pre-training dominates architectural complexity, and that signal quality is a joint property of the classifier and the asset\'s social-media ecosystem.
+
+Note that this is a Sandbox Model. The procedure is not 100% time-leakage free. The purpose is to simulate an end-to-end pipeline from the selection of the model to the trading strategy.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/sentiment_analysis_nlp-5.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/sentiment_analysis_nlp-5.pdf">Download PDF</a></p></object>
+```

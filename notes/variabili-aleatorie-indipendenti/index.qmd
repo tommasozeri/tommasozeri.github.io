@@ -1,0 +1,33 @@
+---
+title: "Variabili Aleatorie Indipendenti"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Probability]
+description: "Questo articolo formalizza il concetto di indipendenza tra variabili aleatorie nel framework della teoria della misura e ne sviluppa le conseguenze asintotiche fondamentali per la probabilità avanzata."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-7.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/variabili-aleatorie-indipendenti/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-7.pdf">PDF</a></p>
+```
+
+**Variabili Aleatorie Indipendenti: Struttura, Teoremi Asintoticii e Leggi di Coda**
+
+Questo articolo formalizza il concetto di indipendenza tra variabili aleatorie nel framework della teoria della misura e ne sviluppa le conseguenze asintotiche fondamentali per la probabilità avanzata.
+
+Il punto di partenza è la definizione rigorosa di **indipendenza tramite σ-algebre generate**: due VA sono indipendenti se e solo se le σ-algebre da esse generate lo sono. Vengono presentate cinque condizioni equivalenti di indipendenza --- dalla fattorizzazione delle probabilità congiunte alla fattorizzazione dei valori attesi --- con il corollario operativo cruciale: l\'indipendenza è invariante per trasformazioni misurabili, ma non equivale alla non-correlazione.
+
+Per trattare VA in più dimensioni si introduce la **σ-algebra prodotto** E⊗F, necessaria poiché il semplice prodotto cartesiano non forma una σ-algebra. Il **Teorema di Tonelli-Fubini** garantisce che, sotto ipotesi di positività o integrabilità, l\'ordine di integrazione è ininfluente e l\'integrale doppio si calcola iterativamente: questo è il fondamento matematico dell\'indipendenza come fattorizzazione della distribuzione congiunta.
+
+Il **Teorema di Estensione di Kolmogorov** risolve il problema più delicato: costruire uno spazio di probabilità su successioni *infinite* di VA indipendenti. Tramite gli **insiemi cilindrici** come mattoni fondamentali, il teorema garantisce l\'esistenza e l\'unicità della misura globale, ponendo le basi per l\'intera teoria dei processi stocastici.
+
+I **Lemmi di Borel-Cantelli** traducono il comportamento asintotico di successioni di eventi in un problema di analisi: se la serie delle probabilità converge, l\'evento accade solo finitamente spesso (q.c.); se diverge e gli eventi sono indipendenti, accade infinitamente spesso con probabilità 1. L\'articolo si chiude con la **Legge zero-uno di Kolmogorov**: ogni evento della tail-σ-algebra ha probabilità 0 o 1, poiché --- paradossalmente --- risulta indipendente da se stesso. Questo anticipa direttamente la Legge dei Grandi Numeri.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-7.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-7.pdf">Download PDF</a></p></object>
+```

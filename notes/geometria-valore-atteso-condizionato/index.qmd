@@ -1,0 +1,25 @@
+---
+title: "Geometria del valore atteso condizionato: spazi di Hilbert, spazi di Banach e spazi L^p"
+author: Tommaso Zeri
+date: 2026-07-20
+lang: it
+idioma: Italiano
+categories: [Probability, Functional Analysis]
+description: "Il documento costruisce la nozione di valore atteso condizionato partendo dalla geometria degli spazi di Hilbert. Si parte dallo spazio delle variabili aleatorie a varianza finita, mostrando come il prodotto scalare naturale su questo spazio lo renda uno spazio lineare completo dotato di struttura euclidea."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/07/20/geometria-del-valore-atteso-condizionato-spazi-di-hilbert-spazidi-banach-e-spazi-lp/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf">PDF</a></p>
+```
+
+Il documento costruisce la nozione di valore atteso condizionato partendo dalla geometria degli spazi di Hilbert. Si parte dallo spazio delle variabili aleatorie a varianza finita, mostrando come il prodotto scalare naturale su questo spazio lo renda uno spazio lineare completo dotato di struttura euclidea. Su questa base si introducono ortogonalità, sottospazi chiusi e complemento ortogonale, fino al Teorema della Proiezione, che garantisce l\'esistenza e l\'unicità della migliore approssimazione di un elemento su un sottospazio.
+
+Questo impianto viene poi usato per definire il valore atteso condizionato: si parte dal caso discreto (condizionamento a un singolo evento, poi a un\'intera variabile aleatoria, con richiamo al lemma che lega misurabilità e dipendenza funzionale), per arrivare alla definizione generale come proiezione ortogonale sul sottospazio dell\'informazione disponibile, sia rispetto a una variabile aleatoria sia rispetto a una sub-σ-algebra generica. Vengono ricavate le proprietà fondamentali (positività, proprietà della torre, linearità, possibilità di portare fuori i fattori noti) e discusso il passaggio dallo spazio a varianza finita allo spazio delle variabili solo integrabili, dove l\'assenza di struttura euclidea impone di abbandonare l\'approccio geometrico a favore della teoria della misura. Chiude una rassegna delle disuguaglianze fondamentali della probabilità e dei teoremi di passaggio al limite sotto condizionamento.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/07/probability_theory_for_quantitative_finance-12-1.pdf">Download PDF</a></p></object>
+```

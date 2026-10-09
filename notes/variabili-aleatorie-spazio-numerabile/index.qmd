@@ -1,0 +1,29 @@
+---
+title: "Variabili Aleatorie su uno Spazio Numerabile"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Probability]
+description: "Questo articolo introduce formalmente il concetto di variabile aleatoria come funzione dallo spazio campionario Ω a uno spazio degli stati T, chiarendo il meccanismo con cui la misura di probabilità si \"trasferisce\" da Ω a T tramite la nozione di controimmagine e distribuzione indotta."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-3.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/variabili-aleatorie-su-uno-spazio-numerabile/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-3.pdf">PDF</a></p>
+```
+
+**ariabili Aleatorie su uno Spazio Numerabile: Valore Atteso e Disuguaglianze**
+
+Questo articolo introduce formalmente il concetto di variabile aleatoria come funzione dallo spazio campionario Ω a uno spazio degli stati T, chiarendo il meccanismo con cui la misura di probabilità si \"trasferisce\" da Ω a T tramite la nozione di controimmagine e distribuzione indotta.
+
+Il nucleo del documento è il **valore atteso**, definito rigorosamente sullo spazio L¹ e analizzato nelle sue proprietà fondamentali: linearità, positività, trasporto e legame con la funzione indicatrice. Da queste proprietà si derivano i principali strumenti per stimare le probabilità di eventi estremi: il **teorema generale dei limiti superiori**, la **disuguaglianza di Markov** (che permette di limitare la probabilità di valori grandi conoscendo solo la media) e le **disuguaglianze di Čebyšëv** (che affinano la stima introducendo la varianza). Viene inoltre introdotta formalmente la varianza come misura di dispersione.
+
+La parte finale applica questi strumenti alle distribuzioni discrete già studiate, ricavando in modo elegante i valori attesi di Ipergeometrica, Binomiale, Geometrica, Poisson, Binomiale Negativa, Uniforme Discreta e Pareto Discreta --- spesso sfruttando la linearità del valore atteso e la decomposizione in variabili di Bernoulli.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-3.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-3.pdf">Download PDF</a></p></object>
+```

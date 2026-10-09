@@ -1,0 +1,33 @@
+---
+title: "The Math Behind the \"Trillion Dollar Equation\": The Black-Scholes PDE"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Financial Mathematics, Stochastic Calculus]
+description: "This article offers a comprehensive and logically structured exposition of the mathematical foundations underlying contingent claim pricing, culminating in the derivation of the Black–Scholes equation — often referred to as the \"Trillion Dollar Equation.\""
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/the-math-behind-the-trillion-dollar-equation-the-black-scholes-pde/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf">PDF</a></p>
+```
+
+## Abstract
+
+This article offers a comprehensive and logically structured exposition of the mathematical foundations underlying contingent claim pricing, culminating in the derivation of the Black--Scholes equation --- often referred to as the \"Trillion Dollar Equation.\"
+
+Beginning with an introduction to options and their role in financial markets, the text systematically generalizes the concept to contingent claims and reviews the evolution of asset price modeling, from standard Brownian motion to Geometric Brownian Motion (GBM) and its jump-diffusion extensions.
+
+The core theoretical framework is built using tools from stochastic calculus, including filtrations, martingales, and Itô\'s Lemma. A pivotal step is the transition from the real-world probability measure P to the risk-neutral measure Q via the Girsanov Theorem and the Radon--Nikodym derivative, which allows option prices to be expressed as discounted expected payoffs under Q.
+
+The Kolmogorov backward equation is introduced to characterize derivative price dynamics, and under the risk-neutral measure, it simplifies to the Black--Scholes partial differential equation. The closed-form solution for European options is derived and interpreted probabilistically, with practical examples and Python code provided for implementation.
+
+The document also discusses the model\'s limitations and includes an appendix summarizing key theorems in financial mathematics, such as Girsanov\'s Theorem, the Feynman--Kac Formula, and the Doob--Meyer Decomposition.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/the_black_scholes_pde-2.pdf">Download PDF</a></p></object>
+```

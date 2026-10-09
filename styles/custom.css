@@ -1,0 +1,55 @@
+/* navbar: plain, thin rule underneath */
+.navbar { border-bottom: 1px solid #e3e3e3; font-family: "Source Sans 3", sans-serif; }
+.navbar-brand .navbar-title { font-weight: 600; letter-spacing: .01em; }
+
+/* title block */
+.quarto-title h1.title { font-size: 2rem; line-height: 1.25; }
+.quarto-title .subtitle { color: #555; font-style: italic; }
+.quarto-title-meta, .listing-date, .listing-categories, .quarto-listing-table th {
+  font-family: "Source Sans 3", sans-serif;
+}
+.quarto-category {
+  border: 1px solid #ccc; border-radius: 2px; background: none;
+  color: #444; font-size: .72rem; text-transform: none; opacity: 1;
+}
+
+/* paper action buttons */
+.paper-links { margin: .5rem 0 1.75rem; font-family: "Source Sans 3", sans-serif; }
+.btn-paper {
+  display: inline-block; padding: .2rem .8rem; margin-right: .4rem;
+  border: 1px solid #1f3a5f; border-radius: 2px;
+  font-size: .85rem; text-decoration: none; color: #1f3a5f;
+}
+.btn-paper:hover { background: #1f3a5f; color: #fff; }
+
+/* embedded PDF */
+.pdf-viewer { width: 100%; height: 85vh; border: 1px solid #e3e3e3; }
+@media (max-width: 768px) { .pdf-viewer { height: 70vh; } }
+iframe.embed { border: 1px solid #e3e3e3; }
+
+/* tables: booktabs look */
+main table { border-top: 2px solid #1a1a1a; border-bottom: 2px solid #1a1a1a; font-size: .9rem; }
+main table thead th { border-bottom: 1px solid #1a1a1a !important; }
+main table td, main table th { border: none; }
+
+/* listings */
+.quarto-listing-default .quarto-post { border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+.quarto-listing-default .listing-title { font-size: 1.15rem; }
+.quarto-listing-default .listing-description { color: #444; font-size: .95rem; }
+.quarto-post .thumbnail { display: none; }
+#title-block-header.quarto-title-block.default .quarto-title-meta { margin-top: .5rem; }
+
+/* compact two-column listing: date | title + abstract */
+.quarto-listing-default .quarto-post {
+  display: grid !important; grid-template-columns: 6.5rem 1fr;
+  grid-template-areas: "meta body"; column-gap: 1.25rem; margin-bottom: 1.25rem;
+}
+.quarto-listing-default .quarto-post .body { grid-area: body; }
+.quarto-listing-default .quarto-post .metadata { grid-area: meta; padding-top: .3rem; }
+.listing-date { font-size: .85rem; color: #666; }
+@media (max-width: 576px) {
+  .quarto-listing-default .quarto-post { grid-template-columns: 1fr; grid-template-areas: "meta" "body"; }
+}
+
+/* the abstract is already the first paragraph of each page */
+#title-block-header .description { display: none; }

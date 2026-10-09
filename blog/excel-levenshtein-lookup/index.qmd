@@ -1,0 +1,218 @@
+---
+title: "Overcoming Excel's Lookup Limitations Using the Levenshtein Algorithm"
+author: Tommaso Zeri
+date: 2025-06-10
+lang: en
+idioma: English
+categories: [Excel, VBA]
+description: "The heart of this solution lies in the Levenshtein algorithm, a mathematical method originally developed to measure the minimum number of edits (insertions, deletions, or substitutions) required to transform one string into another."
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2025/06/10/overcoming-excels-lookup-limitations-using-the-levenshtein-algorithm/
+---
+
+
+
+How the Levenshtein Algorithm Works Inside Excel
+
+The heart of this solution lies in the Levenshtein algorithm, a mathematical method originally developed to measure the minimum number of edits (insertions, deletions, or substitutions) required to transform one string into another. In practical terms, if you compare \"Smith\" and \"Smyth,\" the algorithm identifies that only one character substitution is needed, assigning a distance of 1. The lower the distance, the more similar the two strings are.
+
+The custom VBA function CustomLookup() operates in three sequential stages. First, it loads both your lookup column and return column directly into memory---avoiding repeated cell-by-cell Excel lookups, which dramatically improves performance on large datasets. Second, it iterates through every entry in your lookup array, calculating the Levenshtein distance between each cell and your search value using the helper function LevenshteinDistance(). This function builds a mathematical matrix to compute character-by-character differences, storing intermediate results to keep computation efficient. Third, the function tracks the single best match (the one with the smallest distance) and compares that distance against your specified tolerance threshold. If the distance falls within acceptable limits, the corresponding value from your return column is delivered; otherwise, it displays your custom \"not found\" message.
+
+The tolerance parameter---ranging from 1.0 (very permissive) to 0.0 (exact match only)---gives you granular control. Mathematically, the threshold is calculated as Len(Lookup_Value) × (1 − Tolerance), meaning a lookup string of 10 characters with 80% tolerance (0.8) will accept matches with a distance up to 2 edits. In real-world testing on customer databases and inventory lists, this approach has proven remarkably robust: names with typos, misspellings, or slight variations (\"McDonald\" vs \"Macdonald,\" \"João\" vs \"Joao\") are matched correctly, whereas purely random or entirely different entries are rightfully rejected.
+
+Two optional parameters enhance flexibility. The If_Not_Found parameter lets you specify what to return when no acceptable match exists---useful for data validation workflows where you want custom error messages instead of the generic #N/A. The Tolerance parameter defaults to 0.8, but you can adjust it per formula, making it easy to test different strictness levels without rewriting code. The function also includes error handling: if something goes wrong during execution, it gracefully returns your \"not found\" value rather than crashing, and it automatically restores Excel\'s screen updates and calculation mode afterward---ensuring your workbook remains responsive.
+
+Why this matters for professionals: Standard lookup functions treat \"Smith\" and \"Smit\" as completely different values, forcing manual intervention or data cleaning before any analysis. Your custom function bridges that gap, enabling you to extract insights from messy, real-world data without preprocessing. Whether you\'re reconciling supplier lists, matching customer names across systems, or deduplicating records, the Levenshtein-based approach transforms Excel from a rigid tool into a flexible, intelligent data-matching engine---all without leaving your spreadsheet.
+
+### [**FuzzylookupUDF.bas**](https://gist.github.com/tommasozeri/f6c1dfd3638660df18288d6f8646d2ce#file-fuzzylookupudf-bas)
+
+```vb
+
+Function CustomLookup(Lookup_Value As String, Lookup_Array As Range, Return_Array As Range, _
+                      Optional If_Not_Found As Variant = "Non Trovato", Optional Tolerance As Double = 0.8) As Variant
+    On Error GoTo ErrorHandler
+
+    ' Disabilita l'aggiornamento dello schermo e il calcolo automatico
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+
+    ' Inizializza le variabili per il miglior match
+    Dim bestMatch As String
+    Dim bestMatchIndex As Long
+    Dim currentDistance As Long
+    Dim minDistance As Long
+    minDistance = Len(Lookup_Value) ' Imposta un valore iniziale basato sulla lunghezza della stringa di ricerca
+
+    ' Crea un array in memoria per l'array di ricerca e di ritorno
+    Dim lookupValues As Variant
+    Dim returnValues As Variant
+    lookupValues = Lookup_Array.Value2
+    returnValues = Return_Array.Value2
+
+    ' Controlla che gli array abbiano la stessa dimensione
+    If UBound(lookupValues, 1) <> UBound(returnValues, 1) Then
+        CustomLookup = If_Not_Found
+        GoTo Cleanup
+    End If
+
+    ' Itera attraverso l'array di ricerca in memoria
+    Dim i As Long
+    For i = LBound(lookupValues, 1) To UBound(lookupValues, 1)
+        currentDistance = LevenshteinDistance(CStr(lookupValues(i, 1)), Lookup_Value)
+       
+        ' Aggiorna il miglior match se la distanza è minore della distanza minima trovata
+        If currentDistance < minDistance Then
+            bestMatch = returnValues(i, 1)
+            bestMatchIndex = i
+            minDistance = currentDistance
+        End If
+    Next i
+
+    ' Se la distanza minima è entro la soglia di tolleranza, restituisci il miglior match
+    If minDistance <= (Len(Lookup_Value) * (1 - Tolerance)) Then
+        CustomLookup = bestMatch
+    Else
+        CustomLookup = If_Not_Found
+    End If
+
+Cleanup:
+    ' Riabilita l'aggiornamento dello schermo e il calcolo automatico
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
+    Exit Function
+
+ErrorHandler:
+    CustomLookup = If_Not_Found
+    Resume Cleanup
+End Function
+
+' Funzione per calcolare la distanza di Levenshtein tra due stringhe
+Private Function LevenshteinDistance(ByVal s As String, ByVal t As String) As Long
+    Dim d() As Long
+    Dim n As Long
+    Dim m As Long
+    Dim i As Long
+    Dim j As Long
+    Dim s_i As String
+    Dim t_j As String
+    Dim cost As Long
+   
+    n = Len(s)
+    m = Len(t)
+    ReDim d(0 To n, 0 To m)
+   
+    For i = 0 To n
+        d(i, 0) = i
+    Next i
+    For j = 0 To m
+        d(0, j) = j
+    Next j
+   
+    For i = 1 To n
+        s_i = Mid(s, i, 1)
+        For j = 1 To m
+            t_j = Mid(t, j, 1)
+            If s_i = t_j Then
+                cost = 0
+            Else
+                cost = 1
+            End If
+            d(i, j) = Min(d(i - 1, j) + 1, d(i, j - 1) + 1, d(i - 1, j - 1) + cost)
+        Next j
+    Next i
+   
+    LevenshteinDistance = d(n, m)
+End Function
+
+' Funzione per trovare il valore minimo tra tre numeri
+Private Function Min(ByVal a As Long, ByVal b As Long, ByVal c As Long) As Long
+    If a < b Then
+        If a < c Then
+            Min = a
+        Else
+            Min = c
+        End If
+    Else
+        If b < c Then
+            Min = b
+        Else
+            Min = c
+        End If
+    End If
+End Function
+```
+
+### [**LevenshteindistanceUDF.bas**](https://gist.github.com/tommasozeri/f6c1dfd3638660df18288d6f8646d2ce#file-levenshteindistanceudf-bas)
+
+```vb
+
+Function LDLevenshteinDistance(s As String, t As String) As Integer
+    Dim d() As Integer
+    Dim n As Integer
+    Dim m As Integer
+    Dim i As Integer
+    Dim j As Integer
+    Dim s_i As String
+    Dim t_j As String
+    Dim cost As Integer
+
+    ' Dimensione delle stringhe
+    n = Len(s)
+    m = Len(t)
+    ReDim d(0 To n, 0 To m)
+
+    ' Se una delle stringhe è vuota
+    If n = 0 Then
+        LDLevenshteinDistance = m
+        Exit Function
+    End If
+    If m = 0 Then
+        LDLevenshteinDistance = n
+        Exit Function
+    End If
+
+    ' Inizializzazione della matrice
+    For i = 0 To n
+        d(i, 0) = i
+    Next i
+    For j = 0 To m
+        d(0, j) = j
+    Next j
+
+    ' Calcolo della distanza di Levenshtein
+    For i = 1 To n
+        s_i = Mid(s, i, 1)
+        For j = 1 To m
+            t_j = Mid(t, j, 1)
+            If s_i = t_j Then
+                cost = 0
+            Else
+                cost = 1
+            End If
+            d(i, j) = Min(d(i - 1, j) + 1, d(i, j - 1) + 1, d(i - 1, j - 1) + cost)
+        Next j
+    Next i
+
+    LDLevenshteinDistance = d(n, m)
+End Function
+
+Function Min(x As Integer, y As Integer, z As Integer) As Integer
+    If x < y Then
+        If x < z Then
+            Min = x
+        Else
+            Min = z
+        End If
+    Else
+        If y < z Then
+            Min = y
+        Else
+            Min = z
+        End If
+    End If
+End Function
+```
+
+## Video Tutorial on LinkedIn
+
+<https://www.linkedin.com/posts/tommaso-zeri-74956319a_often-lookup-functions-like-vlookup-xlookup-activity-7227322727408250883-CJu->
+

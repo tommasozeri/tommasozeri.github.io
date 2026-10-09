@@ -1,0 +1,55 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - "*/*/*.pdf"
+
+website:
+  title: "Tommaso Zeri"
+  description: "Research and notes in quantitative finance, statistics, machine learning and mathematics."
+  site-url: https://tommasozeri.github.io
+  repo-url: https://github.com/tommasozeri/tommasozeri.github.io
+  favicon: favicon.svg
+  search: true
+  open-graph: true
+  twitter-card: true
+  page-navigation: false
+  back-to-top-navigation: false
+  navbar:
+    background: light
+    left:
+      - text: Research
+        href: research/index.qmd
+      - text: Notes
+        href: notes/index.qmd
+      - text: Blog
+        href: blog/index.qmd
+      - text: About
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/tommasozeri
+        aria-label: GitHub
+      - icon: linkedin
+        href: https://www.linkedin.com/in/tommaso-zeri-74956319a/
+        aria-label: LinkedIn
+      - icon: rss
+        href: research/index.xml
+        aria-label: RSS
+  page-footer:
+    left: "© 2026 Tommaso Zeri"
+    right: "Built with [Quarto](https://quarto.org)"
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles/theme.scss]
+    css: styles/custom.css
+    toc: true
+    toc-location: right
+    html-math-method: mathjax
+    code-copy: true
+    smooth-scroll: true
+    anchor-sections: true
+    title-block-banner: false
+    lang: en

@@ -1,0 +1,31 @@
+---
+title: "Appunti di Algebra Lineare ed Equazioni Differenziali"
+author: Tommaso Zeri
+date: 2026-08-28
+lang: it
+idioma: Italiano
+categories: [Linear Algebra, Differential Equations]
+description: "Queste note trattano l'algebra lineare e le equazioni differenziali con taglio orientato alla finanza quantitativa. La prima parte copre gli spazi lineari: sottospazi, span, dipendenza e indipendenza lineare, basi e dimensione, inner product e norme, ortogonalità, l'algoritmo di Gram-Schmidt, complementi ortogonali e proiezioni, fino alle somme dirette."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/08/28/appunti-di-algebra-lineare-ed-equazioni-differenziali/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf">PDF</a></p>
+```
+
+Queste note trattano l\'algebra lineare e le equazioni differenziali con taglio orientato alla finanza quantitativa. La prima parte copre gli spazi lineari: sottospazi, span, dipendenza e indipendenza lineare, basi e dimensione, inner product e norme, ortogonalità, l\'algoritmo di Gram-Schmidt, complementi ortogonali e proiezioni, fino alle somme dirette.
+
+Segue la teoria delle trasformazioni lineari: kernel, range, nullity e rank, operazioni algebriche tra trasformazioni, invertibilità, rappresentazione matriciale e sistemi di equazioni lineari, con le relative tecniche computazionali. Un capitolo a parte è dedicato ai determinanti --- calcolo, teorema di Binet, regola di Cramer --- e uno ad autovalori e autovettori: autospazio, molteplicità geometrica, polinomio caratteristico e minimo, diagonalizzazione simultanea, teorema dei cerchi di Gershgorin.
+
+Il quinto capitolo estende l\'analisi spettrale agli operatori su spazi euclidei: quoziente di Rayleigh, operatori hermitiani e anti-hermitiani, teoremi spettrali, matrici ortogonali e unitarie, forme quadratiche e la loro classificazione, chiudendo con un cenno al Wigner surmise sulla statistica degli autovalori di matrici casuali.
+
+La seconda metà del testo passa alle equazioni differenziali lineari: esistenza e unicità, equazioni omogenee e non omogenee a coefficienti costanti, coefficienti indeterminati, variazione dei parametri, trasformata di Laplace. Segue il trattamento dei sistemi di ODE in notazione matriciale --- funzioni matriciali, matrice esponenziale, i casi di autovalori reali distinti, complessi coniugati e ripetuti, sistemi non omogenei.
+
+Numerose appendici tecniche completano il volume: trigonometria per l\'analisi, disuguaglianze fondamentali, serie di Fourier, funzione Gamma di Eulero, formula di Leibniz, matrice Wronskiana, trasformazioni lineari notevoli e una introduzione al calcolo stocastico di Itô.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/algebra_lineare_ed_equazioni_differenziali-3.pdf">Download PDF</a></p></object>
+```

@@ -1,0 +1,41 @@
+---
+title: "Tommaso Zeri"
+subtitle: "Quantitative finance · statistics · machine learning"
+toc: false
+page-layout: article
+listing:
+  - id: latest-research
+    contents: "research/*/index.qmd"
+    sort: "date desc"
+    type: default
+    max-items: 5
+    fields: [date, title, description]
+    date-format: "MMM YYYY"
+  - id: latest-notes
+    contents: "notes/*/index.qmd"
+    sort: "date desc"
+    type: table
+    max-items: 6
+    fields: [date, title, idioma]
+    field-display-names:
+      idioma: "Language"
+    sort-ui: false
+    filter-ui: false
+    date-format: "YYYY-MM-DD"
+---
+
+I'm an MSc student in Quantitative Finance at the University of Bologna, and from 2026 in Financial Engineering (Systematic Trading) at EDHEC Business School. My work is mostly on statistical arbitrage, volatility modelling and machine learning applied to markets. This site collects my papers, the notes I write while studying, and the occasional shorter post.
+
+## Latest research
+
+::: {#latest-research}
+:::
+
+[All research →](research/index.qmd)
+
+## Recent notes
+
+::: {#latest-notes}
+:::
+
+[All notes →](notes/index.qmd)

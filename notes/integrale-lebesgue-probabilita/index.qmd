@@ -1,0 +1,31 @@
+---
+title: "Il ruolo dell'integrale di Lebesgue in Probabilità"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Measure Theory]
+description: "Questo articolo costruisce il valore atteso nella sua forma più generale, identificandolo con l'integrale di Lebesgue rispetto alla misura di probabilità P, e ne esplora le proprietà fondamentali in ambito sia teorico che applicativo."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/il-ruolo-dellintegrale-di-lebesgue-in-probabilita/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf">PDF</a></p>
+```
+
+**L\'Integrale di Lebesgue in Probabilità: Valore Atteso, Convergenza e Spazi Lᵖ**
+
+Questo articolo costruisce il valore atteso nella sua forma più generale, identificandolo con l\'integrale di Lebesgue rispetto alla misura di probabilità P, e ne esplora le proprietà fondamentali in ambito sia teorico che applicativo.
+
+La costruzione procede per gradi: dalle **variabili aleatorie semplici** (combinazioni lineari finite di funzioni indicatrici), si passa alle **VA positive** (approssimate dal basso tramite VA semplici via supremum) e infine alle **VA generali** (decomposte nella parte positiva X⁺ e negativa X⁻). Si chiarisce poi la distinzione cruciale tra *essere integrabile* (valore atteso finito) e *ammettere valore atteso* (assenza di forme indeterminate ∞ − ∞), e si dimostra che la definizione generale coincide con quella elementare nei casi discreti.
+
+Il cuore del documento sono i **tre teoremi di convergenza**, che rispondono alla domanda fondamentale del calcolo: quando è lecito scambiare limite e integrale? Il **Teorema di Beppo-Levi** (MCT) garantisce l\'uguaglianza per successioni monotone non negative; il **Lemma di Fatou** fornisce solo una disuguaglianza nel caso generale, illustrata con il fenomeno della \"massa che sfugge\"; il **Teorema della Convergenza Dominata** (DCT) di Lebesgue restituisce l\'uguaglianza in presenza di una funzione dominante integrabile. I tre risultati vengono poi applicati alle serie infinite di VA.
+
+La parte finale introduce gli **spazi Lᵖ** come classi di equivalenza di VA quasi ovunque uguali: L¹ (Spazio di Banach, media finita), L² (Spazio di Hilbert, varianza finita, correlazione e regressione come prodotto scalare) e la loro gerarchia di inclusioni. Il documento si chiude con la **Regola del Valore Atteso (LOTUS)**, che permette di calcolare E\[g(X)\] integrando direttamente rispetto alla densità di X, senza conoscere la distribuzione di g(X).
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-6.pdf">Download PDF</a></p></object>
+```

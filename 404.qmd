@@ -1,0 +1,6 @@
+---
+title: "Page not found"
+toc: false
+---
+
+This page doesn't exist. Try [Research](/research/), [Notes](/notes/) or the search in the top bar.

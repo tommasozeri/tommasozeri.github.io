@@ -1,0 +1,34 @@
+---
+title: "Univariate Volatility Modelling"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Econometrics, Volatility]
+description: "This study presents a comprehensive framework for modeling and forecasting financial market volatility, addressing the inadequacy of classical homoskedastic assumptions in capturing the true dynamics of asset returns."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf
+code: https://github.com/tommasozeri/Financial-Econometrics-Models
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/hello-world/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Financial-Econometrics-Models">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+This study presents a comprehensive framework for modeling and forecasting financial market volatility, addressing the inadequacy of classical homoskedastic assumptions in capturing the true dynamics of asset returns. The research begins by establishing the theoretical foundations of time series analysis, defining the conditions of stationarity and ergodicity required for robust statistical inference. A preliminary analysis of the \"Stylized Facts\" of financial data --- specifically heavy tails and volatility clustering --- motivates the transition from constant variance models to Conditional Heteroskedasticity processes.
+
+The core of the paper focuses on the ARCH and GARCH family of models. While the standard GARCH(1,1) specification is shown to successfully capture volatility persistence, it fails to account for the asymmetric response of volatility to positive and negative shocks (the so-called Leverage Effect). To overcome this limitation, the study introduces and estimates advanced asymmetric extensions, including the Exponential GARCH (EGARCH), GJR-GARCH, and the Asymmetric Power ARCH (APARCH). Furthermore, the analysis challenges the standard Gaussian assumption for the error term, demonstrating that distributions allowing for skewness and excess kurtosis --- such as the Skewed Student-t --- provide a significantly superior fit to empirical data.
+
+The theoretical discussion is substantiated by a rigorous empirical application on the Gold ETF (GLD). Through a comparative forecasting exercise, the paper evaluates the out-of-sample predictive performance of the competing models. The results highlight that incorporating both asymmetry in the volatility equation and non-normality in the residual distribution is essential for accurate risk measurement and Value-at-Risk (VaR) estimation in turbulent market conditions.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/univariate-volatility-modelling-1.pdf">Download PDF</a></p></object>
+```

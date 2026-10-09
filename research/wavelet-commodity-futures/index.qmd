@@ -1,0 +1,42 @@
+---
+title: "Wavelet-Based Signal Extraction and Regime Detection in Commodity Futures"
+author: Tommaso Zeri
+date: 2026-09-06
+lang: en
+idioma: English
+categories: [Signal Processing, Commodities, Trading]
+description: "This report develops, tests, and critically evaluates a wavelet-based trading framework for commodity futures. Starting from the continuous wavelet transform (CWT) as introduced by Torrence and Compo [1], we build a fully causal, walk-forward pipeline for extracting band limited cyclical components from commodity log-returns, gate their use by formal statistical significance against a red-noise null, and combine them with a Hidden Markov Model (HMM) regime classifier and cross-wavelet analysis against macroeconomic drivers."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/09/06/wavelet-based-signal-extraction-and-regime-detection-in-commodity-futures/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+This report develops, tests, and critically evaluates a wavelet-based trading framework for\
+commodity futures. Starting from the continuous wavelet transform (CWT) as introduced by\
+Torrence and Compo \[1\], we build a fully causal, walk-forward pipeline for extracting band\
+limited cyclical components from commodity log-returns, gate their use by formal statistical\
+significance against a red-noise null, and combine them with a Hidden Markov Model (HMM)\
+regime classifier and cross-wavelet analysis against macroeconomic drivers. Every stage is sub\
+jected to an out-of-sample discipline: bootstrap confidence intervals, train/test band selection,\
+and rolling multi-window validation. The central empirical finding is not that the wavelet sig\
+nal generates a stable, exploitable alpha on its own-- it does not, once look-ahead bias and\
+multiple-testing effects are controlled for-- but that wavelet-detected cyclical power is strongly\
+and independently confirmed (via HMM) to concentrate in high-volatility market regimes, and\
+that this same information, used as an inverse risk-reduction overlay rather than a directional\
+bet, materially improves the risk-adjusted profile of a diversified mean-reversion ensemble while\
+failing on a directional buy-and-hold exposure-- a distinction with a clear economic explana\
+tion. The report is organized to first establish the theory, then the methodology, then the\
+validation framework, and finally the empirical results and their interpretation
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet-based-signal-extraction-and-regime-detection.pdf">Download PDF</a></p></object>
+```

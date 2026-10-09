@@ -1,0 +1,34 @@
+---
+title: "Analisi Multidimensionale dei Regimi Finanziari"
+author: Tommaso Zeri
+date: 2025-06-09
+lang: it
+idioma: Italiano
+categories: [Financial Mathematics]
+description: "Il lavoro propone un cambio di paradigma rispetto alla tradizionale trattazione dei regimi finanziari a tasso fisso, introducendo un approccio multidimensionale che considera contemporaneamente il tempo t e il tasso d'interesse i come variabili indipendenti."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2025/06/09/analisi-multidimensionale-dei-regimi-finanziari/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+Il lavoro propone un cambio di paradigma rispetto alla tradizionale trattazione dei regimi finanziari a tasso fisso, introducendo un **approccio multidimensionale** che considera contemporaneamente il tempo t e il tasso d\'interesse i come variabili indipendenti. Attraverso lo studio delle funzioni bivariate del montante M e del valore attuale A, l\'analisi mappa e confronta le proprietà geometriche dello spazio dei parametri dei regimi semplice e composto.
+
+-   **Geometria del Regime Semplice:** Caratterizzato da relazioni lineari, si traduce in una superficie planare per la funzione montante (curvatura nulla) e in una superficie iperbolica per l\'attualizzazione.
+-   **Geometria del Regime Composto:** Strutturato su dinamiche esponenziali, genera una superficie convessa per il montante e una superficie concava per l\'attualizzazione, evidenziando una sensibilità ai parametri che cresce in modo asimmetrico nel tempo.
+-   **Analisi Comparativa e Intersezione:** Viene formalizzata la curva di intersezione 3D tra le superfici dei due regimi, distinguendo matematicamente il caso di *dominanza composta assoluta*.
+-   **Sensibilità e Rischio:** Mediante lo studio delle derivate parziali prime e seconde, il testo mappa le curve di isorendimento e isocosto, dimostrando graficamente come la curvatura geometrica di una superficie sia direttamente proporzionale alla sensibilità ai parametri e, di conseguenza, al rischio finanziario intrinseco dello strumento.
+
+In conclusione, l\'integrazione della modellizzazione 3D offre un\'immediata **intuizione geometrica** delle proprietà asintotiche dei regimi, configurandosi come un solido strumento di supporto alle decisioni finanziarie e all\'allocazione ottimale in condizioni di incertezza.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/matematica_finanziaria_3d.pdf">Download PDF</a></p></object>
+```

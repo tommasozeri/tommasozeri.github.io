@@ -1,0 +1,17 @@
+---
+title: "Research"
+description: "Papers and working reports on statistical arbitrage, volatility modelling, econometrics and machine learning for finance."
+toc: false
+listing:
+  contents: "*/index.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: true
+  fields: [date, title, description, categories]
+  date-format: "MMM YYYY"
+  feed: true
+---
+
+Working papers and research reports. Each page has the abstract, the full PDF, the code where available, and a citation in BibTeX.

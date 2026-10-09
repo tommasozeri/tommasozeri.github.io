@@ -1,0 +1,29 @@
+---
+title: "Distribuzioni di Probabilità su ℝ"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Probability]
+description: "Questo articolo consolida la teoria delle distribuzioni di probabilità su ℝ, chiarendo il ruolo della misura di Lebesgue e sviluppando gli strumenti per ricavare la distribuzione di variabili aleatorie trasformate."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/distribuzioni-di-probabilita-su-%e2%84%9d/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf">PDF</a></p>
+```
+
+**Distribuzioni di Probabilità su ℝ: Densità, Trasformazioni e Cambio di Variabile**
+
+Questo articolo consolida la teoria delle distribuzioni di probabilità su ℝ, chiarendo il ruolo della misura di Lebesgue e sviluppando gli strumenti per ricavare la distribuzione di variabili aleatorie trasformate.
+
+La prima parte introduce la **misura di Lebesgue** come generalizzazione del concetto di lunghezza, evidenziando le differenze cruciali rispetto alla misura di probabilità: l\'intero spazio ha misura infinita, e le inclusioni tra spazi Lᵖ non si trasferiscono automaticamente. Si approfondisce poi il concetto di **PDF come derivata della CDF**, sottolineando che la continuità della CDF non è condizione sufficiente per l\'esistenza della densità: la \"scalinata del diavolo\" di Cantor --- continua ma non assolutamente continua --- illustra questo punto in modo paradigmatico. La densità è unica solo *quasi ovunque* rispetto alla misura di Lebesgue, e la **regola LOTUS** permette di calcolare E\[g(X)\] integrando direttamente rispetto alla densità originale senza ricavare la distribuzione di g(X).
+
+La seconda parte è dedicata alla **distribuzione di una VA trasformata** Y = g(X), presentando tre metodi in ordine di generalità. Il **Metodo della CDF** è universale e si applica a qualsiasi g, iniettiva o meno. Il **Teorema del Cambio di Variabile per funzioni iniettive** fornisce la PDF in un solo passaggio tramite fY(y) = fX(h(y))·\|h′(y)\|, dove il fattore jacobiano corregge la distorsione geometrica. Il **Corollario per funzioni monotone a tratti** generalizza il caso non iniettivo sommando i contributi di ciascuna radice di g(x) = y. Come applicazione emblematica, si deriva la **distribuzione Chi-Quadro** come quadrato di una normale standard, con estensione a p gradi di libertà. Il documento si chiude con il **Teorema della Trasformata Inversa**, che permette di simulare qualsiasi distribuzione a partire da una variabile uniforme.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-8.pdf">Download PDF</a></p></object>
+```

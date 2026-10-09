@@ -1,0 +1,30 @@
+---
+title: "Stochastic Modelling for Investment Portfolios Dynamics"
+subtitle: "Riot Investment Society, April 2025"
+author: Tommaso Zeri
+date: 2026-05-15
+lang: en
+idioma: English
+categories: [Portfolio Optimization, Stochastic Processes]
+description: "This paper explores a quantitative framework for portfolio optimization under uncertainty, integrating Monte Carlo simulation, continuous-time financial models, and classical portfolio theory. Asset prices are modeled using a geometric Brownian motion (GBM), representing the stochastic dynamics of returns over time."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stochastic_modelling_for_investment_portfolios_dynamics-riot-1.pdf
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stochastic_modelling_for_investment_portfolios_dynamics-riot-1.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/15/7/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stochastic_modelling_for_investment_portfolios_dynamics-riot-1.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+This paper explores a quantitative framework for portfolio optimization under uncertainty, integrating Monte Carlo simulation, continuous-time financial models, and classical portfolio theory. Asset prices are modeled using a geometric Brownian motion (GBM), representing the stochastic dynamics of returns over time. Monte Carlo methods are employed to simulate multiple future price paths for a selected set of ten NYSE stocks, based on estimated drift and volatility parameters. These simulated scenarios provide the foundation for portfolio construction and analysis. The study also incorporates the Markowitz mean-variance optimization model to determine the efficient frontier and optimal asset allocation under simulated outcomes.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stochastic_modelling_for_investment_portfolios_dynamics-riot-1.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/stochastic_modelling_for_investment_portfolios_dynamics-riot-1.pdf">Download PDF</a></p></object>
+```

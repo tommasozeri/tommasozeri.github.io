@@ -1,0 +1,29 @@
+---
+title: "Probabilità Discreta"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Probability]
+description: "Questo articolo esplora le principali distribuzioni di probabilità discreta su spazi finiti e numerabili, fornendo una base rigorosa ma accessibile per applicazioni in ambito quantitativo."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/probabilita-discreta/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance.pdf">PDF</a></p>
+```
+
+**Probabilità Discreta: Distribuzioni Fondamentali per la Finanza Quantitativa**
+
+Questo articolo esplora le principali distribuzioni di probabilità discreta su spazi finiti e numerabili, fornendo una base rigorosa ma accessibile per applicazioni in ambito quantitativo.
+
+Partendo dalla probabilità uniforme e dal principio di equiprobabilità, vengono trattate in sequenza logica le distribuzioni **Ipergeometrica**, **Binomiale**, **Geometrica**, **di Poisson**, **Binomiale Negativa**, **Uniforme Discreta** e **Zeta (Pareto Discreta)**, ciascuna corredata di formula, supporto e un esempio numerico concreto.
+
+Un filo conduttore unisce le distribuzioni: la Binomiale emerge come limite dell\'Ipergeometrica quando la popolazione cresce all\'infinito; la Poisson nasce come limite della Binomiale per eventi rari su grandi popolazioni; la Binomiale Negativa generalizza la Geometrica al caso di *r* successi. Questa struttura gerarchica permette di scegliere lo strumento giusto in base alle ipotesi del modello: campionamento con o senza reimmissione, numero di prove fisso o variabile, eventi frequenti o rari.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance.pdf">Download PDF</a></p></object>
+```

@@ -1,0 +1,36 @@
+---
+title: "Time Series Analysis"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Econometrics, Time Series]
+description: "This study provides a comprehensive econometric analysis of financial volatility dynamics and macroeconomic interdependencies across three distinct datasets."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf
+code: https://github.com/tommasozeri/Econometrics-Of-Financial-Markets
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/time-series-analysis/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Econometrics-Of-Financial-Markets">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+This study provides a comprehensive econometric analysis of financial volatility dynamics and macroeconomic interdependencies across three distinct datasets.
+
+First, using a single time series representing the log-prices of a financial asset, we investigate time-varying volatility to capture clustering and persistence in market risk.
+
+Second, we analyze a database of three financial time series to examine the extent to which asset returns follow interconnected and time-varying volatility paths, assessing their dynamic co-movements.
+
+Finally, the research explores the transmission of oil price shocks within a small open economy using a dataset of macroeconomic variables, including oil prices, inflation, and GDP growth. By estimating a Vector Autoregression (VAR) model, we calculate structural impulse response functions to discuss the propagation mechanism and the dynamic impact of energy shocks on the domestic economy.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/time-series-analysis.pdf">Download PDF</a></p></object>
+```

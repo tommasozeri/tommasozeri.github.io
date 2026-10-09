@@ -1,0 +1,33 @@
+---
+title: "Statistical Arbitrage in Higher Dimensions: An Integrated KF-HMM-GARCH Framework for Dynamic Multi-Asset Trading"
+author: Tommaso Zeri
+date: 2026-09-10
+lang: en
+idioma: English
+categories: [Statistical Arbitrage, Volatility]
+description: "Pairs trading starts from a simple idea: two assets that move together over the long run generate a mean-reverting spread, tradable whenever it drifts from equilibrium. The problem is that markets don't hold that equilibrium steady: volatility clustering, correlations that collapse under stress, sudden regime shifts."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/thesis_zeri_tommaso.pdf
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/thesis_zeri_tommaso.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/09/10/statistical-arbitrage-in-higher-dimensions-an-integrated-kf-hmm-garch-framework-for-dynamic-multi-asset-trading/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/thesis_zeri_tommaso.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+Pairs trading starts from a simple idea: two assets that move together over the long run generate a mean-reverting spread, tradable whenever it drifts from equilibrium. The problem is that markets don\'t hold that equilibrium steady: volatility clustering, correlations that collapse under stress, sudden regime shifts. Classical OLS-based techniques assume constant parameters over time, an assumption that doesn\'t survive contact with real data for long.
+
+In my thesis I built an alternative framework that replaces static estimation with a dynamic one: a Kalman Filter updates the hedge ratio observation by observation, a GARCH model captures the spread\'s conditional variance, and a Hidden Markov Model detects latent market regimes to suspend trading when cointegration breaks down. The three components feed into a single adaptive z-score that drives entries and exits.
+
+The framework was tested out-of-sample both in the bivariate case (classic pairs trading) and in its high-dimensional extension to multi-asset baskets. The bivariate case holds up across two independent experiments, including a dedicated test on the 2008-2009 crisis, with the regime gate visibly cutting drawdowns during stress periods. The multivariate extension doesn\'t generalize: the curse of dimensionality hits the Johansen cointegration test once the number of parameters grows faster than the available sample size, and no basket survives out-of-sample screening with thresholds inherited from the bivariate case.
+
+The result isn\'t a clean win across the board, but it\'s the honest one: where the dynamic framework works, it protects capital better than static benchmarks; where it doesn\'t, the data says so plainly, and the reason lines up with what the theory predicted.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/thesis_zeri_tommaso.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/thesis_zeri_tommaso.pdf">Download PDF</a></p></object>
+```

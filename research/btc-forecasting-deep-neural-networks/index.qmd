@@ -1,0 +1,38 @@
+---
+title: "Forecasting Bitcoin Price using Deep Neural Networks"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Machine Learning, Crypto]
+description: "Forecasting the price of Bitcoin presents significant challenges due to the inherent characteristics of its time series, including strong non-stationarity driven by multiple market cycles, regime shifts, and the presence of fat tails and extreme events."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf
+code: https://github.com/tommasozeri/BTC-Forecasting-using-RNNs
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/forecasting-bitcoin-price-using-deep-neural-networks/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/BTC-Forecasting-using-RNNs">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+Forecasting the price of Bitcoin presents significant challenges due to the inherent characteristics of its time series, including strong non-stationarity driven by multiple market cycles, regime shifts, and the presence of fat tails and extreme events. Traditional modeling approaches often struggle to adequately capture the complex dynamics of daily logarithmic returns, which exhibit changing volatility and volatility clustering over time.
+
+In the context of quantitative finance, a fundamental research question is whether the inclusion of off-chain data genuinely improves predictive models. While the efficient market hypothesis suggests that asset prices already reflect all publicly available external information, alternative theoretical frameworks argue that Bitcoin is influenced by complex global risk factors --- such as macroeconomic conditions, systemic liquidity, and broad market sentiment --- which are not immediately or comprehensively captured by on-chain metrics alone.
+
+To address this problem, this study employs deep neural networks to forecast the three-day-ahead daily log-return of the Bitcoin to United States dollar exchange rate. The research methodology is structured as a rigorous ablation study comparing two distinct frameworks: a baseline model trained exclusively on internal blockchain data, and an enhanced multi-source model incorporating market, macroeconomic, sentiment, and open interest features. Various recurrent architectures --- specifically Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU), and Bidirectional LSTM networks --- are evaluated.
+
+Finally, the predictive performance of these network architectures is measured not only through standard statistical evaluation metrics but also via the implementation of a directional trading strategy. This dual evaluation approach ensures that the marginal contribution of multidimensional external data is assessed for both its theoretical predictive accuracy and its practical financial utility through a long and flat position system.
+
+**Hardware:** All experiments were executed on Google Colab with an NVIDIA A100 Tensor Core GPU (80 GB VRAM), Intel Xeon CPU @ 2.20 GHz (12 vCPUs), and 83 GB system RAM.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/bitcoin_forecasting_using_deep_neural_networks-3.pdf">Download PDF</a></p></object>
+```

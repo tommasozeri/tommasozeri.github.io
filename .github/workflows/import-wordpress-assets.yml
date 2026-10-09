@@ -1,0 +1,26 @@
+name: Import WordPress files
+
+# Run once from the Actions tab: downloads the PDFs and images still hosted
+# on wordpress.com into the repo and rewrites the links to local copies.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/localize_assets.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Import files from WordPress"
+          git push

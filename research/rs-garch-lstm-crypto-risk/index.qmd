@@ -1,0 +1,37 @@
+---
+title: "Dynamic Regime-Switching GARCH-LSTM Framework for Cryptocurrency Risk Management"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Volatility, Machine Learning, Crypto]
+description: "This article presents RS-GARCH-LSTM, an extension of the GARCH-LSTM hybrid framework introduced by Zhao et al. (2024) to the cryptocurrency volatility forecasting problem."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/dynamic-regime-switching-garch-lstm-frameworkfor-cryptocurrency-risk-management/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+This article presents RS-GARCH-LSTM, an extension of the GARCH-LSTM hybrid framework introduced by Zhao et al. (2024) to the cryptocurrency volatility forecasting problem. The key innovation is the replacement of a constant scalar mixing weight with a dynamic gate w_t conditioned on six publicly available Bitcoin on-chain signals, allowing the model to adaptively allocate influence between the GARCH econometric baseline and the LSTM correction component on a daily basis.
+
+The model is evaluated across three experimental settings covering structurally different market conditions: BTC-USD in a normal out-of-sample period, BTC-USD in an unseen stress year (2022, comprising the LUNA and FTX collapses), and ETH-USD in a low-volatility period.
+
+RS-GARCH-LSTM is the only model that passes the Kupiec unconditional coverage test at 99% confidence on BTC in normal conditions (p = 0.063), achieves the highest Kupiec p-value on the unseen 2022 stress scenario (p = 0.501), and delivers a 34.8% reduction in capital efficiency ratio relative to GJR-GARCH on ETH in a period where calibration itself loses discriminating power.
+
+The gate weights, learned end-to-end without prior constraints on sign or magnitude, exhibit direct economic interpretability and are consistent with established on-chain analysis theory.
+
+On a representative \$100M BTC position under Basel III internal model frameworks, the correctly calibrated RS-GARCH-LSTM model releases approximately \$19.2M of excess capital relative to GJR-GARCH, corresponding to an annual opportunity cost of roughly \$960K at a 5% hurdle rate.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/versione-estesa.pdf">Download PDF</a></p></object>
+```

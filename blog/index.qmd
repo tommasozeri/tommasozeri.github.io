@@ -1,0 +1,13 @@
+---
+title: "Blog"
+description: "Shorter posts, visualizations and tools."
+toc: false
+listing:
+  contents: "*/index.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  fields: [date, title, description, categories]
+  date-format: "MMM YYYY"
+  feed: true
+---

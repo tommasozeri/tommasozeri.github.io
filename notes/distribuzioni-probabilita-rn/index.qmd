@@ -1,0 +1,29 @@
+---
+title: "Distribuzioni di Probabilità su ℝⁿ"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: it
+idioma: Italiano
+categories: [Probability]
+description: "Questo articolo esplora i fondamenti della teoria della misura applicata alla probabilità, partendo dalla costruzione formale della misura di Lebesgue su ℝ fino alle distribuzioni di probabilità in spazi multidimensionali ℝⁿ."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/distribuzioni-di-probabilita-su-%e2%84%9d%e2%81%bf/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf">PDF</a></p>
+```
+
+Questo articolo esplora i fondamenti della teoria della misura applicata alla probabilità, partendo dalla costruzione formale della misura di Lebesgue su ℝ fino alle distribuzioni di probabilità in spazi multidimensionali ℝⁿ.
+
+Nella prima parte vengono introdotte le funzioni di densità di probabilità (PDF) come derivate delle funzioni di ripartizione (CDF), con particolare attenzione al caso patologico della distribuzione di Cantor --- esempio emblematico di funzione continua ma non assolutamente continua, priva di densità. Viene quindi presentato il teorema LOTUS (*Law of the Unconscious Statistician*), che permette di calcolare il valore atteso di una variabile trasformata senza derivare la nuova densità.
+
+La seconda parte affronta le tecniche di trasformazione di variabili aleatorie: il Metodo della CDF, il Teorema del Cambio di Variabile per funzioni iniettive e la sua generalizzazione a funzioni monotone a tratti, con applicazioni alla distribuzione Chi-Quadro e al Teorema della Trasformata Inversa.
+
+L\'articolo si conclude con le distribuzioni bivariate --- Normale, Lognormale, Esponenziale, Gamma, Weibull, Laplace e Cauchy --- e con i concetti di covarianza, correlazione e trasformazione jacobiana in ℝⁿ, strumenti indispensabili per la modellazione quantitativa in finanza e statistica.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/probability_theory_for_quantitative_finance-9.pdf">Download PDF</a></p></object>
+```

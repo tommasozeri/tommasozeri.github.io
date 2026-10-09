@@ -1,0 +1,30 @@
+---
+title: "Dalle Time Series alla Wavelet: guida intuitiva"
+author: Tommaso Zeri
+date: 2026-09-06
+lang: it
+idioma: Italiano
+categories: [Signal Processing, Time Series]
+description: "Questa guida spiega, partendo da zero e con l’ausilio di grafici generati appositamente, perché e come si usa l’analisi wavelet per studiare serie temporali che cambiano nel tempo."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/09/06/dalle-time-series-alla-wavelet-guida-intuitiva/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf">PDF</a></p>
+```
+
+Questa guida spiega, partendo da zero e con l'ausilio di grafici generati appositamente, perché e\
+come si usa l'analisi wavelet per studiare serie temporali che cambiano nel tempo. Si parte dal\
+concetto di dominio del tempo e dominio della frequenza, si introduce la trasformata di Fourier e\
+se ne mostrano i limiti su un segnale non stazionario, si arriva alla trasformata wavelet continua\
+(CWT) e alla sua interpretazione grafica, e infine si applica il tutto a un caso reale di finanza:\
+il prezzo del petrolio (WTI crude oil futures). L'obiettivo è che, alla fine, un qualunque grafico\
+wavelet (uno "scalogramma") risulti leggibile e interpretabile senza doversi fidare ciecamente\
+della macchina che lo ha prodotto.
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/09/wavelet_tutorial_ita.pdf">Download PDF</a></p></object>
+```

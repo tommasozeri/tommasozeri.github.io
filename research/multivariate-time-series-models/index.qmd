@@ -1,0 +1,38 @@
+---
+title: "Multivariate Time Series Models"
+author: Tommaso Zeri
+date: 2026-05-14
+lang: en
+idioma: English
+categories: [Econometrics, Time Series]
+description: "This thesis provides a rigorous theoretical and empirical framework for the development of Statistical Arbitrage trading strategies, bridging the gap between advanced financial econometrics and algorithmic trading implementation."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf
+code: https://github.com/tommasozeri/Financial-Econometrics-Models
+citation:
+  type: report
+  pdf-url: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf
+google-scholar: true
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/multivariate-time-series-models/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf">PDF</a> <a class="btn-paper" href="https://github.com/tommasozeri/Financial-Econometrics-Models">Code</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
+```
+
+## Abstract
+
+This thesis provides a rigorous theoretical and empirical framework for the development of Statistical Arbitrage trading strategies, bridging the gap between advanced financial econometrics and algorithmic trading implementation.
+
+The research begins by deconstructing the standard assumptions of classical finance, conducting a deep analysis of the \"Stylized Facts\" of financial returns --- such as non-Gaussianity, fat tails, volatility clustering, and the leverage effect --- which necessitate the use of sophisticated univariate models like GARCH and EGARCH to correctly estimate conditional variance and market risk.
+
+The core of the study lies in the extension to the multivariate context, where the dynamic interdependencies between assets are modeled to identify profitable trading opportunities. A critical distinction is drawn between short-term correlation and long-term cointegration. While correlation is shown to be an unstable metric suitable only for short-horizon analysis, cointegration is presented as the statistical foundation for robust Pairs Trading strategies, implying a stationary linear combination of non-stationary prices.
+
+To operationalize these concepts, the paper provides a detailed comparative analysis of Vector Autoregression (VAR) and Vector Error Correction Models (VECM). It demonstrates that while VAR models are sufficient for stationary series, they suffer from omitted variable bias when applied to cointegrated assets. Conversely, the VECM is identified as the superior tool for arbitrage, as it explicitly captures the speed of adjustment towards the long-run equilibrium through the error correction term.
+
+Finally, the study proposes a hierarchical \"Decision Framework\" --- proceeding from Unit Root tests (ADF) to Cointegration tests (Johansen) --- to guide the practitioner in selecting the correct model specification, supported by empirical applications and Python implementation on real market data from the technology sector.
+
+## Full text
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/05/multivariate-models.pdf">Download PDF</a></p></object>
+```

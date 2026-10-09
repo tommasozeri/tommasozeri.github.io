@@ -1,0 +1,29 @@
+---
+title: "Appunti di Probabilità e Teoria della Misura"
+author: Tommaso Zeri
+date: 2026-08-28
+lang: it
+idioma: Italiano
+categories: [Probability, Measure Theory]
+description: "Queste note raccolgono, con impostazione rigorosamente misurabile, i fondamenti della teoria della probabilità necessari alla finanza quantitativa."
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/08/28/appunti-di-probabilita-e-teoria-della-misura/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf">PDF</a></p>
+```
+
+Queste note raccolgono, con impostazione rigorosamente misurabile, i fondamenti della teoria della probabilità necessari alla finanza quantitativa. Si parte dagli assiomi di Kolmogorov --- spazi di probabilità, σ-algebre, misure --- per poi trattare probabilità condizionata, indipendenza e le principali distribuzioni discrete e continue (binomiale, Poisson, gaussiana, lognormale, Cauchy, tra le altre).
+
+La parte centrale copre variabili aleatorie come funzioni misurabili, l\'integrale di Lebesgue come definizione del valore atteso, i teoremi di convergenza (Beppo-Levi, Fatou, convergenza dominata) e gli spazi $L^{p}$. Seguono variabili aleatorie indipendenti, il teorema di estensione di Kolmogorov, i lemmi di Borel-Cantelli e la legge zero-uno.
+
+Un capitolo è dedicato alle funzioni caratteristiche e al loro uso nello studio di somme di variabili indipendenti e vettori gaussiani multivariati. La trattazione prosegue con le nozioni di convergenza (quasi certa, in $L^{p}$, in probabilità, debole) e i risultati asintotici classici: leggi dei grandi numeri (incluse le versioni di Kolmogorov ed ergodica) e teorema del limite centrale, con la relativa versione multidimensionale e il teorema di Berry-Esseen.
+
+Chiudono le note gli spazi di Hilbert e $L^{2}$ --- proiezioni, ortogonalità --- propedeutici alla teoria del valore atteso condizionato, sviluppata prima nel caso $L^{2}$L2 e poi estesa al caso generale rispetto a una sub-σ-algebra, con le disuguaglianze fondamentali (Jensen, Hölder, Minkowski). Diverse appendici tecniche completano il testo (momenti, continuità, teorema dei residui, disuguaglianza di Cauchy-Schwarz, variabili di Rademacher, vettori e matrici aleatorie).
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/08/probability_theory_for_quantitative_finance-15.pdf">Download PDF</a></p></object>
+```

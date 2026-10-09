@@ -1,0 +1,31 @@
+---
+title: "Introduzione alla Matematica Finanziaria"
+author: Tommaso Zeri
+date: 2025-06-09
+lang: it
+idioma: Italiano
+categories: [Financial Mathematics]
+description: "Il documento si configura come una guida teorico-pratica ideata per agevolare l'apprendimento della matematica finanziaria e fornire un metodo semplificato per la risoluzione degli esercizi . Sviluppato a partire dai feedback degli studenti , il testo copre in modo sistematico i concetti e le formule fondamentali della disciplina , strutturandosi nelle seguenti macro-aree:"
+pdf: https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf
+wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2025/06/09/introduzione-alla-matematica-finanziaria/
+---
+
+```{=html}
+<p class="paper-links"><a class="btn-paper" href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf">PDF</a></p>
+```
+
+Il documento si configura come una guida teorico-pratica ideata per agevolare l\'apprendimento della matematica finanziaria e fornire un metodo semplificato per la risoluzione degli esercizi. Sviluppato a partire dai feedback degli studenti , il testo copre in modo sistematico i concetti e le formule fondamentali della disciplina, strutturandosi nelle seguenti macro-aree:
+
+-   **Leggi e Regimi Finanziari:** Analisi dei processi di capitalizzazione e attualizzazione. Confronto approfondito tra regime semplice (lineare) , composto (esponenziale) , sconto commerciale e regime misto , con particolare focus sul principio del *time value of money* e sul concetto di scindibilità.
+-   **Tassi Equivalenti:** Formule e metodi per la conversione e il frazionamento temporale dei tassi di interesse sia in regime semplice che composto.
+-   **Rendite e Piani di Accumulo (PAC):** Trattazione delle rendite (posticipate, anticipate e differite) tramite formule compatte ed estese (DCF) , e analisi dei modelli matematici alla base dei piani di accumulo nei diversi regimi.
+-   **Ammortamenti:** Struttura del piano classico, ammortamento alla francese (a rata costante) , ammortamento all\'italiana (a quota capitale costante) , condizione di chiusura finanziaria ed estensioni con interessi anticipati.
+-   **Valutazione degli Investimenti:** Criteri decisionali basati su Valore Attuale Netto (VAN) , Valore Attuale Netto Globale (GVAN per tassi variabili) e Tasso Interno di Rendimento (TIR). Vengono approfonditi i metodi di calcolo analitico e numerico del TIR , la scomposizione del VAN/GVAN e la determinazione dei capitali residui (*outstanding capitals*).
+-   **Titoli Obbligazionari e Rischio di Tasso:** Struttura e valutazione dei titoli *Zero Coupon* (BOT) --- inclusi aspetti di tassazione e compravendita intermedia --- e dei titoli con cedola (BTP). È presente una sezione dedicata ai titoli indicizzati all\'inflazione (BTP Italia) e una trattazione approfondita sulla *Duration* di Macaulay come indicatore del tempo medio di incasso e della sensibilità del prezzo al rendimento.
+-   **Trasparenza Bancaria:** Definizione e distinzioni pratiche tra TAN (Tasso Annuo Nominale) e TAEG (Tasso Annuo Effettivo Globale).
+
+## Testo completo
+
+```{=html}
+<object class="pdf-viewer" data="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf" type="application/pdf"><p><a href="https://tommasozeri2932001-vbfzw.wordpress.com/wp-content/uploads/2026/06/introduzione-alla-matematica-finanziaria.pdf">Download PDF</a></p></object>
+```
