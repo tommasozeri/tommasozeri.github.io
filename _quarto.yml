@@ -1,8 +1,13 @@
 project:
   type: website
   output-dir: _site
+  render:
+    - "*.qmd"
+    - "*/*.qmd"
+    - "*/*/*.qmd"
   resources:
     - "*/*/*.pdf"
+    - "*/*/*.ipynb"
 
 website:
   title: "Tommaso Zeri"
