@@ -60,3 +60,14 @@ main table td, main table th { border: none; }
 
 /* the abstract is already the first paragraph of each page */
 #title-block-header .description { display: none; }
+
+/* full-text papers: download block at the end of the article */
+.paper-download {
+  margin: 2.5rem 0 1.5rem; padding: 1.25rem 0; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3;
+  font-family: "Source Sans 3", sans-serif;
+}
+.paper-download p { margin: 0; }
+.paper-download .btn-paper { font-size: .95rem; padding: .35rem 1rem; }
+main .figure img, main figure img { max-width: 100%; height: auto; }
+#title-block-header .abstract { margin-top: 1rem; }
+#title-block-header .abstract .block-title { font-variant: small-caps; letter-spacing: .03em; }

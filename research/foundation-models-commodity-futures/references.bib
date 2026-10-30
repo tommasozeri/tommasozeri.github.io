@@ -1,0 +1,340 @@
+% ---------------------------------------------------------------- foundation model
+@misc{mistral2026timestral,
+  author       = {{Mistral AI}},
+  title        = {Timestral: Mistral's time-series foundation models},
+  year         = {2026},
+  month        = oct,
+  howpublished = {\url{https://mistral.ai/news/timestral/}},
+  note         = {Announcement of 15 October 2026; the technical report has not yet been published. Weights:
+                  \url{https://huggingface.co/mistralai}}
+}
+
+@misc{jain2026timesfm3,
+  author       = {Jain, Ayush and Sen, Rajat},
+  title        = {{TimesFM-3}: A zero-shot foundation model for multivariate forecasting},
+  year         = {2026},
+  month        = aug,
+  howpublished = {Google Research Blog, \url{https://research.google/blog/timesfm-3-a-zero-shot-foundation-model-for-multivariate-forecasting/}},
+  note         = {Weights: \url{https://huggingface.co/google/timesfm-3.0-pytorch}}
+}
+
+@inproceedings{das2024timesfm,
+  author    = {Das, Abhimanyu and Kong, Weihao and Sen, Rajat and Zhou, Yichen},
+  title     = {A decoder-only foundation model for time-series forecasting},
+  booktitle = {Proceedings of the 41st International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {235},
+  pages     = {10148--10167},
+  year      = {2024}
+}
+
+@article{ansari2024chronos,
+  author  = {Ansari, Abdul Fatir and Stella, Lorenzo and Turkmen, Caner and Zhang, Xiyuan and Mercado, Pedro and
+             Shen, Huibin and Shchur, Oleksandr and Rangapuram, Syama Sundar and Pineda Arango, Sebastian and
+             Kapoor, Shubham and Zschiegner, Jasper and Maddix, Danielle C. and Mahoney, Michael W. and
+             Torkkola, Kari and Wilson, Andrew Gordon and Bohlke-Schneider, Michael and Wang, Yuyang},
+  title   = {Chronos: Learning the Language of Time Series},
+  journal = {Transactions on Machine Learning Research},
+  year    = {2024},
+  url     = {https://openreview.net/forum?id=gerNCVqqtR}
+}
+
+@misc{ansari2025chronos2,
+  author        = {Ansari, Abdul Fatir and Shchur, Oleksandr and K{\"u}ken, Jaris and Auer, Andreas and Han, Boran and
+                   Mercado, Pedro and Rangapuram, Syama Sundar and Shen, Huibin and Stella, Lorenzo and
+                   Zhang, Xiyuan and Goswami, Mononito and Kapoor, Shubham and Maddix, Danielle C. and
+                   Guerron, Pablo and Hu, Tony and Yin, Junming and Erickson, Nick and Desai, Prateek Mutalik and
+                   Wang, Hao and Rangwala, Huzefa and Karypis, George and Wang, Yuyang and
+                   Bohlke-Schneider, Michael},
+  title         = {{Chronos-2}: From Univariate to Universal Forecasting},
+  year          = {2025},
+  eprint        = {2510.15821},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2510.15821}
+}
+
+% ---------------------------------------------------------------- volatilità e benchmark
+@article{garman1980,
+  author  = {Garman, Mark B. and Klass, Michael J.},
+  title   = {On the Estimation of Security Price Volatilities from Historical Data},
+  journal = {Journal of Business},
+  volume  = {53},
+  number  = {1},
+  pages   = {67--78},
+  year    = {1980}
+}
+
+@article{hyndman2008,
+  author  = {Hyndman, Rob J. and Khandakar, Yeasmin},
+  title   = {Automatic Time Series Forecasting: The forecast Package for {R}},
+  journal = {Journal of Statistical Software},
+  volume  = {27},
+  number  = {3},
+  pages   = {1--22},
+  year    = {2008}
+}
+
+@misc{statsforecast,
+  author       = {Garza, Federico and Mergenthaler Canseco, Max and Chall{\'u}, Cristian and Olivares, Kin G.},
+  title        = {{StatsForecast}: Lightning fast forecasting with statistical and econometric models},
+  year         = {2022},
+  howpublished = {PyCon Salt Lake City, Utah, US 2022},
+  url          = {https://github.com/Nixtla/statsforecast}
+}
+
+@article{bollerslev1986,
+  author  = {Bollerslev, Tim},
+  title   = {Generalized Autoregressive Conditional Heteroskedasticity},
+  journal = {Journal of Econometrics},
+  volume  = {31},
+  number  = {3},
+  pages   = {307--327},
+  year    = {1986}
+}
+
+@article{glosten1993,
+  author  = {Glosten, Lawrence R. and Jagannathan, Ravi and Runkle, David E.},
+  title   = {On the Relation between the Expected Value and the Volatility of the Nominal Excess Return on Stocks},
+  journal = {Journal of Finance},
+  volume  = {48},
+  number  = {5},
+  pages   = {1779--1801},
+  year    = {1993}
+}
+
+@article{nelson1991,
+  author  = {Nelson, Daniel B.},
+  title   = {Conditional Heteroskedasticity in Asset Returns: A New Approach},
+  journal = {Econometrica},
+  volume  = {59},
+  number  = {2},
+  pages   = {347--370},
+  year    = {1991}
+}
+
+@misc{arch,
+  author       = {Sheppard, Kevin},
+  title        = {arch: {ARCH} models and other tools for financial econometrics in {Python}},
+  howpublished = {\url{https://github.com/bashtage/arch}},
+  year         = {2024}
+}
+
+@article{corsi2009,
+  author  = {Corsi, Fulvio},
+  title   = {A Simple Approximate Long-Memory Model of Realized Volatility},
+  journal = {Journal of Financial Econometrics},
+  volume  = {7},
+  number  = {2},
+  pages   = {174--196},
+  year    = {2009}
+}
+
+% ---------------------------------------------------------------- metriche e test
+@article{gneiting2007,
+  author  = {Gneiting, Tilmann and Raftery, Adrian E.},
+  title   = {Strictly Proper Scoring Rules, Prediction, and Estimation},
+  journal = {Journal of the American Statistical Association},
+  volume  = {102},
+  number  = {477},
+  pages   = {359--378},
+  year    = {2007}
+}
+
+@article{kupiec1995,
+  author  = {Kupiec, Paul H.},
+  title   = {Techniques for Verifying the Accuracy of Risk Measurement Models},
+  journal = {Journal of Derivatives},
+  volume  = {3},
+  number  = {2},
+  pages   = {73--84},
+  year    = {1995}
+}
+
+@article{christoffersen1998,
+  author  = {Christoffersen, Peter F.},
+  title   = {Evaluating Interval Forecasts},
+  journal = {International Economic Review},
+  volume  = {39},
+  number  = {4},
+  pages   = {841--862},
+  year    = {1998}
+}
+
+@article{patton2011,
+  author  = {Patton, Andrew J.},
+  title   = {Volatility Forecast Comparison Using Imperfect Volatility Proxies},
+  journal = {Journal of Econometrics},
+  volume  = {160},
+  number  = {1},
+  pages   = {246--256},
+  year    = {2011}
+}
+
+@article{diebold1995,
+  author  = {Diebold, Francis X. and Mariano, Roberto S.},
+  title   = {Comparing Predictive Accuracy},
+  journal = {Journal of Business \& Economic Statistics},
+  volume  = {13},
+  number  = {3},
+  pages   = {253--263},
+  year    = {1995}
+}
+
+@article{harvey1997,
+  author  = {Harvey, David and Leybourne, Stephen and Newbold, Paul},
+  title   = {Testing the Equality of Prediction Mean Squared Errors},
+  journal = {International Journal of Forecasting},
+  volume  = {13},
+  number  = {2},
+  pages   = {281--291},
+  year    = {1997}
+}
+
+@article{newey1987,
+  author  = {Newey, Whitney K. and West, Kenneth D.},
+  title   = {A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix},
+  journal = {Econometrica},
+  volume  = {55},
+  number  = {3},
+  pages   = {703--708},
+  year    = {1987}
+}
+
+@article{benjamini1995,
+  author  = {Benjamini, Yoav and Hochberg, Yosef},
+  title   = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {57},
+  number  = {1},
+  pages   = {289--300},
+  year    = {1995}
+}
+
+@article{hansen2011,
+  author  = {Hansen, Peter R. and Lunde, Asger and Nason, James M.},
+  title   = {The Model Confidence Set},
+  journal = {Econometrica},
+  volume  = {79},
+  number  = {2},
+  pages   = {453--497},
+  year    = {2011}
+}
+
+% ---------------------------------------------------------------- letteratura
+@incollection{alquist2013,
+  author    = {Alquist, Ron and Kilian, Lutz and Vigfusson, Robert J.},
+  title     = {Forecasting the Price of Oil},
+  booktitle = {Handbook of Economic Forecasting},
+  editor    = {Elliott, Graham and Timmermann, Allan},
+  volume    = {2A},
+  pages     = {427--507},
+  publisher = {Elsevier},
+  year      = {2013}
+}
+
+@article{alquist2010,
+  author  = {Alquist, Ron and Kilian, Lutz},
+  title   = {What Do We Learn from the Price of Crude Oil Futures?},
+  journal = {Journal of Applied Econometrics},
+  volume  = {25},
+  number  = {4},
+  pages   = {539--573},
+  year    = {2010}
+}
+
+@article{haugom2014,
+  author  = {Haugom, Erik and Langeland, Henrik and Moln{\'a}r, Peter and Westgaard, Sjur},
+  title   = {Forecasting Volatility of the {U.S.} Oil Market},
+  journal = {Journal of Banking \& Finance},
+  volume  = {47},
+  pages   = {1--14},
+  year    = {2014},
+  doi     = {10.1016/j.jbankfin.2014.05.026}
+}
+
+@article{christensen1998,
+  author  = {Christensen, B. J. and Prabhala, N. R.},
+  title   = {The Relation between Implied and Realized Volatility},
+  journal = {Journal of Financial Economics},
+  volume  = {50},
+  number  = {2},
+  pages   = {125--150},
+  year    = {1998}
+}
+
+@misc{aksu2024gifteval,
+  author        = {Aksu, Taha and Woo, Gerald and Liu, Juncheng and Liu, Xu and Liu, Chenghao and Savarese, Silvio and
+                   Xiong, Caiming and Sahoo, Doyen},
+  title         = {{GIFT-Eval}: A Benchmark For General Time Series Forecasting Model Evaluation},
+  year          = {2024},
+  eprint        = {2410.10393},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2410.10393}
+}
+
+@misc{goel2025vol,
+  author        = {Goel, Anubha and Pasricha, Puneet and Magris, Martin and Kanniainen, Juho},
+  title         = {Foundation Time-Series {AI} Model for Realized Volatility Forecasting},
+  year          = {2025},
+  eprint        = {2505.11163},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2505.11163}
+}
+
+@misc{goel2025var,
+  author        = {Goel, Anubha and Pasricha, Puneet and Kanniainen, Juho},
+  title         = {Time-Series Foundation {AI} Model for Value-at-Risk Forecasting},
+  year          = {2025},
+  eprint        = {2410.11773},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2410.11773}
+}
+
+@misc{brini2026,
+  author        = {Brini, Alessio},
+  title         = {Forecasting Realized Volatility with Time Series Foundation Models: A Comparison with Econometric
+                   Benchmarks},
+  year          = {2026},
+  eprint        = {2607.05291},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2607.05291}
+}
+
+@misc{rahimikia2025,
+  author        = {Rahimikia, Eghbal and Ni, Hao and Wang, Weiguan},
+  title         = {Re({V}isiting) Time Series Foundation Models in Finance},
+  year          = {2025},
+  eprint        = {2511.18578},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2511.18578}
+}
+
+@misc{alonso2026,
+  author        = {{Noguer i Alonso}, Miquel and Franklin, Rodolfo Pereira},
+  title         = {Pretrained Time-Series Foundation Models for Financial Return Forecasting},
+  year          = {2026},
+  eprint        = {2606.27100},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2606.27100}
+}
+
+@misc{wang2026,
+  author        = {Wang, Le and Zhang, Boyuan},
+  title         = {The Promise of Time-Series Foundation Models for Agricultural Forecasting: Evidence from Commodity
+                   Prices},
+  year          = {2026},
+  eprint        = {2601.06371},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2601.06371}
+}
+
+@article{smith2009,
+  author  = {Smith, Jeremy and Wallis, Kenneth F.},
+  title   = {A Simple Explanation of the Forecast Combination Puzzle},
+  journal = {Oxford Bulletin of Economics and Statistics},
+  volume  = {71},
+  number  = {3},
+  pages   = {331--355},
+  year    = {2009}
+}
