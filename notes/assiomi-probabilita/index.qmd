@@ -9,24 +9,164 @@ categories: [Probability, Measure Theory]
 description: "Questo articolo costruisce le fondamenta rigorose della teoria della probabilità, partendo dalla struttura degli spazi misurabili fino alla continuità della misura di probabilità."
 pdf: probability_theory_for_quantitative_finance-1.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/assiomi-della-probabilita/
+number-sections: true
+number-depth: 3
 ---
 
-```{=html}
-<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-1.pdf">PDF</a></p>
-```
+# Assiomi Delle Probabilità
 
-**Assiomi della Probabilità: Fondamenti Matematici per la Teoria della Misura**
+## I concetti di Finito, Numerabile e Non Numerabile
 
-Questo articolo costruisce le fondamenta rigorose della teoria della probabilità, partendo dalla struttura degli spazi misurabili fino alla continuità della misura di probabilità.
+Prima di addentrarci nelle proprietà degli spazi di probabilità, è fondamentale distinguere rigorosamente i tipi di insiemi in base alla loro cardinalità:
 
-Si introduce innanzitutto la distinzione tra insiemi **finiti, numerabili e non numerabili**, illustrata con il celebre paradosso del Grand Hotel di Hilbert, che chiarisce intuitivamente il concetto di infinito numerabile. Si definisce poi la **σ-algebra** come struttura matematica che formalizza il concetto di \"evento misurabile\", distinguendola dall\'algebra ordinaria per la chiusura rispetto a operazioni numerabili anziché solo finite. Vengono trattate la σ-algebra generata, la σ-algebra di Borel su ℝ e il concetto di σ-algebre indipendenti.
+- **Finito:** un insieme è finito se i suoi elementi sono in numero limitato. È possibile contarli e, prima o poi, la conta termina. C'è una corrispondenza biunivoca solo con un sottoinsieme limitato dei numeri naturali, ad esempio $\{1, 2, \dots, n\}$.
 
-Sulla base di questa struttura si introducono i tre **assiomi di Kolmogorov** per la misura di probabilità, da cui derivano proprietà fondamentali come la monotonicità e l\'additività finita. Particolare attenzione è dedicata al **principio di inclusione-esclusione** e alle disuguaglianze di Bonferroni, che forniscono approssimazioni alternate (per eccesso e per difetto) della probabilità di un\'unione di eventi.
+- **Numerabile (o Infinito Numerabile):** un insieme è numerabile se i suoi elementi sono infiniti, ma è possibile \"metterli in fila\" assegnando a ciascuno di essi un'etichetta numerica senza tralasciarne nessuno. Esiste, in altre parole, una corrispondenza biunivoca (uno a uno) con l'intero insieme dei numeri naturali $\mathbb{N}$. Possiamo elencarli ordinatamente come $A_1, A_2, A_3, \dots$ all'infinito.
 
-Il documento si chiude con la **convergenza degli eventi** tramite la funzione indicatrice, definendo formalmente lim sup e lim inf di una successione di eventi e dimostrando la continuità della misura di probabilità per successioni monotone crescenti e decrescenti.
+- **Non numerabile (o Più che numerabile):** un insieme è non numerabile quando rappresenta un infinito \"troppo grande\" e denso per poter essere messo in una lista. Non è possibile stabilire una corrispondenza uno a uno con i numeri naturali $\mathbb{N}$. Qualsiasi tentativo di elencarli lascerebbe fuori infiniti elementi (un classico esempio è l'insieme dei numeri reali $\mathbb{R}$).
 
-## Testo completo
+Per comprendere appieno cosa significhi \"corrispondenza uno a uno con i numeri naturali\", è utilissimo il celebre paradosso del Grand Hotel, ideato dal matematico David Hilbert nel 1924.
 
-```{=html}
-<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-1.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-1.pdf">Download PDF</a></p></object>
-```
+Immaginiamo un hotel dotato di infinite stanze, numerate progressivamente con i numeri naturali ($1, 2, 3, \dots, n, \dots$). Una sera l'hotel è completamente pieno: in ogni singola stanza c'è un cliente.
+
+Arriva un nuovo viaggiatore e chiede una stanza alla reception. In un hotel con un numero finito di stanze ($n$), non ci sarebbe più posto. Ma essendo un hotel con infinite stanze numerabili, il direttore può accoglierlo. Come fa?
+
+1.  Chiede al cliente della stanza $1$ di spostarsi nella stanza $2$.
+
+2.  Chiede al cliente della stanza $2$ di spostarsi nella stanza $3$.
+
+3.  In generale, chiede al cliente della stanza $n$ di prendere le valigie e spostarsi nella stanza $n+1$.
+
+Poiché le stanze sono numerabili, c'è sempre una stanza $n+1$ disponibile per chi stava nella stanza $n$. Nessun cliente viene mandato via, ma la stanza numero 1 si è liberata e il nuovo viaggiatore può accomodarsi.
+
+Questo dimostra che in un insieme infinito numerabile è sempre possibile \"fare spazio\" traslando gli elementi, pur mantenendo la perfetta corrispondenza uno a uno con $\mathbb{N}$.
+
+## $\sigma$-algebra
+
+Sia $\Omega$ lo spazio degli stati e sia $2^\Omega$ l'insieme di tutti quanti i sottoinsiemi di $\Omega$. Essendo anche $\mathcal{A}$ costituito da sottoinsiemi di $\Omega$ abbiamo che $\mathcal{A}$ è un sottoinsieme di $2^\Omega$. Ci interessa conoscere le proprieta di $\mathcal{A}$:
+
+1.  $\emptyset \in \mathcal{A}$ e $\Omega \in \mathcal{A}$;
+
+2.  se un evento $A \in \mathcal{A}$, allora anche il suo complemento $A^c \in\mathcal{A}$ (chiusura rispetto al complemento);
+
+3.  se una sequenza di eventi $A_1,A_2, ...,A_n\in\mathcal{A}$, allora $\mathcal{A}$ è chiusa rispetto ad unioni e intersezioni finite. $$\bigcup_{i=1}^nA_i\in\mathcal{A},\quad \bigcap_{i=1}^nA_i\in\mathcal{A}$$
+
+4.  se una sequenza di eventi $A_1,A_2, ...,A_n\in\mathcal{A}$, allora $\mathcal{A}$ è chiusa rispetto ad unioni e intersezioni numerabili. $$\bigcup_{i=1}^ {\infty}A_i\in\mathcal{A},\quad \bigcap_{i=1}^{\infty}A_i\in\mathcal{A}$$
+
+Se $\mathcal{A}$ soddisfa le proprietà (1), (2), (3) allora è un'algebra; se soddisfa le proprietà (1),(2),(4) allora è una $\sigma$-algebra. Segue che tutte le $\sigma$-algebra sono anche algebra ma non è vero il contrario. Concludiamo che un'algebra è chiusa rispetto alle operazioni finite, mentra una $\sigma$-algebra è chiusa rispetto ad operazioni numerabili.
+
+### *Esempio* {#sec-esempio .unnumbered}
+
+Ipotizziamo che $\Omega = \{1,2,3\}$. Una possibile $\sigma$-algebra è $\mathcal{A}=\{\emptyset, \Omega, \{1\}, \{2,3\}\}$, poiché:
+
+- $\emptyset \in \mathcal{A}$ e $\Omega \in \mathcal{A}$;
+
+- (chiusura rispetto al complementare) ogni elemento ha il suo complemento in $\mathcal{A}$: $$\{1\}^c=\{2,3\}\in\mathcal{A}, \quad \{2,3\}^c=\{1\}\in\mathcal{A}, \quad \Omega^c=\emptyset\in\mathcal{A}, \quad \emptyset^c=\Omega\in\mathcal{A};$$
+
+- (chiusura rispetto all'unione) elencando tutte le possibili unioni a due a due tra gli elementi distinti di $\mathcal{A}$, otteniamo sempre insiemi che appartengono già ad $\mathcal{A}$:
+
+  - $\{1\} \cup \{2,3\} = \{1,2,3\} = \Omega \in \mathcal{A}$
+
+  - $\{1\} \cup \emptyset = \{1\} \in \mathcal{A}$
+
+  - $\{2,3\} \cup \emptyset = \{2,3\} \in \mathcal{A}$
+
+  - $\{1\} \cup \Omega = \Omega \in \mathcal{A}$
+
+  - $\{2,3\} \cup \Omega = \Omega \in \mathcal{A}$
+
+  - $\emptyset \cup \Omega = \Omega \in \mathcal{A}$
+
+La più grande $\sigma$-algebra possibile è costituita da $|2^{\Omega}|=2^3=8$ sottoinsiemi.
+
+### $\sigma$-algebra Generata
+
+Se $\mathcal{C}$ è un sottoinsieme di $2^{\Omega}$, la $\sigma$-algebra generata da $\mathcal{C}$ è la più piccola $\sigma$-algebra che contiene $\mathcal{C}$. La $\sigma$-algebra generata, $\sigma(\mathcal{C})$ si ottiene prendendo l'intersezione di tutte le $\sigma$-algebra che contengono $\mathcal{C}$.: $$\sigma(\mathcal{C})=\bigcap\{\mathcal{A}_i:\mathcal{C}\in\mathcal{A}_i\}$$ Per i nostri scopi, ossia assegnare probabilità agli eventi, la $\sigma$-algebra più piccola è quella più efficiente, poichè include solo gli insiemi a cui vogliamo assegnare una probabilità ed esclude quelli \"patologici\". Nota che più una $\sigma$-algebra è grande, maggiore è l'informazione in essa contenuta, ma anche la sua complessità.
+
+### $\sigma$-algebra di Borel
+
+La $\sigma$-algebra di Borel (su $\mathbb{R}$), indicata con $\mathcal{B}$, è solitamente definita come la $\sigma$-algebra generata dagli insiemi aperti, ovvero da tutti gli intervalli aperti del tipo $(a,b)$. Tuttavia, si dimostra che qualsiasi intervallo può essere ricostruito utilizzando un insieme molto più piccolo di \"mattoncini\" fondamentali: gli intervalli della forma $(-\infty, x]$, con $x \in \mathbb{Q}$. Questo è possibile proprio perché l'insieme dei numeri razionali $\mathbb{Q}$ è **numerabile** e denso nei reali (tra due qualsiasi numeri reali $x$ e $y$ con $x<y$, esiste sempre almeno un numero razionale $q$ tale che $x<q<y$). Sfruttando le operazioni elementari della $\sigma$-algebra (unioni e intersezioni numerabili, e passaggio al complementare) applicate alla famiglia numerabile di insiemi $(-\infty, x]$, siamo in grado di generare l'intera $\sigma$-algebra di Borel.
+
+Le $\sigma$-algebra sono il linguaggio matematico per descrivere cosa possiamo misurare (ovvero a quali eventi possiamo assegnare una probabilità); quanta informazione abbiamo disponibile (più grande è una $\sigma$-algebra, maggiore è l'informazione che contiene); come l'informazione si accumula nel tempo.
+
+### $\sigma$-algebre indipendenti e sub$\sigma$-algebre
+
+Sia $(\Omega, \mathcal{A}, \mathbb{P})$ uno spazio di probabilità e siano $\mathcal{F}$ e $\mathcal{G}$ due $\sigma$-algebre definite su $\Omega$.
+
+- Se $\mathcal{F}\subset\mathcal{A}$ e $\mathcal{G}\subset\mathcal{A}$ allora $\mathcal{F}$ e $\mathcal{G}$ sono due sub$\sigma$-algebre di $\mathcal{A}$
+
+- $\mathcal{F}$ e $\mathcal{G}$ sono indipendenti se dati due qualsiasi eventi $F\subset\mathcal{F}$ e $G\subset\mathcal{G}$ allora $\mathbb{P}(F\cup G)=\mathbb{P}(F)\mathbb{P}(G)$.
+
+## Misurà di Probabilità
+
+Una misura di probabilità definita su una $\sigma$-algebra è una funzione $$\mathbb{P}:\mathcal{A}\rightarrow[0,1]$$ che soddisfa i seguenti assiomi:
+
+1.  $\mathbb{P}(\Omega)=1$, $\mathbb{P}(\emptyset)=0$;
+
+2.  per ogni successione numerabile di eventi $\{A_n\}_{n\geq 1}\in\mathcal{A}$, che sono a due a due disgiunti ($A_i\bigcap A_j=\emptyset \quad  \forall i\neq j$) si ha: $$\mathbb{P}\left(\bigcup_{n=1}^{\infty}A_n\right)=\sum_{n=1}^{\infty}\mathbb{P}(A_n)$$ (additività numerabile della misura di probabilità)
+
+Un risultato implicito della definizione di misura di probabilità è che $1\geq\mathbb{P}(A)\geq0$. Questo risultato è omesso in quanto descritto dallo spazio di arrivo della funzione. Inoltre, a partire dall'assioma (2) si possono \"rilassare\" le condizioni e vedere che l'additività numerabile: $$\mathbb{P}\left(\bigcup_{n=1}^k A_n\right)=\sum_{n=1}^k\mathbb{P}(A_n)$$ implica semplicemente l'additività finita. Nel caso di due soli eventi: $$A,B\in\mathcal{A}, \quad A\cap B = \emptyset \quad \Rightarrow \quad \mathbb{P}(A\cup B)=\mathbb{P}(A)+\mathbb{P}(B)$$
+
+Un'altra conseguenza fondamentale degli assiomi che si ricava da questa proprietà è la **monotonicità** della misura di probabilità. Se un evento $A$ implica un evento $B$, ovvero se $A$ è un sottoinsieme di $B$ ($A \subseteq B$), allora la probabilità di $A$ non può superare quella di $B$. Essendo $A \subseteq B$, possiamo infatti scomporre l'evento $B$ come l'unione disgiunta di $A$ e della differenza $B \setminus A$ (ovvero gli elementi di $B$ che non stanno in $A$): $$B = A \cup (B \setminus A) \quad \text{con} \quad A \cap (B \setminus A) = \emptyset$$ Applicando la regola dell'additività finita appena ricavata, otteniamo: $$\mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B \setminus A)$$ Poiché il codominio della funzione di probabilità impone che $\mathbb{P}(B \setminus A) \geq 0$, ne consegue necessariamente che: $$A \subseteq B \quad \Rightarrow \quad \mathbb{P}(A) \leq \mathbb{P}(B)$$
+
+## Additività della misura di probabilità
+
+Abbiamo visto che se due eventi (o più) $A$ e $B$ non si sovrappongono ($A\cap B=\emptyset$) allora la probabilità dell'unione è semplicemente la somma delle singole probabilità. Ma cosa succede se gli eventi $A$ e $B$ si sovrappongono? Se gli eventi $A$ e $B$ si sovrappongono, significa che la loro intersezione non è vuota ($A \cap B \neq \emptyset$). In termini pratici, c'è una probabilità maggiore di zero che entrambi gli eventi si verifichino contemporaneamente.
+
+Se provassimo a calcolare la probabilità dell'unione sommando semplicemente le singole probabilità, commetteremmo un errore di "doppio conteggio". Immaginando gli eventi come insiemi in un diagramma di Venn, calcoleremmo l'area centrale dell'intersezione esattamente due volte: la prima volta quando calcoliamo l'intero evento $A$, e la seconda volta quando calcoliamo l'intero evento $B$.
+
+Per correggere questa sovrapposizione e trovare la probabilità corretta dell'unione, dobbiamo sottrarre l'intersezione "in eccesso" esattamente una volta.
+
+Ecco la formula risolutiva formale: $$\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)$$ che si generalizza in:
+
+::: mybox
+Principio di inclusione-esclusione La formula generale del principio di inclusione-esclusione può essere scritta come: $$\mathbb{P}\left(\bigcup_{i=1}^n A_i\right) = \sum_i \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) + \sum_{i<j<k} \mathbb{P}(A_i \cap A_j \cap A_k) - \dots + (-1)^{n+1} \mathbb{P}(A_1 \cap A_2 \cap \dots \cap A_n)$$ dove (ad esempio) $i<j$ significa sommare su tutte le coppie ordinate $(i,j)$ con $i<j$.
+:::
+
+Un'interessante proprietà del principio di inclusione-esclusione è che, se tronchiamo la somma a un certo passo $k$, otteniamo un'approssimazione che oscilla alternativamente tra una sovrastima e una sottostima della probabilità reale. Queste approssimazioni sono note come **disuguaglianze di Bonferroni**.
+
+Nello specifico:
+
+- **Al 1° ordine (Sovrastima):** Fermandoci alla semplice somma delle probabilità singole, contiamo le intersezioni più volte del dovuto. Otteniamo quindi un limite superiore (noto anche come disuguaglianza di Boole): $$\mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \le \sum_{i=1}^n \mathbb{P}(A_i)$$
+
+- **Al 2° ordine (Sottostima):** Sottraendo le intersezioni a due a due, togliamo \"troppo\" (abbiamo sottratto le intersezioni triple più volte del necessario). Otteniamo un limite inferiore: $$\mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \ge \sum_{i=1}^n \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j)$$
+
+- **Al 3° ordine (Sovrastima):** Aggiungendo di nuovo le intersezioni a tre a tre, compensiamo l'errore precedente ma torniamo a sovrastimare: $$\mathbb{P}\left(\bigcup_{i=1}^n A_i\right) \le \sum_{i=1}^n \mathbb{P}(A_i) - \sum_{i<j} \mathbb{P}(A_i \cap A_j) + \sum_{i<j<k} \mathbb{P}(A_i \cap A_j \cap A_k)$$
+
+In generale, fermarsi a un termine con segno positivo (dispari) fornisce un limite superiore (sovrastima), mentre fermarsi a un termine con segno negativo (pari) fornisce un limite inferiore (sottostima). Man mano che si aggiungono termini, l'oscillazione si smorza, \"stringendo\" sempre di più il valore reale fino a raggiungerlo esattamente all'n-esimo passo.
+
+## La funzione indicatrice
+
+La funzione indicatrice è definita da: $$\mathds {1}_A(\omega) = 
+\begin{cases} 
+1 & \text{se } \omega \in A \\
+0 & \text{se } \omega \notin A
+\end{cases}$$
+
+Diciamo che una sequenza di eventi $\{A_n\}_{n\geq 1}\in \mathcal{A}$ converge all'evento $A$ se, per ogni $\omega\in\Omega$: $$\lim_{n\rightarrow\infty}\mathds {1}_{A_n}(\omega)=\mathds {1}_A(\omega)$$ Il che significa che per ogni possibile risultato dell'esperimento, la sequenza di 0 e 1 generata da $\mathds {1}_{A_n}(\omega)$ si stabilizza a $\mathds {1}_A(\omega)$.\
+
+## Convergenza degli eventi
+
+::: mybox
+Continuità della misura di probabilità Sia $\mathbb{P}$ una misura di probabilità e sia $\{A_n\}_{n\geq1} \subseteq \mathcal{A}$ una successione di eventi che converge ad $A$. Allora $A \in \mathcal{A}$ e: $$\lim_{n\to\infty} \mathbb{P}(A_n) =\mathbb{P}(\lim_{n\to\infty}A_n)= \mathbb{P}(A)$$
+:::
+
+Nella teoria degli insiemi, dire che una successione di eventi $A_n$ \"converge\" a un evento limite $A$ significa solitamente che siamo di fronte a una successione monotona (stile matrioska). Ci sono due casi classici:
+
+- **Successione Crescente (Continuità dal basso $A_n\uparrow A$):** Ogni evento è contenuto nel successivo ($A_1 \subseteq A_2 \subseteq A_3 \subseteq \dots$). L'evento \"limite\" $A$ è semplicemente l'unione di tutti gli eventi della successione: $$A = \bigcup_{n=1}^\infty A_n$$ Man mano che $n$ cresce, l'evento si \"gonfia\" sempre di più fino a diventare $A$. La probabilità segue questa crescita in modo continuo, per cui: $$\lim_{n \to \infty} \mathbb{P}(A_n) = \mathbb{P}\left(\bigcup_{n=1}^\infty A_n\right) = \mathbb{P}(A)$$
+
+- **Successione Decrescente (Continuità dall'alto $A_n\downarrow A$):** Ogni evento contiene il successivo ($A_1 \supseteq A_2 \supseteq A_3 \supseteq \dots$). L'evento \"limite\" $A$ in questo caso è l'intersezione di tutti gli eventi della successione: $$A = \bigcap_{n=1}^\infty A_n$$ Man mano che $n$ cresce, l'evento si \"restringe\" scartando pezzi, fino a ridursi al nocciolo $A$. Anche in questo caso, la probabilità si restringe in modo continuo, per cui: $$\lim_{n \to \infty} \mathbb{P}(A_n) = \mathbb{P}\left(\bigcap_{n=1}^\infty A_n\right) = \mathbb{P}(A)$$
+
+Per dimostrare la convergenza definiamo: $$\limsup_{n\rightarrow\infty}{A_n}=\bigcap_{n=1}^\infty\bigcup_{m\geq n}A_m$$ Come l'insieme degli eventi che accadono infinitamente spesso (i.o, infinitely often). Prendi un punto $n$ e unisci tutti gli elementi da $n$ in poi. Questo significa che l'evento accade almeno una volta dal momento $n$ in poi. L'intersezione esterna impone che questa cosa sia vera per qualsiasi punto di partenza $n$ scelto. E
+
+$$\liminf_{n\rightarrow\infty}{A_n}=\bigcup_{n=1}^\infty\bigcap_{m\geq n}A_m$$ Come l'insieme degli eventi che accadono definitivamente. Prendi un punto di partenza $n$ e interseca tutti gli eventi da lì in poi. Questo crea un insieme di cose che accadono per tutti gli $A_n$ dal quel punto di partenza $n$ in poi. L'unione esterna fissa il punto di partenza $n$. Quindi sono gli eventi che da un certo $n$ in poi succedono sempre.\
+poichè $\mathcal{A}$ è una $\sigma$-algebra, abbiamo che $\limsup_{n\rightarrow\infty}{A_n} \in\mathcal{A}$ e $\liminf_{n\rightarrow\infty}{A_n}\in \mathcal{A}$. Se ipotizziamo che $A_n\rightarrow A$, il che significa che $\lim_{n\rightarrow\infty}\mathds {1}_{A_n}(\omega)=\mathds {1}_A(\omega)$, questo è equivalente a dire che $A=\limsup_{n\rightarrow\infty}{A_n}=\liminf_{n\rightarrow\infty}{A_n}$. Pertanto $A\in\mathcal{A}$. Ora siano $B_n = \bigcap_{m\geq n} A_m$ e $C_n = \bigcup_{m\geq n} A_m$. Allora $B_n \uparrow A$[^1] e $C_n \downarrow A$[^2]. $$\lim_{n\rightarrow \infty}\mathbb{P}(B_n)=\lim_{n\rightarrow \infty}\mathbb{P}(C_n)=\mathbb{P}(A)$$ Tuttavia $B_n\subset A_n \subset C_n$ pertanto, per la monotonia della misura di probabilità: $\mathbb{P}(B_n)\leq \mathbb{P}(A_n) \leq \mathbb{P}(C_n)$ e per il Teorema dei Carabinieri: $$\lim_{n\to\infty} \mathbb{P}(A_n) =\mathbb{P}(A)$$ Esattamente come con i numeri, dove il limite esiste se limite destro e sinistro esistono, per gli insiemi diciamo che il limite esiste se e solo se $A=\limsup_{n\rightarrow\infty}{A_n}=\liminf_{n\rightarrow\infty}{A_n}$. Ovvero se gli eventi che accadono i.o. sono esattamente gli eventi che accadono definitivamente.
+
+[^1]: Essendo $B_n$ un'intersezione di sempre meno insiemi al crescere di $n$, intersecare meno elementi restituisce un insieme via via più grande. Pertanto è una successione monotona crescente verso il limite.
+
+[^2]: Essendo $C_n$ un'unione di sempre meno insiemi al crescere di $n$, unire meno elementi restituisce un insieme via via più piccolo. Pertanto è una successione monotona decrescente verso il limite.
+
+
+::: {.paper-download}
+[Scarica il PDF](probability_theory_for_quantitative_finance-1.pdf){.btn-paper download=""}
+:::
