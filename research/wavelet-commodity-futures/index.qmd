@@ -13,31 +13,374 @@ citation:
   pdf-url: https://tommasozeri.github.io/research/wavelet-commodity-futures/wavelet-based-signal-extraction-and-regime-detection.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/09/06/wavelet-based-signal-extraction-and-regime-detection-in-commodity-futures/
+abstract: |
+  This report develops, tests, and critically evaluates a wavelet-based trading framework for commodity futures. Starting from the continuous wavelet transform (CWT) as introduced by @torrence1998, we build a fully causal, walk-forward pipeline for extracting band-limited cyclical components from commodity log-returns, gate their use by formal statistical significance against a red-noise null, and combine them with a Hidden Markov Model (HMM) regime classifier and cross-wavelet analysis against macroeconomic drivers. Every stage is subjected to an out-of-sample discipline: bootstrap confidence intervals, train/test band selection, and rolling multi-window validation. The central empirical finding is not that the wavelet signal generates a stable, exploitable alpha on its own -- it does not, once look-ahead bias and multiple-testing effects are controlled for -- but that wavelet-detected cyclical power is strongly and independently confirmed (via HMM) to concentrate in high-volatility market regimes, and that this same information, used as an *inverse* risk-reduction overlay rather than a directional bet, materially improves the risk-adjusted profile of a diversified mean-reversion ensemble while *failing* on a directional buy-and-hold exposure -- a distinction with a clear economic explanation. The report is organized to first establish the theory, then the methodology, then the validation framework, and finally the empirical results and their interpretation.
+bibliography: references.bib
+number-sections: true
+number-depth: 3
 ---
 
-```{=html}
-<p class="paper-links"><a class="btn-paper" href="wavelet-based-signal-extraction-and-regime-detection.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
-```
+# Introduction
 
-This report develops, tests, and critically evaluates a wavelet-based trading framework for\
-commodity futures. Starting from the continuous wavelet transform (CWT) as introduced by\
-Torrence and Compo \[1\], we build a fully causal, walk-forward pipeline for extracting band\
-limited cyclical components from commodity log-returns, gate their use by formal statistical\
-significance against a red-noise null, and combine them with a Hidden Markov Model (HMM)\
-regime classifier and cross-wavelet analysis against macroeconomic drivers. Every stage is sub\
-jected to an out-of-sample discipline: bootstrap confidence intervals, train/test band selection,\
-and rolling multi-window validation. The central empirical finding is not that the wavelet sig\
-nal generates a stable, exploitable alpha on its own-- it does not, once look-ahead bias and\
-multiple-testing effects are controlled for-- but that wavelet-detected cyclical power is strongly\
-and independently confirmed (via HMM) to concentrate in high-volatility market regimes, and\
-that this same information, used as an inverse risk-reduction overlay rather than a directional\
-bet, materially improves the risk-adjusted profile of a diversified mean-reversion ensemble while\
-failing on a directional buy-and-hold exposure-- a distinction with a clear economic explana\
-tion. The report is organized to first establish the theory, then the methodology, then the\
-validation framework, and finally the empirical results and their interpretation
+Commodity prices are not simply random walks corrupted by noise. Superimposed on long-run supply-and-demand trends and high-frequency microstructure noise, there is often a genuine cyclical component: storage economics create a restoring force in energy prices, seasonal harvest and demand patterns create annual cycles in agricultural commodities, and positioning/flow dynamics create shorter oscillations of a few weeks to a few months. The central empirical question of this report is simple to state and hard to answer honestly: *can a signal-processing tool that isolates these cycles be turned into a trading edge, and if so, under what conditions?*
 
-## Full text
+The classical tool for decomposing a signal into frequency components is the Fourier transform, but it has a well-known limitation for financial time series: it assumes stationarity, returning a single frequency content averaged over the *entire* sample. A cycle that was strong in 2016 and absent in 2022 is smeared into a single, largely uninformative average. The windowed Fourier transform (WFT) attempts to fix this by sliding a fixed-length window across the series, but this imposes an arbitrary resolution trade-off that does not adapt to the frequency being analyzed [@torrence1998].
 
-```{=html}
-<object class="pdf-viewer" data="wavelet-based-signal-extraction-and-regime-detection.pdf" type="application/pdf"><p><a href="wavelet-based-signal-extraction-and-regime-detection.pdf">Download PDF</a></p></object>
-```
+Wavelet analysis solves this by using a basis function that is simultaneously localized in time *and* frequency, with a resolution that automatically adapts to scale: good time resolution at short cycles, good frequency resolution at long cycles. This report uses wavelet analysis in exactly the sense developed by @torrence1998 for geophysical time series (their worked example is the El Niño--Southern Oscillation), transplanted to commodity futures, with all the statistical machinery (significance testing, cross-wavelet analysis, coherence) carried over essentially unchanged.
+
+The report is structured as follows. @sec-theory develops the theory of the continuous wavelet transform, its statistical significance testing, and its cross-wavelet extensions, in reasonable technical depth but without requiring prior exposure to time-frequency analysis. @sec-finance discusses why and how wavelets have been used in finance and what is genuinely different about applying them to *trading* rather than *description*. @sec-methodology describes the full methodology built for this study, including the causal walk-forward architecture that is the technical core of the exercise. @sec-validation describes the validation framework -- bootstrap, out-of-sample band selection, rolling validation, ensembling -- built specifically to guard against the well-documented tendency of backtested strategies to look good by construction. @sec-extensions covers two extensions: a cross-wavelet analysis against macroeconomic drivers, and a regime-detection layer based on a Hidden Markov Model. @sec-results reports the empirical results on WTI crude oil futures (CL=F). @sec-discussion discusses what the results actually mean, and @sec-conclusion concludes.
+
+# Theoretical Background: Wavelet Analysis {#sec-theory}
+
+## From Fourier to Time-Frequency Analysis
+
+Given a discrete time series $x_n$, $n = 0, \dots, N-1$, sampled at interval $\delta t$, the discrete Fourier transform is $$
+\hat x_k = \frac{1}{N} \sum_{n=0}^{N-1} x_n\, e^{-2\pi i k n / N}, \qquad k = 0, \dots, N-1.
+$$ The resulting power spectrum $|\hat x_k|^2$ describes how much variance is attributable to each frequency $k$, averaged over the *whole* sample. If the process generating $x_n$ is non-stationary -- as almost all financial and commodity return series genuinely are -- this average can be misleading: a strong short-lived cycle and a weak long-lived one can produce similar Fourier peaks.
+
+The windowed Fourier transform addresses this by computing the transform on a sliding segment of fixed length $T$. This reintroduces localization in time, but at the cost of an *arbitrary and fixed* time-frequency resolution: a window short enough to resolve fast oscillations is too short to resolve slow ones, and vice versa [@torrence1998].
+
+## The Continuous Wavelet Transform
+
+The continuous wavelet transform (CWT) resolves this trade-off by using a localized oscillatory function $\psi_0(\eta)$ -- the *mother wavelet* -- that is dilated and translated: $$
+W_n(s) = \sum_{n'=0}^{N-1} x_{n'}\, \psi_0^{*}\!\left(\frac{(n'-n)\,\delta t}{s}\right),
+$$ where $s$ is the wavelet *scale* (playing the role of an inverse frequency), $n$ is the localized time index, and $*$ denotes complex conjugation. For $\psi_0$ to be an admissible wavelet it must have zero mean and be well localized in both time and frequency [@torrence1998]. Varying $s$ while sliding $n$ across the series produces a full time-scale decomposition: unlike the WFT, the resolution now *automatically adapts* to $s$ -- narrow (good time resolution) at small scales, wide (good frequency resolution) at large scales. In practice the sum above is never evaluated directly; it is computed far more efficiently as an inverse FFT of the product of the Fourier transforms of $x_n$ and $\psi_0$, exploiting the convolution theorem.
+
+## The Morlet Wavelet
+
+Among the admissible choices, this study uses the **Morlet wavelet**, a plane wave modulated by a Gaussian envelope: $$
+\psi_0(\eta) = \pi^{-1/4} e^{i \omega_0 \eta} e^{-\eta^2/2},
+$$ where $\omega_0$ is a non-dimensional frequency, conventionally set to $6$ to satisfy the admissibility condition while giving a good balance between time and frequency localization [@torrence1998]. Two properties make the Morlet wavelet the natural choice for a financial application:
+
+- It is **complex-valued**, so the wavelet transform $W_n(s)$ carries both an amplitude $|W_n(s)|$ and a phase $\tan^{-1}\!\left[\Im\{W_n(s)\}/\Re\{W_n(s)\}\right]$. The amplitude measures how strong a given cycle is; the phase, used later in the cross-wavelet analysis, measures the lead-lag relationship between two series.
+
+- Its scale $s$ is (for $\omega_0=6$) almost exactly equal to the equivalent Fourier period, $\lambda \approx 1.03\,s$, which makes the scale axis directly interpretable in calendar time (e.g. "a 30-day cycle") rather than requiring a separate conversion table [@torrence1998].
+
+Real-valued alternatives (e.g. the Derivative-of-Gaussian family) trade away the phase information in exchange for sharper localization of discontinuities; since this study is explicitly interested in lead-lag relationships (@sec-xwt), the complex Morlet is preferred throughout.
+
+## Wavelet Power Spectrum and Scale Selection
+
+The **wavelet power spectrum** is $|W_n(s)|^2$. Scales are chosen as fractional powers of two, $$
+s_j = s_0\, 2^{j \delta j}, \qquad j = 0, 1, \dots, J,
+$$ where $s_0$ is the smallest resolvable scale (set to twice the sampling interval, $s_0 = 2\,\delta t$) and $J$ determines the number of octaves spanned. In this study $\delta j = 1/12$ (twelve sub-octaves per octave) and $J$ spans seven octaves, giving fine and roughly log-uniform coverage of periods from a few days to several years.
+
+## The Cone of Influence {#sec-coi}
+
+Because the wavelet transform in practice operates on a finite, zero-padded series, the transform near the beginning and end of the sample is contaminated by the artificial padding, and increasingly so at larger scales (since the wavelet footprint widens with $s$). The **cone of influence** (COI) is the region where this edge distortion becomes important, formally defined as the $e$-folding time of the wavelet's autocorrelation at each scale [@torrence1998]. Any interpretation of wavelet power inside the COI must be treated with caution.
+
+This is not a cosmetic detail: it becomes the central engineering constraint of the causal signal-extraction procedure in @sec-walkforward, since *by construction* every real-time estimate sits exactly at the right edge of its own COI.
+
+## Statistical Significance Against Red Noise {#sec-significance}
+
+A raw wavelet power spectrum is, on its own, uninformative: financial return series have non-trivial autocorrelation even under the null of \"no genuine cycle\", and any transform of noisy data produces peaks and troughs that can be mistaken for structure. @torrence1998 address this by deriving the theoretical wavelet power spectrum expected under a **red noise** null -- a lag-1 autoregressive process, $$
+x_n = \alpha\, x_{n-1} + z_n, \qquad z_n \sim \mathcal N(0,1),
+$$ whose theoretical Fourier power spectrum is 
+
+$$
+P_k = \frac{1-\alpha^2}{1 + \alpha^2 - 2\alpha\cos(2\pi k/N)}.
+$$ {#eq-rednoise}
+
+ Under the assumption that the wavelet coefficients are (locally) normally distributed, the local wavelet power spectrum is distributed as 
+
+$$
+\frac{|W_n(s)|^2}{\sigma^2} \;\Rightarrow\; \tfrac12\, P_k\, \chi^2_2,
+$$ {#eq-chi2test}
+
+ where $\sigma^2$ is the series variance and $\chi^2_2$ is the chi-square distribution with two degrees of freedom (one for real-valued wavelets). Choosing a confidence level (95% in the classical formulation) and inverting the $\chi^2_2$ distribution gives a scale-dependent threshold against which the observed power can be tested. This is a **closed-form** test -- no Monte Carlo simulation is required -- which turns out to matter a great deal for the computational feasibility of the walk-forward procedure developed later.
+
+A useful refinement, since a single point in the time-scale plane is a noisy estimate, is to **average over a band of scales** $[s_{j_1}, s_{j_2}]$ (Torrence & Compo's equation 24), giving the scale-averaged power 
+
+$$
+\overline{W}^2_n = \frac{\delta j\, \delta t}{C_\delta} \sum_{j=j_1}^{j_2} \frac{|W_n(s_j)|^2}{s_j},
+$$ {#eq-scaleavg}
+
+ where $C_\delta$ is a wavelet-dependent reconstruction constant ($C_\delta = 0.776$ for the Morlet wavelet with $\omega_0=6$). This scale-averaged power is itself $\chi^2_\nu$-distributed, with an effective number of degrees of freedom $\nu$ that depends on how many (correlated) scales are averaged [@torrence1998]. This is the exact test used throughout @sec-methodology to decide, at each point in time, whether the cyclical power in the traded band is distinguishable from red noise.
+
+## Reconstruction and Band-Pass Filtering {#sec-reconstruction}
+
+Since the CWT is a redundant, overcomplete representation, the original series can be reconstructed from a *subset* of scales, giving a band-pass filtered version of the series that retains only the oscillatory content in a chosen period range: 
+
+$$
+x'_n = \frac{\delta j\, \delta t^{1/2}}{C_\delta\, \psi_0(0)} \sum_{j=j_1}^{j_2} \frac{\Re\{W_n(s_j)\}}{s_j^{1/2}}.
+$$ {#eq-filter}
+
+ This is the mechanism used throughout this report to isolate "the 20-to-60-day cycle" (or any other band) from a commodity return series: it is nothing more than a sum over a restricted range of scales in the inverse transform.
+
+## Cross-Wavelet Transform and Wavelet Coherence {#sec-xwt}
+
+Given two series $X$ and $Y$ with wavelet transforms $W_n^X(s)$ and $W_n^Y(s)$, the **cross-wavelet transform** is $$
+W_n^{XY}(s) = W_n^X(s)\, W_n^{Y*}(s),
+$$ a complex quantity whose modulus $|W_n^{XY}(s)|$ measures the common power between the two series at scale $s$ and time $n$, and whose phase measures their lead-lag relationship in that band. @torrence1998 derive a **closed-form** significance test for the cross-wavelet power, analogous to [\[eq:chi2test\]](#eq:chi2test){reference-type="ref" reference="eq:chi2test"} but based on the product of two chi-square-distributed variables, whose cumulative distribution involves the modified Bessel function $K_0$ (their equation 30). Crucially, this significance test requires *no Monte Carlo simulation*: it is evaluated directly from the two series' individual AR(1) parameters.
+
+**Wavelet coherence**, by contrast, is defined as $$
+R_n^2(s) = \frac{\left|\left\langle s^{-1} W_n^{XY}(s)\right\rangle\right|^2}
+{\left\langle s^{-1} |W_n^X(s)|^2\right\rangle \left\langle s^{-1}|W_n^Y(s)|^2\right\rangle},
+$$ where $\langle\cdot\rangle$ denotes smoothing in time and scale. Without this smoothing, coherence is identically one everywhere by construction -- a point noted by Liu (1994) and discussed by @torrence1998. Unlike the cross-wavelet power test, wavelet coherence has **no known closed-form null distribution**: significance must be assessed via Monte Carlo simulation of surrogate AR(1) pairs [@grinsted2004]. This asymmetry -- cross-wavelet power is cheap (closed-form), coherence is expensive (Monte Carlo) -- is not a minor implementation detail: it directly determines which of the two tools is computationally viable inside a walk-forward loop re-estimated hundreds of times, as discussed in @sec-xwt-driver.
+
+# Wavelets in Finance and Trading {#sec-finance}
+
+## Why Finance Is a Natural Domain for Wavelets
+
+Financial and commodity time series share three properties that make them good (if challenging) candidates for wavelet analysis:
+
+1.  **Non-stationarity.** Volatility, trend, and cyclical structure all evolve over time -- regime shifts, structural breaks, and policy changes are the norm, not the exception.
+
+2.  **Multi-horizon structure.** Different market participants operate at genuinely different frequencies (intraday market makers, swing traders, macro funds, strategic reserve managers), so a market series can legitimately contain superimposed cycles at very different scales simultaneously.
+
+3.  **Fat tails and jumps.** Wavelets, being localized in time, are naturally suited to characterizing transient, localized events (a jump or a volatility burst) without smearing their signature across the whole sample the way a Fourier transform would.
+
+This has motivated a substantial literature applying wavelet methods to economics and finance, including textbook treatments by @gencay2001 and @in2013, and a broader methodological survey by @ramsey2002. Typical applications include decomposing volatility by horizon, studying the scale-dependent relationship between markets (e.g. via wavelet coherence, exactly as in @sec-xwt), and testing whether return predictability is horizon-specific rather than uniform.
+
+## From Description to Prediction: The Causality Problem {#sec-causality}
+
+There is a critical and easily overlooked gap between using wavelets *descriptively* -- to characterize the historical spectral content of a series, exactly as @torrence1998 do for the Niño3 SST record -- and using them to build a **trading signal**. The former is legitimately computed once over the full available history: it is a retrospective statement about what happened. The latter must never use information that would not have been available at the time the signal is generated.
+
+The Morlet wavelet's footprint is symmetric in time: the coefficient $W_n(s)$ at time $n$ is influenced by data both *before and after* $n$ inside the transform's support. A full-sample CWT reconstruction ([\[eq:filter\]](#eq:filter){reference-type="ref" reference="eq:filter"}, evaluated once over the whole series) therefore contains a subtle but real form of **look-ahead bias** at every interior point: the reconstructed value at time $n$ "knows" about returns that occurred after $n$. This is invisible in a purely descriptive plot, but fatal for anything claiming to be a real-time trading rule.
+
+The methodology in @sec-methodology is built specifically to close this gap, at the cost of being considerably more expensive to compute than a single full-sample transform.
+
+# Methodology {#sec-methodology}
+
+## Data and Preprocessing
+
+The base asset used throughout is WTI crude oil futures (Yahoo Finance ticker `CL=F`), sampled daily. Two preprocessing decisions deserve explicit justification:
+
+**Working with log-returns, not price levels.** Commodity price levels are far too non-stationary for the linear detrending typically sufficient in geophysical applications: WTI crude experienced a multi-year price collapse (2014--2016), the COVID-19 demand shock and the unprecedented *negative* settlement price of 20 April 2020, and the 2022 supply shock following the invasion of Ukraine. A single linear detrend does not come close to stationarizing a series with this much structural change, and attempting to fit an AR(1) red-noise background [\[eq:rednoise\]](#eq:rednoise){reference-type="eqref" reference="eq:rednoise"} on such a series is numerically unstable. Working instead with daily log-returns, $$
+r_n = \ln p_{n+1} - \ln p_n,
+$$ removes the need for detrending almost entirely and produces a substantially more well-behaved series for both the CWT and its red-noise null.
+
+**Cleaning non-positive price ticks.** The negative WTI settlement of 20 April 2020 is a well-documented artifact of front-month futures delivery mechanics, not an economically meaningful price observation for return-based analysis; log-returns are undefined across a sign change. Non-positive ticks are forward-filled from the last valid observation before computing returns.
+
+## Robust Estimation of the Red-Noise Background
+
+The lag-1 autocorrelation $\alpha$ needed for the red-noise null [\[eq:rednoise\]](#eq:rednoise){reference-type="eqref" reference="eq:rednoise"} is normally estimated via a bias-corrected (Kendall-type) estimator. This estimator's closed-form solution involves a quadratic equation whose discriminant can become negative on short or strongly non-stationary windows, causing the estimation to fail outright. A robust wrapper is used throughout: the bias-corrected estimator is attempted first, and on failure the estimation falls back to the plain sample lag-1 autocorrelation, clipped to $[0, 0.99]$ for numerical safety.
+
+## Causal Walk-Forward Signal Extraction {#sec-walkforward}
+
+To eliminate the look-ahead bias discussed in @sec-causality, the band-pass reconstruction of [\[eq:filter\]](#eq:filter){reference-type="ref" reference="eq:filter"} is **never** computed once over the full sample for trading purposes. Instead, the CWT is periodically *re-estimated* using only the data available up to each point in time, and only the **endpoint** of each such reconstruction -- the most recent value -- is retained as the live signal. Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"} formalizes this procedure.
+
+:::: algorithm
+::: algorithmic
+log-return series $r_1,\dots,r_N$; band $[T_1, T_2]$; warm-up length $L$; refit interval $\Delta$ $\text{signal} \gets \mathbf{0}_N$, $\text{strength} \gets \mathbf{0}_N$ $w \gets (r_1, \dots, r_i)$ $W, s, \text{period} \gets \text{CWT}(w)$ $\alpha \gets \text{RobustAR1}(w)$ $x' \gets$ reconstruction of $w$ restricted to scales with $\text{period}\in[T_1,T_2]$ $\rho \gets$ scale-averaged power ratio at the window's last point vs. its significance threshold $\text{signal}[t] \gets x'_i$ $\text{strength}[t] \gets \text{clip}(\rho, 0, 1)$ signal, strength
+:::
+::::
+
+Because the window used at step $i$ never extends past $i$, the resulting signal is provably causal: no observation dated after $i$ ever enters the computation of $\text{signal}[i]$. The unavoidable cost is that the reconstructed value is always evaluated exactly at the edge of its own cone of influence (@sec-coi), and is therefore intrinsically noisier than the equivalent point in a full-sample, non-causal analysis -- a real and permanent limitation of real-time wavelet estimation, not an implementation defect.
+
+## From Signal to Position: Mean-Reversion Rule
+
+The band-passed oscillator $x'_n$ from Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"} is converted into a trading signal via a rolling $z$-score, $$
+z_n = \frac{x'_n - \mu_n}{\sigma_n},
+$$ with $\mu_n, \sigma_n$ computed on a trailing window, and a **hysteresis** entry/exit rule to avoid excessive turnover from noise around a single threshold: $$
+\text{state}_n =
+\begin{cases}
+-1 & \text{if state}_{n-1}=0 \text{ and } z_n > z_{\text{entry}} \\
++1 & \text{if state}_{n-1}=0 \text{ and } z_n < -z_{\text{entry}} \\
+0  & \text{if } |\text{state}_{n-1}\, z_n| < z_{\text{exit}} \\
+\text{state}_{n-1} & \text{otherwise.}
+\end{cases}
+$$ This is a conventional discretionary mean-reversion rule; the methodological content of this report lies not in the rule itself but in how the underlying oscillator is constructed and gated.
+
+## Continuous Significance-Based Position Scaling
+
+An initial version of this study used a **binary** gate: new positions were only allowed when the scale-averaged power ratio $\rho$ (step 6 of Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"}) exceeded 1, i.e. when the band was significant at the chosen confidence level. Empirically, this gate fired only 3--4% of the time even at a relaxed 80% confidence level, leaving too few trades in any reasonably sized out-of-sample window to draw a meaningful conclusion (@sec-validation). Genuine, statistically detectable cyclicality in a narrow frequency band of daily commodity returns is, empirically, rare -- consistent with a near-efficient market, where any *persistent* exploitable periodicity would already have been arbitraged away.
+
+The gate was therefore replaced by a **continuous** multiplier, $\text{clip}(\rho, 0, 1)$, applied directly to position size rather than as an entry/exit switch. This preserves the same statistical logic -- weak or absent cyclicality receives less size -- while avoiding the all-or-nothing collapse of the binary version.
+
+## Risk Management: Volatility Targeting
+
+Independently of the wavelet-based sizing above, position size is scaled to target a constant annualized volatility $\sigma^{\star}$ (20% in this study), using a trailing realized-volatility estimate computed on **past** returns only (shifted by one day, so the sizing decision itself introduces no look-ahead): $$
+\text{size}_n = \min\!\left(\frac{\sigma^\star}{\widehat\sigma_{n-1}},\, L_{\max}\right),
+$$ capped at a maximum leverage $L_{\max}=2$. This is standard risk-engineering practice, orthogonal to the wavelet methodology, but essential in practice: an early version of the backtest without this control suffered a near-total drawdown driven by a single extreme return around the 20 April 2020 event, illustrating how a single data anomaly can dominate an otherwise reasonable signal if position sizing is left unmanaged.
+
+## Backtest Engine
+
+Given a position series $\text{pos}_n \in [-L_{\max}, L_{\max}]$, the strategy's net daily return is $$
+\tilde r_n = \text{pos}_{n-1}\, r_n \;-\; c\, |\text{pos}_n - \text{pos}_{n-1}|,
+$$ where $c$ is a proportional transaction cost (2 basis points round-trip in this study) and the one-period lag on $\text{pos}$ ensures the position is only exposed to returns realized *after* it was established. All performance statistics reported below (annualized return, volatility, Sharpe ratio, maximum drawdown, Calmar ratio) are computed from $\tilde r_n$.
+
+# Validation Framework {#sec-validation}
+
+A backtest constructed with the discipline of @sec-methodology still says nothing, on its own, about whether an observed positive Sharpe ratio reflects genuine structure or overfitting to a particular sample. Four complementary tools are used to address this.
+
+## Block Bootstrap Confidence Intervals
+
+Financial returns are autocorrelated (through volatility clustering and, here, through the deliberately constructed cyclical signal itself), so an i.i.d. bootstrap would understate the true sampling variability of the Sharpe ratio. A **circular block bootstrap** is used instead: overlapping blocks of $b=20$ consecutive daily returns are resampled with replacement (wrapping around the end of the sample) to build up synthetic return paths of the original length, from which an empirical distribution of the annualized Sharpe ratio is obtained. The 5th and 95th percentiles of this distribution give a 90% confidence interval, and the fraction of bootstrap draws with positive Sharpe gives an approximate one-sided significance measure.
+
+## Out-of-Sample Band Selection
+
+@sec-methodology leaves one free parameter unresolved: which period band $[T_1,T_2]$ should be traded. Selecting this band by maximizing its Sharpe ratio over the *entire* available sample and then reporting that same Sharpe ratio is a textbook case of **data snooping**. The correct procedure -- used throughout this study whenever a band or driver must be chosen -- is:
+
+1.  Fix a split date; compute each candidate band's Sharpe ratio using **only** data before the split ("train").
+
+2.  Select the band with the highest train-period Sharpe ratio.
+
+3.  Report that band's performance **only** on the data after the split ("test"), which never influenced the selection.
+
+Any discrepancy between train and test performance for the selected band is direct, honest evidence about how reliable the selection procedure is -- as opposed to how good the best-*possible* band happened to be in hindsight.
+
+## Rolling Multi-Window Validation
+
+A single train/test split can be a lucky or unlucky artifact of the chosen date. The procedure above is therefore repeated across nine rolling annual windows (June of each year from 2016 to 2024, each followed by a 12-month test period), tracking, for each window: (i) the Sharpe ratio realized by the band chosen on that window's train data, and (ii) how that realized Sharpe ranks against what *every* candidate band in the grid actually achieved in the same test window (its rank would be 1 if the selection procedure had picked the true best performer). Across many independent windows, a procedure with genuine predictive power should rank in the top half of the grid *more* often than chance, and should have a positive test Sharpe *more* often than a coin flip.
+
+## Ensemble Diversification Across Bands
+
+Where the rolling validation above reveals that *some* band in the grid performs well in almost every window, but that the ex-ante selection procedure cannot reliably identify *which one* in advance, the natural mitigation is not to keep searching for a better selection rule, but to **diversify away the selection risk entirely**: an equal-weight combination of all candidate bands' daily returns is held simultaneously, requiring no ex-ante choice at all. This ensemble is compared, window by window, against the single ex-ante pick, both in Sharpe ratio and in how consistently it reduces drawdown relative to the pick.
+
+# Extensions {#sec-extensions}
+
+## Cross-Wavelet Analysis Against Macroeconomic Drivers {#sec-xwt-driver}
+
+@sec-xwt noted that the cross-wavelet power test is closed-form, unlike wavelet coherence, which requires an expensive Monte Carlo simulation (of order minutes per pair, in this implementation, for a single full-sample estimate). This asymmetry is decisive for a walk-forward application: re-estimating a Monte Carlo coherence test at every one of several hundred refit points is computationally impractical, whereas the closed-form cross-wavelet significance test is cheap enough to call at every refit.
+
+This study therefore builds a causal, walk-forward analogue of Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"} using the **cross-wavelet** amplitude between the commodity and a candidate macroeconomic driver (the USD index, the US 10-year yield, the VIX, and the S&P 500 index, each tested independently), in place of the univariate scale-averaged power. The resulting continuous strength measure is used exactly as in the univariate case, as a multiplicative position-size scalar.
+
+## Regime Detection via Hidden Markov Models {#sec-hmm}
+
+The distinction between "a cycle is statistically present" and "the market is calm or turbulent" is not obvious *a priori*, and the wavelet machinery of @sec-significance is explicitly a test of the former, not the latter. To test the relationship between the two formally, a two-state Gaussian Hidden Markov Model [@hamilton1989; @rabiner1989] is fit to the commodity's log-returns, with the higher-variance state labeled "stressed" and the lower-variance state labeled "calm". Because expectation-maximization is invariant to an arbitrary relabeling of the latent states, the higher-variance state is identified *after* each fit by its emission variance, never by a fixed state index.
+
+Exactly as for the wavelet signal, a fully causal walk-forward version is built: at each refit point, a fresh HMM is estimated using only the expanding window of data available up to that point, and the smoothed posterior probability of the "stressed" state *at the window's last observation* is retained as the live regime signal. As in @sec-walkforward, this endpoint evaluation is causal because the window itself never extends past "today", even though the forward-backward smoother technically uses the whole window internally.
+
+This regime probability is used in two structurally different ways, described next.
+
+## Regime Gating (Directional Use)
+
+The most direct hypothesis -- trade the wavelet mean-reversion signal *more aggressively* when the HMM detects a stressed regime, on the premise that this is when the wavelet-detected cyclicality is strongest -- is tested by multiplying position size by the HMM stress probability, in the same way as the wavelet strength multiplier. As reported in @sec-results, this directional use of the regime signal **underperforms** not using it at all.
+
+## Risk-Reduction Overlay (Non-Directional Use)
+
+The alternative hypothesis is that the same regime information is useful, but only when used to *reduce*, not increase, exposure during detected stress, regardless of the direction of any underlying bet: 
+
+$$
+\tilde r_n^{\text{overlay}} = \tilde r_n \times \big(1 - \kappa \cdot \text{clip}(\hat p_{n}^{\text{stress}}, 0, 1)\big),
+$$ {#eq-overlay}
+
+ where $\hat p_n^{\text{stress}}$ is the causal HMM stress probability and $\kappa \in [0,1]$ controls the strength of the de-risking (this study uses $\kappa=1$, i.e. exposure can be reduced to zero at maximum detected stress). This is a genuinely different use of the same underlying information: it makes no bet on *what* will happen during stress, only on the (much weaker, and more defensible) claim that being smaller during turbulence is prudent. [\[eq:overlay\]](#eq:overlay){reference-type="ref" reference="eq:overlay"} is applied, separately, to two very different base exposures: a naive long-only buy-and-hold position, and the diversified band ensemble of @sec-validation, in order to test whether the overlay's effect depends on the nature of the underlying exposure.
+
+# Empirical Results {#sec-results}
+
+All results below are for WTI crude oil futures (`CL=F`), 2 January 2014 to 4 September 2026 (3188 observations), using a primary band of 20--60 trading days.
+
+## Wavelet Strategy and Buy-and-Hold Benchmark
+
+                                  Sharpe   Ann. Return   Ann. Vol.   Max Drawdown
+  ---------------------------- --------- ------------- ----------- --------------
+  Wavelet strategy (20--60d)     $-0.02$      $-0.1\%$     $4.7\%$       $19.9\%$
+  Buy & hold                      $0.24$      $11.2\%$    $47.1\%$       $90.7\%$
+
+  : Primary band strategy vs. buy-and-hold benchmark, full sample.
+
+The single-band strategy shows no distinguishable edge in isolation, but achieves this at roughly one-tenth the buy-and-hold's volatility and less than a quarter of its drawdown -- already a first hint that the value of this machinery may lie in risk shaping rather than directional prediction.
+
+## Out-of-Sample Band Selection and the Instability Problem
+
+Selecting the best band on a single training period (through May 2021) and testing it on the untouched remainder produces the pattern in @tbl-oos.
+
+::: {#tbl-oos}
+  Band (days)     Train Sharpe   Test Sharpe   Test Ann. Ret.   Test Max DD
+  ------------- -------------- ------------- ---------------- -------------
+  5--20                 $0.18$        $0.74$          $3.7\%$       $5.8\%$
+  10--30               $-0.07$        $0.85$          $4.8\%$       $4.8\%$
+  20--60               $-0.43$        $0.49$          $2.5\%$       $8.8\%$
+  60--120               $0.40$        $0.13$          $0.6\%$      $10.8\%$
+
+  : Out-of-sample band selection, single split (train ends 2021-05-28).
+:::
+
+The band chosen *ex ante* on the training data (60--120 days) is, in fact, the *worst*-performing band on the test data; the bootstrap 90% confidence interval for its test Sharpe, $[-0.42,\ 0.73]$, straddles zero. Repeating this exercise across nine rolling annual windows (2016--2024) confirms this is not an artifact of one unlucky date: the ex-ante pick ranked in the top half of the actual test results in only 4 of 9 windows -- statistically indistinguishable from chance -- although it did achieve a positive test Sharpe in 6 of 9 windows.
+
+## Ensemble Diversification
+
+The equal-weight ensemble across all four candidate bands, which requires no ex-ante selection at all, outperformed the ex-ante-selected single band in 6 of the same 9 rolling windows (average test Sharpe $0.38$ vs. $0.12$), and its full-sample statistics are reported in @tbl-ensemble.
+
+::: {#tbl-ensemble}
+               Sharpe   Ann. Return   Ann. Vol.   Max Drawdown
+  ---------- -------- ------------- ----------- --------------
+  Ensemble     $0.43$       $1.4\%$     $3.3\%$        $8.4\%$
+
+  : Equal-weight ensemble across four bands, full sample.
+:::
+
+Block bootstrap 90% CI: $[0.02,\ 0.83]$, $\Pr(\text{Sharpe}>0)=96\%$ -- the first result in this study whose confidence interval excludes zero.
+
+## Cross-Wavelet Macro Drivers
+
+Gating the primary band's signal by cross-wavelet strength against four macroeconomic drivers (@tbl-drivers) shows **no** consistent full-sample improvement over either an ungated signal or the univariate significance gate; where individual drivers show a better *test*-period Sharpe, it is concentrated in the same 2020--2024 window examined in @sec-discussion, and is not corroborated by the full-sample statistic.
+
+::: {#tbl-drivers}
+  Variant                     Sharpe   Ann. Ret.     Max DD   Train Sharpe   Test Sharpe
+  ------------------------ --------- ----------- ---------- -------------- -------------
+  No gate                     $0.13$     $1.7\%$   $55.9\%$        $-0.61$        $0.99$
+  Self-significance gate     $-0.02$    $-0.1\%$   $19.9\%$        $-0.43$        $0.49$
+  USD index (xwt)            $-0.15$    $-0.6\%$   $25.6\%$        $-0.66$        $0.92$
+  US 10Y yield (xwt)         $-0.34$    $-1.9\%$   $34.5\%$        $-0.63$        $0.91$
+  VIX (xwt)                  $-0.10$    $-0.5\%$   $24.9\%$        $-0.53$        $1.04$
+  S&P 500 (xwt)              $-0.03$    $-0.2\%$   $25.7\%$        $-0.46$        $1.13$
+
+  : Strength-source comparison, primary band, full sample and single train/test split.
+:::
+
+## HMM Regime Detection
+
+Fitting the two-state HMM of @sec-hmm over the full sample and correlating its smoothed stress probability against the wavelet strength signal of the primary band gives a correlation of $\bm{0.61}$ (evaluated post warm-up): two independently constructed statistical tools -- a spectral significance test and a latent-state regime classifier -- agree that the same historical periods are "special". Using the HMM signal **directionally**, however (as an additional gate on the same mean-reversion trade), is counterproductive (@tbl-hmm).
+
+::: {#tbl-hmm}
+  Variant                        Sharpe   Ann. Ret.     Max DD   Train Sharpe   Test Sharpe
+  --------------------------- --------- ----------- ---------- -------------- -------------
+  No gate                        $0.13$     $1.7\%$   $55.9\%$        $-0.61$        $0.99$
+  Wavelet self-sig. gate        $-0.02$    $-0.1\%$   $19.9\%$        $-0.43$        $0.49$
+  HMM regime gate only          $-0.26$    $-1.8\%$   $36.8\%$        $-0.53$        $0.32$
+  HMM $\times$ wavelet gate     $-0.17$    $-0.6\%$   $16.6\%$        $-0.44$        $0.26$
+
+  : Directional use of the HMM regime signal, primary band.
+:::
+
+## Risk-Reduction Overlay
+
+Applying the *non-directional* overlay of [\[eq:overlay\]](#eq:overlay){reference-type="ref" reference="eq:overlay"} to two different base exposures produces sharply divergent results (@tbl-overlay).
+
+::: {#tbl-overlay}
+  Base         Overlay              Sharpe   Ann. Ret.     Max DD   Calmar
+  ------------ ------------------ -------- ----------- ---------- --------
+  Buy & hold   none                 $0.24$    $11.2\%$   $90.7\%$   $0.12$
+  Buy & hold   wavelet strength     $0.03$     $0.9\%$   $72.8\%$   $0.01$
+  Buy & hold   HMM stress           $0.08$     $2.3\%$   $75.9\%$   $0.03$
+  Ensemble     none                 $0.43$     $1.4\%$    $8.4\%$   $0.17$
+  Ensemble     wavelet strength     $0.70$     $1.2\%$    $5.8\%$   $0.21$
+  Ensemble     HMM stress           $0.61$     $1.1\%$    $4.9\%$   $0.23$
+
+  : Risk-reduction overlay ($\kappa=1$), full sample.
+:::
+
+On the ensemble, both overlays *improve* Sharpe, Calmar, and maximum drawdown simultaneously, and the rolling window check confirms the effect is broad rather than concentrated in a single period: maximum drawdown was reduced in 8 of 9 rolling windows for the HMM-stress overlay on the ensemble (7 of 9 on buy-and-hold). On buy-and-hold, the same overlay reduces drawdown but at the cost of most of the average return, so both Sharpe and Calmar *worsen*. @sec-discussion explains why.
+
+# Discussion {#sec-discussion}
+
+## Cyclicality Is Not Volatility
+
+The single most important empirical finding of this study is the distinction, confirmed by two independent tools, between *\"the market is turbulent\"* and *\"the market is cyclical (mean-reverting)\"*. These two notions are correlated ($0.61$ in @sec-hmm) but not interchangeable, and the difference has direct trading consequences. The COVID-19 collapse and the 2022 Russia/Ukraine supply shock are periods of extreme variance, but they are episodes of strongly *directional*, one-off price adjustment -- not repeating oscillations. A wavelet transform, being a decomposition of *energy* across frequencies, can register a sharp V-shaped move (a collapse followed by a partial recovery) as substantial power across a wide range of scales, even though the event is a single, non-repeating structural shift rather than a genuine cycle. Using this elevated "strength" reading to increase a mean-reversion bet is precisely the wrong response to a trending market, which explains why every directional regime-gating variant in @tbl-hmm underperformed the ungated baseline: it consistently sized up mean-reversion exposure exactly when the market was least likely to revert.
+
+## Why the Overlay Works on One Exposure but Not the Other
+
+The asymmetric result in @tbl-overlay has a clear economic explanation rather than being a statistical curiosity. A buy-and-hold position carries **persistent directional exposure**: de-risking during detected stress necessarily also de-risks during the sharp recoveries that, in commodity markets, frequently occur *while* realized volatility is still elevated (e.g. the rebound following the 2020 collapse). The overlay therefore systematically forfeits a disproportionate share of the position's total return, worsening risk-adjusted performance even as it reduces drawdown in isolation. The ensemble, by contrast, is a book of frequently-flipping mean-reversion bets with no persistent directional exposure to give up: reducing its size during turbulent periods avoids bad days without a corresponding opportunity cost from a rally the strategy was never structurally positioned to capture in full. This is a specific, empirically demonstrated instance of a broader and well-known caveat about volatility-targeting overlays: their value depends critically on whether the underlying exposure has a directional risk premium that de-risking would forfeit.
+
+## Multiple Testing and the Limits of This Study
+
+Every positive result reported in @sec-results was obtained only after testing several bands, several macroeconomic drivers, and several regime-gating variants; the out-of-sample and rolling-window machinery of @sec-validation was built specifically to guard against over-interpreting any single number that happens to look good. Even so, two limitations should be stated plainly. First, the strongest positive results (the ensemble and its overlay) are still concentrated, to a meaningful degree, in the 2020--2024 sub-period; while the rolling validation shows the drawdown-reduction effect to be broad, a longer sample spanning additional volatility regimes (or the same pipeline applied to other commodities, as briefly explored during this study for corn and natural gas without a stable cross-commodity pattern emerging) would be needed to state the finding with full confidence. Second, the risk overlay of [\[eq:overlay\]](#eq:overlay){reference-type="ref" reference="eq:overlay"} scales an already-computed, cost-net return series rather than reworking the position-sizing step before transaction costs are computed; a fully rigorous implementation would fold the de-risking directly into position sizing, alongside the existing volatility target.
+
+# Conclusion {#sec-conclusion}
+
+This study set out to test whether wavelet-based spectral decomposition can generate a stable, exploitable trading edge in commodity futures, with the statistical rigor -- causal walk-forward estimation, closed-form and Monte Carlo significance testing, bootstrap confidence intervals, out-of-sample band selection, rolling multi-window validation -- that the question deserves. The direct answer is negative: no single band, driver, or regime-gating variant produced a directional signal with a confidence interval reliably excluding zero across the full sample and multiple independent validation windows.
+
+The more useful answer, however, emerged from taking the negative results seriously rather than discarding them: wavelet-detected spectral power is formally confirmed (via an independently constructed Hidden Markov regime classifier) to concentrate in high-volatility periods, and this same information -- used not as a directional bet but as a **risk-reduction overlay** -- materially improves the risk-adjusted profile of a diversified, non-directional exposure while backfiring on a purely directional one, for a reason that follows directly from the economics of the two exposures. This distinction between *prediction* and *risk management*, and between *volatility* and *cyclicality*, is the substantive contribution of this report, and illustrates a general lesson about applying signal-processing tools developed for geophysics to financial markets: the tool transplants cleanly, but the null hypothesis it should be tested against, and the use to which a \"significant\" reading should be put, do not.
+
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+
+::: {.paper-download}
+[Download PDF](wavelet-based-signal-extraction-and-regime-detection.pdf){.btn-paper download=""}
+:::
