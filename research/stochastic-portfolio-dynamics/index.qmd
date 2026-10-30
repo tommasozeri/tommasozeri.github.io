@@ -68,7 +68,7 @@ $$
 $$ {#eq-five}
 
  A continuous time stochastic process is said to be adapted to the filtration $\{\mathcal{F}\}_{t\geq 0}$ if $X_t$ is $\mathcal{F}_t-measurable \ \forall t \geq 0$. In other words, $\{X_t\}_{t \geq 0}$ is adapted to the filtration $\{\mathcal{F}\}_{t\geq 0}$ if for each moment $t$, the information contained in the events belonging to $\mathcal{F}_t$ is sufficient to determine the value taken by $X_t$.\
-Statement [\[five\]](#five){reference-type="ref" reference="five"} exploit the fact that the quantity of information is an increasing function of time. As $t$ increases, we have more and more information.\
+Statement @eq-five exploit the fact that the quantity of information is an increasing function of time. As $t$ increases, we have more and more information.\
 For Example, if $X_t$ is the stock price at time $t$, the filtration $\mathcal{F}_t$ includes all information available up to time $t$. As time passes, more information is added, so $\mathcal{F}_s\subseteq\mathcal{F}_t$ for $s\leq t$. Moreover, if $\{X_t\}_{t \geq 0}$ is adapted to the filtration $\{\mathcal{F}\}_{t\geq 0}$, it means that the price $X_t$ can be determined using only the information up to time $t$, without referencing future events. Therefore, at time $t$, $\mathcal{F}_t$ contains all the historical and current information needed to 'explain' the value of the price $X_t$ at that moment.
 
 # Martingales
@@ -146,18 +146,17 @@ $$
 
 Where $X_0$ is the initial value of the process, $\mu_t$ is the deterministic trend, $\sigma_t$ is the diffusion.
 
-<figure data-latex-placement="H">
-<div class="minipage">
-<img src="figures/trend-max.png" />
-</div>
-<div class="minipage">
-<img src="figures/trend-diffusion.png" />
-</div>
-<div class="minipage">
-<img src="figures/diffmax.png" />
-</div>
-<figcaption><span class="math inline"><em>μ</em><sub><em>t</em></sub> &lt;  &lt; <em>σ</em><sub><em>t</em></sub></span></figcaption>
-</figure>
+::: {layout-ncol=3}
+
+![](figures/trend-max.png)
+
+![](figures/trend-diffusion.png)
+
+![](figures/diffmax.png)
+
+$\mu_t<<\sigma_t$
+
+:::
 
 ## Itô Formula
 
@@ -419,7 +418,7 @@ More precisely, we will have:
 
   Using Itô's Lemma, we compute how a function of stochastic variables evolves. The dynamics of $P_t$, which depends on the market state $\boldsymbol{X}_t$.
 
-![Comparison of risk-free bond (<span class="math inline"><em>B</em><sub><em>t</em></sub></span>) and risky asset (<span class="math inline"><em>P</em><sub><em>t</em></sub></span>) trajectories. The blue curve shows deterministic growth <span class="math inline"><em>B</em><sub><em>t</em></sub> = <em>e</em><sup><em>r</em><em>t</em></sup></span> (<span class="math inline"><em>r</em> = 5%</span>), while red curves show 6 simulated paths of a geometric Brownian motion (<span class="math inline"><em>μ</em> = 10%</span>, <span class="math inline"><em>σ</em> = 20%</span>).](figures/marketstate.png){#fig-risk-vs-risky}
+![Comparison of risk-free bond ($B_t$) and risky asset ($P_t$) trajectories. The blue curve shows deterministic growth $B_t = e^{rt}$ ($r = 5\%$), while red curves show 6 simulated paths of a geometric Brownian motion ($\mu = 10\%$, $\sigma = 20\%$).](figures/marketstate.png){#fig-risk-vs-risky}
 
 An investor's portfolio will consist of the prices of the securities in which they invest their wealth, weighted by the amount of each security held by the investor at time $t$. The shares of the securities are represented by
 
@@ -531,21 +530,29 @@ The simulation based on the last 100 days of known prices yields:
 
 ![Ely Lilly](figures/i.png){#fig-enter-labelx}
 
-<figure id="fig:quadruple" data-latex-placement="H">
-![Murphy Oil](figures/a.png){#fig-1}
-![Telephone and Data SYS](figures/b.png){#fig-2}
-![New York Times A](figures/c.png){#fig-3}
-![FTI Consulting](figures/d.png){#fig-4}
-<figcaption></figcaption>
-</figure>
+::: {#fig-quadruple layout-ncol=3}
 
-<figure id="fig:quadruple" data-latex-placement="H">
-![Kroger](figures/e.png){#fig-1x}
-![Magnolia Oil and Gas](figures/f.png){#fig-2x}
-![Wallmart](figures/g.png){#fig-3x}
-![Caleres](figures/h.png){#fig-4x}
-<figcaption></figcaption>
-</figure>
+![Murphy Oil](figures/a.png)
+
+![Telephone and Data SYS](figures/b.png)
+
+![New York Times A](figures/c.png)
+
+![FTI Consulting](figures/d.png)
+
+:::
+
+::: {layout-ncol=3}
+
+![Kroger](figures/e.png)
+
+![Magnolia Oil and Gas](figures/f.png)
+
+![Wallmart](figures/g.png)
+
+![Caleres](figures/h.png)
+
+:::
 
 In this case, we aim to maximize returns while simultaneously minimizing the variance.\
 The optimal solution is given by:

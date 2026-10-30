@@ -13,88 +13,1056 @@ citation:
   pdf-url: https://tommasozeri.github.io/research/state-space-stat-arb/thesis_zeri_tommaso-4.pdf
 google-scholar: true
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/06/19/application-of-state-space-models-on-statistical-arbitragre-trading-strategies/
+bibliography: references.bib
+number-sections: true
+number-depth: 3
 ---
 
-```{=html}
-<p class="paper-links"><a class="btn-paper" href="thesis_zeri_tommaso-4.pdf">PDF</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
-```
+The foundations built in Part I share one implicit assumption that is both their strength and their structural limit: model parameters are constant over time. The OLS cointegrating vector $\hat{\beta}$ is a sample average of a relationship that evolves continuously in response to macroeconomic regime shifts, changes in sectoral competitive structure, and investor sentiment. The volatility clustering documented in (see the PDF) implies that the spread variance is not homoskedastic, so any z-score computed with a historical standard deviation is systematically wrong. The correlation breakdown of (see the PDF) shows that the relative weights of assets in a cointegrated basket change over time, making the static hedge ratio an increasingly indefensible simplification as the investment horizon lengthens. The regime shifting of (see the PDF) suggests that the very existence of the cointegrating relationship (not just the estimation of its parameters) may break down during systemic stress, leaving the strategy exposed to losses on a spread that is no longer mean-reverting.
 
-This paper develops a state-space framework for enhancing signal generation in statistical arbitrage pairs trading strategies. Classical approaches --- OLS and Dynamic OLS cointegrating regressions --- estimate a static hedge ratio over the full sample, introducing three structural biases in the trading z-score: a non-stationary numerator caused by parameter drift, a denominator that ignores time-varying volatility, and an inability to distinguish genuine mean-reversion opportunities from structural breaks in cointegration. The proposed framework addresses all three limitations through the integration of two complementary models operating at different levels of the latent state space.
+The State Space Model (SSM) framework addresses all three problems by explicitly separating the directly observable variables (prices, spreads, returns) from the latent variables that drive their dynamics: the time-varying hedge ratio, the current market regime, and the conditional volatility of the spread. This separation, formalized by the observation equation and the transition equation, allows the latent variables to be estimated and updated recursively as new observations arrive, without imposing constant parameters and without requiring periodic re-estimation of the entire model.
 
-At the continuous level, a linear Gaussian state-space model estimated via the Kalman Filter tracks the time-varying hedge ratio and intercept as random walks, producing a dynamic spread that coincides with the filter innovation and an adaptive z-score normalised by the innovation variance. At the discrete level, a Hidden Markov Model with Gaussian emissions --- estimated via the Baum-Welch algorithm --- identifies latent market regimes characterised by distinct volatility and cointegration stability profiles. The filtered regime probability, computed causally via the Hamilton filter, acts as a qualitative gate on signal execution: trades are initiated only when the system is sufficiently confident that the cointegrating relationship is intact.
+# The Markov Property
 
-The integrated KF-HMM architecture is illustrated empirically on the GLD/SLV pair over the 2010--2019 period. Results confirm that the dynamic hedge ratio exhibits substantial time variation inconsistent with the constant-parameter OLS assumption, that the adaptive z-score remains stationary by construction throughout the sample, and that regime detection correctly identifies known stress episodes (including the 2011--2012 Gold ATH, the 2015--2016 China shock, and the 2018 sell-off) during which signal suppression prevents spurious entries. An optional GARCH augmentation of the z-score denominator further corrects for spread volatility clustering in the KF residuals.
+The Markov property is the shared probabilistic foundation of every model in this chapter. It formalizes the intuition that, given the present state, the future is conditionally independent of the past: knowing the current state of the system contains all the relevant information, and knowing the prior history adds nothing to the forecast of future states.
 
-There is statistical evidence of the presence of heteroskedasticity on the Kalman Filter residuals, so there are several reasons to build a GARCH-based Z-score:
+## First Order Markov Property {#sec-first-order-markov-property .unnumbered}
 
-![](fig_kf_residuals_garch_diagnostics-1.png)
+A stochastic process $\{X_t\}_{t \geq 0}$ satisfies the first-order Markov property if, for every $t$ and every measurable set $A \in \mathcal{B}(\mathbb{R})$[^1]: 
 
-Table 10
+$$
+    \mathbb{P}(X_{t+1} \in A \mid \mathcal{F}_t) =
+    \mathbb{P}(X_{t+1} \in A \mid X_t)
+$$ {#eq-markov}
 
-**Descriptive statistics of daily innovations.**
+ where $\mathcal{F}_t = \sigma(X_0, X_1, \ldots, X_t)$ is the natural filtration generated by the entire history of the process up to time $t$.
 
-GLD/SLV spread, 2010--2019, *T* = 2,510.
+Condition @eq-markov states that the conditional distribution of $X_{t+1}$, once conditioned on $X_t$, does not depend on $X_{t-1}, X_{t-2}, \ldots, X_0$. In terms of conditional densities this is equivalent to: $$
+    p(x_{t+1} \mid x_t, x_{t-1}, \ldots, x_0) = p(x_{t+1} \mid x_t)
+$$ for almost every realization of the sequence. The Markov property is less restrictive than it appears. Any higher-order stochastic process can be rewritten as a first-order Markov process by appropriately redefining the state space. An AR($p$), for example, is not Markovian in $Y_t$ but is Markovian in the augmented vector $(Y_t, Y_{t-1}, \ldots, Y_{t-p+1})'$. This is exactly the same observation as the companion form of the VAR discussed in (see the PDF): a VAR($P$) is not first-order in $Y_t$ but becomes a VAR(1) in $Z_t = (Y_t', Y_{t-1}', \ldots, Y_{t-P+1}')'$.
 
-  ---------------------- ----------------
-  Statistic              Value
-  Mean  *μ̂*              −7.37 × 10^−4^
-  Std. deviation  *σ̂*    1.184 × 10^−2^
-  Skewness  *ŝ*          −0.384
-  Excess kurtosis  *κ̂*   5.493
-  Minimum                −9.07 × 10^−2^
-  Maximum                +7.33 × 10^−2^
-  ---------------------- ----------------
+## Transition Kernel and Chapman-Kolmogorov Equation {#sec-transition-kernel-and-chapman-kolmogorov-equation .unnumbered}
 
-*Note.* Under Gaussian white noise, excess kurtosis should be zero. The value of 5.49 motivates a heavy-tailed conditional distribution in the GARCH specification. Negative skewness (*ŝ* = −0.38) confirms left asymmetry, consistent with the leverage effect.
+For continuous state-space processes $\mathcal{X} \subseteq
+\mathbb{R}^n$, the Markovian dynamics are completely characterized by the *transition kernel*: $$
+    p(x_{t+1} \mid x_t) = \frac{\partial}{\partial x_{t+1}}
+    \mathbb{P}(X_{t+1} \leq x_{t+1} \mid X_t = x_t)
+$$ which assigns to each current state $x_t$ a probability distribution over future states. Knowing $p(x_{t+1} \mid x_t)$ is equivalent to knowing the laws of motion of the system. Consistency of the kernel over multiple horizons is guaranteed by the Chapman-Kolmogorov equation: 
 
-------------------------------------------------------------------------
+$$
+    p(x_{t+h} \mid x_t) = \int_{\mathcal{X}}
+    p(x_{t+h} \mid x_{t+h-1})\, p(x_{t+h-1} \mid x_t)\,
+    dx_{t+h-1}
+$$ {#eq-ck}
 
-Table 11
+ @eq-ck states that the probability of moving from state $x_t$ to state $x_{t+h}$ in $h$ steps is obtained by integrating over all possible intermediate states $x_{t+h-1}$. For discrete state-space processes $\mathcal{S} = \{1, 2, \ldots, K\}$, the transition kernel becomes the transition matrix $\mathbf{P}$ with entries $p_{ij} = \Pr(X_{t+1} = j \mid X_t = i)$, and the Chapman-Kolmogorov equation reduces to matrix multiplication: the $h$-step transition probability is the $(i,j)$ element of $\mathbf{P}^h$.
 
-**Ljung--Box tests on *v*~t~ and *v*~t~^2^.**
+## Stationarity and Stationary Distribution {#sec-stationarity-and-stationary-distribution .unnumbered}
 
-H~0~^(*v*)^: no autocorr. in *v*~t~.   H~0~^(*v*^2^)^: no autocorr. in *v*~t~^2^.
+A Markov chain is time-homogeneous if the transition kernel does not depend on $t$: $p(x_{t+1} \mid x_t) = p(x_1 \mid x_0)$ for all $t$. Under this assumption, which we maintain throughout the chapter, the dynamics of the process are completely characterized by the kernel alone. A distribution $\pi^*$ is stationary for the Markov chain if: $$
+    \pi^*(A) = \int_{\mathcal{X}} p(x' \mid x)\, \pi^*(dx)
+    \quad \forall\, A \in \mathcal{B}(\mathbb{R})
+$$ or, in the discrete case, $\boldsymbol{\pi}^* = \boldsymbol{\pi}^* \mathbf{P}$. The stationary distribution is the left eigenvector of $\mathbf{P}$ associated with the unit eigenvalue. Under ergodicity conditions the distribution of the chain converges to the stationary distribution regardless of the initial condition: $\Pr(X_t = j) \to \pi_j^*$ as $t \to \infty$. In the HMM context, $\pi_k^*$ represents the expected proportion of time the system spends in regime $k$ in the long run.
 
-Panel A --- Innovations *v*~t~
+## Implications for Statistical Arbitrage {#sec-implications-for-statistical-arbitrage .unnumbered}
 
-  Lag *ℓ*   *Q*(*ℓ*)   *p*-value   Reject?
-  --------- ---------- ----------- -----------
-  5         6.48       0.262       No
-  10        23.20      0.010       Yes^\*\*^
-  20        32.39      0.039       Yes^\*\*^
-  30        45.08      0.038       Yes^\*\*^
+The Markov property has an important consequence for pairs trading. If the latent state vector $\boldsymbol{\alpha}_t = (\alpha_t, \beta_t, \sigma_t^2, s_t)'$, comprising the intercept, the hedge ratio, the conditional volatility, and the market regime, satisfies the Markov property, then the optimal forecast of the spread at time $t+1$ requires only the current estimate of the latent state, not the memory of the entire price history. This is the principle underlying both the Kalman Filter recursion and the HMM forward algorithm. Both update the latent state estimate in a single iteration that combines the previous estimate with the new observation, without ever directly accessing the full history.
 
-Panel B --- Squared innovations *v*~t~^2^
+# Limits of Static Cointegration and Dynamic OLS
 
-  Lag *ℓ*   *Q*(*ℓ*)   *p*-value   Reject?
-  --------- ---------- ----------- -------------
-  5         110.25     \< 0.001    Yes^\*\*\*^
-  10        130.54     \< 0.001    Yes^\*\*\*^
-  20        177.40     \< 0.001    Yes^\*\*\*^
-  30        192.25     \< 0.001    Yes^\*\*\*^
+The OLS estimator is super-consistent in the presence of cointegration [@engle_granger1987]: it converges to the true parameter $\beta$ at rate $T$ rather than $\sqrt{T}$. That is a useful property, but it conceals a structural problem: $\hat{\beta}_{\text{OLS}}$ estimates the time-average of $\beta_t$ over the full sample, not its current value at time $T$.
 
-^\*\*^ Rejection at 5%.   ^\*\*\*^ Rejection at 0.1%.
+## The Issue with the Static Hedge Ratio {#sec-the-issue-with-the-static-hedge-ratio .unnumbered}
 
-The test on *v*~t~ fails to reject H~0~^(*v*)^ at lag 5 (*p* = 0.26), confirming approximately white innovations in the mean. Weak rejections at *ℓ* ≥ 10 are physiological in daily pairs-trading spreads. By contrast, the test on *v*~t~^2^ rejects H~0~^(*v*^2^)^ with overwhelming evidence (*p* \< 10^−20^) at all lags, documenting strong serial dependence in conditional variance and motivating GARCH(1,1).
+The OLS hedge ratio in the cointegrating regression is: 
 
-------------------------------------------------------------------------
+$$
+    Y_{1,t} = \alpha + \beta\, Y_{2,t} + \varepsilon_t
+$$ {#eq-static-reg}
 
-Table 12
+ with estimator: $$
+    \hat{\beta}_{\text{OLS}} = \frac{\sum_{t=1}^T
+    (Y_{2,t} - \bar{Y}_2)(Y_{1,t} - \bar{Y}_1)}
+    {\sum_{t=1}^T (Y_{2,t} - \bar{Y}_2)^2}
+$$ Let the true hedge ratio be a time-varying process: 
 
-**Engle (1982) ARCH-LM test.**
+$$
+    \beta_t = \beta + \delta_t
+$$ {#eq-beta-tv}
 
-H~0~: no ARCH effects. Lag *p* = 10. GLD/SLV 2010--2019, *T* = 2,510.
+ where $\beta$ is the constant component and $\delta_t$ is the time-varying component with $\mathbb{E}[\delta_t] = 0$. The DGP is: $$
+    Y_{1,t} = \alpha_t + \beta_t\, Y_{2,t} + u_t =
+    \alpha_t + (\beta + \delta_t)\, Y_{2,t} + u_t
+$$ Fitting the static regression @eq-static-reg on these data, the OLS residual is: 
 
-  Test                       LM stat.   *p*-value
-  -------------------------- ---------- ------------------
-  Engle ARCH-LM (*p* = 10)   102.01     \< 0.001^\*\*\*^
+$$\begin{aligned}
+    \hat{\varepsilon}_t &= Y_{1,t} - \hat{\alpha} -
+    \hat{\beta}_{\text{OLS}}\, Y_{2,t}  \\
+    &= \underbrace{(Y_{1,t} - \alpha_t - \beta_t\, Y_{2,t})}
+    _{u_t \sim I(0)} +
+    \underbrace{(\alpha_t - \hat{\alpha})}_{I(0) \text{ or }
+    I(1)} +
+    \underbrace{(\beta_t - \hat{\beta}_{\text{OLS}})\, Y_{2,t}}
+    _{\delta_t Y_{2,t}}
+\end{aligned}
+$$ {#eq-ols-error}
 
-^\*\*\*^ Rejection at 0.1%.
+ The critical term is $\delta_t Y_{2,t}$. Since $Y_{2,t} \sim
+I(1)$ and $\delta_t$ is generally correlated with movements in $Y_{2,t}$ (the parameter drift is not independent of the asset being hedged), this term is $I(1)$. The OLS spread $\hat{\varepsilon}_t$ is therefore non-stationary even though the true cointegrating relationship is intact. An ADF test applied to $\hat{\varepsilon}_t$ will tend not to reject the unit root, leading to the false conclusion that cointegration has broken down.
 
-The LM statistic of 102.01 far exceeds the *χ*^2^~10~ critical value at 1% (= 23.21), rejecting H~0~ with *p* \< 10^−6^. Together with Table 11, this formally confirms the necessity of a GARCH model for *σ̂*^2^~S,t~ in the adaptive *z*-score √(*f*~t~ + *σ̂*^2^~S,t~).
+## DOLS Limitations {#sec-dols-limitations .unnumbered}
 
-## Full text
+Dynamic OLS (DOLS), proposed by Stock and Watson [@stock_watson1993], corrects the OLS bias by including leads and lags of the first differences of the regressor: 
 
-```{=html}
-<object class="pdf-viewer" data="thesis_zeri_tommaso-4.pdf" type="application/pdf"><p><a href="thesis_zeri_tommaso-4.pdf">Download PDF</a></p></object>
-```
+$$
+    Y_{1,t} = \alpha + \beta\, Y_{2,t} +
+    \sum_{j=-q}^{q} \delta_j\, \Delta Y_{2,t-j} + u_t
+$$ {#eq-dols}
+
+ The $\Delta Y_{2,t-j}$ terms remove the endogeneity arising from the correlation between $Y_{2,t}$ and the shocks $u_t$ caused by the common stochastic trend, and the lead terms ($j > 0$) capture any anticipatory correlation. The DOLS estimator of $\beta$ has a mixed-normal asymptotic distribution and converges faster than OLS in finite samples. But DOLS is still a fixed-parameter model: $\beta$ is estimated as a constant over the full sample $t = 1, \ldots, T$. The problem formalized in equation @eq-ols-error applies equally to DOLS: correcting the bias does not resolve parameter instability.
+
+## Parametric Stability Tests {#sec-parametric-stability-tests .unnumbered}
+
+Parameter stability in the cointegrating regression can be tested with the CUSUM test of Brown, Durbin and Evans [@brown_durbin_evans1975] or with the Nyblom test [@nyblom1989]. Nyblom tests the null of constant parameters against the alternative that the coefficients follow a random walk: $$
+    H_0: \beta_t = \beta \quad \forall t \qquad \text{vs}
+    \qquad H_1: \beta_t = \beta_{t-1} + \eta_t, \quad
+    \eta_t \sim \text{i.i.d.}(0, \sigma_\eta^2)
+$$ The Nyblom statistic for $\beta$ is: $$
+    L = \frac{1}{\hat{\sigma}_u^2 T^2} \sum_{t=1}^T
+    \left(\sum_{s=1}^t \hat{u}_s\, Y_{2,s}\right)^2
+$$ Large values of $L$ reject $H_0$ and signal that the constant-parameter assumption is statistically untenable. The parameter $\sigma_\eta^2$ under $H_1$ is exactly the state process variance $q_\beta$ in the Kalman Filter model, establishing a direct link between the Nyblom test and the calibration of the filter.
+
+## Implications for Trading Signals {#sec-implications-for-trading-signals .unnumbered}
+
+These theoretical limitations translate directly into operational consequences. The classical z-score is: $$
+    z_t^{\text{OLS}} = \frac{Y_{1,t} - \hat{\alpha} -
+    \hat{\beta}_{\text{OLS}}\, Y_{2,t}}{\hat{\sigma}_\varepsilon}
+$$ where $\hat{\sigma}_\varepsilon$ is the sample standard deviation of the OLS residuals over the full sample. This z-score is distorted in three ways:
+
+1.  **Numerator distortion:** the residual includes the non-stationary term $\delta_t Y_{2,t}$, as shown in @eq-ols-error. When $\beta_t$ diverges from $\hat{\beta}_{\text{OLS}}$ the numerator takes extreme values not because of a genuine mean-reverting deviation of the spread, but because of the wrong hedge ratio.
+
+2.  **Denominator distortion:** $\hat{\sigma}_\varepsilon$ is estimated over the full sample and reflects historical average volatility. During high-volatility periods it understates the current standard deviation, artificially inflating the z-score and multiplying false entry signals exactly when market risk is highest.
+
+3.  **No regime adaptation:** the static z-score cannot distinguish between a wide spread deviation caused by a genuine mean-reversion opportunity and one caused by a structural break in cointegration. In both cases $z_t^{\text{OLS}}$ crosses the threshold $z^*$ and generates an entry signal, but only in the first case should the position converge to equilibrium.
+
+Each of these three distortions has a precise remedy. The Kalman Filter corrects the numerator by updating $\hat{\beta}_{t|t}$ recursively; the innovation variance $f_t$ replaces the static denominator; and the HMM conditions signal execution on regime stability. The rest of this chapter derives each component in turn.
+
+![Top panel: log-price time series of GLD and SLV (2010–2019). Bottom panel: comparison between the dynamic hedge ratio $\hat{\beta}_{t|t}$ estimated by the Kalman Filter (green line, with $\pm 2\sqrt{P_{t|t}^{(\beta\beta)}}$ confidence band) and the static OLS estimate $\hat{\beta}_{\mathrm{OLS}}$ (dashed orange line). The KF hedge ratio varies significantly over time, declining from values near 2 in 2010 to approximately 1.35 in 2019, highlighting the structural inadequacy of the constant-parameter assumption implicit in OLS.](figures/1-static-vs-dynamic-hedge-ratio.png){#fig-hedge-ratio}
+
+# State-Space Representation {#sec-sub-ssr}
+
+The state-space representation is the formal framework that separates observable variables from latent ones and describes the law of motion of the latter over time. It was originally developed in control systems engineering and later adopted in econometrics by Harvey [@harvey1989] and formalized by Durbin and Koopman [@durbin_koopman2012]. The framework is general enough that AR, ARMA, VECM, and GARCH models, as well as unobserved-component models and local trend models, are all special cases.
+
+## Linear Gaussian State-Space Model {#sec-linear-gaussian-state-space-model .unnumbered}
+
+A linear Gaussian state-space system is defined by: 
+
+$$\begin{aligned}
+    \boldsymbol{y}_t &= \mathbf{Z}_t\, \boldsymbol{\alpha}_t + \mathbf{d}_t +
+    \boldsymbol{\varepsilon}_t, \qquad \boldsymbol{\varepsilon}_t \sim
+    \mathcal{N}(\mathbf{0},\, \mathbf{H}_t)
+     \\
+    \boldsymbol{\alpha}_{t+1} &= \mathbf{T}_t\, \boldsymbol{\alpha}_t +
+    \mathbf{c}_t + \mathbf{R}_t\, \boldsymbol{\eta}_t, \qquad
+    \boldsymbol{\eta}_t \sim \mathcal{N}(\mathbf{0},\, \mathbf{Q}_t)
+\end{aligned}
+$$ {#eq-obs-eq}
+
+ for $t = 1, \ldots, T$, where $\boldsymbol{y}_t \in \mathbb{R}^p$ is the vector of observed variables, $\boldsymbol{\alpha}_t \in
+\mathbb{R}^m$ is the latent state vector, $\mathbf{Z}_t \in
+\mathbb{R}^{p \times m}$ is the design matrix, $\mathbf{T}_t
+\in \mathbb{R}^{m \times m}$ is the transition matrix, $\mathbf{R}_t \in \mathbb{R}^{m \times g}$ is the selection matrix, $\mathbf{H}_t$ and $\mathbf{Q}_t$ are the innovation covariance matrices, and $\mathbf{d}_t$, $\mathbf{c}_t$ are deterministic offset vectors. The noises are assumed uncorrelated: $\mathbb{E}[\boldsymbol{\varepsilon}_t \boldsymbol{\eta}_s'] =
+\mathbf{0}$ for all $t, s$.
+
+## Interpretation of the Components {#sec-interpretation-of-the-components .unnumbered}
+
+The **observation equation** @eq-obs-eq describes how the unobservable latent state $\boldsymbol{\alpha}_t$ generates the observations $\boldsymbol{y}_t$. The matrix $\mathbf{Z}_t$ determines the relationship between state and observation; $\boldsymbol{\varepsilon}_t$ is the measurement noise capturing sampling errors and idiosyncratic components.
+
+The **transition equation** @eq-obs-eq describes the law of motion of the latent state vector. The matrix $\mathbf{T}_t$ describes the persistence of the state, playing the role of the autoregressive coefficients in a VAR. The matrix $\mathbf{Q}_t$ controls the rate of change of the state: a small $\mathbf{Q}_t$ implies slowly evolving parameters, while a large $\mathbf{Q}_t$ allows rapid variation.
+
+## Markovian Structure {#sec-markovian-structure .unnumbered}
+
+A key feature of the state-space model is that $\boldsymbol{\alpha}_t$ is a first-order Markov process: given the transition equation @eq-obs-eq and Gaussianity, the distribution of $\boldsymbol{\alpha}_{t+1}$ depends only on $\boldsymbol{\alpha}_t$ and not on the prior history. This implies that the joint distribution of the entire system $(\boldsymbol{y}_{1:T}, \boldsymbol{\alpha}_{1:T})$ factorizes as: $$
+    p(\boldsymbol{y}_{1:T}, \boldsymbol{\alpha}_{1:T}) = p(\boldsymbol{\alpha}_1)
+    \prod_{t=1}^T p(\boldsymbol{y}_t \mid \boldsymbol{\alpha}_t)
+    \prod_{t=1}^{T-1} p(\boldsymbol{\alpha}_{t+1} \mid \boldsymbol{\alpha}_t)
+$$ This factorization is what makes recursive inference via the Kalman Filter possible. The quantities $p(\boldsymbol{y}_t \mid
+\boldsymbol{\alpha}_t)$ and $p(\boldsymbol{\alpha}_{t+1} \mid \boldsymbol{\alpha}_t)$ are read directly from equations @eq-obs-eq--@eq-obs-eq.
+
+## Initialization {#sec-initialization .unnumbered}
+
+To start the recursion one must specify the initial state distribution: $$
+    \boldsymbol{\alpha}_1 \sim \mathcal{N}(\boldsymbol{a}_1, \mathbf{P}_1)
+$$ where $\boldsymbol{a}_1 = \mathbb{E}[\boldsymbol{\alpha}_1]$ is the prior mean and $\mathbf{P}_1 = \mathbb{V}(\boldsymbol{\alpha}_1)$ is the initial covariance. For stationary states such as an AR(1) with $|\phi| < 1$, $\mathbf{P}_1$ can be set to the unconditional covariance of the process. For non-stationary states such as a random walk (the case of the dynamic hedge ratio) one uses *diffuse initialization*: $\mathbf{P}_1 = \kappa
+\mathbf{I}$ with $\kappa \to \infty$, which is equivalent to imposing a flat prior on the initial state and letting the algorithm learn entirely from the data [@durbin_koopman2012]. In practice $\kappa = 10^6$ or $\kappa = 10^7$.
+
+## Signal-to-Noise Ratio (SNR) {#sec-signal-to-noise-ratio-snr .unnumbered}
+
+The ratio between the state process variance and the measurement noise variance governs the reactivity of the filter. For the dynamic hedge ratio model with $\mathbf{T} =
+\mathbf{I}$: $$
+    \text{SNR} = \frac{q_\beta}{\sigma_\varepsilon^2}
+$$ A high SNR means that changes in the hedge ratio are large relative to the measurement noise: the filter trusts recent observations more and updates $\beta_t$ quickly. A low SNR means the observations are noisy relative to parameter variation, so the filter trusts the prior forecast more and updates slowly, producing smoother estimates. The optimal SNR is estimated by maximizing the state-space log-likelihood with respect to $\boldsymbol{\psi} = (\sigma_\varepsilon^2, q_\alpha,
+q_\beta)$.
+
+## Pairs Trading Application {#sec-pairs-trading-application .unnumbered}
+
+In the bivariate pairs trading context the model is set up as follows. The observed variable is the price of the first asset $y_t = Y_{1,t}$. The latent state vector $\boldsymbol{\alpha}_t = (\alpha_t, \beta_t)'$ contains the intercept and the time-varying hedge ratio. The design matrix is the regressor vector at time $t$: $\mathbf{Z}_t = (1, Y_{2,t})$. The model equations are: 
+
+$$\begin{aligned}
+    Y_{1,t} &= \begin{bmatrix} 1 & Y_{2,t} \end{bmatrix}
+    \begin{bmatrix} \alpha_t \\ \beta_t \end{bmatrix} +
+    \varepsilon_t, \qquad \varepsilon_t \sim \mathcal{N}(0,
+    \sigma_\varepsilon^2)  \\
+    \begin{bmatrix} \alpha_{t+1} \\ \beta_{t+1} \end{bmatrix}
+    &= \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
+    \begin{bmatrix} \alpha_t \\ \beta_t \end{bmatrix} +
+    \begin{bmatrix} \eta_{\alpha,t} \\ \eta_{\beta,t}
+    \end{bmatrix}, \qquad \begin{bmatrix} \eta_{\alpha,t} \\
+    \eta_{\beta,t} \end{bmatrix} \sim \mathcal{N}\!\left(
+    \mathbf{0},\, \mathbf{Q}\right) 
+\end{aligned}
+$$ {#eq-obs-pt}
+
+ with $\mathbf{Q} = \text{diag}(q_\alpha, q_\beta)$ and $\mathbf{T} = \mathbf{I}_2$. The choice $\mathbf{T} = \mathbf{I}$ specifies that both $\alpha_t$ and $\beta_t$ follow random walks: the parameter drifts without mean-reverting to a fixed value, reflecting the absence of any prior reason why the hedge ratio should return to a preset level.
+
+# Hidden Variables: Continuous vs. Discrete State Spaces
+
+State-space models differ depending on the latent state space $\mathcal{X}$. The distinction between continuous and discrete state spaces reflects different assumptions about the structure of the DGP and requires different inference tools.
+
+## Continuous Spaces: Kalman Filter {#sec-continuous-spaces-kalman-filter .unnumbered}
+
+When $\boldsymbol{\alpha}_t \in \mathbb{R}^m$, the latent state vector varies continuously over time. State trajectories are smooth in the sense that $\boldsymbol{\alpha}_{t+1}$ is close to $\boldsymbol{\alpha}_t$, modelling gradual parameter variation. The Kalman Filter provides the exact solution for this case under Gaussianity: at each $t$ it computes the conditional Gaussian distribution of $\boldsymbol{\alpha}_t$ given $\boldsymbol{y}_{1:t}$, fully characterized by the filtered mean $\boldsymbol{a}_{t|t}$ and filtered covariance $\mathbf{P}_{t|t}$.
+
+Examples in the statistical arbitrage context:
+
+- **Dynamic hedge ratio:** $\beta_t$ varies continuously in response to gradual changes in the correlation structure between the two assets, modelled as a continuous random walk.
+
+- **Stochastic volatility:** $\log \sigma_t^2$ follows a continuous AR(1) process, an alternative to GARCH volatility modelling.
+
+- **Dynamic factor loadings:** the weights of a cointegration portfolio over $k$ assets evolve as a continuous vector in $\mathbb{R}^k$, requiring the multivariate Kalman Filter.
+
+- **Local level model:** the long-run level of the spread drifts slowly over time, captured by the local trend component of the state-space model.
+
+## Discrete Spaces: Hidden Markov Models {#sec-discrete-spaces-hidden-markov-models .unnumbered}
+
+When $s_t \in \mathcal{S} = \{1, 2, \ldots, K\}$, the latent state process is a discrete variable that identifies the current regime. Regime shifts are discrete events, modelling abrupt structural changes in the statistical distributions of the observed variables. Hidden Markov Models handle this case. The state process is a hidden Markov chain that generates observations through regime-dependent emission distributions.
+
+Examples in the statistical arbitrage context:
+
+- **Market regime:** $s_t = 1$ (low volatility, stable cointegration, mean-reverting spread) or $s_t = 2$ (high volatility, degraded cointegration, diverging spread). This is the most operationally relevant case for pairs trading: trading in the wrong regime generates losses.
+
+- **Business cycle:** $s_t \in \{1, 2, 3\}$ corresponding to expansion, contraction, and crisis. The statistical properties of sectoral returns and cross-sectoral cointegrating relationships vary across these states.
+
+- **Market liquidity:** $s_t = 1$ (liquid market, tight bid-ask spread, negligible transaction costs) or $s_t = 2$ (illiquid market, wide bid-ask spread, transaction costs that can erode strategy profits).
+
+## The Hybrid Framework {#sec-the-hybrid-framework .unnumbered}
+
+The framework proposed in this thesis combines both types of state spaces in a two-level hierarchical architecture. At the upper level, the discrete regime $s_t$ governed by the HMM determines the structure of the emission distributions and the state-dependent trading rules. At the lower level, the continuous parameters $\boldsymbol{\alpha}_t = (\alpha_t, \beta_t)'$ managed by the Kalman Filter evolve within the current regime. This scheme, discussed in detail in @sec-sub-kf-hmm-integration, allows us to capture simultaneously the slow and gradual variation of the hedge ratio and the discrete structural changes of the market regime.
+
+# The Kalman Filter
+
+The Kalman Filter (KF), originally developed by Kalman for engineering applications [@kalman1960] and adopted in econometrics by Harvey [@harvey1989] and Durbin and Koopman [@durbin_koopman2012], is a recursive algorithm that computes, at each $t$, the conditional distribution of the state vector $\boldsymbol{\alpha}_t$ given the available observations $\boldsymbol{y}_{1:t}$. For the linear Gaussian model defined by equations @eq-obs-eq--@eq-obs-eq, the KF provides the exact solution to the filtering problem: the conditional distribution of $\boldsymbol{\alpha}_t$ given $\boldsymbol{y}_{1:t}$ is Gaussian, and the KF computes its mean and covariance recursively. No other linear estimator has lower variance.
+
+The algorithm alternates between two steps for each new observation. The *prediction step* projects the state estimate one step forward in time before observing $\boldsymbol{y}_t$, while the *update step* corrects the forecast by incorporating the information in the new observation.
+
+We follow the notation of Durbin and Koopman [@durbin_koopman2012]:
+
+- $\boldsymbol{a}_{t|t-1} = \mathbb{E}[\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t-1}]$: prior state estimate at time $t$, based on information up to $t-1$.
+
+- $\mathbf{P}_{t|t-1} = \text{Var}(\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t-1})$: prior covariance matrix (uncertainty before observing $\boldsymbol{y}_t$).
+
+- $\boldsymbol{a}_{t|t} = \mathbb{E}[\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t}]$: posterior (filtered) state estimate after incorporating $\boldsymbol{y}_t$.
+
+- $\mathbf{P}_{t|t} = \text{Var}(\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t})$: posterior covariance matrix (residual uncertainty after the update).
+
+- $\boldsymbol{v}_t = \boldsymbol{y}_t - \mathbf{Z}_t \boldsymbol{a}_{t|t-1}
+      - \mathbf{d}_t$: innovation, the one-step-ahead forecast error.
+
+- $\mathbf{F}_t = \mathbf{Z}_t \mathbf{P}_{t|t-1}
+      \mathbf{Z}_t' + \mathbf{H}_t$: innovation covariance matrix.
+
+- $\mathbf{K}_t = \mathbf{P}_{t|t-1} \mathbf{Z}_t'
+      \mathbf{F}_t^{-1}$: Kalman gain, the $m \times p$ matrix that determines the weight given to new observations in the state update.
+
+## Prediction Step {#sec-prediction-step .unnumbered}
+
+Starting from the filtered estimate $\boldsymbol{a}_{t-1|t-1}$ and covariance $\mathbf{P}_{t-1|t-1}$ at time $t-1$, the prediction step projects the state to time $t$ using the transition equation: 
+
+$$\begin{aligned}
+    \boldsymbol{a}_{t|t-1} &= \mathbf{T}_{t-1}\, \boldsymbol{a}_{t-1|t-1} +
+    \mathbf{c}_{t-1}  \\
+    \mathbf{P}_{t|t-1} &= \mathbf{T}_{t-1}\,
+    \mathbf{P}_{t-1|t-1}\, \mathbf{T}_{t-1}' + \mathbf{R}_{t-1}
+    \, \mathbf{Q}_{t-1}\, \mathbf{R}_{t-1}'
+\end{aligned}
+$$ {#eq-kf-pred-a}
+
+ @eq-kf-pred-a applies the linear transformation $\mathbf{T}_{t-1}$ to the previous estimate: it is the optimal forecast of the future state given all past information. @eq-kf-pred-a shows how uncertainty propagates: the prior covariance is the linear transform of the previous posterior covariance, augmented by the process noise contribution $\mathbf{R}_{t-1}
+\mathbf{Q}_{t-1} \mathbf{R}_{t-1}'$. Without process noise ($\mathbf{Q} = \mathbf{0}$) the state would be deterministic and would never change. The process noise is the mechanism that keeps the filter open to updating even after many observations.
+
+## Update Step {#sec-update-step .unnumbered}
+
+When the observation $\boldsymbol{y}_t$ becomes available, the filter updates the state estimate by combining the prior forecast with the information in the new observation: 
+
+$$\begin{aligned}
+    \boldsymbol{v}_t &= \boldsymbol{y}_t - \mathbf{Z}_t\, \boldsymbol{a}_{t|t-1} -
+    \mathbf{d}_t  \\
+    \mathbf{F}_t &= \mathbf{Z}_t\, \mathbf{P}_{t|t-1}\,
+    \mathbf{Z}_t' + \mathbf{H}_t  \\
+    \mathbf{K}_t &= \mathbf{P}_{t|t-1}\, \mathbf{Z}_t'\,
+    \mathbf{F}_t^{-1}  \\
+    \boldsymbol{a}_{t|t} &= \boldsymbol{a}_{t|t-1} + \mathbf{K}_t\, \boldsymbol{v}_t
+     \\
+    \mathbf{P}_{t|t} &= \left(\mathbf{I} - \mathbf{K}_t\,
+    \mathbf{Z}_t\right) \mathbf{P}_{t|t-1}
+\end{aligned}
+$$ {#eq-kf-innov}
+
+## Kalman Gain {#sec-kalman-gain .unnumbered}
+
+The Kalman gain $\mathbf{K}_t$ determines the relative weight assigned to the prior forecast versus the new observation. Rewriting equation @eq-kf-innov: $$
+    \boldsymbol{a}_{t|t} = \underbrace{\left(\mathbf{I} - \mathbf{K}_t
+    \mathbf{Z}_t\right) \boldsymbol{a}_{t|t-1}}_{\text{weight on
+    forecast}} + \underbrace{\mathbf{K}_t\, \boldsymbol{y}_t}
+    _{\text{weight on observation}}
+$$ The posterior estimate is a weighted average of the prior forecast and the new observation. When the measurement noise $\mathbf{H}_t$ is large relative to the prior uncertainty $\mathbf{P}_{t|t-1}$, the observations are noisy: $\mathbf{F}_t \approx \mathbf{H}_t$ is large, $\mathbf{K}_t \approx \mathbf{0}$, and the filter nearly ignores the new observation in favor of the prior. Conversely, when $\mathbf{H}_t \to \mathbf{0}$ the observations are essentially noise-free, so $\mathbf{K}_t \to \mathbf{P}_{t|t-1}\mathbf{Z}_t'
+(\mathbf{Z}_t\mathbf{P}_{t|t-1}\mathbf{Z}_t')^{-1}$ and the filter trusts the observation completely.
+
+## Posterior Covariance and Noise Reduction {#sec-posterior-covariance-and-noise-reduction .unnumbered}
+
+@eq-kf-innov shows that the posterior covariance matrix is always smaller (in the matrix sense) than the prior covariance: $\mathbf{P}_{t|t} \preceq
+\mathbf{P}_{t|t-1}$. Each new observation reduces uncertainty about the state estimate. The variance reduction is: $$
+    \mathbf{P}_{t|t-1} - \mathbf{P}_{t|t} = \mathbf{K}_t\,
+    \mathbf{F}_t\, \mathbf{K}_t' = \mathbf{P}_{t|t-1}\,
+    \mathbf{Z}_t'\, \mathbf{F}_t^{-1}\, \mathbf{Z}_t\,
+    \mathbf{P}_{t|t-1}
+$$ However, the prediction step @eq-kf-pred-a increases the covariance by adding the process noise $\mathbf{RQR}'$. In steady state the alternation of prediction (increasing uncertainty) and update (reducing uncertainty) leads to an asymptotically constant state covariance, the steady-state covariance, which satisfies the Riccati equation: $$
+    \mathbf{P}_\infty = \mathbf{T} \left(\mathbf{P}_\infty -
+    \mathbf{P}_\infty \mathbf{Z}' \mathbf{F}_\infty^{-1}
+    \mathbf{Z} \mathbf{P}_\infty\right) \mathbf{T}' +
+    \mathbf{RQR}'
+$$ At this point the Kalman gain stabilizes at $\mathbf{K}_\infty = \mathbf{P}_\infty \mathbf{Z}'
+\mathbf{F}_\infty^{-1}$ and no longer varies over time.
+
+## Log-Likelihood and Parameter Estimation {#sec-log-likelihood-and-parameter-estimation .unnumbered}
+
+The innovations $\boldsymbol{v}_t$ produced by the KF are serially uncorrelated: $\mathbb{E}[\boldsymbol{v}_t \boldsymbol{v}_s'] = \mathbf{0}$ for $t \neq s$. This orthogonality of innovations is a direct consequence of the orthogonal projection and allows the joint density of the observations to be factorized: $$
+    p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\psi}) = \prod_{t=1}^T
+    p(\boldsymbol{y}_t \mid \boldsymbol{y}_{1:t-1},\, \boldsymbol{\psi}) =
+    \prod_{t=1}^T \mathcal{N}(\boldsymbol{y}_t;\, \mathbf{Z}_t
+    \boldsymbol{a}_{t|t-1} + \mathbf{d}_t,\, \mathbf{F}_t)
+$$ The log-likelihood follows from the prediction error decomposition [@harvey1989]: 
+
+$$
+    \log \mathcal{L}(\boldsymbol{\psi}) = -\frac{Tp}{2}\log(2\pi) -
+    \frac{1}{2}\sum_{t=1}^T \left[\log|\mathbf{F}_t(\boldsymbol{\psi})|
+    + \boldsymbol{v}_t(\boldsymbol{\psi})'\, \mathbf{F}_t(\boldsymbol{\psi})^{-1}\,
+    \boldsymbol{v}_t(\boldsymbol{\psi}) \right]
+$$ {#eq-kf-loglik}
+
+ where the dependence of $\boldsymbol{v}_t$ and $\mathbf{F}_t$ on the parameters $\boldsymbol{\psi} = (\sigma_\varepsilon^2, q_\alpha,
+q_\beta)$ is made explicit. Maximizing @eq-kf-loglik with respect to $\boldsymbol{\psi}$, typically via gradient-based algorithms such as L-BFGS-B with multiple starting points to avoid local maxima, yields the MLE parameter estimates.
+
+![Top panel: components of the Kalman gain $\mathbf{k}_t$ for the intercept ($k_t^{(\alpha)}$) and the hedge ratio ($k_t^{(\beta)}$) on GLD/SLV (2010–2019). The shaded blue area highlights the initial transient due to diffuse initialization; dashed lines indicate the steady-state values $K_\infty^{(\alpha)}$ and $K_\infty^{(\beta)}$. Bottom panel: posterior covariance $\mathbf{P}_{t|t}$ on a logarithmic scale. The monotone convergence toward $P_\infty$ (dashed lines) is the empirical solution of the Riccati equation and certifies that the filter has reached steady state.](figures/6-kalman-gain.png){#fig-kalman-gain}
+
+::: {#tbl-kf-params}
++------------------------------+------------------------------------------------------------+------------------------+
+| **Parameter**                | **Description**                                            | **Estimated value**    |
++:=============================+:===========================================================+:======================:+
+| *MLE parameters*                                                                                                   |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\hat{\sigma}^2_\varepsilon$ | Measurement noise variance                                 | $5.995 \times 10^{-9}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\hat{q}_\alpha$             | State process variance (intercept)                         | $1.650 \times 10^{-6}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\hat{q}_\beta$              | State process variance (hedge ratio)                       | $4.391 \times 10^{-6}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\mathrm{SNR}$               | Signal-to-noise ratio $\hat{q}_\beta /                     | $732.5$                |
+|                              |                                \hat{\sigma}^2_\varepsilon$ |                        |
++------------------------------+------------------------------------------------------------+------------------------+
+| *Steady-state Kalman gain $K_\infty$*                                                                              |
++------------------------------+------------------------------------------------------------+------------------------+
+| $K^{(\alpha)}_\infty$        | Steady-state gain for the intercept                        | $2.135 \times 10^{-4}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| $K^{(\beta)}_\infty$         | Steady-state gain for the hedge ratio                      | $2.050 \times 10^{-1}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| *Steady-state posterior covariance $P_\infty$*                                                                     |
++------------------------------+------------------------------------------------------------+------------------------+
+| $P^{(\alpha\alpha)}_\infty$  | Steady-state covariance for the intercept                  | $1.234 \times 10^{-2}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| $P^{(\beta\beta)}_\infty$    | Steady-state covariance for the hedge ratio                | $5.194 \times 10^{-4}$ |
++------------------------------+------------------------------------------------------------+------------------------+
+| *Dynamic spread $S_t = v_t$*                                                                                       |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\min(S_t)$                  | Minimum value of the KF spread                             | $-0.0781$              |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\max(S_t)$                  | Maximum value of the KF spread                             | $+0.0459$              |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\min(z_t^{\mathrm{KF}})$    | Minimum value of the KF z-score                            | $-7.38$                |
++------------------------------+------------------------------------------------------------+------------------------+
+| $\max(z_t^{\mathrm{KF}})$    | Maximum value of the KF z-score                            | $+4.34$                |
++------------------------------+------------------------------------------------------------+------------------------+
+
+: MLE parameters of the state-space model and steady-state values estimated on GLD/SLV (2010--2019), $T = 2{,}515$ daily observations. The parameters $\hat{\sigma}^2_\varepsilon$, $\hat{q}_\alpha$, $\hat{q}_\beta$ are estimated by maximizing the log-likelihood via L-BFGS-B with 5 starting points. The steady-state values $K_\infty$ and $P_\infty$ are computed as the average over the last 10% of the sample.
+:::
+
+## Kalman Smoother {#sec-kalman-smoother .unnumbered}
+
+The KF produces filtered estimates $\boldsymbol{a}_{t|t}$ that use only the observations up to time $t$. For historical analysis and model calibration it is useful to compute the smoothed estimates $\boldsymbol{a}_{t|T}$, which use the full time series $\boldsymbol{y}_{1:T}$ to infer the state at time $t$. The Rauch-Tung-Striebel smoother [@rauch1965] computes the smoothed estimates via a backward recursion running from $t = T$ back to $t = 1$: 
+
+$$\begin{aligned}
+    \mathbf{L}_t &= \mathbf{P}_{t|t}\, \mathbf{T}_t'\,
+    \mathbf{P}_{t+1|t}^{-1}  \\
+    \boldsymbol{a}_{t|T} &= \boldsymbol{a}_{t|t} + \mathbf{L}_t\,
+    \left(\boldsymbol{a}_{t+1|T} - \boldsymbol{a}_{t+1|t}\right)
+     \\
+    \mathbf{P}_{t|T} &= \mathbf{P}_{t|t} + \mathbf{L}_t\,
+    \left(\mathbf{P}_{t+1|T} - \mathbf{P}_{t+1|t}\right)
+    \mathbf{L}_t' 
+\end{aligned}
+$$ {#eq-smoother-l}
+
+ The smoothed estimates $\boldsymbol{a}_{t|T}$ cannot be used for real-time trading because they require future observations, but they are essential for ex-post analysis and model optimization.
+
+# Recursive Bayesian Estimation
+
+The Kalman Filter can be derived in the Bayesian framework as a special case of the recursive posterior update.
+
+The filtering problem consists in computing the posterior distribution of the latent state at time $t$ given all information up to $t$: 
+
+$$
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t}) \propto
+    p(\boldsymbol{y}_t \mid \boldsymbol{\alpha}_t)\, p(\boldsymbol{\alpha}_t \mid
+    \boldsymbol{y}_{1:t-1})
+$$ {#eq-bayes-update}
+
+ This is simply Bayes' theorem applied to the filtering problem: the posterior is proportional to the likelihood of the current observation times the prior predictive distribution. The prior predictive is obtained by integrating out the previous state: 
+
+$$
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t-1}) = \int
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{\alpha}_{t-1})\,
+    p(\boldsymbol{\alpha}_{t-1} \mid \boldsymbol{y}_{1:t-1})\,
+    d\boldsymbol{\alpha}_{t-1}
+$$ {#eq-bayes-predict}
+
+ @eq-bayes-update--@eq-bayes-predict define the recursive Bayesian filter. Without Gaussianity and linearity these equations have no closed-form solution and require approximation methods such as the Particle Filter or the Unscented Kalman Filter. Under Gaussianity and linearity the analytical solution exists and is the Kalman Filter.
+
+Assume the filtered distribution at time $t-1$ is Gaussian: $$
+    p(\boldsymbol{\alpha}_{t-1} \mid \boldsymbol{y}_{1:t-1}) =
+    \mathcal{N}(\boldsymbol{\alpha}_{t-1};\, \boldsymbol{a}_{t-1|t-1},\,
+    \mathbf{P}_{t-1|t-1})
+$$ **Prediction step:** since the transition $p(\boldsymbol{\alpha}_t \mid \boldsymbol{\alpha}_{t-1}) = \mathcal{N}(
+\boldsymbol{\alpha}_t;\, \mathbf{T} \boldsymbol{\alpha}_{t-1} + \mathbf{c},\,
+\mathbf{RQR}')$ is Gaussian and the convolution of Gaussians is Gaussian, the integral @eq-bayes-predict can be computed analytically: $$\begin{aligned}
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t-1}) &= \int
+    \mathcal{N}(\mathbf{T}\boldsymbol{\alpha}_{t-1} + \mathbf{c},\,
+    \mathbf{RQR}')\, \mathcal{N}(\boldsymbol{a}_{t-1|t-1},\,
+    \mathbf{P}_{t-1|t-1})\, d\boldsymbol{\alpha}_{t-1}  \\
+    &= \mathcal{N}\!\left(\boldsymbol{\alpha}_t;\,
+    \mathbf{T}\boldsymbol{a}_{t-1|t-1} + \mathbf{c},\,
+    \mathbf{T}\mathbf{P}_{t-1|t-1}\mathbf{T}' +
+    \mathbf{RQR}'\right)  \\
+    &= \mathcal{N}\!\left(\boldsymbol{\alpha}_t;\, \boldsymbol{a}_{t|t-1},\,
+    \mathbf{P}_{t|t-1}\right)
+\end{aligned}$$ which coincides exactly with equations @eq-kf-pred-a--@eq-kf-pred-a.
+
+**Update step:** The joint distribution of $(\boldsymbol{\alpha}_t, \boldsymbol{y}_t)$ given $\boldsymbol{y}_{1:t-1}$ is jointly Gaussian. Using the properties of the conditional Gaussian, the covariance between $\boldsymbol{\alpha}_t$ and $\boldsymbol{y}_t$ is: $$
+    \text{Cov}(\boldsymbol{\alpha}_t, \boldsymbol{y}_t \mid \boldsymbol{y}_{1:t-1})
+    = \mathbf{P}_{t|t-1} \mathbf{Z}_t'
+$$ The conditional distribution of $\boldsymbol{\alpha}_t$ given $\boldsymbol{y}_t$ follows from the conditional Gaussian formula: $$\begin{aligned}
+    \mathbb{E}[\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t}] &=
+    \boldsymbol{a}_{t|t-1} + \mathbf{P}_{t|t-1} \mathbf{Z}_t'\,
+    \mathbf{F}_t^{-1}\, \boldsymbol{v}_t = \boldsymbol{a}_{t|t} \\
+    \text{Var}(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t}) &=
+    \mathbf{P}_{t|t-1} - \mathbf{P}_{t|t-1} \mathbf{Z}_t'\,
+    \mathbf{F}_t^{-1}\, \mathbf{Z}_t \mathbf{P}_{t|t-1} =
+    \mathbf{P}_{t|t}
+\end{aligned}$$ which coincide with equations @eq-kf-innov--@eq-kf-innov. The Gaussian form is preserved at every iteration. Starting from a Gaussian prior, the posterior is Gaussian and becomes the prior for the next step. This conjugate closure is the key property that makes the KF computationally tractable.
+
+::: theorem
+**Theorem 1** (Optimality of the Kalman Filter). *Under the linear Gaussian state-space model @eq-obs-eq--@eq-obs-eq, the Kalman Filter is the optimal estimator of $\boldsymbol{\alpha}_t$ in the sense of minimum mean squared error (MMSE) among all estimators, linear and nonlinear.*
+:::
+
+Under non-Gaussianity, the KF remains the optimal linear MMSE estimator (BLUE) but a nonlinear estimator may exist with lower mean squared error.
+
+# Dynamic Hedge Ratio
+
+The application of the Kalman Filter to pairs trading is the recursive estimation of the hedge ratio $\beta_t$ and the intercept $\alpha_t$. The idea is to treat the cointegrating regression as a linear regression model whose coefficients follow random walks and apply the KF to estimate them optimally given all observations up to $t$.
+
+## Model Specification {#sec-model-specification .unnumbered}
+
+The state-space model for the dynamic hedge ratio is the one introduced in @sec-sub-ssr, equations @eq-obs-pt--@eq-obs-pt: 
+
+$$\begin{aligned}
+    Y_{1,t} &= \mathbf{z}_t' \boldsymbol{\alpha}_t + \varepsilon_t,
+    \qquad \varepsilon_t \sim \mathcal{N}(0, \sigma_\varepsilon^2)
+     \\
+    \boldsymbol{\alpha}_{t+1} &= \boldsymbol{\alpha}_t + \boldsymbol{\eta}_t, \qquad
+    \boldsymbol{\eta}_t \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})
+\end{aligned}
+$$ {#eq-hedge-obs}
+
+ with $\mathbf{z}_t = (1, Y_{2,t})'$, $\boldsymbol{\alpha}_t =
+(\alpha_t, \beta_t)'$ and $\mathbf{Q} = \text{diag}(q_\alpha,
+q_\beta)$. The parameters to be estimated via MLE are $\boldsymbol{\psi} = (\sigma_\varepsilon^2, q_\alpha, q_\beta)$.
+
+## KF Recursion on the Hedge Ratio {#sec-kf-recursion-on-the-hedge-ratio .unnumbered}
+
+For the univariate case $p = 1$ the KF equations simplify to scalar form. Let $\mathbf{z}_t = \mathbf{Z}_t'$ to be consistent with vector notation.
+
+*Initialization:* $\boldsymbol{a}_{1|0} = \boldsymbol{0}$, $\mathbf{P}_{1|0} = \kappa \mathbf{I}_2$ with $\kappa = 10^6$.
+
+*For $t = 1, \ldots, T$:*
+
+$$\begin{aligned}
+    v_t &= Y_{1,t} - \mathbf{z}_t' \boldsymbol{a}_{t|t-1}
+     \\
+    f_t &= \mathbf{z}_t' \mathbf{P}_{t|t-1} \mathbf{z}_t +
+    \sigma_\varepsilon^2  \\
+    \mathbf{k}_t &= \mathbf{P}_{t|t-1} \mathbf{z}_t / f_t
+     \\
+    \boldsymbol{a}_{t|t} &= \boldsymbol{a}_{t|t-1} + \mathbf{k}_t\, v_t
+     \\
+    \mathbf{P}_{t|t} &= \left(\mathbf{I}_2 - \mathbf{k}_t
+    \mathbf{z}_t'\right) \mathbf{P}_{t|t-1}
+     \\
+    \boldsymbol{a}_{t+1|t} &= \boldsymbol{a}_{t|t}  \\
+    \mathbf{P}_{t+1|t} &= \mathbf{P}_{t|t} + \mathbf{Q}
+    
+\end{aligned}\tag{Innovation}$$
+
+## Dynamic Spread and Adaptive Z-score {#sec-dynamic-spread-and-adaptive-z-score .unnumbered}
+
+The one-step-ahead prediction $\hat{\beta}_{t|t-1} = [\boldsymbol{a}_{t|t-1}]_2$ (second component of the predicted state vector) allows us to define the dynamic spread: 
+
+$$
+    S_t = Y_{1,t} - \hat{\alpha}_{t|t-1} - \hat{\beta}_{t|t-1}\,
+    Y_{2,t} = v_t
+$$ {#eq-dyn-spread}
+
+ The dynamic spread coincides with the KF innovation $v_t$: it is the component of $Y_{1,t}$ not explained by the regression estimated on information up to $t-1$. This is a direct consequence of the one-step-ahead forecast structure of the state-space model. The conditional variance of the spread is $f_t$ and the adaptive z-score is: 
+
+$$
+    z_t = \frac{v_t}{\sqrt{f_t}} = \frac{S_t}{\sqrt{f_t}}
+$$ {#eq-adaptive-zscore}
+
+ Unlike the static z-score, which normalizes by the constant sample standard deviation $\hat{\sigma}_\varepsilon$, the adaptive z-score uses $\sqrt{f_t}$, which varies over time with the current estimation uncertainty. When $\mathbf{P}_{t|t-1}$ is large (high parametric uncertainty), $f_t$ increases and the z-score shrinks, reducing the probability of false signals. This self-calibrating property is what distinguishes the KF approach from the classical strategy.
+
+## Adaptive Confidence Bands {#sec-adaptive-confidence-bands .unnumbered}
+
+The innovation variance $f_t$ gives a confidence band for the spread: $$
+    \hat{Y}_{1,t} \pm z_{\alpha/2}\sqrt{f_t}
+$$ where $\hat{Y}_{1,t} = \mathbf{z}_t' \boldsymbol{a}_{t|t-1}$ is the one-step-ahead forecast of $Y_{1,t}$. This band has exact $(1 - \alpha)$ coverage under the Gaussian state-space model. It widens during periods of high parametric uncertainty and narrows during stable periods, providing a risk measure that automatically adapts to market conditions.
+
+![Comparison between the static z-score $z_t^{\mathrm{OLS}} = S_t^{\mathrm{OLS}}\,/\,\hat{\sigma}_\varepsilon$ (top panel) and the adaptive z-score $z_t^{\mathrm{KF}} = v_t\,/\,\sqrt{f_t}$ (bottom panel) on GLD/SLV (2010–2019). The shaded pink area highlights the high-volatility episode of August 2015 – February 2016. The static z-score shows a persistent negative drift in the second half of the sample caused by the mis-estimated hedge ratio, generating false short entry signals. The adaptive z-score remains stationary around zero throughout the sample, with the conditional standard deviation $\sqrt{f_t}$ self-calibrating to the current market context.](figures/2-ols-spread-vs-kf-spread.png){#fig-zscore-comparison}
+
+# Markov Chains and Hidden Markov Models
+
+While the Kalman Filter governs the continuous evolution of the parameters, Hidden Markov Models (HMMs) handle the discrete latent state $s_t \in \mathcal{S} = \{1, 2, \ldots,
+K\}$ that identifies the current market regime. HMMs were introduced in signal analysis by Baum and Petrie [@baum1966; @baum1970], extended by Rabiner [@rabiner1989], and applied to finance by Ryden, Teräsvirta and Åsbrink [@ryden1998] and by Ang and Bekaert [@ang_bekaert2002].
+
+## Properties of Markov Chains {#sec-properties-of-markov-chains .unnumbered}
+
+A discrete Markov chain on $\mathcal{S} = \{1, \ldots, K\}$ is completely characterized by two objects. The first is the initial distribution $\boldsymbol{\pi} = (\pi_1, \ldots, \pi_K)'$ with $\pi_k = \Pr(s_1 = k)$ and $\sum_k \pi_k = 1$. The second is the transition matrix $\mathbf{P} \in [0,1]^{K
+\times K}$ with elements: $$
+    p_{ij} = \Pr(s_{t+1} = j \mid s_t = i), \quad
+    \sum_{j=1}^K p_{ij} = 1 \quad \forall i
+$$ Row $i$ of $\mathbf{P}$ is the probability distribution of states at time $t+1$ when the current state is $i$. The diagonal element $p_{ii}$ measures regime persistence: the expected duration in regime $i$ before a transition is geometrically distributed with mean $d_i = 1/(1 - p_{ii})$. Typical values in finance are $p_{11} \approx 0.97$ for the low-volatility regime (average duration $\approx 33$ days) and $p_{22} \approx 0.90$ for the high-volatility regime (average duration $\approx 10$ days). This reflects the empirically documented asymmetry: markets spend extended periods in low volatility, punctuated by shorter but intense stress episodes.
+
+The stationary distribution $\boldsymbol{\pi}^*$ satisfies $\boldsymbol{\pi}^* = \boldsymbol{\pi}^* \mathbf{P}$ and is the left eigenvector of $\mathbf{P}$ associated with the unit eigenvalue. For a two-state HMM ($K=2$) with transition matrix: $$
+    \mathbf{P} = \begin{bmatrix} p_{11} & 1 - p_{11} \\
+    1 - p_{22} & p_{22} \end{bmatrix}
+$$ the stationary distribution is: 
+
+$$
+    \pi_1^* = \frac{1 - p_{22}}{2 - p_{11} - p_{22}},
+    \qquad \pi_2^* = \frac{1 - p_{11}}{2 - p_{11} - p_{22}}
+$$ {#eq-hmm-stat}
+
+ and represents the expected proportion of time spent in each regime in the long run.
+
+## Definition of HMM {#sec-definition-of-hmm .unnumbered}
+
+A Hidden Markov Model is a Markov chain with hidden (unobservable) states coupled to an emission process that generates the observations. An HMM is defined by the triple $\boldsymbol{\lambda} = (\mathbf{P}, \boldsymbol{\pi}, \{f_k\}_{k=1}^K)$ where:
+
+- $\mathbf{P}$ is the transition matrix between latent states.
+
+- $\boldsymbol{\pi}$ is the initial state distribution.
+
+- $f_k(\boldsymbol{y}_t) = p(\boldsymbol{y}_t \mid s_t = k;\,
+      \boldsymbol{\theta}_k)$ is the emission density of regime $k$, with parameters $\boldsymbol{\theta}_k$.
+
+The observations $\boldsymbol{y}_t$ are conditionally independent given the state sequence: $$
+    p(\boldsymbol{y}_t \mid s_t, s_{t-1}, \ldots, s_1, \boldsymbol{y}_{1:t-1}) = p(\boldsymbol{y}_t \mid s_t).
+$$ The standard choice is regime-dependent Gaussian emission: 
+
+$$
+    \boldsymbol{y}_t \mid s_t = k \sim \mathcal{N}(\boldsymbol{\mu}_k,\,
+    \boldsymbol{\Sigma}_k)
+$$ {#eq-hmm-emission}
+
+ The unconditional distribution of the observations is a Gaussian mixture: $$
+    p(\boldsymbol{y}_t) = \sum_{k=1}^K \pi_k^*\,
+    \mathcal{N}(\boldsymbol{y}_t;\, \boldsymbol{\mu}_k,\, \boldsymbol{\Sigma}_k)
+$$ which provides a formal explanation for the non-Gaussianity documented in financial returns: excess kurtosis in the unconditional distribution emerges from the mixture structure, even when each component is Gaussian.
+
+## Three Fundamental Problems {#sec-three-fundamental-problems .unnumbered}
+
+Practical use of HMMs requires solving three computational problems identified by Rabiner [@rabiner1989]:
+
+**Problem 1** (Evaluation): given the model $\boldsymbol{\lambda}$ and an observation sequence $\boldsymbol{y}_{1:T}$, what is $p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\lambda})$? This quantity is needed to compare models with different numbers of regimes and for MLE parameter estimation.
+
+**Problem 2** (Decoding): given the observation sequence $\boldsymbol{y}_{1:T}$, what is the most likely latent state sequence $\hat{s}_{1:T}^* = \arg\max_{s_{1:T}} p(s_{1:T} \mid
+\boldsymbol{y}_{1:T}, \boldsymbol{\lambda})$? The answer gives a segmentation of the time series into market regimes.
+
+**Problem 3** (Learning): how do we estimate the model parameters $\boldsymbol{\lambda}$ from an observation sequence $\boldsymbol{y}_{1:T}$? This is the estimation problem, solved by the Baum-Welch algorithm.
+
+## Forward Algorithm: Solution to Problem 1 {#sec-forward-algorithm-solution-to-problem-1 .unnumbered}
+
+The solution to Problem 1 is based on the forward variable: $$
+    \alpha_t(k) = p(\boldsymbol{y}_{1:t},\, s_t = k \mid \boldsymbol{\lambda})
+$$ which represents the joint probability of observing the sequence $\boldsymbol{y}_{1:t}$ and being in state $k$ at time $t$.
+
+*Initialization:* $$
+    \alpha_1(k) = \pi_k\, f_k(\boldsymbol{y}_1), \qquad k = 1,
+    \ldots, K
+$$
+
+*Recursion ($t = 2, \ldots, T$):* 
+
+$$
+    \alpha_t(j) = \left[\sum_{i=1}^K \alpha_{t-1}(i)\,
+    p_{ij}\right] f_j(\boldsymbol{y}_t), \qquad j = 1, \ldots, K
+$$ {#eq-forward-rec}
+
+*Termination:* $$
+    p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\lambda}) = \sum_{k=1}^K
+    \alpha_T(k)
+$$
+
+Recursion @eq-forward-rec sums, for each state $j$ at time $t$, the probability of having been in each state $i$ at time $t-1$ (weighted by the transition probability $p_{ij}$) and multiplies by the emission probability $f_j(\boldsymbol{y}_t)$. The computational cost is $O(K^2 T)$, compared to $O(K^T)$ for exhaustive enumeration.
+
+## Backward Algorithm {#sec-backward-algorithm .unnumbered}
+
+The backward variable is defined as: $$
+    \beta_t(k) = p(\boldsymbol{y}_{t+1:T} \mid s_t = k,\, \boldsymbol{\lambda})
+$$ and represents the probability of observing the future sequence $\boldsymbol{y}_{t+1:T}$ given that the system is in state $k$ at time $t$.
+
+*Initialization:* $\beta_T(k) = 1$ for all $k$.
+
+*Recursion ($t = T-1, \ldots, 1$):* 
+
+$$
+    \beta_t(i) = \sum_{j=1}^K p_{ij}\, f_j(\boldsymbol{y}_{t+1})\,
+    \beta_{t+1}(j)
+$$ {#eq-backward-rec}
+
+The backward variable is the mirror image of the forward: it sums, for each state $j$ at time $t+1$, the probability of transitioning from $i$ to $j$ (weighted by the emission of $j$ at $t+1$) multiplied by the probability of continuing the path from $j$ onwards.
+
+The forward and backward quantities combine to produce the smoothed regime probabilities: 
+
+$$
+    \gamma_t(k) = \Pr(s_t = k \mid \boldsymbol{y}_{1:T},\,
+    \boldsymbol{\lambda}) = \frac{\alpha_t(k)\, \beta_t(k)}
+    {\sum_{j=1}^K \alpha_t(j)\, \beta_t(j)}
+$$ {#eq-gamma-smoothed}
+
+ and the joint transition probabilities: 
+
+$$
+    \xi_t(i,j) = \Pr(s_t = i,\, s_{t+1} = j \mid
+    \boldsymbol{y}_{1:T},\, \boldsymbol{\lambda}) = \frac{\alpha_t(i)\,
+    p_{ij}\, f_j(\boldsymbol{y}_{t+1})\, \beta_{t+1}(j)}
+    {p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\lambda})}
+$$ {#eq-xi-smoothed}
+
+## Viterbi Algorithm: Solution to Problem 2 {#sec-viterbi-algorithm-solution-to-problem-2 .unnumbered}
+
+The Viterbi algorithm [@viterbi1967] solves Problem 2 by finding the most probable state sequence via dynamic programming. Define: $$
+    \delta_t(k) = \max_{s_{1:t-1}} p(\boldsymbol{y}_{1:t},\,
+    s_{1:t-1},\, s_t = k \mid \boldsymbol{\lambda})
+$$ as the probability of the most probable path ending in state $k$ at time $t$.
+
+*Initialization:* $\delta_1(k) = \pi_k\,
+f_k(\boldsymbol{y}_1)$, $\psi_1(k) = 0$.
+
+*Recursion ($t = 2, \ldots, T$):* 
+
+$$\begin{aligned}
+    \delta_t(j) &= \max_{i \in \mathcal{S}}\left[
+    \delta_{t-1}(i)\, p_{ij}\right] f_j(\boldsymbol{y}_t)
+     \\
+    \psi_t(j) &= \arg\max_{i \in \mathcal{S}}\left[
+    \delta_{t-1}(i)\, p_{ij}\right]
+\end{aligned}
+$$ {#eq-viterbi-delta}
+
+*Termination and backtracking:* $$
+    \hat{s}_T^* = \arg\max_{k} \delta_T(k), \qquad
+    \hat{s}_t^* = \psi_{t+1}(\hat{s}_{t+1}^*) \quad
+    \text{for } t = T-1, \ldots, 1
+$$ The pointers $\psi_t(j)$ store the optimal state at the previous step: backtracking reconstructs the most probable state sequence. Note that the Viterbi sequence $\hat{s}_{1:T}^*$ is globally optimal (it maximizes the joint probability $p(s_{1:T} \mid \boldsymbol{y}_{1:T})$) but may differ from the sequence obtained by selecting, at each $t$, the regime with the highest marginal probability.
+
+## Baum-Welch Algorithm: Solution to Problem 3 {#sec-baum-welch-algorithm-solution-to-problem-3 .unnumbered}
+
+Baum-Welch is a special case of the Expectation-Maximization (EM) algorithm [@dempster1977] for MLE estimation of HMM parameters. It alternates between an E-step (computing expectations of the latent quantities given the current model) and an M-step (maximizing the expected complete-data log-likelihood with respect to the parameters).
+
+*E-step:* with the current parameters $\boldsymbol{\lambda}^{(s)}$ run the forward @eq-forward-rec and backward @eq-backward-rec recursions and compute $\gamma_t(k)$ @eq-gamma-smoothed and $\xi_t(i,j)$ @eq-xi-smoothed for all $t$ and all pairs $(i,j)$.
+
+*M-step:* update the parameters using the closed-form update equations: 
+
+$$\begin{aligned}
+    \hat{p}_{ij} &= \frac{\sum_{t=1}^{T-1} \xi_t(i,j)}
+    {\sum_{t=1}^{T-1} \gamma_t(i)}
+     \\
+    \hat{\boldsymbol{\mu}}_k &= \frac{\sum_{t=1}^T \gamma_t(k)\,
+    \boldsymbol{y}_t}{\sum_{t=1}^T \gamma_t(k)}
+     \\
+    \hat{\boldsymbol{\Sigma}}_k &= \frac{\sum_{t=1}^T \gamma_t(k)\,
+    \left(\boldsymbol{y}_t - \hat{\boldsymbol{\mu}}_k\right)\left(\boldsymbol{y}_t
+    - \hat{\boldsymbol{\mu}}_k\right)'}{\sum_{t=1}^T \gamma_t(k)}
+\end{aligned}
+$$ {#eq-bw-p}
+
+The numerator of @eq-bw-p is the expected number of transitions from regime $i$ to regime $j$; the denominator is the expected number of periods in regime $i$. The algorithm guarantees that the log-likelihood does not decrease at each iteration and converges to a local maximum. Sensitivity to initial conditions is its main limitation, which is why we use 50 random initializations and keep the solution with the highest log-likelihood.
+
+![Left: regime-dependent emission densities $f_k(\boldsymbol{y}_t) = \mathcal{N}(\boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$ estimated via Baum-Welch on GLD log-returns (2010–2019), with the unconditional mixture distribution $\sum_k \pi_k^* f_k$ overlaid on the empirical histogram. Right: GLD log-return time series coloured by regime according to the Viterbi sequence $\hat{s}_{1:T}^*$; shaded areas indicate periods classified as regime 2 (high volatility).](figures/hmm-emission-distribution.png){#fig-hmm-emissions}
+
+::: {#tbl-hmm-params}
+  **Parameter**                        **Regime 1 (Low Vol)**   **Regime 2 (High Vol)**
+  ----------------------------------- ------------------------ -------------------------
+  $\hat{\mu}_k$                              $+0.00025$               $-0.00044$
+  $\hat{\sigma}_k$                           $0.00775$                 $0.01616$
+  $\hat{\sigma}_k / \hat{\sigma}_1$           $1.000$                   $2.085$
+  $\pi^*_k$                                   $0.788$                   $0.212$
+  $p_{kk}$                                    $0.9823$                 $0.9342$
+  $d_k$ (days)                                 $56.5$                   $15.2$
+  $d_k$ (weeks)                             $\approx 11$              $\approx 3$
+
+  : Estimated parameters of the two-state HMM on GLD log-returns (2010--2019), $T = 2{,}514$ daily returns. Estimation is conducted via Baum-Welch with 50 random initializations; the solution with the highest log-likelihood is reported. The expected duration $d_k = 1/(1-p_{kk})$ is expressed in trading days.
+:::
+
+::: minipage
+*Notes:* The ratio $\hat{\sigma}_2 / \hat{\sigma}_1 = 2.085$ indicates that the stress regime exhibits approximately twice the return volatility of the stable regime. The stationary distribution $\pi^*$ implies that the system spends 78.8% of the time in regime 1 and 21.2% in regime 2. The average duration of stress episodes ($d_2 = 15.2$ days) is approximately 3.7 times shorter than the average duration of stable periods ($d_1 = 56.5$ days), confirming the empirically documented asymmetry between prolonged stability phases and brief but intense stress episodes.
+:::
+
+# Regime-Switching Models in Finance
+
+Hamilton's original insight was simple: the dynamics of US GDP were better described by two regimes with distinct statistical properties (expansion and recession) than by any single linear model [@hamilton1989]. That observation opened the door to a class of models now standard in financial econometrics, applied to returns, volatility, interest rates, and correlations.
+
+## The Hamilton Model {#sec-the-hamilton-model .unnumbered}
+
+The original Hamilton model specifies: 
+
+$$
+    r_t = \mu_{s_t} + \varepsilon_t, \qquad \varepsilon_t
+    \sim \mathcal{N}(0, \sigma_{s_t}^2)
+$$ {#eq-hamilton-model}
+
+ where $s_t$ follows a Markov chain on $\{1, 2\}$. The unconditional distribution is a Gaussian mixture: $$
+    p(r_t) = \pi_1^* \mathcal{N}(\mu_1, \sigma_1^2) +
+    \pi_2^* \mathcal{N}(\mu_2, \sigma_2^2)
+$$ with $\boldsymbol{\pi}^*$ given by equation @eq-hmm-stat. This model gives a formal account of two stylized facts from (see the PDF): non-Gaussianity (the leptokurtic unconditional distribution emerges from the mixture structure) and regime shifting (the variation of $s_t$ describes the structural changes in the process). Ang and Bekaert [@ang_bekaert2002] document that two-regime Markov-switching models fit equity and bond returns better than constant-parameter models, particularly in capturing regime-dependent correlations.
+
+## Markov-Switching VAR {#sec-markov-switching-var .unnumbered}
+
+The Hamilton model extends to the multivariate context as the Markov-Switching VAR (MS-VAR): 
+
+$$
+    \boldsymbol{y}_t = \boldsymbol{\mu}_{s_t} + \sum_{j=1}^P \boldsymbol{\Phi}_{j,
+    s_t}\, \boldsymbol{y}_{t-j} + \boldsymbol{\varepsilon}_t, \qquad
+    \boldsymbol{\varepsilon}_t \sim \mathcal{N}(\mathbf{0},
+    \boldsymbol{\Sigma}_{s_t})
+$$ {#eq-ms-var}
+
+ Here the conditional mean, autoregressive coefficients, and covariance matrix all change with the current regime $s_t$. The MS-VAR is particularly relevant for multivariate pairs trading: the regime-dependent correlation matrix $\boldsymbol{\Sigma}_{s_t}$ captures the correlation breakdown documented in (see the PDF), allowing us to distinguish the regime of high correlation and stable cointegration from the regime of unstable correlation and degraded cointegration.
+
+## The Hamilton Filter {#sec-the-hamilton-filter .unnumbered}
+
+The Hamilton filter is the specialization of the forward recursion @eq-forward-rec to the econometric context. Denoting by $\hat{\boldsymbol{\xi}}_{t|t-1}$ the $K \times 1$ vector of predicted regime probabilities and by $\hat{\boldsymbol{\xi}}_{t|t}$ the filtered probabilities: 
+
+$$\begin{aligned}
+    \hat{\boldsymbol{\xi}}_{t|t-1} &= \mathbf{P}'\,
+    \hat{\boldsymbol{\xi}}_{t-1|t-1}  \\
+    \hat{\xi}_{t|t}^{(k)} &= \frac{f_k(\boldsymbol{y}_t)\,
+    \hat{\xi}_{t|t-1}^{(k)}}{\sum_{j=1}^K f_j(\boldsymbol{y}_t)\,
+    \hat{\xi}_{t|t-1}^{(j)}} 
+\end{aligned}
+$$ {#eq-hamilton-pred}
+
+ @eq-hamilton-pred propagates regime probabilities through the transition matrix, while @eq-hamilton-pred updates them via Bayes' theorem: the numerator is the product of the observation likelihood under regime $k$ and the predicted probability of regime $k$; the denominator is the normalizing constant. The structure is identical to the Bayesian update @eq-bayes-update applied to the discrete state space.
+
+# Market Regime Detection
+
+Regime detection is the problem of inferring, given the estimated model $\hat{\boldsymbol{\lambda}}$ and the observation sequence $\boldsymbol{y}_{1:t}$, the current market regime $s_t$. In the pairs trading context this inference is operational: the filtered probability of being in a favorable regime determines whether the signal generated by the Kalman Filter is executed or suppressed.
+
+There are three quantities of interest:
+
+1.  **Filtered probabilities:** $\hat{\xi}_{t|t}^{(k)} = \Pr(s_t = k \mid \boldsymbol{y}_{1:t},
+        \hat{\boldsymbol{\lambda}})$. These use only the information available up to time $t$ and are therefore the only ones usable for real-time trading decisions. Computed from recursion @eq-hamilton-pred--@eq-hamilton-pred.
+
+2.  **Smoothed probabilities:** $\hat{\xi}_{t|T}^{(k)} = \Pr(s_t = k \mid \boldsymbol{y}_{1:T},
+        \hat{\boldsymbol{\lambda}})$. These use the full time series and produce more accurate estimates of the regime at time $t$, but require future observations. Useful only for ex-post analysis, structural break identification, and model validation.
+
+3.  **Viterbi sequence:** $\hat{s}_{1:T}^*$. The globally most probable latent state sequence, computed by the Viterbi algorithm. It gives a hard segmentation of the time series into regimes, useful for visualization and for estimating regime-dependent parameters.
+
+![Filtered regime probabilities $\phi_t = \Pr(s_t=1 \mid \boldsymbol{y}_{1:t}, \hat{\boldsymbol{\lambda}})$ (top panel) and smoothed probabilities $\hat{\xi}_{t|T}^{(1)} = \Pr(s_t=1 \mid \boldsymbol{y}_{1:T}, \hat{\boldsymbol{\lambda}})$ (bottom panel) on GLD (2010–2019). Shaded areas indicate periods in which $\phi_t < 0.5$ (regime 2 prevailing). The dashed line is the operational threshold $\phi^* = 0.65$. The lag of the filtered probabilities relative to the smoothed probabilities at regime transitions highlights the informational cost of operating in real time versus ex-post analysis.](figures/4-filtered-vs-smoothed-probabilities.png){#fig-regime-probs}
+
+![Top panel: log-price time series of GLD and SLV (2010–2019) with background coloured according to the Viterbi sequence $\hat{s}_{1:T}^*$ (green = stable regime 1, pink = stress regime 2). Bottom panel: filtered probabilities $\phi_t$ (left axis) and the Viterbi sequence as a step function (right axis). The correspondence between regime 2 periods and known stress episodes in the gold and silver markets (Gold ATH 2011–2012, China shock 2015–2016, sell-off 2018) confirms the HMM’s ability to structurally identify periods of degraded cointegration.](figures/5-viterbi-regime-sequence.png){#fig-viterbi-prices}
+
+## Selecting the Number of Regimes {#sec-selecting-the-number-of-regimes .unnumbered}
+
+The number of regimes $K$ is a model hyperparameter and must be selected by balancing fit and parsimony. For a Gaussian univariate HMM the number of free parameters is $d_K = K(K-1) + 2K = K^2 + K$, and the information criteria are: $$\begin{aligned}
+    \text{AIC} &= -2 \log \mathcal{L}(\hat{\boldsymbol{\lambda}}) +
+    2 d_K \\
+    \text{BIC} &= -2 \log \mathcal{L}(\hat{\boldsymbol{\lambda}}) +
+    d_K \log T
+\end{aligned}$$ The BIC penalizes complexity more heavily and is preferred for HMMs. In practice, for pairs trading $K = 2$ (low/high volatility) is almost always sufficient and produces interpretable regimes. Models with $K = 3$ can capture an intermediate phase but at the cost of greater numerical instability.
+
+## Trading Indicators {#sec-trading-indicators .unnumbered}
+
+The filtered probability of being in the favorable regime is: $$
+    \phi_t = \hat{\xi}_{t|t}^{(1)} = \Pr(s_t = 1 \mid
+    \boldsymbol{y}_{1:t}, \hat{\boldsymbol{\lambda}})
+$$ where regime 1 is conventionally the low-volatility, stable cointegration regime (identified during estimation as the regime with $\hat{\sigma}_1 < \hat{\sigma}_2$). A composite indicator that combines the regime probability with the estimated duration in the current regime is: $$
+    \Phi_t = \phi_t \cdot \left(1 - e^{-\phi_t /
+    (1 - p_{11})}\right)
+$$ where the second factor penalizes recent transitions. In @sec-sub-kf-hmm-integration we use the simpler threshold rule $\phi_t > \phi^*$ with $\phi^*$ optimized on the training sample.
+
+![HMM regime detection on GLD/SLV (2010–2019). Top panel: scatter plot of $z_t^2 = (v_t/\sqrt{f_t})^2$ coloured by Viterbi regime (green = regime 1, red = regime 2); vertical dashed lines mark relevant market events. Middle panel: soft filtered regime probabilities $\hat{\xi}_{t|t}^{(k)}$ (Hamilton filter, causal) in stacked-area format: the green component represents $\Pr(s_t=1 \mid \boldsymbol{y}_{1:t})$ and the red component $\Pr(s_t=2 \mid \boldsymbol{y}_{1:t})$. Bottom panel: hard regime sequence $\hat{s}_{1:T}^*$ (Viterbi algorithm). The comparison between middle and bottom panels highlights the structural difference between continuous probabilistic estimation (soft) and optimal discrete classification (hard): the former captures uncertainty at regime transitions, the latter provides a clean segmentation suitable for estimating regime-dependent parameters.](figures/8-hardvssoftprob.png){#fig-hmm-hard-soft}
+
+@tbl-hmm-zscore-params reports the parameters of the HMM estimated on the z-score $z_t^{\mathrm{KF}}$ used for regime detection in @fig-hmm-hard-soft. Note that the parameters are not comparable with those of @tbl-hmm-params, since the input is the standardized z-score rather than raw log-returns.
+
+::: {#tbl-hmm-zscore-params}
+  **Parameter**                        **Regime 1 (Low Vol)**   **Regime 2 (High Vol)**
+  ----------------------------------- ------------------------ -------------------------
+  $\hat{\mu}_k$                              $-0.00965$               $-0.04283$
+  $\hat{\sigma}_k$                           $0.68765$                 $1.79467$
+  $\hat{\sigma}_k / \hat{\sigma}_1$           $1.000$                   $2.609$
+  $\pi^*_k$                                   $0.811$                   $0.189$
+  $p_{kk}$                                    $0.9763$                 $0.8979$
+  $d_k$ (days)                                 $42.2$                    $9.8$
+  $d_k$ (weeks)                             $\approx 8$               $\approx 2$
+
+  : Estimated parameters of the two-state HMM on the adaptive z-score $z_t^{\mathrm{KF}} = v_t/\sqrt{f_t}$ of GLD/SLV (2010--2019). Relative to @tbl-hmm-params, the input is the standardized z-score rather than raw log-returns; the parameters therefore operate on a different scale and are not directly comparable.
+:::
+
+# Integrating HMM and KF in Pairs Trading {#sec-sub-kf-hmm-integration}
+
+The Kalman Filter and the HMM play complementary and non-overlapping roles in the signal generation chain. The KF estimates the structure of the cointegrating relationship and produces the quantitative signal; the HMM assesses the quality of the market context and acts as a qualitative filter on signal execution. The separation is intentional: a spread far from its mean is not enough, since the market regime must also be compatible with mean reversion.
+
+::: {#tbl-framework-comparison}
+  **Property**                           **OLS**   **KF**    **KF-HMM-GARCH**
+  ------------------------------------- --------- --------- ------------------
+  Stationary numerator                     No        Yes           Yes
+  Adaptive denominator                     No      Partial         Yes
+  Corrects parameter drift                 No        Yes           Yes
+  Corrects volatility clustering           No        No            Yes
+  Operational regime filter                No        No            Yes
+  Suppresses signals in regime 2           No        No            Yes
+  Requires periodic re-estimation          Yes       No             No
+  Causal (real-time)                       Yes       Yes           Yes
+  Thresholds optimized on performance       2         2             3
+  Parameters estimated by likelihood        0         3      3 + GARCH + HMM
+
+  : Comparison between signal generation framework specifications for pairs trading. The KF-HMM framework resolves all three distortions identified in equation @eq-ols-error.
+:::
+
+::: minipage
+*Notes:* The parameters of the KF-HMM-GARCH framework are $(\hat{\sigma}^2_\varepsilon, \hat{q}_\alpha, \hat{q}_\beta)$ for the KF, estimated via MLE, plus the operational thresholds $(z^*, z^{\mathrm{exit}}, \phi^*)$ optimized via grid search on the training sample in Part III. The GARCH parameters $(\hat{\omega}, \hat{\alpha},
+\hat{\beta})$ are estimated via MLE on the KF residuals and do not require separate optimization.
+:::
+
+## Trading System Architecture {#sec-trading-system-architecture .unnumbered}
+
+The integrated KF-HMM system operates according to the following pipeline, repeated at each new data point:
+
+1.  **KF update:** with the new price pair $(Y_{1,t}, Y_{2,t})$, run the prediction and update steps of the Kalman Filter to obtain the updated filtered estimate $\hat{\boldsymbol{\alpha}}_{t|t} = (\hat{\alpha}_{t|t},
+        \hat{\beta}_{t|t})'$, the innovation $v_t$, and its variance $f_t$.
+
+2.  **HMM update:** with the current observation $\boldsymbol{y}_t$ (standardized returns or the normalized z-score from the previous step), update the filtered regime probability $\phi_t$ via the Hamilton filter @eq-hamilton-pred--@eq-hamilton-pred.
+
+3.  **Dynamic z-score:** the KF innovation, normalized by its conditional standard deviation, produces the adaptive z-score defined in @eq-adaptive-zscore: $$
+            z_t = \frac{v_t}{\sqrt{f_t}}
+    $$ To also correct for volatility clustering of the spread, one replaces $\sqrt{f_t}$ with $\sqrt{f_t +
+        \hat{\sigma}_{S,t}^2}$ where $\hat{\sigma}_{S,t}^2$ is the GARCH conditional variance estimated on the KF filtered residuals. This specification is adopted in Part III.
+
+4.  **Regime-dependent signal generation:** the trading signal $\tau_t$ combines the dynamic z-score with the regime probability: 
+
+$$
+            \tau_t = \begin{cases}
+                +1 & \text{if } z_t < -z^* \text{ and }
+                \phi_t > \phi^* \\
+                -1 & \text{if } z_t > +z^* \text{ and }
+                \phi_t > \phi^* \\
+                \phantom{+}0 & \text{otherwise}
+            \end{cases}
+$$ {#eq-signal-rule}
+
+ where $z^*$ is the entry threshold and the position is closed when $|z_t|$ falls below the exit threshold $z^{\text{exit}} < z^*$.
+
+5.  **Position sizing:** the position size can be scaled by the regime probability and the z-score magnitude: $$
+            w_t = \bar{w}\, \phi_t \cdot \min\!\left(
+            \frac{|z_t|}{z^*},\, w_{\max}\right)
+    $$ where $\bar{w}$ is the maximum position size and $w_{\max}$ is a maximum multiplier.
+
+The condition $\phi_t > \phi^*$ in rule @eq-signal-rule is not arbitrary. The signal $z_t > z^*$ indicates that the spread is significantly above its historical mean. This deviation can have two distinct causes:
+
+1.  The spread has temporarily departed from the long-run equilibrium and will revert to it. This is a genuine mean-reversion opportunity, characterized by $\phi_t \approx 1$ (stable cointegration regime).
+
+2.  The cointegrating relationship has broken down. This is a structural break, not a temporary deviation, characterized by $\phi_t \approx 0$ (degraded cointegration regime).
+
+Without the regime condition the signal $z_t > z^*$ is ambiguous. The condition $\phi_t > \phi^*$ selects the first case: we execute the signal only when the HMM is sufficiently confident that cointegration is stable. The optimal threshold $\phi^*$ is determined empirically based on the trade-off between the number of signals generated and the quality of the selection (typical values in the range $[0.6, 0.8]$).
+
+## Sequential Estimation {#sec-sequential-estimation .unnumbered}
+
+The KF-HMM architecture is estimated in three steps:
+
+**Step 1 (KF):** estimate the hyperparameters $\hat{\boldsymbol{\psi}} = (\hat{\sigma}_\varepsilon^2, \hat{q}_\alpha,
+\hat{q}_\beta)$ by maximizing the log-likelihood @eq-kf-loglik via L-BFGS-B. Obtain the filtered state estimates $\{\hat{\boldsymbol{\alpha}}_{t|t}\}_{t=1}^T$, the innovations $\{v_t\}$, and the innovation variances $\{f_t\}$. Compute the dynamic spread $S_t = v_t$ and the adaptive z-score $z_t = v_t / \sqrt{f_t}$.
+
+**Step 2 (HMM):** estimate a $K$-regime HMM on the regime observations $\boldsymbol{y}_t^{\text{HMM}}$ (raw returns, standardized returns, or z-scores). Estimate $\hat{\boldsymbol{\lambda}}$ via Baum-Welch with $N_{\text{init}} = 50$ random initializations. Obtain the filtered probability series $\{\phi_t\}_{t=1}^T$.
+
+**Step 3 (Threshold optimization):** optimize the thresholds $(z^*, z^{\text{exit}}, \phi^*)$ on the training sample by maximizing a performance metric (e.g. Sharpe ratio) via three-dimensional grid search, followed by walk-forward validation to prevent overfitting [@lopezdeprado2018].
+
+## Comparison with Alternative Approaches {#sec-comparison-with-alternative-approaches .unnumbered}
+
+The simplest approach, a rolling z-score with fixed-window mean and standard deviation, is computationally immediate but non-adaptive: the window length is a fixed hyperparameter that does not respond to market changes. Too short a window produces noisy estimates; too long a window produces estimates that are slow to adapt to structural breaks.
+
+Pole [@pole2007] proposes a Kalman Filter for the rolling mean alone, leaving the standard deviation constant. Our architecture extends this by estimating the mean, the hedge ratio, and the conditional variance simultaneously, and adding the market regime dimension through the HMM.
+
+Liu et al. [@liu2017] combine KF for the mean and GARCH for the variance, but do not incorporate regime detection as a filter on signal execution. Adding the HMM is the specific methodological contribution of this thesis: the condition $\phi_t > \phi^*$ is designed to suppress signals during structural break periods.
+
+The empirical evidence is deferred to Part IV, where the three specifications (OLS, KF, and KF-HMM-GARCH) are benchmarked out-of-sample on a universe of 747 US securities with realistic transaction costs; their measurable effect turns out to be mainly a reduction in drawdown.
+
+# KF Innovation Diagnostics and GARCH Enhancement
+
+Before replacing the denominator $\sqrt{f_t}$ with $\sqrt{f_t + \hat{\sigma}^2_{S,t}}$, we need to formally motivate why a GARCH model is needed on the innovations $v_t$. The Kalman Filter resolves the first distortion of the z-score (the non-stationary numerator) but leaves the second untouched: the conditional variance of the spread is not constant. @fig-kf-residuals-diag makes this residual heteroskedasticity visible.
+
+The time series of $v_t$ (top panel) shows episodes of markedly larger amplitude during the known stress periods (Gold ATH 2011--2012, China shock 2015--2016, December 2018 sell-off). The residuals are not homoskedastic. The plot of $v_t^2$ (middle panel) makes the clustering obvious: volatility spikes cluster in prolonged bursts separated by long calm periods, a structure incompatible with the homoskedastic white noise hypothesis. The ACF and PACF of $v_t^2$ (bottom panels) show significant autocorrelations decaying slowly to zero, the signature of a GARCH process.
+
+Three formal tests confirm this:
+
+- **Ljung-Box on $v_t$**: does not reject $H_0$ (no autocorrelation in the mean) at short lags, confirming that the Kalman Filter has already made $v_t$ white noise in the mean (@tbl-ljungbox).
+
+- **Ljung-Box on $v_t^2$**: rejects $H_0$ with $p < 0.001$ at all tested lags ($\ell = 5, 10, 20, 30$), documenting very strong autocorrelation in the conditional variance (@tbl-ljungbox).
+
+- **Engle ARCH-LM test** (10 lags): statistic $LM \approx 102$, $p \approx 0$ (@tbl-arch-lm). The conditional variance of $v_t$ is autoregressive.
+
+On the descriptive statistics side (@tbl-kf-resid-stats), $v_t$ has an empirical excess kurtosis of $5.49$ and negative skewness of $-0.38$, consistent with heavy tails and left asymmetry. Together these tests make GARCH(1,1) the right tool for estimating $\hat{\sigma}^2_{S,t}$: it captures the persistent heteroskedasticity of the residuals and provides an adaptive conditional variance estimate to add to $f_t$ in the z-score denominator.
+
+![Diagnostics of the Kalman Filter innovations $v_t$ on GLD/SLV (2010–2019), $T = 2{,}510$ observations. *Panel 1*: time series of $v_t$ with $\pm 2\hat{\sigma}$ band; vertical dashed lines mark the main stress episodes (Gold ATH 2011–2012, China shock 2015–2016, December 2018 sell-off). *Panel 2*: time series of $v_t^2$ (conditional variance proxy); volatility clustering is immediately visible. *Panels 3–6*: ACF and PACF of $v_t$ and $v_t^2$; dashed bands indicate the $\pm 1.96/\sqrt{T}$ threshold. The ACF of $v_t$ is consistent with white noise in the mean (Ljung-Box: $p = 0.26$ at lag 5), while the ACF of $v_t^2$ shows strongly significant autocorrelations ($p < 0.001$ at all lags), confirming the presence of ARCH effects. The Engle ARCH-LM test (10 lags) returns $LM \approx 102$ with $p \approx 0$, formally motivating the adoption of GARCH(1,1) for modelling $\hat{\sigma}^2_{S,t}$.](figures/fig-kf-residuals-garch-diagnostics.png){#fig-kf-residuals-diag}
+
+::: {#tbl-kf-resid-stats}
+  **Statistic**                                   **Value**
+  ----------------------------------- ----------------------------------
+  Mean $\hat{\mu}$                          $-7.37 \times 10^{-4}$
+  Standard deviation $\hat{\sigma}$         $1.184 \times 10^{-2}$
+  Skewness $\hat{s}$                               $-0.384$
+  Excess kurtosis $\hat{\kappa}$       $\mathbf{5.493}$ (Gaussian: $0$)
+  Minimum                                   $-9.07 \times 10^{-2}$
+  Maximum                                   $+7.33 \times 10^{-2}$
+
+  : Descriptive statistics of the Kalman Filter innovations $v_t$ on GLD/SLV (2010--2019), $T = 2{,}510$ daily observations. The excess kurtosis $\hat{\kappa} = 5.49 \gg 0$ indicates heavy tails; the negative skewness $\hat{s} = -0.38$ confirms left asymmetry consistent with the leverage effect.
+:::
+
+::: minipage
+*Note:* Under the Gaussian white noise hypothesis the excess kurtosis should be zero. The empirical value of $5.49$ is incompatible with that hypothesis and motivates the use of a heavy-tailed conditional distribution in the GARCH specification.
+:::
+
+::: {#tbl-ljungbox}
++---------------------------+---------------------------------------------+-----------------------------------------------+
+|                           | **Ljung-Box on $v_t$**                      | **Ljung-Box on $v_t^2$**                      |
++:=========================:+:=========:+:=========:+:===================:+:=========:+:=========:+:=====================:+
+| 2-4(lr)5-7 **Lag $\ell$** | $Q(\ell)$ | $p$-value | Reject $H_0^{(v)}$? | $Q(\ell)$ | $p$-value | Reject $H_0^{(v^2)}$? |
++---------------------------+-----------+-----------+---------------------+-----------+-----------+-----------------------+
+| $5$                       | $6.48$    | $0.262$   | No                  | $110.25$  | $<0.001$  | Yes $^{***}$          |
++---------------------------+-----------+-----------+---------------------+-----------+-----------+-----------------------+
+| $10$                      | $23.20$   | $0.010$   | Yes $^{**}$         | $130.54$  | $<0.001$  | Yes $^{***}$          |
++---------------------------+-----------+-----------+---------------------+-----------+-----------+-----------------------+
+| $20$                      | $32.39$   | $0.039$   | Yes $^{**}$         | $177.40$  | $<0.001$  | Yes $^{***}$          |
++---------------------------+-----------+-----------+---------------------+-----------+-----------+-----------------------+
+| $30$                      | $45.08$   | $0.038$   | Yes $^{**}$         | $192.25$  | $<0.001$  | Yes $^{***}$          |
++---------------------------+-----------+-----------+---------------------+-----------+-----------+-----------------------+
+
+: Ljung-Box portmanteau test on the innovations $v_t$ and their squares $v_t^2$, for lag orders $\ell \in \{5, 10, 20, 30\}$. GLD/SLV (2010--2019), $T = 2{,}510$. $H_0^{(v)}$: no autocorrelation in $v_t$ (mean). $H_0^{(v^2)}$: no autocorrelation in $v_t^2$ (variance/ARCH).
+:::
+
+::: minipage
+$^{**}$ Rejection of $H_0$ at 5%.$^{***}$ Rejection of $H_0$ at 0.1%.\
+*Interpretation:* The test on $v_t$ does not reject $H_0^{(v)}$ at short lags ($\ell=5$, $p=0.26$), confirming that the Kalman Filter has already rendered the innovation mean approximately white. The weak rejections at longer lags ($\ell \geq 10$) reflect a residual low-order autocorrelation in the mean, common in daily pairs trading spreads. In contrast, the test on $v_t^2$ rejects $H_0^{(v^2)}$ with overwhelming evidence ($p < 10^{-20}$) at all lags, documenting strong serial dependence in the conditional variance and directly motivating the adoption of the GARCH(1,1) model.
+:::
+
+::: {#tbl-arch-lm}
+  **Test**                    **LM statistic**    **$p$-value**
+  -------------------------- ------------------ -----------------
+  Engle ARCH-LM ($p = 10$)        $102.01$       $< 0.001^{***}$
+
+  : Engle (1982) ARCH Lagrange Multiplier test on the Kalman Filter innovations $v_t \times 10^4$, GLD/SLV (2010--2019), $T = 2{,}510$. $H_0$: no ARCH effects (conditional homoskedasticity). The test is conducted with lag order $p = 10$.
+:::
+
+::: minipage
+$^{***}$ Rejection of $H_0$ at 0.1%.\
+*Interpretation:* The LM statistic of $102.01$ far exceeds the $\chi^2_{10}$ critical value at 1% (equal to $23.21$), rejecting $H_0$ with $p < 10^{-6}$. Together with the Ljung-Box results on $v_t^2$ (@tbl-ljungbox), this formally confirms the need for a GARCH model for the component $\hat{\sigma}^2_{S,t}$ of the adaptive z-score denominator $\sqrt{f_t + \hat{\sigma}^2_{S,t}}$.
+:::
+
+## The KF + GARCH Denominator {#sec-the-kf-garch-denominator .unnumbered}
+
+The diagnostic evidence above justifies replacing the partial denominator $\sqrt{f_t}$ with the full denominator $\sqrt{f_t + \hat{\sigma}^2_{S,t}}$, where $\hat{\sigma}^2_{S,t}$ is the GARCH(1,1) conditional variance estimated on the KF innovations. @fig-zscore-garch compares the three z-score specifications, while @tbl-garch-params and @tbl-zscore-comparison report the estimated GARCH parameters and the comparative z-score statistics respectively.
+
+![Comparison of three z-score specifications on GLD/SLV (2010–2019). Top panel: static z-score $z_t^{\mathrm{OLS}} = S_t^{\mathrm{OLS}}\,/\,\hat{\sigma}_\varepsilon$ with fixed denominator. Middle panel: adaptive z-score $z_t^{\mathrm{KF}} = v_t\,/\,\sqrt{f_t}$ correcting for parametric uncertainty only. Bottom panel: full-denominator z-score $z_t^{\mathrm{KF+GARCH}} = v_t\,/\,\sqrt{f_t + \hat{\sigma}^2_{S,t}}$, where $\hat{\sigma}^2_{S,t}$ is the GARCH(1,1) conditional variance estimated on the innovations $v_t$; the right axis shows the two denominator components ($\sqrt{f_t}$ in green and $\hat{\sigma}_{S,t}$ in blue, both $\times 10^3$). The move from OLS to KF resolves the systematic drift in the numerator, rendering the z-score stationary by construction. Adding the GARCH component in the denominator further widens it during periods of high conditional volatility (2011–2012, 2015–2016), correcting the second distortion discussed in @eq-ols-error. Empirical evaluation of the combined denominator versus $\sqrt{f_t}$ alone is deferred to the backtesting of Part IV.](figures/garchzscore.png){#fig-zscore-garch}
+
+::: {#tbl-garch-params}
+  **Parameter**                  **Description**                                                        **Estimated value**
+  ------------------------------ -------------------------------------------------------------------- -----------------------
+  $\hat{\omega}$                 Constant term                                                         $1.448 \times 10^{2}$
+  $\hat{\alpha}$                 ARCH coefficient (squared shock)                                            $0.0817$
+  $\hat{\beta}$                  GARCH coefficient (lagged variance)                                         $0.9043$
+  $\hat{\alpha} + \hat{\beta}$   Conditional volatility persistence                                          $0.9860$
+  $\hat{\sigma}^2_\infty$        Unconditional variance $\hat{\omega}/(1-\hat{\alpha}-\hat{\beta})$    $1.034 \times 10^{4}$
+
+  : Estimated parameters of the GARCH(1,1) model on the Kalman Filter innovations $v_t$ on GLD/SLV (2010--2019). The model is estimated on $v_t \times 10^4$ for numerical stability and the parameters are reported in these scaled units. The persistence $\hat{\alpha} + \hat{\beta} = 0.986$ indicates highly persistent conditional volatility of the spread.
+:::
+
+::: {#tbl-zscore-comparison}
+  **Statistic**                           $z_t^{\mathrm{OLS}}$          $z_t^{\mathrm{KF}}$         $z_t^{\mathrm{KF+GARCH}}$
+  -------------------------------- ---------------------------------- ----------------------- -------------------------------------
+  Min                                           $-2.62$                       $-7.38$                        $-3.86$
+  Max                                           $+3.83$                       $+4.34$                        $+2.44$
+  Std                                           $1.000$                       $1.001$                        $0.658$
+  Denominator                       Fixed $\hat{\sigma}_\varepsilon$   Adaptive $\sqrt{f_t}$   $\sqrt{f_t + \hat{\sigma}^2_{S,t}}$
+  Systematic drift                          Yes (2013--2019)                    No                             No
+  Corrects parameter drift                         No                           Yes                            Yes
+  Corrects volatility clustering                   No                           No                             Yes
+
+  : Statistical comparison of the three z-score specifications on GLD/SLV (2010--2019). A correctly standardized z-score has std $\approx 1$.
+:::
+
+::: minipage
+*Note:* The standard deviation of $z_t^{\mathrm{KF+GARCH}} = 0.658 < 1$ indicates that the combined denominator $\sqrt{f_t + \hat{\sigma}^2_{S,t}}$ over-standardizes the spread during high-volatility periods, compressing signals beyond what is necessary. This suggests that the threshold $z^*$ should be re-calibrated in Part III, typically lowering it from $z^* = 2$ to $z^* \approx 1.3$.
+:::
+
+![Operational dashboard of the KF-HMM system on GLD/SLV (2010–2019). Top panel: dynamic spread $S_t = v_t$ with adaptive confidence band $\pm 2\sqrt{f_t}$. Middle panel: adaptive z-score $z_t = v_t/\sqrt{f_t}$ with entry thresholds $\pm z^* = 2$ and exit threshold $\pm z^{\mathrm{exit}} = 0.5$; green arrows = long signals, red arrows = short signals; grey areas = periods with $\phi_t \leq \phi^* = 0.65$ in which signals are suppressed by the regime filter. Bottom panel: filtered regime probability $\phi_t$ with threshold $\phi^*$. The suppression of signals during regime 2 periods, in particular during the China shock 2015–2016 and the December 2018 sell-off, reduces the number of spurious trades executed during phases of degraded cointegration.](figures/7-kf-signal-dynamic-spread-adaptive-zscore.png){#fig-kf-hmm-signals}
+
+# From Part II to Part III: from estimator to strategy {#sec-from-part-ii-to-part-iii-from-estimator-to-strategy .unnumbered}
+
+Kalman Filter and Hidden Markov Model, derived in this Part as general estimators for time-varying parameters and latent regimes, are at this point tools without a strategy that uses them. Nothing in the chapters above says how to size a position, where to set a threshold, or when to trust a signal. That is the specific gap Part III closes, first for a single pair, then for a basket of many assets.
+
+Part I built the econometric grammar of cointegration and conditional volatility; Part II made its parameters time-varying, deriving the Kalman Filter, the Hidden Markov Model, and their integration into a single KF--HMM--GARCH architecture. What was there developed as theory is, at this point, a collection of estimators in search of a strategy. Part III bridges this gap. It assembles the components into two complete trading systems: first the bivariate *pairs trade*, in which a single cointegration relationship is modeled, monitored, and traded; then high-dimensional *statistical arbitrage*, in which the same logic is lifted to a basket of many assets whose joint mean-reversion must be identified, maximized, and dynamically managed. The emphasis is always on the operational level: how each estimator feeds the next, how a signal is generated and filtered, how the free parameters are selected without overfitting. The out-of-sample evaluation of the resulting strategies, with realistic frictions, is the object of the empirical part that follows.
+
+[^1]: $\mathcal{B}$ denotes the Borel sigma-algebra.
+
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+
+::: {.paper-download}
+[Download PDF](thesis_zeri_tommaso-4.pdf){.btn-paper download=""}
+:::

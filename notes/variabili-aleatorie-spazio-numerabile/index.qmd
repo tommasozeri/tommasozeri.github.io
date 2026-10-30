@@ -46,7 +46,7 @@ La probabilità indotta sarà quindi la probabilità di questo sottoinsieme calc
 
 Nella notazione compatta scriveremo semplicemente $\mathbb{P}(X=1) = 0.5$.
 
-![Controimmagine di <span class="math inline"><em>A</em></span> attraverso <span class="math inline"><em>X</em></span>](figures/progetto-senza-titolo-11.png){#fig-placeholder}
+![Controimmagine di $A$ attraverso $X$](figures/progetto-senza-titolo-11.png){#fig-placeholder}
 
 ## Valore Atteso
 

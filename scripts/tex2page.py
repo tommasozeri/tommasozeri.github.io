@@ -9,6 +9,7 @@ figures copied into PAGE_DIR/figures, TikZ drawn as SVG, the bibliography
 copied next to the page, and the PDF download block at the end.
 """
 import argparse
+from html import unescape as html_unescape
 import os
 import re
 import shutil
@@ -275,7 +276,7 @@ MAXFIX = int(os.environ.get("MAXFIX", "12"))
 for attempt in range(MAXFIX):
     (WORK / "doc.tex").write_text(doc)
     res = subprocess.run([*a.pandoc.split(), "-f", "latex", "-t", "markdown-raw_tex-raw_attribute+tex_math_dollars",
-                          "--wrap=none", str(WORK / "doc.tex")], capture_output=True, text=True, cwd=WORK)
+                          "--wrap=none", "--mathjax", str(WORK / "doc.tex")], capture_output=True, text=True, cwd=WORK)
     if res.returncode == 0:
         break
     em = re.search(r"line (\d+), column (\d+)\):\s*\n(.*?)\n", res.stderr)
@@ -357,10 +358,36 @@ if abstract.strip():
                         input=pre + "\\begin{document}\n" + abstract + "\n\\end{document}", capture_output=True, text=True).stdout.strip()
 
 # -------------------------------------------------------- post-processing
+# math inside raw-HTML figures comes out as \( \) spans: back to $ $
+md = re.sub(r'<span class="math inline">\\\((.*?)\\\)</span>', lambda m: "$" + html_unescape(m.group(1)) + "$", md, flags=re.S)
+md = re.sub(r'<span class="math display">\\\[(.*?)\\\]</span>', lambda m: "$$" + html_unescape(m.group(1)) + "$$", md, flags=re.S)
+md = re.sub(r'<a href="#([^"]+)" data-reference-type="[^"]*" data-reference="[^"]*">[^<]*</a>',
+            lambda m: "[](#" + m.group(1) + "){reference-type=\"ref\" reference=\"" + m.group(1) + "\"}", md)
+md = re.sub(r"</?em>", "*", md)
 # figures written as HTML -> markdown figures
 md = re.sub(r'<figure(?: id="([^"]*)")?[^>]*>\s*(?:<img src="([^"]+)"[^>]*/>\s*)+(?:<figcaption>(.*?)</figcaption>\s*)?</figure>',
             lambda m: "![" + re.sub(r"\s+", " ", (m.group(3) or "")).strip() + "](" + m.group(2) + ")" +
             ("{#" + m.group(1) + "}" if m.group(1) else ""), md, flags=re.S)
+# figures with several panels -> Quarto figure div with a column layout
+seen_ids = set()
+
+
+def multi_fig(m):
+    fid, inner = m.group(1), m.group(2)
+    imgs = re.findall(r'!\[([^\]]*)\]\(([^)\s]+)\)', inner) + [("", u) for u in re.findall(r'<img src="([^"]+)"', inner)]
+    if not imgs:
+        return m.group(0)
+    cap = re.search(r"<figcaption>(.*?)</figcaption>", inner, re.S)
+    cap = re.sub(r"\s+", " ", cap.group(1)).strip() if cap else ""
+    attrs = f"layout-ncol={min(len(imgs), 3)}"
+    if fid and fid not in seen_ids:
+        seen_ids.add(fid)
+        attrs = f"#{fid} " + attrs
+    body_ = "\n\n".join(f"![{c}]({u})" for c, u in imgs)
+    return f"::: {{{attrs}}}\n\n{body_}\n\n{cap}\n\n:::"
+
+
+md = re.sub(r'^[ \t]*<figure(?: id="([^"]*)")?[^>]*>(.*?)</figure>', lambda m: "\n" + multi_fig(m) + "\n", md, flags=re.S | re.M)
 md = re.sub(r'\{width="[^"]*"\}', "", md)
 md = re.sub(r'(\{#[^}\s]+) width="[^"]*"', r"\1", md)
 md = re.sub(r'(\{#[^}]*?)\s*data-latex-placement="[^"]*"', r"\1", md)
@@ -397,10 +424,10 @@ def div_id(m):
         kind = "fig" if "![" in nxt.split(":::")[0] else "tbl" if re.search(r"^\s*[-+|]{3,}", nxt, re.M) else None
     if kind is None:
         return m.group(0)
-    return f"{colons} {{#{newid(old, kind)}}}"
+    return f"{colons} {{#{newid(old, kind)}{m.group(3)}}}"
 
 
-md = re.sub(r"^(:::+) \{#([^}\s]+)\}[ \t]*$", div_id, md, flags=re.M)
+md = re.sub(r"^([ \t]*:::+) \{#([^}\s]+)([^}]*)\}[ \t]*$", div_id, md, flags=re.M)
 
 
 def eq(m):
@@ -410,6 +437,13 @@ def eq(m):
     inner = re.sub(r"\\begin\{(equation|multline|gather)\*?\}(.*?)\\end\{\1\*?\}", r"\2", inner, flags=re.S)
     inner = re.sub(r"\\begin\{(align|eqnarray|flalign)\*?\}(.*?)\\end\{\1\*?\}", r"\\begin{aligned}\2\\end{aligned}", inner, flags=re.S)
     inner = inner.replace("\\nonumber", "").replace("\\notag", "")
+    if "\\begin{" in inner and not re.search(r"^(:::|#|- |\*\*)", inner, re.M):
+        inner = re.sub(r"\n[ \t]*(?=\n)", "", inner)
+    if "aligned" in inner and "\\tag" in inner:   # MathJax: no \tag inside aligned
+        tags = re.findall(r"\\tag\*?\{([^}]*)\}", inner)
+        inner = re.sub(r"\\tag\*?\{[^}]*\}", "", inner)
+        if tags and not labs:
+            inner += "\\tag{" + tags[0] + "}"
     if not labs:
         return "$$" + inner + "$$"
     nid = newid(labs[0], "eq")
@@ -418,9 +452,15 @@ def eq(m):
     return "\n\n$$" + inner.rstrip() + "\n$$ {#" + nid + "}\n\n"
 
 
+# park cross-reference links first: their text "\[label\]" looks like display math
+md = re.sub(r"\[((?:\\\]|[^\]$\n])*)\]\(#([^)\s]+)\)\{reference-type=\"[^\"]*\"[^}]*\}",
+            lambda m: "ZZREF" + m.group(2).replace(":", "ZZC") + "ZZEND", md)
 md = re.sub(r"\$\$(.*?)\$\$", eq, md, flags=re.S)
 # ids pandoc put on raw divs / spans for labels inside theorems etc.
 md = re.sub(r'\[\]\{#([^}\s]+)(?: label="[^"]*")?\}', "", md)
+
+
+lang_it = re.search(r"^lang:\s*it", (PAGE / "index.qmd").read_text(), re.M)
 
 
 def ref(m):
@@ -428,10 +468,10 @@ def ref(m):
     if target in idmap:
         return "@" + idmap[target]
     log.append(f"unresolved ref {target}")
-    return text.replace("\\[", "").replace("\\]", "")
+    return "(see the PDF)" if lang_it is None else "(vedi il PDF)"
 
 
-md = re.sub(r"\[([^\]]*)\]\(#([^)\s]+)\)\{reference-type=\"[^\"]*\"[^}]*\}", ref, md)
+md = re.sub(r"ZZREF(.*?)ZZEND", lambda m: ref(type("R", (), {"group": lambda self, k: ("", m.group(1).replace("ZZC", ":"))[k - 1]})()), md)
 # hand-written thebibliography: resolve @key citations to author-year links
 items = re.findall(r"\\bibitem(?:\[([^\]]*)\])?\{([^}]+)\}(.*?)(?=\\bibitem|\\end\{thebibliography\})", raw, re.S)
 if items and not bib_names:

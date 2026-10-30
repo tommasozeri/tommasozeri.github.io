@@ -224,7 +224,7 @@ poichè $\mathcal{A}$ è una $\sigma$-algebra, abbiamo che $\limsup_{n\rightarro
 
 Siano $A$ e $B$ due eventi definiti su uno spazio di probabilità $(\Omega,\mathcal{A},\mathbb{P)}$ e sia $f_n(A)$ la frequenza relativa dell'evento $A$, ovvero il numero di volte in cui $A$ si verfifica, diviso per $n$ (numero totale di prove). Intuitivamente: $$\lim_{n\rightarrow\infty}f_n(A)=\mathbb{P}(A)$$
 
-![Convergenza della frequenza relativa alla probabilità nel lancio di un dado. <span class="math inline"><em>A</em> = {<em>i</em> : 1 ≤ <em>i</em> ≤ 6}</span>](figures/download.png){#fig-placeholderx}
+![Convergenza della frequenza relativa alla probabilità nel lancio di un dado. $A=\{i:1\leq i \leq 6\}$](figures/download.png){#fig-placeholderx}
 
 Ora supponiamo di sapere che l'evento $B$ si è verificato e indichiamo con $\mathbb{P}(A|B)$ la probabilità che $A$ si verifichi dato che $B$ si è verificato. Ora dal lato delle frequenze relative, ci interessa contare solo le prove in cui $A$ e $B$ si sono verificati. Queste sono date da $nf_n(A\cap B)$. Inoltre, stiamo restringendo lo spazio al vincolo che $B$ si sia verificato. Dunque: $$\lim_{n\rightarrow\infty} \frac{nf_n(A\cap B)}{nf_n(B)}=\frac{\mathbb{P}(A\cap B)}{\mathbb{P}(B)}=\mathbb{P}(A|B)$$
 
@@ -268,7 +268,7 @@ Una collezione di eventi $\{E_n\}_{n\geq 1}$ è una partizione di $\Omega$ se:
 
 - l'unione dei singoli elementi di partizione restituisce lo spazio degli eventi $\bigcup_nE_n=\Omega$
 
-![Partizione dello spazio degli eventi, <span class="math inline"><em>n</em> = 4</span>](figures/progetto-senza-titolo-9.png){#fig-placeholder}
+![Partizione dello spazio degli eventi, $n=4$](figures/progetto-senza-titolo-9.png){#fig-placeholder}
 
 ::: mybox
 Equazione della partizione o Teorema della probabilità totale Sia $\{E_n\}_{n\geq 1}$ una partizione finita o numerabile di $\Omega$. Allora, se $A\in \mathcal{A}$: $$\mathbb{P}(A)=\sum_n\mathbb{P}(A|E_n)\mathbb{P}(E_n)$$
@@ -285,7 +285,7 @@ Questa formula ci fornisce un metodo per calcolare la probabilità di un evento 
 $$\mathbb{P}(A)=\mathbb{P}(A| E_1)\mathbb{P}(E_1)+...+\mathbb{P}(A| E_4)
 \mathbb{P}(E_4)$$ Questo perchè, analizzando il singolo addendo e sfruttando la definizone di probabilità condizionata, ci accorgiamo che: $$\mathbb{P}(A\cap E_n)=\mathbb{P}(A|E_n)\mathbb{P}(E_n)$$
 
-![Partizione dello spazio degli eventi, <span class="math inline"><em>n</em> = 4</span>](figures/progetto-senza-titolo-10.png){#fig-placeholderx}
+![Partizione dello spazio degli eventi, $n=4$](figures/progetto-senza-titolo-10.png){#fig-placeholderx}
 
 ## Teorema di Bayes
 
@@ -563,7 +563,7 @@ La probabilità indotta sarà quindi la probabilità di questo sottoinsieme calc
 
 Nella notazione compatta scriveremo semplicemente $\mathbb{P}(X=1) = 0.5$.
 
-![Controimmagine di <span class="math inline"><em>A</em></span> attraverso <span class="math inline"><em>X</em></span>](figures/progetto-senza-titolo-11.png){#fig-placeholderx}
+![Controimmagine di $A$ attraverso $X$](figures/progetto-senza-titolo-11.png){#fig-placeholderx}
 
 ## Valore Atteso
 
@@ -782,7 +782,7 @@ In sintesi, la CDF restituisce le probabilità esatte (ed esiste sempre, per var
 1 & \text{se } x \geq \alpha 
 \end{cases}$$
 
-![CDF della Massa di Dirac in <span class="math inline"><em>α</em></span>](figures/dirac.png){#fig-dirac}
+![CDF della Massa di Dirac in $\alpha$](figures/dirac.png){#fig-dirac}
 
 ## Distribuzione Uniforme
 
@@ -1108,7 +1108,7 @@ Sia $(\Omega, \mathcal{A}, \mathbb{P})$ uno spazio di probabilità. Vogliamo def
 
 Una VA è detta semplice se assume solo un numero finito di valori. $$X=\sum_{i=1}^na_i\mathbb{1}_{A_i}$$ Vediamo che in questo caso, per ogni iterazione della sommatoria, $X$ può assumere solo due valori: $0$ e $a_i$, con $a_i\in\mathbb{R}$ e $A_i\in\mathcal{A}$.\
 
-![Variabile Aleatoria Semplice in uno spazio <span class="math inline"><em>Ω</em></span> equiprobabile](figures/va-semplice.png){#fig-placeholder}
+![Variabile Aleatoria Semplice in uno spazio $\Omega$ equiprobabile](figures/va-semplice.png){#fig-placeholder}
 
 Se $X$ è semplice, il suo valore atteso è: $$\mathbb{E}[X]=\int_{\Omega} XdP=\mathbb{E}[\sum_{i=1}^na_i\mathbb{1}_{A_i}]=\sum_{i=1}^na_i\mathbb{P}(A_i)$$
 
@@ -1332,7 +1332,7 @@ In sintesi, per poter scambiare limite e integrale serve sempre un \"prezzo da p
         n & \text{se } X(\omega) \geq n 
     \end{cases}$$
 
-    ![Approsimazione di una VA positiva con una sequenza di VA semplici. Per <span class="math inline"><em>n</em> → ∞</span>, i gradini diventano infinitamente sottili (<span class="math inline">2<sup>−<em>n</em></sup> → 0</span>) e la scalinata converge dal basso alla curva originale](figures/approx-semplici.png){#fig-placeholderx}
+    ![Approsimazione di una VA positiva con una sequenza di VA semplici. Per $n\rightarrow \infty$, i gradini diventano infinitamente sottili ($2^{-n}\rightarrow0$) e la scalinata converge dal basso alla curva originale](figures/approx-semplici.png){#fig-placeholderx}
 
 2.  Se la sequenza $\{X_n\}_{n\geq1}$ di VA semplici cresce a $X$ per $n\rightarrow\infty$ allora: $$\mathbb{E}[X_n]=\mathbb{E}[X]$$
 
@@ -1411,7 +1411,7 @@ In teoria della probabilità, la differenza tra lo spazio $L^1$ e lo spazio $L^2
 
 Come visto nel teorema di Cauchy-Schwarz, in uno spazio di probabilità (che ha misura totale pari a 1), ogni variabile in $L^2$ è automaticamente anche in $L^1$. L'inverso **non** è vero. Esistono funzioni (e variabili aleatorie) che decadono abbastanza in fretta da avere un'area totale finita (sono in $L^1$), ma se le eleviamo al quadrato, i loro picchi o le loro code amplificati producono un'area infinita (escono da $L^2$).
 
-![Inclusioni in <span class="math inline"><em>L</em><sup><em>p</em></sup></span>](figures/lp-inclusioni-code.png){#fig-placeholder}
+![Inclusioni in $L^p$](figures/lp-inclusioni-code.png){#fig-placeholder}
 
 ## La Regola del Valore Atteso
 
@@ -1531,7 +1531,7 @@ Questo è senza dubbio uno dei risultati più potenti e operativi di tutta la te
 
 - **Calcolo delle distribuzioni marginali:** Gli integrali \"interni\" (ovvero le funzioni sezione che il teorema garantisce essere misurabili) rappresentano, dal punto di vista probabilistico, il processo di marginalizzazione. Integrare via la dipendenza da $y$ ci restituisce una funzione della sola $x$, che descrive il comportamento marginale (o il valore atteso condizionato) del nostro sistema probabilistico.
 
-![Rappresentazione del Teorema di Tonelli-Fubini. <strong>In alto a sinistra:</strong> heatmap di <span class="math inline"><em>f</em>(<em>x</em>, <em>y</em>)</span> su <span class="math inline"><em>E</em> × <em>F</em></span>, con evidenziate le due sezioni (orizzontale e verticale). <strong>In alto al centro/destra:</strong> le due sezioni <span class="math inline"><em>f</em>(<em>x</em><sub>0</sub>, <em>y</em>)</span> e <span class="math inline"><em>f</em>(<em>x</em>, <em>y</em><sub>0</sub>)</span> pesate rispettivamente da <span class="math inline">ℚ</span> e <span class="math inline">ℙ</span>, con l’area integrata evidenziata. <strong>In basso a sinistra/centro:</strong> le funzioni iterate <span class="math inline"><em>x</em> ↦ ∫<em>f</em>(<em>x</em>, <em>y</em>) ℚ(<em>d</em><em>y</em>)</span> e <span class="math inline"><em>y</em> ↦ ∫<em>f</em>(<em>x</em>, <em>y</em>) ℙ(<em>d</em><em>x</em>)</span>, con i valori numerici dell’integrale doppio (che coincidono, verificando il teorema). <strong>In basso a destra:</strong> la formula con l’uguaglianza dei tre integrali: <span class="math inline">∫<em>f</em> <em>d</em>(ℙ ⊗ ℚ) = ∫[∫<em>f</em>(<em>x</em>, <em>y</em>)ℚ(<em>d</em><em>y</em>)]ℙ(<em>d</em><em>x</em>) = ∫[∫<em>f</em>(<em>x</em>, <em>y</em>)ℙ(<em>d</em><em>x</em>)]ℚ(<em>d</em><em>y</em>)</span>.](figures/tonelli-fubini-1.png){#fig-placeholderx}
+![Rappresentazione del Teorema di Tonelli-Fubini. <strong>In alto a sinistra:</strong> heatmap di $f(x,y)$ su $E \times F$, con evidenziate le due sezioni (orizzontale e verticale). <strong>In alto al centro/destra:</strong> le due sezioni $f(x_0, y)$ e $f(x, y_0)$ pesate rispettivamente da $\mathbb{Q}$ e $\mathbb{P}$, con l’area integrata evidenziata. <strong>In basso a sinistra/centro:</strong> le funzioni iterate $x \mapsto \int f(x,y)\,\mathbb{Q}(dy)$ e $y \mapsto \int f(x,y)\,\mathbb{P}(dx)$, con i valori numerici dell’integrale doppio (che coincidono, verificando il teorema). <strong>In basso a destra:</strong> la formula con l’uguaglianza dei tre integrali: $\int f \, d(\mathbb{P}\otimes\mathbb{Q}) = \int \left[ \int f(x,y)\mathbb{Q}(dy) \right] \mathbb{P}(dx) = \int \left[ \int f(x,y)\mathbb{P}(dx) \right] \mathbb{Q}(dy)$.](figures/tonelli-fubini-1.png){#fig-placeholderx}
 
 ::: mybox
 Indipendenza di VA come fattorizzazione della distribuzione congiunta Siano $X,Y$ due VA su $(\Omega,\mathcal{A}, \mathbb{P)}$ a valori rispettivamente in $(E,\mathcal{E})$ e $(F,\mathcal{F})$. La coppia $Z=(X,Y)$ è una VA in 2D a valori in $(E\times F, \mathcal{E}\otimes \mathcal{F})$ e le VA $X,Y$ sono indipendenti se e solo se la loro distribuzione congiunta $P_{(X,Y)}$ è uguale al prodotto $P_X\otimes P_Y$ delle loro distribuzioni marginali.
@@ -2001,7 +2001,7 @@ $$ dove $\mu_i \in \mathbb{R}$ sono le medie, $\sigma_i > 0$ le deviazioni stand
 
 ###  {#sec-section .unnumbered}
 
-![Normale Bivariata: <span class="math inline"><strong>μ</strong> = (0, 0)</span>, <span class="math inline"><em>σ</em><sub>1</sub> = <em>σ</em><sub>2</sub> = 1</span>, <span class="math inline"><em>ρ</em> = 0.6</span>. <em>Sin.</em>: mappa cromatica con curve di livello e marginali. <em>Des.</em>: superficie tridimensionale; la campana ellittica inclinata riflette la correlazione positiva.](figures/01-normale-bivariata.png){#fig-biv-normale}
+![Normale Bivariata: $\boldsymbol{\mu}=(0,0)$, $\sigma_1=\sigma_2=1$, $\rho=0.6$. *Sin.*: mappa cromatica con curve di livello e marginali. *Des.*: superficie tridimensionale; la campana ellittica inclinata riflette la correlazione positiva.](figures/01-normale-bivariata.png){#fig-biv-normale}
 
 ### Lognormale Bivariata {#sec-biv-lognormale}
 
@@ -2017,7 +2017,7 @@ $$ per $x_1, x_2 > 0$. Le marginali sono Lognormali univariate. La densità cong
 
 ###  {#sec-1 .unnumbered}
 
-![Lognormale Bivariata: <span class="math inline"><em>μ</em><sub>log</sub> = 0</span>, <span class="math inline"><em>σ</em><sub>log</sub> = 1</span>, <span class="math inline"><em>ρ</em><sub>log</sub> = 0.6</span>. <em>Sin.</em>: densità concentrata vicino all’origine con coda asimmetrica verso destra. <em>Des.</em>: picco stretto e asimmetria caratteristica della distribuzione.](figures/02-lognormale-bivariata.png){#fig-biv-lognormale}
+![Lognormale Bivariata: $\mu_{\log}=0$, $\sigma_{\log}=1$, $\rho_{\log}=0.6$. *Sin.*: densità concentrata vicino all’origine con coda asimmetrica verso destra. *Des.*: picco stretto e asimmetria caratteristica della distribuzione.](figures/02-lognormale-bivariata.png){#fig-biv-lognormale}
 
 ### Uniforme Bivariata {#sec-biv-uniforme}
 
@@ -2026,7 +2026,7 @@ Il vettore $(x_1, x_2)$ ha distribuzione Uniforme bivariata sul rettangolo $[a,b
 
 ###  {#sec-2 .unnumbered}
 
-![Uniforme Bivariata: <span class="math inline"><em>x</em><sub>1</sub> ∼ <em>U</em>(0, 3)</span>, <span class="math inline"><em>x</em><sub>2</sub> ∼ <em>U</em>(0, 2)</span>, componenti indipendenti. <em>Sin.</em>: densità costante sul rettangolo di supporto. <em>Des.</em>: plateau perfettamente piatto.](figures/03-uniforme-bivariata.png){#fig-biv-uniforme}
+![Uniforme Bivariata: $x_1\sim U(0,3)$, $x_2\sim U(0,2)$, componenti indipendenti. *Sin.*: densità costante sul rettangolo di supporto. *Des.*: plateau perfettamente piatto.](figures/03-uniforme-bivariata.png){#fig-biv-uniforme}
 
 ### Esponenziale Bivariata {#sec-biv-esponenziale}
 
@@ -2035,7 +2035,7 @@ Nel caso di componenti indipendenti, il vettore $(x_1, x_2)$ ha densità congiun
 
 ###  {#sec-3 .unnumbered}
 
-![Esponenziale Bivariata: <span class="math inline"><em>β</em><sub>1</sub> = 1</span>, <span class="math inline"><em>β</em><sub>2</sub> = 1.5</span>, componenti indipendenti. <em>Sin.</em>: massimo nell’origine, decadimento esponenziale in entrambe le direzioni. <em>Des.</em>: picco acuto con decadimento asintotico.](figures/04-esponenziale-bivariata.png){#fig-biv-esponenziale}
+![Esponenziale Bivariata: $\beta_1=1$, $\beta_2=1.5$, componenti indipendenti. *Sin.*: massimo nell’origine, decadimento esponenziale in entrambe le direzioni. *Des.*: picco acuto con decadimento asintotico.](figures/04-esponenziale-bivariata.png){#fig-biv-esponenziale}
 
 ### Gamma Bivariata {#sec-biv-gamma}
 
@@ -2047,7 +2047,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-4 .unnumbered}
 
-![Gamma Bivariata: <span class="math inline"><em>Γ</em>(<em>α</em><sub>1</sub> = 2, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline"><em>Γ</em>(<em>α</em><sub>2</sub> = 3, <em>β</em><sub>2</sub> = 1)</span>, componenti indipendenti. <em>Sin.</em>: picco spostato dall’origine; mode in <span class="math inline"><em>x</em><sub>1</sub> = 1</span> e <span class="math inline"><em>x</em><sub>2</sub> = 2</span>. <em>Des.</em>: gobba caratteristica della distribuzione Gamma.](figures/05-gamma-bivariata.png){#fig-biv-gamma}
+![Gamma Bivariata: $\Gamma(\alpha_1{=}2,\beta_1{=}1)$, $\Gamma(\alpha_2{=}3,\beta_2{=}1)$, componenti indipendenti. *Sin.*: picco spostato dall’origine; mode in $x_1=1$ e $x_2=2$. *Des.*: gobba caratteristica della distribuzione Gamma.](figures/05-gamma-bivariata.png){#fig-biv-gamma}
 
 ### Weibull Bivariata {#sec-biv-weibull}
 
@@ -2059,7 +2059,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-5 .unnumbered}
 
-![Weibull Bivariata: <span class="math inline"><em>W</em>(<em>α</em><sub>1</sub> = 2, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline"><em>W</em>(<em>α</em><sub>2</sub> = 3, <em>β</em><sub>2</sub> = 1)</span>, componenti indipendenti. <em>Sin.</em>: marginali con moda interna per <span class="math inline"><em>α</em><sub><em>i</em></sub> &gt; 1</span>. <em>Des.</em>: gobba asimmetrica con decadimento rapido.](figures/06-weibull-bivariata.png){#fig-biv-weibull}
+![Weibull Bivariata: $W(\alpha_1{=}2,\beta_1{=}1)$, $W(\alpha_2{=}3,\beta_2{=}1)$, componenti indipendenti. *Sin.*: marginali con moda interna per $\alpha_i>1$. *Des.*: gobba asimmetrica con decadimento rapido.](figures/06-weibull-bivariata.png){#fig-biv-weibull}
 
 ### Laplace Bivariata {#sec-biv-laplace}
 
@@ -2071,7 +2071,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-6 .unnumbered}
 
-![Laplace Bivariata: <span class="math inline"><em>L</em>(<em>α</em><sub>1</sub> = 0, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline"><em>L</em>(<em>α</em><sub>2</sub> = 0, <em>β</em><sub>2</sub> = 0.7)</span>, componenti indipendenti. <em>Sin.</em>: picco centrale con code simmetriche. <em>Des.</em>: cresta a spigolo vivo caratteristica della distribuzione di Laplace.](figures/07-laplace-bivariata.png){#fig-biv-laplace}
+![Laplace Bivariata: $L(\alpha_1{=}0,\beta_1{=}1)$, $L(\alpha_2{=}0,\beta_2{=}0.7)$, componenti indipendenti. *Sin.*: picco centrale con code simmetriche. *Des.*: cresta a spigolo vivo caratteristica della distribuzione di Laplace.](figures/07-laplace-bivariata.png){#fig-biv-laplace}
 
 ### Cauchy Bivariata {#sec-biv-cauchy}
 
@@ -2083,7 +2083,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-7 .unnumbered}
 
-![Cauchy Bivariata: <span class="math inline">Cauchy(<em>α</em><sub>1</sub> = 0, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline">Cauchy(<em>α</em><sub>2</sub> = 0, <em>β</em><sub>2</sub> = 1)</span>, componenti indipendenti. <em>Sin.</em>: picco stretto con code polinomiali pesanti su tutto <span class="math inline">ℝ<sup>2</sup></span>. <em>Des.</em>: picco strettissimo; le code rendono difficile la rappresentazione simultanea del centro e della periferia.](figures/08-cauchy-bivariata.png){#fig-biv-cauchy}
+![Cauchy Bivariata: $\mathrm{Cauchy}(\alpha_1{=}0,\beta_1{=}1)$, $\mathrm{Cauchy}(\alpha_2{=}0,\beta_2{=}1)$, componenti indipendenti. *Sin.*: picco stretto con code polinomiali pesanti su tutto $\mathbb{R}^2$. *Des.*: picco strettissimo; le code rendono difficile la rappresentazione simultanea del centro e della periferia.](figures/08-cauchy-bivariata.png){#fig-biv-cauchy}
 
 ## Covarianza
 
@@ -2365,7 +2365,7 @@ Sia $X \sim \mathcal{B}(p)$, ossia $\mathbb{P}(X=1)=p$ e $\mathbb{P}(X=0)=1-p$. 
     = p\,e^{iu} + (1-p).$$ Usando la formula di Eulero possiamo separare parte reale e immaginaria: $$\phi_X(u)
     = \bigl[p\cos u + (1-p)\bigr] + i\,p\sin u.$$ **Osservazione.** Il modulo soddisfa $|\phi_X(u)|\leq 1$ per ogni $u$, con uguaglianza solo in $u=0$ (dove $\phi_X(0)=1$, come atteso). Per $p=\tfrac{1}{2}$ la parte reale è $\tfrac{1+\cos u}{2}=\cos^2\!\tfrac{u}{2}$ e la funzione caratteristica coincide con quella di un coseno smorzato.
 
-![Funzione caratteristica della Bernoulli<span class="math inline">(<em>p</em>)</span> al variare del parametro <span class="math inline"><em>p</em></span>. <em>Sin.</em>: parte reale <span class="math inline"><em>p</em>cos <em>u</em> + (1 − <em>p</em>)</span>, che oscilla tra <span class="math inline">1</span> (in <span class="math inline"><em>u</em> = 0</span>) e <span class="math inline">(1 − 2<em>p</em>)</span>. <em>Centro</em>: parte immaginaria <span class="math inline"><em>p</em>sin <em>u</em></span>, proporzionale a <span class="math inline"><em>p</em></span>. <em>Des.</em>: modulo <span class="math inline">|<em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)|</span>, sempre <span class="math inline"> ≤ 1</span>.](figures/01-bernoulli-cf.png){#fig-cf-bernoulli}
+![Funzione caratteristica della Bernoulli$(p)$ al variare del parametro $p$. *Sin.*: parte reale $p\cos u+(1-p)$, che oscilla tra $1$ (in $u=0$) e $(1-2p)$. *Centro*: parte immaginaria $p\sin u$, proporzionale a $p$. *Des.*: modulo $|\phi_X(u)|$, sempre $\leq 1$.](figures/01-bernoulli-cf.png){#fig-cf-bernoulli}
 
 ### Binomiale$\mathcal{B}(n,p)$
 
@@ -2379,7 +2379,7 @@ Sia $X \sim \mathcal{B}(n,p)$. **Metodo diretto.** Usando la formula della PMF e
     = \prod_{j=1}^n \phi_{Y_j}(u)
     = \bigl(p\,e^{iu}+1-p\bigr)^n.$$ Il secondo metodo illustra una proprietà fondamentale: *la funzione caratteristica della somma di VA indipendenti è il prodotto delle singole funzioni caratteristiche*.
 
-![Funzione caratteristica della Binomiale<span class="math inline">(<em>n</em>, <em>p</em>)</span>. All’aumentare di <span class="math inline"><em>n</em></span> (con <span class="math inline"><em>p</em></span> fisso) le oscillazioni si fanno più rapide, riflettendo la maggiore dispersione della distribuzione. L’inset mostra la PMF per <span class="math inline"><em>n</em> = 6, <em>p</em> = 0.4</span>.](figures/02-binomial-cf.png){#fig-cf-binomial}
+![Funzione caratteristica della Binomiale$(n,p)$. All’aumentare di $n$ (con $p$ fisso) le oscillazioni si fanno più rapide, riflettendo la maggiore dispersione della distribuzione. L’inset mostra la PMF per $n=6,p=0.4$.](figures/02-binomial-cf.png){#fig-cf-binomial}
 
 ### Poisson$(\lambda)$
 
@@ -2392,7 +2392,7 @@ Sia $X \sim \mathcal{P}(\lambda)$, con $\mathbb{P}(X=k)=\frac{e^{-\lambda}\lambd
 
 **Osservazione.** Poiché $e^{iu}-1 = (\cos u - 1)+i\sin u$, la parte reale dell'esponente è $\lambda(\cos u -1)\leq 0$: il modulo $|\phi_X(u)| = e^{\lambda(\cos u-1)}\leq 1$ decade oscillando con $u$, senza mai superare l'unità.
 
-![Funzione caratteristica della Poisson<span class="math inline">(<em>λ</em>)</span>. Per <span class="math inline"><em>λ</em></span> grande le oscillazioni diventano più veloci e il modulo decade più rapidamente, coerentemente con una distribuzione più dispersa.](figures/03-poisson-cf.png){#fig-cf-poisson}
+![Funzione caratteristica della Poisson$(\lambda)$. Per $\lambda$ grande le oscillazioni diventano più veloci e il modulo decade più rapidamente, coerentemente con una distribuzione più dispersa.](figures/03-poisson-cf.png){#fig-cf-poisson}
 
 ### Uniforme su $(-a,a)$
 
@@ -2405,7 +2405,7 @@ Sia $X \sim \mathcal{U}(-a,a)$ con densità $f(x)=\frac{1}{2a}\mathbf{1}_{[-a,a]
 
 **Perché la parte immaginaria è nulla?** L'integrando $\sin(ux)e^{-x^2/2}$ è una funzione dispari su $[-a,a]$, quindi il suo integrale su un dominio simmetrico è zero. La funzione caratteristica di una distribuzione simmetrica è sempre reale.
 
-![Funzione caratteristica dell’Uniforme<span class="math inline">(−<em>a</em>, <em>a</em>)</span> — la funzione <em>sinc</em>. <em>Sin.</em>: <span class="math inline"><em>ϕ</em><sub><em>X</em></sub>(<em>u</em>) = sin (<em>a</em><em>u</em>)/(<em>a</em><em>u</em>)</span>, con zeri in <span class="math inline"><em>u</em> = <em>k</em><em>π</em>/<em>a</em></span>, <span class="math inline"><em>k</em> ≠ 0</span>. <em>Centro</em>: parte immaginaria identicamente nulla per simmetria della distribuzione. <em>Des.</em>: modulo, che coincide con <span class="math inline">|sinc(<em>a</em><em>u</em>)|</span>.](figures/04-uniform-cf.png){#fig-cf-uniform}
+![Funzione caratteristica dell’Uniforme$(-a,a)$ — la funzione *sinc*. *Sin.*: $\phi_X(u)=\sin(au)/(au)$, con zeri in $u=k\pi/a$, $k\neq 0$. *Centro*: parte immaginaria identicamente nulla per simmetria della distribuzione. *Des.*: modulo, che coincide con $|\text{sinc}(au)|$.](figures/04-uniform-cf.png){#fig-cf-uniform}
 
 ### Normale$(0,1)$
 
@@ -2427,7 +2427,7 @@ Sia $X\sim\mathcal{N}(0,1)$. Il calcolo tramite integrali di contorno o continua
     \implies
     \phi_X(u) = e^C e^{-u^2/2}.$$ La condizione iniziale $\phi_X(0)=1$ impone $e^C=1$, dunque: $$\boxed{\phi_X(u) = e^{-u^2/2}.}$$
 
-![Funzione caratteristica della <span class="math inline">𝒩(0, 1)</span>. <em>Sin.</em>: <span class="math inline"><em>ϕ</em><sub><em>X</em></sub>(<em>u</em>) = <em>e</em><sup>−<em>u</em><sup>2</sup>/2</sup></span> (Gaussiana) e la sua derivata <span class="math inline"><em>ϕ</em><sub><em>X</em></sub><sup>′</sup>(<em>u</em>) = −<em>u</em> <em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)</span>, che ne verifica l’ODE. <em>Centro</em>: <span class="math inline">ln |<em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)| = −<em>u</em><sup>2</sup>/2</span>, parabola. <em>Des.</em>: effetto di <span class="math inline"><em>σ</em></span> sulla larghezza della funzione caratteristica (più <span class="math inline"><em>σ</em></span> è grande, più <span class="math inline"><em>ϕ</em><sub><em>X</em></sub></span> è stretta in <span class="math inline"><em>u</em></span>).](figures/05-normal-cf.png){#fig-cf-normal-std}
+![Funzione caratteristica della $\mathcal{N}(0,1)$. *Sin.*: $\phi_X(u)=e^{-u^2/2}$ (Gaussiana) e la sua derivata $\phi_X'(u)=-u\,\phi_X(u)$, che ne verifica l’ODE. *Centro*: $\ln|\phi_X(u)|=-u^2/2$, parabola. *Des.*: effetto di $\sigma$ sulla larghezza della funzione caratteristica (più $\sigma$ è grande, più $\phi_X$ è stretta in $u$).](figures/05-normal-cf.png){#fig-cf-normal-std}
 
 ### Normale$(\mu,\sigma^2)$
 
@@ -2437,7 +2437,7 @@ Sia $X\sim\mathcal{N}(\mu,\sigma^2)$. Poiché $Y = \frac{X-\mu}{\sigma}\sim\math
     = e^{iu\mu}\,\phi_Y(u\sigma)
     = e^{iu\mu}\cdot e^{-(u\sigma)^2/2},$$ da cui: $$\boxed{\phi_X(u) = e^{iu\mu - u^2\sigma^2/2}.}$$ **Osservazione.** Il parametro $\mu$ agisce come un fattore di fase $e^{iu\mu}$ (rotazione nel piano complesso), che non altera il *modulo* $|\phi_X(u)|=e^{-u^2\sigma^2/2}$. Il parametro $\sigma$ controlla la *larghezza* della Gaussiana in frequenza: più $\sigma$ è grande, più $\phi_X$ decade rapidamente.
 
-![Funzione caratteristica della Normale<span class="math inline">(<em>μ</em>, <em>σ</em><sup>2</sup>)</span>. La media <span class="math inline"><em>μ</em></span> introduce oscillazioni nella parte reale e immaginaria (si veda la comparazione tra <span class="math inline"><em>μ</em> = 0</span> e <span class="math inline"><em>μ</em> = 2</span>), ma il modulo rimane <span class="math inline"><em>e</em><sup>−<em>u</em><sup>2</sup><em>σ</em><sup>2</sup>/2</sup></span>, indipendente da <span class="math inline"><em>μ</em></span>.](figures/06-normal-general-cf.png){#fig-cf-normal-gen}
+![Funzione caratteristica della Normale$(\mu,\sigma^2)$. La media $\mu$ introduce oscillazioni nella parte reale e immaginaria (si veda la comparazione tra $\mu=0$ e $\mu=2$), ma il modulo rimane $e^{-u^2\sigma^2/2}$, indipendente da $\mu$.](figures/06-normal-general-cf.png){#fig-cf-normal-gen}
 
 ### Esponenziale$(\lambda)$
 
@@ -2462,7 +2462,7 @@ Sia $X\sim\mathrm{Exp}(\lambda)$ con densità $f(x)=\lambda e^{-\lambda x}\mathb
       - i\,\frac{\lambda u}{\lambda^2+u^2}
     = \frac{\lambda}{\lambda-iu}.$$
 
-![Funzione caratteristica dell’Esponenziale<span class="math inline">(<em>λ</em>)</span>. <em>Sin.</em>: parte reale <span class="math inline"><em>λ</em><sup>2</sup>/(<em>λ</em><sup>2</sup> + <em>u</em><sup>2</sup>)</span>, una Lorentziana centrata in <span class="math inline"><em>u</em> = 0</span>. <em>Centro</em>: parte immaginaria <span class="math inline">−<em>λ</em><em>u</em>/(<em>λ</em><sup>2</sup> + <em>u</em><sup>2</sup>)</span>, antisimmetrica. <em>Des.</em>: modulo <span class="math inline">$\lambda/\sqrt{\lambda^2+u^2}$</span>, decrescente con <span class="math inline"><em>u</em></span>.](figures/07-exponential-cf.png){#fig-cf-exp}
+![Funzione caratteristica dell’Esponenziale$(\lambda)$. *Sin.*: parte reale $\lambda^2/(\lambda^2+u^2)$, una Lorentziana centrata in $u=0$. *Centro*: parte immaginaria $-\lambda u/(\lambda^2+u^2)$, antisimmetrica. *Des.*: modulo $\lambda/\sqrt{\lambda^2+u^2}$, decrescente con $u$.](figures/07-exponential-cf.png){#fig-cf-exp}
 
 ### Gamma$(\alpha,\beta)$
 
@@ -2478,7 +2478,7 @@ Sia $X\sim\Gamma(\alpha,\beta)$ con densità $f(x)=\frac{\beta^\alpha}{\Gamma(\a
 
 - $\alpha=n/2$, $\beta=1/2$: si ottiene la distribuzione Chi-Quadro con $n$ gradi di libertà.
 
-![Funzione caratteristica della Gamma<span class="math inline">(<em>α</em>, <em>β</em>)</span>. <em>Sin.</em>: parte reale. <em>Centro</em>: parte immaginaria. <em>Des.</em>: modulo <span class="math inline">$(\beta/\sqrt{\beta^2+u^2})^\alpha$</span>; la freccia indica il caso <span class="math inline"><em>α</em> = 1</span> in cui si riduce all’Esponenziale. All’aumentare di <span class="math inline"><em>α</em></span> il modulo decade più lentamente, coerentemente con una distribuzione più concentrata intorno alla media <span class="math inline"><em>α</em>/<em>β</em></span>.](figures/08-gamma-cf.png){#fig-cf-gamma}
+![Funzione caratteristica della Gamma$(\alpha,\beta)$. *Sin.*: parte reale. *Centro*: parte immaginaria. *Des.*: modulo $(\beta/\sqrt{\beta^2+u^2})^\alpha$; la freccia indica il caso $\alpha=1$ in cui si riduce all’Esponenziale. All’aumentare di $\alpha$ il modulo decade più lentamente, coerentemente con una distribuzione più concentrata intorno alla media $\alpha/\beta$.](figures/08-gamma-cf.png){#fig-cf-gamma}
 
 ::: mybox
 Funzione caratteristica di una trasformazione affine Sia $\mathbf{X}$ un vettore aleatorio in $\mathbb{R}^n$ e sia $a\in\mathbb{R}^m$. Sia $\mathbf{A}^{m\times n}$ una matrice rettangolare. Allora: $$\phi_{a+\mathbf{A}\mathbf{X}}(u)=e^{i\langle u,a \rangle}\phi_{\mathbf{X}}(\mathbf{A^t}u)$$ Per tutti gli $u\in\mathbb{R}^m$.
@@ -3325,7 +3325,7 @@ Una norma in $L^2$ è definita come: $$\Vert X \Vert=\langle X,X \rangle^{1/2}=(
 
 Notiamo che per la bilinearità e per la disuguaglianza di Cauchy-Schwartz (per maggiorare il termine misto $\mathbb{E}[XY]\leq \Vert X\Vert \Vert Y  \Vert$ abbiamo: $$\Vert X+Y \Vert^2 = \mathbb{E}[X^2] + 2\mathbb{E}[XY] + \mathbb{E}[Y^2] \leq \Vert X \Vert^2 + 2\Vert X \Vert \Vert Y \Vert+ \Vert Y\Vert^2=(\Vert X \Vert+ \Vert Y \Vert)^2$$ Applicando la radice quadrata a entrambi i membri, i quadrati si semplificano e così otteniamo la **Disuguaglianza di Minkowski**: $$\Vert X+Y \Vert \leq \Vert X \Vert + \Vert Y \Vert$$
 
-![Il vettore <span class="math inline"><em>X</em> + <em>Y</em></span> è la diagonale del percorso <span class="math inline"><em>X</em> → <em>Y</em></span>: la sua lunghezza non può mai superare la somma delle lunghezze dei due lati, <span class="math inline">∥<em>X</em> + <em>Y</em>∥ ≤ ∥<em>X</em>∥+∥<em>Y</em>∥</span>.](figures/teorema-22-1-triangolare.png){#fig-placeholderx}
+![Il vettore $X+Y$ è la diagonale del percorso $X \to Y$: la sua lunghezza non può mai superare la somma delle lunghezze dei due lati, $\|X+Y\| \leq \|X\| + \|Y\|$.](figures/teorema-22-1-triangolare.png){#fig-placeholderx}
 
 ::: mybox
 $L^2$ è uno spazio lineare normato $L^2$ è uno spazio lineare normato dotato di inner product $\langle \cdot, \cdot \rangle$. Inoltre, si ha: $$\Vert \cdot \Vert=\langle \cdot, \cdot \rangle$$
@@ -3357,7 +3357,7 @@ Uno spazio vettoriale normato e completo prende il nome di **Spazio di Banach**.
 $L^2$ è uno spazio completo $L^2$ è uno spazio lineare normato completo
 :::
 
-![La sottosuccessione <span class="math inline"><em>X</em><sub>1</sub>, <em>X</em><sub>2</sub>, <em>X</em><sub>3</sub>, …</span> si muove a passi sempre più piccoli (<span class="math inline"> ≤ 1/2<sup><em>k</em></sup></span>) e per questo è costretta a collassare su un punto limite <span class="math inline"><em>X</em></span>, che appartiene ancora a <span class="math inline"><em>L</em><sup>2</sup></span>.](figures/teorema-22-2-completezza.png){#fig-placeholderx}
+![La sottosuccessione $X_1, X_2, X_3, \dots$ si muove a passi sempre più piccoli ($\leq 1/2^k$) e per questo è costretta a collassare su un punto limite $X$, che appartiene ancora a $L^2$.](figures/teorema-22-2-completezza.png){#fig-placeholderx}
 
 # Spazi di Hilbert
 
@@ -3367,7 +3367,7 @@ Uno spazio di Hilbert $\mathcal{H}$ è uno spazio lineare normato completo con u
 $L^2$ e $\mathcal{H}$ $L^2$ è uno spazio di Hilbert.
 :::
 
-![Il prodotto scalare <span class="math inline">⟨<em>X</em>, <em>Y</em>⟩ = ∥<em>X</em>∥ ∥<em>Y</em>∥ cos <em>θ</em></span> racchiude in sé sia la lunghezza dei vettori sia l’angolo tra loro: è questa struttura in più, rispetto a una semplice norma, che rende <span class="math inline"><em>L</em><sup>2</sup></span> uno spazio di Hilbert.](figures/teorema-22-3-hilbert-angolo.png){#fig-placeholder}
+![Il prodotto scalare $\langle X,Y \rangle = \|X\|\,\|Y\|\,\cos\theta$ racchiude in sé sia la lunghezza dei vettori sia l’angolo tra loro: è questa struttura in più, rispetto a una semplice norma, che rende $L^2$ uno spazio di Hilbert.](figures/teorema-22-3-hilbert-angolo.png){#fig-placeholder}
 
 D'ora in poi non parleremo più di VA e valori attesi, ma di vettori in un generico spazio di Hilbert $\mathcal{H}$.
 
@@ -3390,7 +3390,7 @@ Continuità dell'inner product Se $x_n\rightarrow x$ e $y_n\rightarrow y$ in $\m
 
 Questo teorema ci garantisce che il prodotto scalare (e di conseguenza la norma) è una **funzione continua**. In termini di calcolo, significa che l'operazione di limite e il prodotto scalare \"commutano\", ovvero possiamo portare il limite all'interno delle parentesi: $$\lim_{n \to \infty} \langle x_n, y_n \rangle = \left\langle \lim_{n \to \infty} x_n, \lim_{n \to \infty} y_n \right\rangle = \langle x, y \rangle$$
 
-![Se <span class="math inline"><em>X</em><sub><em>n</em></sub> → <em>X</em></span> e <span class="math inline"><em>Y</em><sub><em>n</em></sub> → <em>Y</em></span>, allora anche <span class="math inline">⟨<em>X</em><sub><em>n</em></sub>, <em>Y</em><sub><em>n</em></sub>⟩ → ⟨<em>X</em>, <em>Y</em>⟩</span>: non ci sono salti improvvisi nel passaggio al limite.](figures/teorema-22-4-continuita.png){#fig-placeholder}
+![Se $X_n \to X$ e $Y_n \to Y$, allora anche $\langle X_n, Y_n \rangle \to \langle X, Y \rangle$: non ci sono salti improvvisi nel passaggio al limite.](figures/teorema-22-4-continuita.png){#fig-placeholder}
 
 ## Sottospazi di $\mathcal{H}$
 
@@ -3405,7 +3405,7 @@ Per dimostrare che è un sottospazio, dobbiamo verificare che sia chiuso rispett
 **Perché è \"chiuso\"?**\
 Il fatto che $\Gamma^\perp$ sia un sottospazio *chiuso* (cioè che contenga tutti i suoi punti di accumulazione) deriva direttamente dal teorema sulla **continuità del prodotto scalare**. Se prendiamo una successione $x_n \in \Gamma^\perp$ tale che $x_n \to x$, portando il limite dentro al prodotto scalare avremo che $\langle x, y \rangle = \lim_{n \to \infty} \langle x_n, y \rangle = 0$, garantendo che anche il limite $x$ si trovi in $\Gamma^\perp$.
 
-![Anche se l’insieme di partenza <span class="math inline"><em>Γ</em></span> (la retta orizzontale) non è un sottospazio, il suo ortogonale <span class="math inline"><em>Γ</em><sup>⟂</sup></span> (la retta verticale, fatta di tutti i vettori perpendicolari a <span class="math inline"><em>Γ</em></span>) lo è sempre — lineare e chiuso.](figures/teorema-22-5-ortogonale.png){#fig-placeholderx}
+![Anche se l’insieme di partenza $\Gamma$ (la retta orizzontale) non è un sottospazio, il suo ortogonale $\Gamma^{\perp}$ (la retta verticale, fatta di tutti i vettori perpendicolari a $\Gamma$) lo è sempre — lineare e chiuso.](figures/teorema-22-5-ortogonale.png){#fig-placeholderx}
 
 ## Distanza
 
@@ -3438,7 +3438,7 @@ Teorema della Proiezione (o della Migliore Approssimazione)
 Sia $\mathcal{L}$ un sottospazio **chiuso** di uno spazio di Hilbert $\mathcal{H}$ e sia $x \in \mathcal{H}$. Allora esiste un unico vettore $y \in \mathcal{L}$ (chiamato *proiezione ortogonale* di $x$ su $\mathcal{L}$) tale che minimizza la distanza da $x$: $$\Vert x-y \Vert = \inf_{z \in \mathcal{L}} \Vert x-z \Vert = d(x, \mathcal{L})$$
 :::
 
-![Dato un punto <span class="math inline"><em>x</em></span> fuori dal sottospazio <span class="math inline"><em>L</em></span>, esiste un unico <span class="math inline"><em>y</em> ∈ <em>L</em></span> che minimizza la distanza: <span class="math inline">∥<em>x</em> − <em>y</em>∥ = <em>d</em>(<em>x</em>, <em>L</em>)</span>. Qualunque altro punto <span class="math inline"><em>z</em> ∈ <em>L</em></span> è strettamente più lontano.](figures/teorema-22-6-punto-vicino-1.png){#fig-placeholder}
+![Dato un punto $x$ fuori dal sottospazio $L$, esiste un unico $y \in L$ che minimizza la distanza: $\|x-y\| = d(x,L)$. Qualunque altro punto $z \in L$ è strettamente più lontano.](figures/teorema-22-6-punto-vicino-1.png){#fig-placeholder}
 
 **Caratterizzazione tramite Ortogonalità**\
 Il vettore $y \in \mathcal{L}$ è la proiezione ortogonale di $x$ se e solo se l'errore di approssimazione $(x - y)$ è ortogonale a tutto il sottospazio $\mathcal{L}$. Ovvero: $$\langle x - y, z \rangle = 0 \quad \forall z \in \mathcal{L}$$ Questo equivale a dire che l'errore $(x - y) \in \mathcal{L}^\perp$.
@@ -3472,7 +3472,7 @@ Proprietà dell'operatore di proiezione L'operatore di proiezione ortogonale $\P
 **Nota (Linearità):** Oltre a queste, l'operatore $\Pi$ su un sottospazio è sempre un operatore **lineare**, ovvero $\Pi(\alpha x + \beta y) = \alpha \Pi(x) + \beta \Pi(y)$.
 :::
 
-![<span class="math inline"><em>Π</em><em>x</em></span> cade dentro <span class="math inline"><em>L</em></span>, il residuo <span class="math inline"><em>x</em> − <em>Π</em><em>x</em></span> è ortogonale a tutto <span class="math inline"><em>L</em></span>, e proiettare due volte di seguito equivale a proiettare una sola volta: <span class="math inline"><em>Π</em><sup>2</sup> = <em>Π</em></span> (idempotenza).](figures/teorema-22-7-proiezione.png){#fig-placeholderx}
+![$\Pi x$ cade dentro $L$, il residuo $x-\Pi x$ è ortogonale a tutto $L$, e proiettare due volte di seguito equivale a proiettare una sola volta: $\Pi^2 = \Pi$ (idempotenza).](figures/teorema-22-7-proiezione.png){#fig-placeholderx}
 
 ::: mybox
 Corollario: Decomposizione Ortogonale Sia $\Pi_{\mathcal{L}}$ l'operatore di proiezione ortogonale di $\mathcal{H}$ su un sottospazio chiuso $\mathcal{L}$. Allora l'identità: $$x = \Pi_{\mathcal{L}}(x) + (x - \Pi_{\mathcal{L}}(x))$$ è una **rappresentazione unica** di $x$ come somma di un vettore in $\mathcal{L}$ e uno in $\mathcal{L}^\perp$.
@@ -3484,7 +3484,7 @@ Il termine residuo (l'errore di approssimazione) $(x - \Pi_{\mathcal{L}}(x))$ è
 **Conseguenza (Teorema di Pitagora)**\
 Poiché per definizione $\Pi_{\mathcal{L}}(x) \perp \Pi_{\mathcal{L}^\perp}(x)$, possiamo applicare il Teorema di Pitagora calcolando la norma al quadrato di entrambi i membri: $$\Vert x \Vert^2 = \Vert \Pi_{\mathcal{L}}(x) \Vert^2 + \Vert x - \Pi_{\mathcal{L}}(x) \Vert^2$$ *Significato pratico:* La \"lunghezza\" totale del vettore è la somma esatta della lunghezza della sua approssimazione e della lunghezza dell'errore commesso. In probabilità, questa è esattamente la formula della **scomposizione della varianza**.
 
-![Ogni <span class="math inline"><em>x</em></span> si scompone in modo unico nella somma di una componente in <span class="math inline"><em>L</em></span> (<span class="math inline"><em>Π</em><em>x</em></span>) e una in <span class="math inline"><em>L</em><sup>⟂</sup></span> (<span class="math inline"><em>x</em> − <em>Π</em><em>x</em></span>), da cui segue anche che <span class="math inline">(<em>L</em><sup>⟂</sup>)<sup>⟂</sup> = <em>L</em></span>.](figures/corollario-22-1-decomposizione.png){#fig-placeholder}
+![Ogni $x$ si scompone in modo unico nella somma di una componente in $L$ ($\Pi x$) e una in $L^{\perp}$ ($x-\Pi x$), da cui segue anche che $(L^{\perp})^{\perp} = L$.](figures/corollario-22-1-decomposizione.png){#fig-placeholder}
 
 ::: mybox
 Corollario: Altre proprietà dell'operatore di proiezione Sia $\Pi_{\mathcal{L}}$ l'operatore di proiezione ortogonale di uno spazio di Hilbert $\mathcal{H}$ su un sottospazio chiuso $\mathcal{L}$. Allora valgono le seguenti proprietà:
@@ -3538,7 +3538,7 @@ Questa espressione è l'esatto analogo della formula classica per il valore atte
 **Il legame con la misura $\mathbb{Q}$**\
 Riprendendo il concetto del \"cambio di universo\" visto in precedenza, le probabilità condizionate $\mathbb{P}(Y=y_k \mid X=x_j)$ non sono altro che i pesi della nuova misura $\mathbb{Q}(Y=y_k)$. Stiamo quindi eseguendo una normale media pesata dei valori di $Y$, ma utilizzando come pesi la nuova distribuzione di probabilità $\mathbb{Q}$ dettata dall'informazione su $X$.
 
-![L’attesa condizionata <span class="math inline"><em>E</em>{<em>Y</em> ∣ <em>X</em> = <em>x</em><sub><em>j</em></sub>}</span> è semplicemente la media di <span class="math inline"><em>Y</em></span> calcolata restringendosi all’evento <span class="math inline">{<em>X</em> = <em>x</em><sub><em>j</em></sub>}</span>: ogni partizione ha la propria media locale.](figures/def23-1-teo23-1-media-partizione.png){#fig-placeholderx}
+![L’attesa condizionata $E\{Y \mid X = x_j\}$ è semplicemente la media di $Y$ calcolata restringendosi all’evento $\{X = x_j\}$: ogni partizione ha la propria media locale.](figures/def23-1-teo23-1-media-partizione.png){#fig-placeholderx}
 
 ## Valore atteso condizionato di $Y$ data $X$ discreta
 
@@ -3619,7 +3619,7 @@ Il valore atteso condizionato $\hat{Y}$ è semplicemente la **proiezione ortogon
 
 Sfruttando la linearità del valore atteso, otteniamo: $$\mathbb{E}[YZ] - \mathbb{E}[\hat{Y}Z] = 0 \implies \mathbb{E}[YZ] = \mathbb{E}[\hat{Y}Z]$$ Ecco da dove deriva la definizione principale! Questa proprietà ci garantisce non solo che $\mathbb{E}[Y|X]$ esiste, ma anche che è unico, proprio perché è la migliore approssimazione possibile di $Y$ date le informazioni fornite da $X$.
 
-![<span class="math inline"><em>Ŷ</em> = <em>E</em>{<em>Y</em> ∣ <em>X</em>}</span> è la proiezione ortogonale di <span class="math inline"><em>Y</em></span> sul sottospazio chiuso <span class="math inline"><em>L</em><sup>2</sup>(<em>σ</em>(<em>X</em>))</span>; il residuo <span class="math inline"><em>Y</em> − <em>Ŷ</em></span> è ortogonale a ogni <span class="math inline"><em>Z</em> ∈ <em>L</em><sup>2</sup>(<em>σ</em>(<em>X</em>))</span>.](figures/def23-4-proiezione-condizionata-1.png){#fig-placeholder}
+![$\hat{Y} = E\{Y \mid X\}$ è la proiezione ortogonale di $Y$ sul sottospazio chiuso $L^2(\sigma(X))$; il residuo $Y - \hat{Y}$ è ortogonale a ogni $Z \in L^2(\sigma(X))$.](figures/def23-4-proiezione-condizionata-1.png){#fig-placeholder}
 
 **Applicazione del Lemma di Doob-Dynkin**\
 Poiché, per definizione, la variabile $\mathbb{E}[Y|X]$ appartiene allo spazio limitato da $\sigma(X)$, essa è $\sigma(X)$-misurabile. Per il Lemma di Doob-Dynkin, deve esistere una funzione Borel-misurabile $f$ tale per cui: $$\mathbb{E}[Y|X] = f(X)$$ Allo stesso modo, il generico \"vettore di test\" $Z$ può essere scritto come $g(X)$. Pertanto, la definizione $\mathbb{E}[\hat{Y}Z] = \mathbb{E}[YZ]$ assume la sua forma operativa più utile negli esercizi: $$\mathbb{E}[f(X)g(X)] = \mathbb{E}[Yg(X)]$$ per ogni funzione $g$ Borel-misurabile tale che $g(X) \in L^2$.
@@ -3697,7 +3697,7 @@ Sappiamo che $\mathbb{E}[Y|\mathcal{G}]$ rappresenta la proiezione ortogonale, o
 Indipendenza Sia $Y \in L^1(\Omega, \mathcal{A}, \mathbb{P}$) e supponiamo che $X$ e $Y$ siano indipendenti. Allora: $$\mathbb{E}[Y|X]=\mathbb{E}[Y]$$
 :::
 
-![Se <span class="math inline"><em>X</em></span> e <span class="math inline"><em>Y</em></span> sono indipendenti, <span class="math inline"><em>Y</em></span> non ha componente lungo <span class="math inline"><em>L</em><sup>2</sup>(<em>σ</em>(<em>X</em>))</span>: la proiezione collassa sulla costante, e <span class="math inline"><em>E</em>{<em>Y</em> ∣ <em>X</em>} = <em>E</em>{<em>Y</em>}</span>.](figures/teorema-23-6-indipendenza-1.png){#fig-placeholder}
+![Se $X$ e $Y$ sono indipendenti, $Y$ non ha componente lungo $L^2(\sigma(X))$: la proiezione collassa sulla costante, e $E\{Y \mid X\} = E\{Y\}$.](figures/teorema-23-6-indipendenza-1.png){#fig-placeholder}
 
 ## Disuaguaglianze Fondamentali
 
@@ -3711,7 +3711,7 @@ In parole povere questa disuguaglianza afferma che: *\"La funzione della media �
 **Conseguenza fondamentale: La Varianza Condizionata**\
 Notiamo che la funzione $\phi(x)=x^2$ è convessa. Applicando la disuguaglianza di Jensen otteniamo: $$(\mathbb{E}[X|\mathcal{G}])^2 \leq \mathbb{E}[X^2|\mathcal{G}]$$ Questa disuguaglianza ha un'implicazione importantissima. Se riordiniamo i termini portandoli tutti a destra, otteniamo: $$\mathbb{E}[X^2|\mathcal{G}] - (\mathbb{E}[X|\mathcal{G}])^2 \geq 0$$ La quantità a sinistra è l'esatta definizione della **varianza condizionata** $\text{Var}(X|\mathcal{G})$. Dunque, la disuguaglianza di Jensen ci garantisce matematicamente che, proprio come la varianza classica, anche la varianza condizionata non può mai assumere valori negativi.
 
-![Disuguaglianza di Jensen: <span class="math inline"><em>φ</em>(<em>E</em>{<em>X</em> ∣ 𝒢}) ≤ <em>E</em>{<em>φ</em>(<em>X</em>) ∣ 𝒢}</span>. Per una funzione convessa, la corda (media dei valori) sta sempre sopra la curva (valore nel punto medio).](figures/teorema-23-9-jensen-1.png){#fig-placeholderx}
+![Disuguaglianza di Jensen: $\varphi(E\{X \mid \mathcal{G}\}) \leq E\{\varphi(X) \mid \mathcal{G}\}$. Per una funzione convessa, la corda (media dei valori) sta sempre sopra la curva (valore nel punto medio).](figures/teorema-23-9-jensen-1.png){#fig-placeholderx}
 
 ### Disuguaglianza di Hölder
 
@@ -3749,7 +3749,7 @@ Di fatto, è persino uno spazio normato *completo* (ovvero uno **Spazio di Banac
 **Nota tecnica (Il concetto di \"Quasi Certamente\"):**\
 In probabilità, la condizione di definitezza ($\|X\|_p = 0 \iff X=0$) è soddisfatta in senso debole, ovvero $X=0$ *quasi certamente* (con probabilità 1). Per questo motivo, per far funzionare la geometria, lo spazio $L^p$ non è formato da singole funzioni, ma da \"classi di equivalenza\": due variabili aleatorie che differiscono solo su un evento di probabilità nulla vengono considerate esattamente come lo stesso vettore matematico.
 
-![Le palle unitarie di <span class="math inline"><em>L</em><sup><em>p</em></sup></span> per <span class="math inline"><em>p</em> = 1, 2, 4, ∞</span>: la loro convessità per <span class="math inline"><em>p</em> ≥ 1</span> è la geometria che sottende le disuguaglianze di Hölder e di Minkowski.](figures/teorema-23-10-minkowski-palle-lp-1.png){#fig-palle-lp}
+![Le palle unitarie di $L^p$ per $p = 1, 2, 4, \infty$: la loro convessità per $p \geq 1$ è la geometria che sottende le disuguaglianze di Hölder e di Minkowski.](figures/teorema-23-10-minkowski-palle-lp-1.png){#fig-palle-lp}
 
 ## MCT, Lemma di Fatou e DCT condizionati
 
@@ -4377,7 +4377,7 @@ Una funzione $f(x)$ è continua in un punto $x_0$ se, per ogni tolleranza di err
 $f \text{ è continua} \quad \Leftrightarrow \quad \forall\epsilon>0, \quad \exists\delta>0 \text{ tale che } |x-x_0|<\delta \implies |f(x)-f(x_0)|<\epsilon$
 :::
 
-![Studio della funzione nel punto <span class="math inline"><em>x</em><sub>0</sub> = 2</span>](figures/progetto-senza-titolo-16.png){#fig-analisi}
+![Studio della funzione nel punto $x_0=2$](figures/progetto-senza-titolo-16.png){#fig-analisi}
 
 - La disuguaglianza $|f(x)-f(x_0)|<\epsilon$ definisce un aperto sull'asse $y$: $$(f(x_0)-\epsilon,f(x_0)+\epsilon).$$ Questo è il \"bersaglio\" $V$ dello spazio di arrivo.
 

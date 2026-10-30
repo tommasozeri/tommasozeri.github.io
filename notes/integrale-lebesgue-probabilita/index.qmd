@@ -21,7 +21,7 @@ Sia $(\Omega, \mathcal{A}, \mathbb{P})$ uno spazio di probabilità. Vogliamo def
 
 Una VA è detta semplice se assume solo un numero finito di valori. $$X=\sum_{i=1}^na_i\mathbb{1}_{A_i}$$ Vediamo che in questo caso, per ogni iterazione della sommatoria, $X$ può assumere solo due valori: $0$ e $a_i$, con $a_i\in\mathbb{R}$ e $A_i\in\mathcal{A}$.\
 
-![Variabile Aleatoria Semplice in uno spazio <span class="math inline"><em>Ω</em></span> equiprobabile](figures/va-semplice.png){#fig-placeholder}
+![Variabile Aleatoria Semplice in uno spazio $\Omega$ equiprobabile](figures/va-semplice.png){#fig-placeholder}
 
 Se $X$ è semplice, il suo valore atteso è: $$\mathbb{E}[X]=\int_{\Omega} XdP=\mathbb{E}[\sum_{i=1}^na_i\mathbb{1}_{A_i}]=\sum_{i=1}^na_i\mathbb{P}(A_i)$$
 
@@ -245,7 +245,7 @@ In sintesi, per poter scambiare limite e integrale serve sempre un \"prezzo da p
         n & \text{se } X(\omega) \geq n 
     \end{cases}$$
 
-    ![Approsimazione di una VA positiva con una sequenza di VA semplici. Per <span class="math inline"><em>n</em> → ∞</span>, i gradini diventano infinitamente sottili (<span class="math inline">2<sup>−<em>n</em></sup> → 0</span>) e la scalinata converge dal basso alla curva originale](figures/approx-semplici.png){#fig-placeholderx}
+    ![Approsimazione di una VA positiva con una sequenza di VA semplici. Per $n\rightarrow \infty$, i gradini diventano infinitamente sottili ($2^{-n}\rightarrow0$) e la scalinata converge dal basso alla curva originale](figures/approx-semplici.png){#fig-placeholderx}
 
 2.  Se la sequenza $\{X_n\}_{n\geq1}$ di VA semplici cresce a $X$ per $n\rightarrow\infty$ allora: $$\mathbb{E}[X_n]=\mathbb{E}[X]$$
 
@@ -324,7 +324,7 @@ In teoria della probabilità, la differenza tra lo spazio $L^1$ e lo spazio $L^2
 
 Come visto nel teorema di Cauchy-Schwarz, in uno spazio di probabilità (che ha misura totale pari a 1), ogni variabile in $L^2$ è automaticamente anche in $L^1$. L'inverso **non** è vero. Esistono funzioni (e variabili aleatorie) che decadono abbastanza in fretta da avere un'area totale finita (sono in $L^1$), ma se le eleviamo al quadrato, i loro picchi o le loro code amplificati producono un'area infinita (escono da $L^2$).
 
-![Inclusioni in <span class="math inline"><em>L</em><sup><em>p</em></sup></span>](figures/lp-inclusioni-code.png){#fig-placeholder}
+![Inclusioni in $L^p$](figures/lp-inclusioni-code.png){#fig-placeholder}
 
 ## La Regola del Valore Atteso
 

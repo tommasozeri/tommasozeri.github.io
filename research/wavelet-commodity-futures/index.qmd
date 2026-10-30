@@ -110,7 +110,7 @@ $$ {#eq-filter}
 
 Given two series $X$ and $Y$ with wavelet transforms $W_n^X(s)$ and $W_n^Y(s)$, the **cross-wavelet transform** is $$
 W_n^{XY}(s) = W_n^X(s)\, W_n^{Y*}(s),
-$$ a complex quantity whose modulus $|W_n^{XY}(s)|$ measures the common power between the two series at scale $s$ and time $n$, and whose phase measures their lead-lag relationship in that band. @torrence1998 derive a **closed-form** significance test for the cross-wavelet power, analogous to [\[eq:chi2test\]](#eq:chi2test){reference-type="ref" reference="eq:chi2test"} but based on the product of two chi-square-distributed variables, whose cumulative distribution involves the modified Bessel function $K_0$ (their equation 30). Crucially, this significance test requires *no Monte Carlo simulation*: it is evaluated directly from the two series' individual AR(1) parameters.
+$$ a complex quantity whose modulus $|W_n^{XY}(s)|$ measures the common power between the two series at scale $s$ and time $n$, and whose phase measures their lead-lag relationship in that band. @torrence1998 derive a **closed-form** significance test for the cross-wavelet power, analogous to @eq-chi2test but based on the product of two chi-square-distributed variables, whose cumulative distribution involves the modified Bessel function $K_0$ (their equation 30). Crucially, this significance test requires *no Monte Carlo simulation*: it is evaluated directly from the two series' individual AR(1) parameters.
 
 **Wavelet coherence**, by contrast, is defined as $$
 R_n^2(s) = \frac{\left|\left\langle s^{-1} W_n^{XY}(s)\right\rangle\right|^2}
@@ -135,7 +135,7 @@ This has motivated a substantial literature applying wavelet methods to economic
 
 There is a critical and easily overlooked gap between using wavelets *descriptively* -- to characterize the historical spectral content of a series, exactly as @torrence1998 do for the Niño3 SST record -- and using them to build a **trading signal**. The former is legitimately computed once over the full available history: it is a retrospective statement about what happened. The latter must never use information that would not have been available at the time the signal is generated.
 
-The Morlet wavelet's footprint is symmetric in time: the coefficient $W_n(s)$ at time $n$ is influenced by data both *before and after* $n$ inside the transform's support. A full-sample CWT reconstruction ([\[eq:filter\]](#eq:filter){reference-type="ref" reference="eq:filter"}, evaluated once over the whole series) therefore contains a subtle but real form of **look-ahead bias** at every interior point: the reconstructed value at time $n$ "knows" about returns that occurred after $n$. This is invisible in a purely descriptive plot, but fatal for anything claiming to be a real-time trading rule.
+The Morlet wavelet's footprint is symmetric in time: the coefficient $W_n(s)$ at time $n$ is influenced by data both *before and after* $n$ inside the transform's support. A full-sample CWT reconstruction (@eq-filter, evaluated once over the whole series) therefore contains a subtle but real form of **look-ahead bias** at every interior point: the reconstructed value at time $n$ "knows" about returns that occurred after $n$. This is invisible in a purely descriptive plot, but fatal for anything claiming to be a real-time trading rule.
 
 The methodology in @sec-methodology is built specifically to close this gap, at the cost of being considerably more expensive to compute than a single full-sample transform.
 
@@ -145,7 +145,7 @@ The methodology in @sec-methodology is built specifically to close this gap, at 
 
 The base asset used throughout is WTI crude oil futures (Yahoo Finance ticker `CL=F`), sampled daily. Two preprocessing decisions deserve explicit justification:
 
-**Working with log-returns, not price levels.** Commodity price levels are far too non-stationary for the linear detrending typically sufficient in geophysical applications: WTI crude experienced a multi-year price collapse (2014--2016), the COVID-19 demand shock and the unprecedented *negative* settlement price of 20 April 2020, and the 2022 supply shock following the invasion of Ukraine. A single linear detrend does not come close to stationarizing a series with this much structural change, and attempting to fit an AR(1) red-noise background [\[eq:rednoise\]](#eq:rednoise){reference-type="eqref" reference="eq:rednoise"} on such a series is numerically unstable. Working instead with daily log-returns, $$
+**Working with log-returns, not price levels.** Commodity price levels are far too non-stationary for the linear detrending typically sufficient in geophysical applications: WTI crude experienced a multi-year price collapse (2014--2016), the COVID-19 demand shock and the unprecedented *negative* settlement price of 20 April 2020, and the 2022 supply shock following the invasion of Ukraine. A single linear detrend does not come close to stationarizing a series with this much structural change, and attempting to fit an AR(1) red-noise background @eq-rednoise on such a series is numerically unstable. Working instead with daily log-returns, $$
 r_n = \ln p_{n+1} - \ln p_n,
 $$ removes the need for detrending almost entirely and produces a substantially more well-behaved series for both the CWT and its red-noise null.
 
@@ -153,11 +153,11 @@ $$ removes the need for detrending almost entirely and produces a substantially 
 
 ## Robust Estimation of the Red-Noise Background
 
-The lag-1 autocorrelation $\alpha$ needed for the red-noise null [\[eq:rednoise\]](#eq:rednoise){reference-type="eqref" reference="eq:rednoise"} is normally estimated via a bias-corrected (Kendall-type) estimator. This estimator's closed-form solution involves a quadratic equation whose discriminant can become negative on short or strongly non-stationary windows, causing the estimation to fail outright. A robust wrapper is used throughout: the bias-corrected estimator is attempted first, and on failure the estimation falls back to the plain sample lag-1 autocorrelation, clipped to $[0, 0.99]$ for numerical safety.
+The lag-1 autocorrelation $\alpha$ needed for the red-noise null @eq-rednoise is normally estimated via a bias-corrected (Kendall-type) estimator. This estimator's closed-form solution involves a quadratic equation whose discriminant can become negative on short or strongly non-stationary windows, causing the estimation to fail outright. A robust wrapper is used throughout: the bias-corrected estimator is attempted first, and on failure the estimation falls back to the plain sample lag-1 autocorrelation, clipped to $[0, 0.99]$ for numerical safety.
 
 ## Causal Walk-Forward Signal Extraction {#sec-walkforward}
 
-To eliminate the look-ahead bias discussed in @sec-causality, the band-pass reconstruction of [\[eq:filter\]](#eq:filter){reference-type="ref" reference="eq:filter"} is **never** computed once over the full sample for trading purposes. Instead, the CWT is periodically *re-estimated* using only the data available up to each point in time, and only the **endpoint** of each such reconstruction -- the most recent value -- is retained as the live signal. Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"} formalizes this procedure.
+To eliminate the look-ahead bias discussed in @sec-causality, the band-pass reconstruction of @eq-filter is **never** computed once over the full sample for trading purposes. Instead, the CWT is periodically *re-estimated* using only the data available up to each point in time, and only the **endpoint** of each such reconstruction -- the most recent value -- is retained as the live signal. Algorithm (see the PDF) formalizes this procedure.
 
 :::: algorithm
 ::: algorithmic
@@ -169,7 +169,7 @@ Because the window used at step $i$ never extends past $i$, the resulting signal
 
 ## From Signal to Position: Mean-Reversion Rule
 
-The band-passed oscillator $x'_n$ from Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"} is converted into a trading signal via a rolling $z$-score, $$
+The band-passed oscillator $x'_n$ from Algorithm (see the PDF) is converted into a trading signal via a rolling $z$-score, $$
 z_n = \frac{x'_n - \mu_n}{\sigma_n},
 $$ with $\mu_n, \sigma_n$ computed on a trailing window, and a **hysteresis** entry/exit rule to avoid excessive turnover from noise around a single threshold: $$
 \text{state}_n =
@@ -183,7 +183,7 @@ $$ This is a conventional discretionary mean-reversion rule; the methodological 
 
 ## Continuous Significance-Based Position Scaling
 
-An initial version of this study used a **binary** gate: new positions were only allowed when the scale-averaged power ratio $\rho$ (step 6 of Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"}) exceeded 1, i.e. when the band was significant at the chosen confidence level. Empirically, this gate fired only 3--4% of the time even at a relaxed 80% confidence level, leaving too few trades in any reasonably sized out-of-sample window to draw a meaningful conclusion (@sec-validation). Genuine, statistically detectable cyclicality in a narrow frequency band of daily commodity returns is, empirically, rare -- consistent with a near-efficient market, where any *persistent* exploitable periodicity would already have been arbitraged away.
+An initial version of this study used a **binary** gate: new positions were only allowed when the scale-averaged power ratio $\rho$ (step 6 of Algorithm (see the PDF)) exceeded 1, i.e. when the band was significant at the chosen confidence level. Empirically, this gate fired only 3--4% of the time even at a relaxed 80% confidence level, leaving too few trades in any reasonably sized out-of-sample window to draw a meaningful conclusion (@sec-validation). Genuine, statistically detectable cyclicality in a narrow frequency band of daily commodity returns is, empirically, rare -- consistent with a near-efficient market, where any *persistent* exploitable periodicity would already have been arbitraged away.
 
 The gate was therefore replaced by a **continuous** multiplier, $\text{clip}(\rho, 0, 1)$, applied directly to position size rather than as an entry/exit switch. This preserves the same statistical logic -- weak or absent cyclicality receives less size -- while avoiding the all-or-nothing collapse of the binary version.
 
@@ -233,7 +233,7 @@ Where the rolling validation above reveals that *some* band in the grid performs
 
 @sec-xwt noted that the cross-wavelet power test is closed-form, unlike wavelet coherence, which requires an expensive Monte Carlo simulation (of order minutes per pair, in this implementation, for a single full-sample estimate). This asymmetry is decisive for a walk-forward application: re-estimating a Monte Carlo coherence test at every one of several hundred refit points is computationally impractical, whereas the closed-form cross-wavelet significance test is cheap enough to call at every refit.
 
-This study therefore builds a causal, walk-forward analogue of Algorithm [\[alg:walkforward\]](#alg:walkforward){reference-type="ref" reference="alg:walkforward"} using the **cross-wavelet** amplitude between the commodity and a candidate macroeconomic driver (the USD index, the US 10-year yield, the VIX, and the S&P 500 index, each tested independently), in place of the univariate scale-averaged power. The resulting continuous strength measure is used exactly as in the univariate case, as a multiplicative position-size scalar.
+This study therefore builds a causal, walk-forward analogue of Algorithm (see the PDF) using the **cross-wavelet** amplitude between the commodity and a candidate macroeconomic driver (the USD index, the US 10-year yield, the VIX, and the S&P 500 index, each tested independently), in place of the univariate scale-averaged power. The resulting continuous strength measure is used exactly as in the univariate case, as a multiplicative position-size scalar.
 
 ## Regime Detection via Hidden Markov Models {#sec-hmm}
 
@@ -255,7 +255,7 @@ $$
 \tilde r_n^{\text{overlay}} = \tilde r_n \times \big(1 - \kappa \cdot \text{clip}(\hat p_{n}^{\text{stress}}, 0, 1)\big),
 $$ {#eq-overlay}
 
- where $\hat p_n^{\text{stress}}$ is the causal HMM stress probability and $\kappa \in [0,1]$ controls the strength of the de-risking (this study uses $\kappa=1$, i.e. exposure can be reduced to zero at maximum detected stress). This is a genuinely different use of the same underlying information: it makes no bet on *what* will happen during stress, only on the (much weaker, and more defensible) claim that being smaller during turbulence is prudent. [\[eq:overlay\]](#eq:overlay){reference-type="ref" reference="eq:overlay"} is applied, separately, to two very different base exposures: a naive long-only buy-and-hold position, and the diversified band ensemble of @sec-validation, in order to test whether the overlay's effect depends on the nature of the underlying exposure.
+ where $\hat p_n^{\text{stress}}$ is the causal HMM stress probability and $\kappa \in [0,1]$ controls the strength of the de-risking (this study uses $\kappa=1$, i.e. exposure can be reduced to zero at maximum detected stress). This is a genuinely different use of the same underlying information: it makes no bet on *what* will happen during stress, only on the (much weaker, and more defensible) claim that being smaller during turbulence is prudent. @eq-overlay is applied, separately, to two very different base exposures: a naive long-only buy-and-hold position, and the diversified band ensemble of @sec-validation, in order to test whether the overlay's effect depends on the nature of the underlying exposure.
 
 # Empirical Results {#sec-results}
 
@@ -337,7 +337,7 @@ Fitting the two-state HMM of @sec-hmm over the full sample and correlating its s
 
 ## Risk-Reduction Overlay
 
-Applying the *non-directional* overlay of [\[eq:overlay\]](#eq:overlay){reference-type="ref" reference="eq:overlay"} to two different base exposures produces sharply divergent results (@tbl-overlay).
+Applying the *non-directional* overlay of @eq-overlay to two different base exposures produces sharply divergent results (@tbl-overlay).
 
 ::: {#tbl-overlay}
   Base         Overlay              Sharpe   Ann. Ret.     Max DD   Calmar
@@ -366,7 +366,7 @@ The asymmetric result in @tbl-overlay has a clear economic explanation rather th
 
 ## Multiple Testing and the Limits of This Study
 
-Every positive result reported in @sec-results was obtained only after testing several bands, several macroeconomic drivers, and several regime-gating variants; the out-of-sample and rolling-window machinery of @sec-validation was built specifically to guard against over-interpreting any single number that happens to look good. Even so, two limitations should be stated plainly. First, the strongest positive results (the ensemble and its overlay) are still concentrated, to a meaningful degree, in the 2020--2024 sub-period; while the rolling validation shows the drawdown-reduction effect to be broad, a longer sample spanning additional volatility regimes (or the same pipeline applied to other commodities, as briefly explored during this study for corn and natural gas without a stable cross-commodity pattern emerging) would be needed to state the finding with full confidence. Second, the risk overlay of [\[eq:overlay\]](#eq:overlay){reference-type="ref" reference="eq:overlay"} scales an already-computed, cost-net return series rather than reworking the position-sizing step before transaction costs are computed; a fully rigorous implementation would fold the de-risking directly into position sizing, alongside the existing volatility target.
+Every positive result reported in @sec-results was obtained only after testing several bands, several macroeconomic drivers, and several regime-gating variants; the out-of-sample and rolling-window machinery of @sec-validation was built specifically to guard against over-interpreting any single number that happens to look good. Even so, two limitations should be stated plainly. First, the strongest positive results (the ensemble and its overlay) are still concentrated, to a meaningful degree, in the 2020--2024 sub-period; while the rolling validation shows the drawdown-reduction effect to be broad, a longer sample spanning additional volatility regimes (or the same pipeline applied to other commodities, as briefly explored during this study for corn and natural gas without a stable cross-commodity pattern emerging) would be needed to state the finding with full confidence. Second, the risk overlay of @eq-overlay scales an already-computed, cost-net return series rather than reworking the position-sizing step before transaction costs are computed; a fully rigorous implementation would fold the de-risking directly into position sizing, alongside the existing volatility target.
 
 # Conclusion {#sec-conclusion}
 

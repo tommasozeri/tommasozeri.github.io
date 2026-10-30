@@ -69,7 +69,7 @@ Un elemento $\mathbf{x}\in V$ della forma: $$\mathbf{x}=\sum_{i=1}^kc_ix_i$$ dov
 Chiamiamo questo sottospazio generato da $S$ come **span** $\mathcal{L}(S)$. Se $S=\emptyset$, allora $\mathcal{L}(S)=\{ 0\}$\
 **NB**: $\mathcal{L}(S)$ è il più piccolo sottospazio di $V$ che contiene $S$.
 
-![Il sottospazio generato <span class="math inline">ℒ(<em>S</em>)</span>. (a) Lo span di un singolo vettore non nullo è una retta passante per l’origine (<span class="math inline">dim = 1</span>). (b) Lo span di due vettori indipendenti è un piano passante per l’origine (<span class="math inline">dim = 2</span>).](figures/fig2-span.png){#fig-span}
+![Il sottospazio generato $\mathcal{L}(S)$. (a) Lo span di un singolo vettore non nullo è una retta passante per l’origine ($\dim=1$). (b) Lo span di due vettori indipendenti è un piano passante per l’origine ($\dim=2$).](figures/fig2-span.png){#fig-span}
 
 ## Insiemi dipendenti e indipendenti in uno spazio lineare
 
@@ -104,7 +104,7 @@ L'indipendenza lineare non si applica solo ai classici vettori colonna, ma a qua
 
 - Sia $u_k(t) = t^k$ per $k \in \mathbb{N}$ e $t \in \mathbb{R}$. L'insieme infinito $S = \{u_0, u_1, u_2, \dots\} = \{1, t, t^2, \dots\}$ è linearmente **indipendente**. Infatti, per il Principio di Identità dei Polinomi, l'unico modo in cui una combinazione lineare finita (cioè un polinomio) può risultare costantemente pari al vettore $\mathbf{0}$ per ogni $t$ è che ogni singolo coefficiente $c_k$ sia pari a $0$.
 
-![Indipendenza lineare in spazi di funzioni. (a) <span class="math inline"><em>u</em><sub>1</sub> = cos<sup>2</sup><em>t</em></span>, <span class="math inline"><em>u</em><sub>2</sub> = sin<sup>2</sup><em>t</em></span>, <span class="math inline"><em>u</em><sub>3</sub> = 1</span> sono dipendenti: la combinazione <span class="math inline"><em>u</em><sub>1</sub> + <em>u</em><sub>2</sub> − <em>u</em><sub>3</sub></span> è identicamente nulla per l’identità trigonometrica fondamentale. (b) La base monomiale <span class="math inline">{1, <em>t</em>, <em>t</em><sup>2</sup>, …}</span> è indipendente: per il principio di identità dei polinomi nessuna combinazione finita non banale si annulla ovunque.](figures/fig4-funzioni.png){#fig-funzioni}
+![Indipendenza lineare in spazi di funzioni. (a) $u_1=\cos^2 t$, $u_2=\sin^2 t$, $u_3=1$ sono dipendenti: la combinazione $u_1+u_2-u_3$ è identicamente nulla per l’identità trigonometrica fondamentale. (b) La base monomiale $\{1,t,t^2,\dots\}$ è indipendente: per il principio di identità dei polinomi nessuna combinazione finita non banale si annulla ovunque.](figures/fig4-funzioni.png){#fig-funzioni}
 
 ::: mybox
 Teorema fondamentale della dipendenza (o dell'eccesso) **Enunciato:**\
@@ -121,7 +121,7 @@ Cercare di trovare $k+1$ vettori completamente indipendenti all'interno di uno s
 **Conseguenza fondamentale**\
 È proprio questo teorema a garantirci che la **dimensione** di uno spazio vettoriale è un numero ben definito e fisso: se uno spazio è generato da $k$ vettori indipendenti, la massima quantità di vettori linearmente indipendenti che potrai mai trovare al suo interno sarà sempre e solo $k$.
 
-![Interpretazione geometrica della dipendenza e indipendenza lineare in <span class="math inline">ℝ<sup>3</sup></span>. (a) Tre vettori dipendenti: <span class="math inline"><em>x</em><sub>3</sub></span> è combinazione lineare di <span class="math inline"><em>x</em><sub>1</sub>, <em>x</em><sub>2</sub></span> e i tre elementi giacciono sullo stesso piano (evidenziato in grigio). (b) Tre vettori indipendenti: nessuno è ottenibile dagli altri e insieme generano l’intero spazio tridimensionale.](figures/fig1-dipendenza.png){#fig-placeholder}
+![Interpretazione geometrica della dipendenza e indipendenza lineare in $\mathbb{R}^3$. (a) Tre vettori dipendenti: $x_3$ è combinazione lineare di $x_1,x_2$ e i tre elementi giacciono sullo stesso piano (evidenziato in grigio). (b) Tre vettori indipendenti: nessuno è ottenibile dagli altri e insieme generano l’intero spazio tridimensionale.](figures/fig1-dipendenza.png){#fig-placeholder}
 
 ## Basi, Dimensioni e Componenti
 
@@ -184,7 +184,7 @@ Si parte da uno spazio $V$ di dimensione $n$. Questo significa che servono esatt
 
 **NB sull'ordine:** Una base si dice *ordinata* perché l'ordine dei vettori conta! Scambiare due elementi cambia l'ordine delle componenti: la base $[e_1, e_2, e_3]$ è diversa dalla base $[e_2, e_1, e_3]$. È lo stesso motivo per cui, nel piano cartesiano standard, il punto di coordinate $(3, 5)$ è profondamente diverso dal punto $(5, 3)$.
 
-![Lo stesso vettore <span class="math inline"><strong>x</strong> = (3, 2)</span> espresso rispetto a due basi ordinate diverse di <span class="math inline">ℝ<sup>2</sup></span>. Le componenti <span class="math inline"><strong>c</strong></span> dipendono interamente dalla base scelta: <span class="math inline">[3, 2]</span> nella base canonica, <span class="math inline">[1.99, 1.08]</span> nella base obliqua <span class="math inline"><strong>f</strong> = [<em>f</em><sub>1</sub>, <em>f</em><sub>2</sub>]</span>, a conferma del teorema di unicità delle componenti.](figures/fig3-basi.png){#fig-basi}
+![Lo stesso vettore $\mathbf{x}=(3,2)$ espresso rispetto a due basi ordinate diverse di $\mathbb{R}^2$. Le componenti $\mathbf{c}$ dipendono interamente dalla base scelta: $[3,2]$ nella base canonica, $[1.99,1.08]$ nella base obliqua $\mathbf{f}=[f_1,f_2]$, a conferma del teorema di unicità delle componenti.](figures/fig3-basi.png){#fig-basi}
 
 **NB:** Si noti che, dato un sottospazio $S$ di $V$:
 
@@ -291,7 +291,7 @@ La forza del teorema appena enunciato è che, essendo stato dimostrato solo usan
 **Nota di Probabilità:**\
 Anche il valore atteso è un integrale (di Lebesgue). Sostituendo l'inner product probabilistico $\langle X, Y \rangle = \mathbb{E}[XY]$, ritroviamo esattamente la disuguaglianza di Cauchy-Schwarz (ovvero il caso particolare di Hölder con $p=2, q=2$) che abbiamo visto nei capitoli iniziali: $$(\mathbb{E}[XY])^2 \leq \mathbb{E}[X^2] \cdot \mathbb{E}[Y^2]$$
 
-![La disuguaglianza di Cauchy-Schwarz e il concetto di angolo. (a) <span class="math inline">cos <em>θ</em></span> è definito come il rapporto fra <span class="math inline">⟨<em>x</em>, <em>y</em>⟩</span> e <span class="math inline">‖<em>x</em>‖‖<em>y</em>‖</span>. (b) Al variare dell’angolo <span class="math inline"><em>θ</em></span> fra <span class="math inline">0<sup>∘</sup></span> e <span class="math inline">180<sup>∘</sup></span>, <span class="math inline">⟨<em>x</em>, <em>y</em>⟩</span> resta sempre compreso fra <span class="math inline">−‖<em>x</em>‖‖<em>y</em>‖</span> e <span class="math inline">+‖<em>x</em>‖‖<em>y</em>‖</span>; l’uguaglianza si realizza solo per vettori paralleli, cioè dipendenti.](figures/fig5-cauchy-schwarz.png){#fig-cauchyschwarz}
+![La disuguaglianza di Cauchy-Schwarz e il concetto di angolo. (a) $\cos\theta$ è definito come il rapporto fra $\langle x,y\rangle$ e $\Vert x\Vert\Vert y\Vert$. (b) Al variare dell’angolo $\theta$ fra $0^\circ$ e $180^\circ$, $\langle x,y\rangle$ resta sempre compreso fra $-\Vert x\Vert\Vert y\Vert$ e $+\Vert x\Vert\Vert y\Vert$; l’uguaglianza si realizza solo per vettori paralleli, cioè dipendenti.](figures/fig5-cauchy-schwarz.png){#fig-cauchyschwarz}
 
 ### Il concetto di Lunghezza (Norma Indotta dall'inner product)
 
@@ -311,7 +311,7 @@ Proprietà della Norma Indotta La norma derivata da un inner product soddisfa se
 - **Disuguaglianza Triangolare**: $\Vert \mathbf{x} + \mathbf{y}\Vert \leq \Vert\mathbf{x} \Vert + \Vert\mathbf{y} \Vert$
 :::
 
-![La disuguaglianza triangolare <span class="math inline">‖<em>x</em> + <em>y</em>‖ ≤ ‖<em>x</em>‖+‖<em>y</em>‖</span>. (a) Rappresentazione vettoriale del "triangolo" formato da <span class="math inline"><em>x</em></span>, <span class="math inline"><em>y</em></span> e <span class="math inline"><em>x</em> + <em>y</em></span>. (b) <span class="math inline">‖<em>x</em> + <em>y</em>‖</span> al variare dell’angolo fra <span class="math inline"><em>x</em></span> e <span class="math inline"><em>y</em></span>: raggiunge il proprio massimo <span class="math inline">‖<em>x</em>‖+‖<em>y</em>‖</span> esattamente quando <span class="math inline"><em>θ</em> = 0<sup>∘</sup></span>, cioè quando i due vettori sono concordi e dipendenti — coerentemente con la dimostrazione basata su Cauchy-Schwarz.](figures/fig6-triangolare.png){#fig-triangolare}
+![La disuguaglianza triangolare $\Vert x+y\Vert\leq \Vert x\Vert+\Vert y\Vert$. (a) Rappresentazione vettoriale del "triangolo" formato da $x$, $y$ e $x+y$. (b) $\Vert x+y\Vert$ al variare dell’angolo fra $x$ e $y$: raggiunge il proprio massimo $\Vert x\Vert+\Vert y\Vert$ esattamente quando $\theta=0^\circ$, cioè quando i due vettori sono concordi e dipendenti — coerentemente con la dimostrazione basata su Cauchy-Schwarz.](figures/fig6-triangolare.png){#fig-triangolare}
 
 **Osservazione (Il legame tra Triangolare e Cauchy-Schwarz)**\
 Come facciamo a essere certi che valga la disuguaglianza triangolare? La magia sta proprio nella Cauchy-Schwarz! Se calcoliamo il quadrato della norma di una somma usando la linearità dell'inner product (nel caso reale): $$\Vert \mathbf{x} + \mathbf{y} \Vert^2 = \langle \mathbf{x}+\mathbf{y}, \mathbf{x}+\mathbf{y} \rangle = \Vert\mathbf{x}\Vert^2 + 2\langle \mathbf{x},\mathbf{y} \rangle + \Vert\mathbf{y}\Vert^2$$ Maggiorando il termine misto $\langle \mathbf{x},\mathbf{y} \rangle$ con la Cauchy-Schwarz (sostituendolo cioè con $\Vert\mathbf{x}\Vert\Vert\mathbf{y}\Vert$), otteniamo un quadrato di binomio perfetto: $$\Vert \mathbf{x} + \mathbf{y} \Vert^2 \leq \Vert\mathbf{x}\Vert^2 + 2\Vert\mathbf{x}\Vert\Vert\mathbf{y}\Vert + \Vert\mathbf{y}\Vert^2 = (\Vert\mathbf{x}\Vert + \Vert\mathbf{y}\Vert)^2$$ Estraendo la radice quadrata da ambo i membri, ritroviamo esattamente la disuguaglianza triangolare. Questo dimostra che *ogni prodotto interno induce validamente una norma*.
@@ -361,7 +361,7 @@ Di conseguenza (grazie al teorema sul criterio della dimensione), in uno spazio 
 **Perché vettori ortogonali sono sempre indipendenti? (Dimostrazione rapida)**\
 Il motivo è bellissimo e si dimostra in un colpo solo. Supponiamo di avere una combinazione lineare di vettori ortogonali $\mathbf{x}_i$ che dà il vettore nullo: $$c_1\mathbf{x}_1 + c_2\mathbf{x}_2 + \dots + c_k\mathbf{x}_k = \mathbf{0}$$ Se vogliamo trovare il coefficiente $c_1$, ci basta fare l'inner product di tutta l'equazione con $\mathbf{x}_1$: $$\langle \mathbf{x}_1, c_1\mathbf{x}_1 + \dots + c_k\mathbf{x}_k \rangle = \langle \mathbf{x}_1, \mathbf{0} \rangle = 0$$ Per la linearità, possiamo \"distribuire\" il prodotto. Ma poiché i vettori sono tutti ortogonali a $\mathbf{x}_1$, i termini misti come $\langle \mathbf{x}_1, \mathbf{x}_2 \rangle$ valgono zero e \"spariscono\"! Rimane solo: $$c_1 \langle \mathbf{x}_1, \mathbf{x}_1 \rangle = 0$$ Poiché il vettore $\mathbf{x}_1$ non è nullo, il suo autoprodotto è strettamente positivo, il che forza il coefficiente a essere $c_1 = 0$. Ripetendo il trucco per tutti gli altri vettori, otteniamo che tutti i coefficienti devono essere zero, che è l'esatta definizione di indipendenza lineare.
 
-![Ortogonalità in <span class="math inline">ℝ<sup>2</sup></span>. (a) I vettori <span class="math inline"><em>v</em><sub>1</sub> = (1, 1)</span> e <span class="math inline"><em>v</em><sub>2</sub> = (1, −1)</span> hanno inner product nullo: sono ortogonali ma non ortonormali, poiché <span class="math inline">$\Vert v_1\Vert=\Vert v_2\Vert=\sqrt{2}$</span>. (b) Dividendo ciascun vettore per la propria norma si ottiene una base ortonormale <span class="math inline">{<em>u</em><sub>1</sub>, <em>u</em><sub>2</sub>}</span>.](figures/fig7-ortogonalita.png){#fig-ortogonalita}
+![Ortogonalità in $\mathbb{R}^2$. (a) I vettori $v_1=(1,1)$ e $v_2=(1,-1)$ hanno inner product nullo: sono ortogonali ma non ortonormali, poiché $\Vert v_1\Vert=\Vert v_2\Vert=\sqrt{2}$. (b) Dividendo ciascun vettore per la propria norma si ottiene una base ortonormale $\{u_1,u_2\}$.](figures/fig7-ortogonalita.png){#fig-ortogonalita}
 
 ### Esempi di Insiemi Ortogonali e Ortonormali {#sec-esempi-di-insiemi-ortogonali-e-ortonormali .unnumbered}
 
@@ -374,7 +374,7 @@ Il motivo è bellissimo e si dimostra in un colpo solo. Supponiamo di avere una 
 - **Funzioni Trigonometriche in $L^2([-\pi, \pi])$ (La base di Fourier):**\
   Passando agli spazi di funzioni con l'inner product integrale $\langle f, g \rangle = \int_{-\pi}^{\pi} f(t)g(t) dt$, consideriamo l'insieme di funzioni: $$S = \{ 1, \cos(t), \sin(t), \cos(2t), \sin(2t), \dots \}$$ Questo è un insieme infinito e **ortogonale**. Se prendiamo, ad esempio, $\sin(t)$ e $\cos(t)$, il loro inner product è: $$\langle \sin(t), \cos(t) \rangle = \int_{-\pi}^{\pi} \sin(t)\cos(t) dt = 0$$ (L'integrale fa zero perché stiamo integrando una funzione dispari su un intervallo simmetrico). Questa è la magia alla base delle Serie di Fourier: stiamo semplicemente proiettando una funzione complessa su una \"base ortogonale\" di seni e coseni, esattamente come proietteremmo un vettore sugli assi $x, y, z$.
 
-  ![Ortogonalità del sistema trigonometrico. (a) <span class="math inline">sin <em>t</em>cos <em>t</em></span> è una funzione dispari: le aree positive e negative si cancellano esattamente, dando <span class="math inline">⟨sin <em>t</em>, cos <em>t</em>⟩ = 0</span>. (b) Lo stesso vale per <span class="math inline">cos <em>t</em>cos 2<em>t</em></span>: l’ortogonalità vale per ogni coppia di armoniche distinte.](figures/fig8-ortogonalita-trig.png){#fig-ortogonalita-trig}
+  ![Ortogonalità del sistema trigonometrico. (a) $\sin t\cos t$ è una funzione dispari: le aree positive e negative si cancellano esattamente, dando $\langle\sin t,\cos t\rangle=0$. (b) Lo stesso vale per $\cos t\cos 2t$: l’ortogonalità vale per ogni coppia di armoniche distinte.](figures/fig8-ortogonalita-trig.png){#fig-ortogonalita-trig}
 
 **Nota pratica (Il processo di Normalizzazione):**\
 Se abbiamo un insieme ortogonale ma non ortonormale (come nel secondo esempio), possiamo sempre trasformarlo in un insieme ortonormale in modo banale: basta dividere ogni vettore per la propria norma. Ad esempio, i vettori $\mathbf{u}_1 = \frac{\mathbf{v}_1}{\sqrt{2}}$ e $\mathbf{u}_2 = \frac{\mathbf{v}_2}{\sqrt{2}}$ formano ora una base perfettamente ortonormale!
@@ -388,7 +388,7 @@ Se un elemento $\mathbf{x}$ è espresso come una combinazione lineare degli elem
 In particolare, se $S$ è una base **ortonormale** (ovvero ortogonale e con $\Vert e_j \Vert = 1$ per ogni $j$), il denominatore diventa pari a $1$. Di conseguenza, ogni componente $c_j$ è calcolabile banalmente come: $$c_j = \langle \mathbf{x}, e_j \rangle$$
 :::
 
-![Le componenti rispetto a una base ortogonale come proiezioni. (a) Il vettore <span class="math inline"><strong>x</strong> = (3, 5)</span> decomposto lungo <span class="math inline"><em>v</em><sub>1</sub> = (1, 1)</span> e <span class="math inline"><em>v</em><sub>2</sub> = (1, −1)</span>: ogni coefficiente <span class="math inline"><em>c</em><sub><em>j</em></sub></span> è il rapporto <span class="math inline">⟨<em>x</em>, <em>v</em><sub><em>j</em></sub>⟩/⟨<em>v</em><sub><em>j</em></sub>, <em>v</em><sub><em>j</em></sub>⟩</span>. (b) Ricostruzione di <span class="math inline"><strong>x</strong></span> come somma vettoriale <span class="math inline"><em>c</em><sub>1</sub><em>v</em><sub>1</sub> + <em>c</em><sub>2</sub><em>v</em><sub>2</sub></span>.](figures/fig9-proiezione-base-ortogonale.png){#fig-proiezione-ortogonale}
+![Le componenti rispetto a una base ortogonale come proiezioni. (a) Il vettore $\mathbf{x}=(3,5)$ decomposto lungo $v_1=(1,1)$ e $v_2=(1,-1)$: ogni coefficiente $c_j$ è il rapporto $\langle x,v_j\rangle/\langle v_j,v_j\rangle$. (b) Ricostruzione di $\mathbf{x}$ come somma vettoriale $c_1v_1+c_2v_2$.](figures/fig9-proiezione-base-ortogonale.png){#fig-proiezione-ortogonale}
 
 **Perché questo teorema è un \"superpotere\" computazionale?**\
 Normalmente, per trovare le componenti $c_j$ di un vettore rispetto a una base generica, sei costretto a impostare e risolvere un **sistema lineare** di $n$ equazioni in $n$ incognite (usando, ad esempio, l'eliminazione di Gauss). È un procedimento lungo e noioso.
@@ -480,7 +480,7 @@ Formule Ricorsive di Gram-Schmidt Dato un insieme di vettori linearmente indipen
 **NB (Ortonormalizzazione):**\
 L'algoritmo di Gram-Schmidt puro restituisce una base *ortogonale*. Se il problema o la dimostrazione richiede una base *ortonormale* (cioè formata da versori di lunghezza unitaria), la strategia migliore per i calcoli a mano è la normalizzazione a posteriori: basta svolgere tutto l'algoritmo e, solo alla primissima fine, dividere ciascun vettore $\mathbf{y}_k$ ottenuto per la propria norma. $$\mathbf{e}_k = \frac{\mathbf{y}_k}{\Vert \mathbf{y}_k \Vert}$$ Questa accortezza ti eviterà di trascinare fastidiose radici quadrate nei denominatori durante i calcoli delle proiezioni intermedie.
 
-![L’idea geometrica di Gram-Schmidt in <span class="math inline">ℝ<sup>2</sup></span>. (a) Base di partenza <span class="math inline">{<em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>}</span>, indipendente ma non ortogonale. (b) Si pone <span class="math inline"><em>y</em><sub>1</sub> = <em>x</em><sub>1</sub></span> e si sottrae a <span class="math inline"><em>x</em><sub>2</sub></span> la sua proiezione lungo <span class="math inline"><em>y</em><sub>1</sub></span>: ciò che resta, <span class="math inline"><em>y</em><sub>2</sub></span>, è ortogonale a <span class="math inline"><em>y</em><sub>1</sub></span>.](figures/fig10-gram-schmidt-2d.png){#fig-gram-schmidt-2d}
+![L’idea geometrica di Gram-Schmidt in $\mathbb{R}^2$. (a) Base di partenza $\{x_1,x_2\}$, indipendente ma non ortogonale. (b) Si pone $y_1=x_1$ e si sottrae a $x_2$ la sua proiezione lungo $y_1$: ciò che resta, $y_2$, è ortogonale a $y_1$.](figures/fig10-gram-schmidt-2d.png){#fig-gram-schmidt-2d}
 
 ### Esempio pratico 1: Algoritmo di Gram-Schmidt in $\mathbb{R}^3$ {#sec-esempio-pratico-1-algoritmo-di-gram-schmidt-in-mathbbr3 .unnumbered}
 
@@ -508,7 +508,7 @@ Applichiamo la formula: $$\mathbf{y}_3 = \mathbf{x}_3 - \frac{\langle \mathbf{x}
 **Risultato finale e un \"Trucco\" utile:**\
 La base ortogonale generata è: $$S' = \left\{ \begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix}, \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \begin{bmatrix} -1/2 \\ 0 \\ 1/2 \end{bmatrix} \right\}$$ *Trucco:* Poiché il teorema afferma che i vettori sono unici \"a meno di fattori scalari\", è prassi comune moltiplicare il terzo vettore per $2$ per eliminare le frazioni senza rovinare l'ortogonalità. La base più \"pulita\" da usare sarà quindi $S'_{pulita} = \left\{ [1, 0, 1]^T, [0, 1, 0]^T, [-1, 0, 1]^T \right\}$.
 
-![L’esempio numerico del testo in <span class="math inline">ℝ<sup>3</sup></span>. (a) Base di partenza <span class="math inline">{<em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, <em>x</em><sub>3</sub>}</span>, non ortogonale. (b) Base ortogonale <span class="math inline">{<em>y</em><sub>1</sub>, <em>y</em><sub>2</sub>, <em>y</em><sub>3</sub>}</span> ottenuta con Gram-Schmidt: stesso span, ma vettori a due a due ortogonali.](figures/fig11-gram-schmidt-3d.png){#fig-gram-schmidt-3d}
+![L’esempio numerico del testo in $\mathbb{R}^3$. (a) Base di partenza $\{x_1,x_2,x_3\}$, non ortogonale. (b) Base ortogonale $\{y_1,y_2,y_3\}$ ottenuta con Gram-Schmidt: stesso span, ma vettori a due a due ortogonali.](figures/fig11-gram-schmidt-3d.png){#fig-gram-schmidt-3d}
 
 ### Esempio avanzato: Gram-Schmidt e i Polinomi di Legendre {#sec-esempio-avanzato-gram-schmidt-e-i-polinomi-di-legendre .unnumbered}
 
@@ -534,7 +534,7 @@ Applichiamo la formula: $$q_2(x) = p_2(x) - \frac{\langle p_2, q_0 \rangle}{\lan
 **Conclusione: La nascita dei Polinomi di Legendre**\
 Abbiamo ottenuto la base ortogonale di polinomi: $\{1, \ x, \ x^2 - \frac{1}{3}\}$. Questa base è famosissima! Moltiplicando l'ultimo polinomio per una costante scalare opportuna (nello specifico $\frac{3}{2}$, sfruttando il \"trucco\" visto nell'esempio precedente per normalizzarne il valore a $1$ per $x=1$), otteniamo esattamente i primi tre **Polinomi di Legendre**: $$P_0(x) = 1, \quad P_1(x) = x, \quad P_2(x) = \frac{1}{2}(3x^2 - 1)$$ L'algoritmo di Gram-Schmidt, se continuato all'infinito, genera tutti i polinomi di Legendre, che formano una base ortogonale per l'intero spazio $L^2([-1, 1])$.
 
-![Gram-Schmidt applicato ai monomi <span class="math inline">{1, <em>x</em>, <em>x</em><sup>2</sup>}</span> su <span class="math inline">[−1, 1]</span> con prodotto interno integrale. (a) Base di partenza, indipendente ma non ortogonale. (b) Base ortogonale risultante, che coincide (a meno di riscalamento) con i primi tre polinomi di Legendre <span class="math inline"><em>P</em><sub>0</sub>, <em>P</em><sub>1</sub>, <em>P</em><sub>2</sub></span>.](figures/fig12-legendre.png){#fig-legendre}
+![Gram-Schmidt applicato ai monomi $\{1,x,x^2\}$ su $[-1,1]$ con prodotto interno integrale. (a) Base di partenza, indipendente ma non ortogonale. (b) Base ortogonale risultante, che coincide (a meno di riscalamento) con i primi tre polinomi di Legendre $P_0,P_1,P_2$.](figures/fig12-legendre.png){#fig-legendre}
 
 **NB**: **Cosa succede se Gram-Schmidt restituisce il vettore nullo ($\mathbf{y}_k = \mathbf{0}$)?**
 
@@ -600,7 +600,7 @@ Teorema della Decomposizione Ortogonale Sia $V$ uno spazio euclideo ed $S$ un so
 
 **Nota (Teorema di Pitagora):** Poiché per definizione $\mathbf{s}$ e $\mathbf{s}^\perp$ sono ortogonali tra loro, la norma al quadrato del vettore originale $\mathbf{x}$ è data dalla somma dei quadrati delle norme dei cateti: $$\Vert \mathbf{x} \Vert^2 = \Vert \mathbf{s} \Vert^2 + \Vert \mathbf{s}^\perp \Vert^2$$
 
-![Decomposizione ortogonale <span class="math inline"><strong>x</strong> = <strong>s</strong> + <strong>s</strong><sup>⟂</sup></span> rispetto al piano <span class="math inline"><em>S</em> = span(<em>e</em><sub>1</sub>, <em>e</em><sub>2</sub>)</span>. (a) <span class="math inline"><strong>s</strong> = <em>Π</em><sub><em>S</em></sub>(<strong>x</strong>)</span> è la proiezione ortogonale, <span class="math inline"><strong>s</strong><sup>⟂</sup></span> la componente in <span class="math inline"><em>S</em><sup>⟂</sup></span>. (b) Verifica numerica del Teorema di Pitagora <span class="math inline">‖<em>x</em>‖<sup>2</sup> = ‖<em>s</em>‖<sup>2</sup>+‖<em>s</em><sup>⟂</sup>‖<sup>2</sup></span>.](figures/fig13-complemento-ortogonale.png){#fig-complemento-ortogonale}
+![Decomposizione ortogonale $\mathbf{x}=\mathbf{s}+\mathbf{s}^\perp$ rispetto al piano $S=\mathrm{span}(e_1,e_2)$. (a) $\mathbf{s}=\Pi_S(\mathbf{x})$ è la proiezione ortogonale, $\mathbf{s}^\perp$ la componente in $S^\perp$. (b) Verifica numerica del Teorema di Pitagora $\Vert x\Vert^2=\Vert s\Vert^2+\Vert s^\perp\Vert^2$.](figures/fig13-complemento-ortogonale.png){#fig-complemento-ortogonale}
 
 ### Operatore di Proiezione Ortogonale ($\Pi_S$)
 
@@ -642,7 +642,7 @@ Teorema dell'Approssimazione (Proiezione Ottima) Sia $V$ uno spazio euclideo e s
 In formule, per ogni possibile vettore $\mathbf{t} \in S$, vale la disuguaglianza: $$\Vert \mathbf{x} - \Pi_S(\mathbf{x}) \Vert \leq \Vert \mathbf{x} - \mathbf{t} \Vert$$ *L'uguaglianza si verifica se e solo se $\mathbf{t} = \Pi_S(\mathbf{x})$.*
 :::
 
-![Il Teorema dell’Approssimazione. (a) La proiezione <span class="math inline"><em>Π</em><sub><em>S</em></sub>(<strong>x</strong>)</span> è più vicina a <span class="math inline"><strong>x</strong></span> di qualunque altro punto <span class="math inline"><em>t</em> ∈ <em>S</em></span>. (b) La distanza <span class="math inline">‖<em>x</em> − <em>t</em>‖</span> lungo una retta di <span class="math inline"><em>S</em></span> passante per la proiezione raggiunge il proprio minimo esattamente in <span class="math inline"><em>t</em> = <em>Π</em><sub><em>S</em></sub>(<em>x</em>)</span>, coerentemente con la scomposizione pitagorica della distanza.](figures/fig14-approssimazione-ottima.png){#fig-approssimazione-ottima}
+![Il Teorema dell’Approssimazione. (a) La proiezione $\Pi_S(\mathbf{x})$ è più vicina a $\mathbf{x}$ di qualunque altro punto $t\in S$. (b) La distanza $\Vert x-t\Vert$ lungo una retta di $S$ passante per la proiezione raggiunge il proprio minimo esattamente in $t=\Pi_S(x)$, coerentemente con la scomposizione pitagorica della distanza.](figures/fig14-approssimazione-ottima.png){#fig-approssimazione-ottima}
 
 Questo teorema ci garantisce che la proiezione $\Pi_S(\mathbf{x})$ è la soluzione ottima al problema di minimizzazione della distanza. Il residuo, o vettore di **errore di approssimazione**: $$\mathbf{e} = \mathbf{x} - \Pi_S(\mathbf{x})$$ è strettamente ortogonale all'intero sottospazio $S$.
 
@@ -693,7 +693,7 @@ Somma Standard vs Somma Diretta (Il Test dell'Intersezione) Dati due sottospazi 
 - **Somma diretta ($U \oplus W$):** $$U \oplus W = \{ \mathbf{u} + \mathbf{w} : \mathbf{u}\in U, \mathbf{w}\in W \} \quad \text{con } U \cap W = \{\mathbf{0}\}$$ Cioè l'unica intersezione tra i due sottospazi è l'elemento nullo. Questo garantisce che la scomposizione di ogni vettore nella sua parte in $U$ e nella sua parte in $W$ sia **univoca**.
 :::
 
-![Il test dell’intersezione in <span class="math inline">ℝ<sup>3</sup></span>. (a) Somma standard: <span class="math inline"><em>U</em></span> (piano <span class="math inline"><em>x</em><em>y</em></span>) e <span class="math inline"><em>W</em></span> (piano <span class="math inline"><em>y</em><em>z</em></span>) si intersecano lungo l’asse <span class="math inline"><em>y</em></span>; il vettore <span class="math inline"><strong>v</strong> = (2, 3, 4)</span> ammette infinite decomposizioni diverse (due sono mostrate, a tratto continuo e tratteggiato). (b) Somma diretta: <span class="math inline"><em>U</em></span> (piano <span class="math inline"><em>x</em><em>y</em></span>) e <span class="math inline"><em>W</em></span> (asse <span class="math inline"><em>z</em></span>) si intersecano solo nell’origine; la decomposizione di <span class="math inline"><strong>v</strong></span> è unica.](figures/fig17-somma-diretta.png){#fig-somma-diretta}
+![Il test dell’intersezione in $\mathbb{R}^3$. (a) Somma standard: $U$ (piano $xy$) e $W$ (piano $yz$) si intersecano lungo l’asse $y$; il vettore $\mathbf{v}=(2,3,4)$ ammette infinite decomposizioni diverse (due sono mostrate, a tratto continuo e tratteggiato). (b) Somma diretta: $U$ (piano $xy$) e $W$ (asse $z$) si intersecano solo nell’origine; la decomposizione di $\mathbf{v}$ è unica.](figures/fig17-somma-diretta.png){#fig-somma-diretta}
 
 ::: mybox
 Formula di Grassmann (Dimensioni) Siano $U$ e $W$ due sottospazi a dimensione finita di $V$:
@@ -703,7 +703,7 @@ Formula di Grassmann (Dimensioni) Siano $U$ e $W$ due sottospazi a dimensione fi
 - **Per la somma diretta:** Poiché l'intersezione si riduce al solo vettore nullo ($\dim(U \cap W) = 0$), la formula si semplifica splendidamente: $$\dim(U \oplus W) = \dim(U) + \dim(W)$$
 :::
 
-![La Formula di Grassmann come conteggio delle dimensioni. (a) Nella somma standard, le dimensioni di <span class="math inline"><em>U</em></span> e <span class="math inline"><em>W</em></span> si sovrappongono nell’intersezione, che va sottratta una volta per non contarla due volte. (b) Nella somma diretta l’intersezione è nulla, quindi le dimensioni si somministrano senza correzioni.](figures/fig18-grassmann.png){#fig-grassmann}
+![La Formula di Grassmann come conteggio delle dimensioni. (a) Nella somma standard, le dimensioni di $U$ e $W$ si sovrappongono nell’intersezione, che va sottratta una volta per non contarla due volte. (b) Nella somma diretta l’intersezione è nulla, quindi le dimensioni si somministrano senza correzioni.](figures/fig18-grassmann.png){#fig-grassmann}
 
 ### Esempi pratici: Somma Standard vs Somma Diretta {#sec-esempi-pratici-somma-standard-vs-somma-diretta .unnumbered}
 
@@ -742,7 +742,7 @@ Formula di Grassmann (Dimensioni) Siano $U$ e $W$ due sottospazi a dimensione fi
   L'unica matrice che è contemporaneamente uguale alla sua trasposta e all'opposto della sua trasposta (cioè $A = -A$) è la matrice nulla di soli zeri. Quindi $U \cap W = \{\mathbf{0}\}$.\
   L'algebra lineare ci insegna che *qualsiasi* matrice quadrata $M$ può essere scritta in modo unico come la somma di una parte simmetrica e una antisimmetrica: $$M = \underbrace{\frac{M + M^T}{2}}_{\in U} + \underbrace{\frac{M - M^T}{2}}_{\in W}$$ Dato che l'intersezione è nulla e la scomposizione è unica, lo spazio delle matrici quadrate è la **somma diretta** di questi due sottospazi: $M_{n \times n} = U \oplus W$.
 
-![Decomposizione numerica di una matrice <span class="math inline">3 × 3</span> nella sua parte simmetrica e antisimmetrica. Le due componenti si sommano esattamente a <span class="math inline"><em>M</em></span> e appartengono a sottospazi la cui unica intersezione è la matrice nulla, illustrando <span class="math inline"><em>M</em><sub><em>n</em> × <em>n</em></sub> = <em>U</em> ⊕ <em>W</em></span>.](figures/fig19-matrici-simm-antisimm.png){#fig-matrici-simm-antisimm}
+![Decomposizione numerica di una matrice $3\times 3$ nella sua parte simmetrica e antisimmetrica. Le due componenti si sommano esattamente a $M$ e appartengono a sottospazi la cui unica intersezione è la matrice nulla, illustrando $M_{n\times n}=U\oplus W$.](figures/fig19-matrici-simm-antisimm.png){#fig-matrici-simm-antisimm}
 
 # Trasformazioni Lineari e Matrici
 
@@ -758,9 +758,11 @@ Dati due spazi lineari $V$ e $W$ definiti sullo stesso campo $\mathbb{F}$:
 
 - **Range (o Immagine di $T$)**: è l'insieme di tutti i valori effettivamente assunti dalla trasformazione, ovvero l'immagine dell'intero dominio $V$, indicato con $T(V)$ o $\text{Im}(T)$.
 
-<figure id="fig:placeholder" data-latex-placement="H">
-<p><img src="figures/progetto-senza-titolo-19.png" alt="image" /> <span id="fig:placeholder" data-label="fig:placeholder"></span></p>
-</figure>
+::: {#fig-placeholderx layout-ncol=1}
+
+![](figures/progetto-senza-titolo-19.png)
+
+:::
 
 ::: mybox
 Definizione di Trasformazione Lineare Una funzione $T: V \rightarrow W$ è una **trasformazione lineare** (o operatore lineare) se conserva le due operazioni fondamentali degli spazi vettoriali. Per ogni $\mathbf{x}, \mathbf{y} \in V$ e per ogni scalare $c \in \mathbb{F}$, deve soddisfare:
@@ -981,7 +983,7 @@ Il teorema garantisce che **l'informazione non si crea e non si distrugge mister
 
 *Esempio (Proiezione in $\mathbb{R}^3$):* Se proiettiamo tutto lo spazio $3D$ ($n=3$) su un piano bidimensionale, l'Immagine è il piano (Rango = $2$). Secondo il teorema, il Kernel deve avere dimensione $3 - 2 = 1$. E infatti, come visto prima, il Kernel è la retta perpendicolare al piano (dimensione $1$). I conti tornano perfettamente.
 
-![Rank-Nullity per la proiezione <span class="math inline"><em>T</em>(<em>x</em>, <em>y</em>, <em>z</em>) = (<em>x</em>, <em>y</em>)</span>. (a) Nel dominio <span class="math inline">ℝ<sup>3</sup></span> il nucleo è l’intero asse <span class="math inline"><em>z</em></span> (<span class="math inline">dim = 1</span>). (b) Nel codominio <span class="math inline">ℝ<sup>2</sup></span> l’immagine copre tutto lo spazio (<span class="math inline">rango = 2</span>). La somma <span class="math inline">1 + 2 = 3 = dim (<em>V</em>)</span>.](figures/fig21-kernel-range.png){#fig-kernel-range}
+![Rank-Nullity per la proiezione $T(x,y,z)=(x,y)$. (a) Nel dominio $\mathbb{R}^3$ il nucleo è l’intero asse $z$ ($\dim=1$). (b) Nel codominio $\mathbb{R}^2$ l’immagine copre tutto lo spazio ($\mathrm{rango}=2$). La somma $1+2=3=\dim(V)$.](figures/fig21-kernel-range.png){#fig-kernel-range}
 
 ![Il bilancio Rank-Nullity verificato su quattro trasformazioni diverse: la nullità (rosso) e il rango (blu) si sommano sempre alla dimensione del dominio.](figures/fig22-rank-nullity.png){#fig-rank-nullity}
 
@@ -1039,7 +1041,7 @@ L'operazione di composizione si comporta, algebricamente, quasi come una normale
 La non-commutatività (Attenzione!) In generale, la composizione di trasformazioni lineari **non è commutativa**: $$ST \neq TS$$ Anche nel caso in cui sia possibile calcolare entrambe le direzioni (cioè se sono operatori sullo stesso spazio $V \rightarrow V$), l'ordine in cui esegui le trasformazioni cambia il risultato. *Esempio geometrico:* Se $T$ è una rotazione di $90^\circ$ e $S$ è una proiezione sull'asse $x$, ruotare e poi proiettare genera un risultato completamente diverso dal proiettare prima e ruotare l'ombra dopo!
 :::
 
-![Non-commutatività della composizione: <span class="math inline"><em>T</em></span> = rotazione di <span class="math inline">90<sup>∘</sup></span>, <span class="math inline"><em>S</em></span> = proiezione sull’asse <span class="math inline"><em>e</em><sub>1</sub></span>. (a) Ruotare e poi proiettare porta <span class="math inline"><strong>x</strong></span> in <span class="math inline">(−0.6, 0)</span>. (b) Proiettare e poi ruotare porta lo stesso <span class="math inline"><strong>x</strong></span> in <span class="math inline">(0, 1.6)</span>: risultati completamente diversi.](figures/fig23-non-commutativita.png){#fig-non-commutativita}
+![Non-commutatività della composizione: $T$ = rotazione di $90^\circ$, $S$ = proiezione sull’asse $e_1$. (a) Ruotare e poi proiettare porta $\mathbf{x}$ in $(-0.6,0)$. (b) Proiettare e poi ruotare porta lo stesso $\mathbf{x}$ in $(0,1.6)$: risultati completamente diversi.](figures/fig23-non-commutativita.png){#fig-non-commutativita}
 
 ## Inversi Sinistri, Inversi Destri e Invertibilità
 
@@ -1124,7 +1126,7 @@ Il Legame con il Teorema della Dimensione Un corollario fondamentale del Teorema
 
   Questo dimostra algebricamente che l'operatore derivata è suriettivo ma non iniettivo, e che l'integrale è il suo inverso destro, ma non l'unico (potremmo aggiungere un qualsiasi polinomio nel nucleo!).
 
-![Iniettività e suriettività come proprietà opposte. (a) L’immersione <span class="math inline"><em>T</em>(<em>x</em>, <em>y</em>) = (<em>x</em>, <em>y</em>, 0)</span> è iniettiva ma non suriettiva: i punti con <span class="math inline"><em>z</em> ≠ 0</span> non sono mai raggiunti. (b) La proiezione <span class="math inline"><em>T</em>(<em>x</em>, <em>y</em>, <em>z</em>) = (<em>x</em>, <em>y</em>)</span> è suriettiva ma non iniettiva: infiniti punti del dominio atterrano sullo stesso punto del codominio.](figures/fig24-iniettiva-suriettiva.png){#fig-iniettiva-suriettiva}
+![Iniettività e suriettività come proprietà opposte. (a) L’immersione $T(x,y)=(x,y,0)$ è iniettiva ma non suriettiva: i punti con $z\neq 0$ non sono mai raggiunti. (b) La proiezione $T(x,y,z)=(x,y)$ è suriettiva ma non iniettiva: infiniti punti del dominio atterrano sullo stesso punto del codominio.](figures/fig24-iniettiva-suriettiva.png){#fig-iniettiva-suriettiva}
 
 ## Trasformazioni one-to-one (Iniettive)
 
@@ -1252,7 +1254,7 @@ Consideriamo la trasformazione lineare $T: \mathbb{R}^2 \rightarrow \mathbb{R}^2
     0 & -1
 \end{bmatrix}$$ *Verifica:* Se moltiplichiamo questa matrice per un vettore generico, otteniamo: $\begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} x \\ -y \end{bmatrix}$. Funziona perfettamente!
 
-![Le trasformazioni lineari preservano rette e piani. La griglia regolare del dominio (a) resta una griglia regolare nel codominio (b) tramite <span class="math inline"><em>T</em>(<em>x</em>, <em>y</em>) = (<em>x</em>, −<em>y</em>)</span>; il segmento rosso resta un segmento.](figures/fig20-trasformazione-griglia.png){#fig-trasformazione-griglia}
+![Le trasformazioni lineari preservano rette e piani. La griglia regolare del dominio (a) resta una griglia regolare nel codominio (b) tramite $T(x,y)=(x,-y)$; il segmento rosso resta un segmento.](figures/fig20-trasformazione-griglia.png){#fig-trasformazione-griglia}
 
 **Esempio 2: Spazi di dimensioni diverse (da $\mathbb{R}^3$ a $\mathbb{R}^2$)**\
 Sia $T: \mathbb{R}^3 \rightarrow \mathbb{R}^2$ definita in modo astratto come: $$T(x, y, z) = (x + 2y, \ 3y - z)$$ Usiamo le basi canoniche $\mathcal{B}_V = [\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3]$ per $\mathbb{R}^3$ e $\mathcal{B}_W = [\mathbf{w}_1, \mathbf{w}_2]$ per $\mathbb{R}^2$. Calcoliamo dove finiscono i tre vettori della base di partenza:
@@ -1488,7 +1490,7 @@ Sia $T: \mathbb{R}^3 \rightarrow \mathbb{R}^3$ definita come $T(x, y, z) = (x+y,
             0 & 0 & 0
         \end{bmatrix}$$
 
-![La forma canonica rivela il rango a colpo d’occhio. (a) Rispetto alla base canonica, <span class="math inline"><em>T</em>(<em>x</em>, <em>y</em>, <em>z</em>) = (<em>x</em> + <em>y</em>, <em>x</em> + <em>y</em>, 0)</span> ha una matrice piena di ripetizioni. (b) Rispetto alle basi ottimali costruite nel testo, la stessa trasformazione diventa un singolo <span class="math inline">1</span> seguito da zeri: il rango <span class="math inline"><em>r</em> = 1</span> è immediatamente visibile.](figures/fig26-forma-canonica.png){#fig-forma-canonica}
+![La forma canonica rivela il rango a colpo d’occhio. (a) Rispetto alla base canonica, $T(x,y,z)=(x+y,x+y,0)$ ha una matrice piena di ripetizioni. (b) Rispetto alle basi ottimali costruite nel testo, la stessa trasformazione diventa un singolo $1$ seguito da zeri: il rango $r=1$ è immediatamente visibile.](figures/fig26-forma-canonica.png){#fig-forma-canonica}
 
 **Esempio 3: L'Operatore Derivata sui Polinomi**\
 Sia $V = W = P_2$ lo spazio dei polinomi di grado al massimo 2 ($\dim = 3$). Sia $D(p(x)) = p'(x)$ la nostra trasformazione.
@@ -1704,7 +1706,7 @@ Cosa rappresenta allora? È un **sottospazio affine**. Immagina il nucleo $\ker(
 
 Qualsiasi soluzione particolare $\mathbf{b}$ tu scelga di usare, finirà sempre per trascinare il nucleo sullo stesso identico piano parallelo. Le soluzioni del sistema sono esattamente tutti e soli i punti che giacciono su quel piano traslato.\
 
-![La struttura affine delle soluzioni. (a) Il nucleo <span class="math inline">ker (<em>T</em>)</span> è il piano omogeneo <span class="math inline"><em>x</em><sub>1</sub> + <em>x</em><sub>2</sub> + <em>x</em><sub>3</sub> = 0</span>, passante per l’origine. (b) La soluzione generale del sistema non omogeneo è lo stesso piano traslato rigidamente dal vettore particolare <span class="math inline"><strong>b</strong> = (2, 0, 0)</span>.](figures/fig27-soluzione-affine.png){#fig-soluzione-affine}
+![La struttura affine delle soluzioni. (a) Il nucleo $\ker(T)$ è il piano omogeneo $x_1+x_2+x_3=0$, passante per l’origine. (b) La soluzione generale del sistema non omogeneo è lo stesso piano traslato rigidamente dal vettore particolare $\mathbf{b}=(2,0,0)$.](figures/fig27-soluzione-affine.png){#fig-soluzione-affine}
 
 Abbiamo visto che la risoluzione di un sistema lineare non omogeneo $A\mathbf{x} = \mathbf{c}$ (o, in termini di trasformazioni, $T(\mathbf{x}) = \mathbf{c}$) si appoggia profondamente sulle proprietà geometriche del nucleo.
 
@@ -1860,7 +1862,7 @@ La soluzione generale si scrive in forma vettoriale separando costanti e paramet
 +
 t \underbrace{\begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}}_{\text{Base del nucleo}}$$ *Geometria:* Le due equazioni di partenza rappresentano due piani nello spazio 3D. Questi piani non sono paralleli, si tagliano a vicenda. L'intersezione di due piani è una **retta**, e l'equazione vettoriale che abbiamo appena trovato è esattamente l'equazione parametrica di quella retta spaziale!
 
-![Le tre casistiche del Teorema di Rouché-Capelli, con gli esempi numerici del testo. (a) Sistema impossibile: due rette parallele non si incontrano mai. (b) Soluzione unica: due rette con pendenze diverse si incrociano in un solo punto, <span class="math inline">(3, 2)</span>. (c) Infinite soluzioni: due piani in <span class="math inline">ℝ<sup>3</sup></span> si intersecano lungo un’intera retta.](figures/fig28-rouche-capelli.png){#fig-rouche-capelli}
+![Le tre casistiche del Teorema di Rouché-Capelli, con gli esempi numerici del testo. (a) Sistema impossibile: due rette parallele non si incontrano mai. (b) Soluzione unica: due rette con pendenze diverse si incrociano in un solo punto, $(3,2)$. (c) Infinite soluzioni: due piani in $\mathbb{R}^3$ si intersecano lungo un’intera retta.](figures/fig28-rouche-capelli.png){#fig-rouche-capelli}
 
 ## Inversa di una matrice quadrata
 
@@ -2019,11 +2021,11 @@ Questa definizione assiomatica non è un'invenzione casuale, ma descrive esattam
 
 - *L'identità:* I vettori della matrice identità formano un cubo perfetto di lato $1$. Il suo volume è, banalmente, $1$. Questo assioma serve come \"unità di misura\" per ancorare la funzione.
 
-![Il determinante come volume (area) orientato. (a) Il parallelogramma generato dalle righe <span class="math inline"><em>A</em><sub>1</sub>, <em>A</em><sub>2</sub></span> ha area pari a <span class="math inline">|det (<em>A</em>)|</span>. (b) Raddoppiando <span class="math inline"><em>A</em><sub>1</sub></span>, l’area raddoppia esattamente: l’assioma di omogeneità <span class="math inline"><em>d</em>(2<em>A</em><sub>1</sub>, <em>A</em><sub>2</sub>) = 2 <em>d</em>(<em>A</em><sub>1</sub>, <em>A</em><sub>2</sub>)</span> verificato numericamente.](figures/fig29-determinante-area.png){#fig-determinante-area}
+![Il determinante come volume (area) orientato. (a) Il parallelogramma generato dalle righe $A_1,A_2$ ha area pari a $|\det(A)|$. (b) Raddoppiando $A_1$, l’area raddoppia esattamente: l’assioma di omogeneità $d(2A_1,A_2)=2\,d(A_1,A_2)$ verificato numericamente.](figures/fig29-determinante-area.png){#fig-determinante-area}
 
-![L’assioma di additività su una riga. Spezzando <span class="math inline"><em>A</em><sub>2</sub></span> nella somma di <span class="math inline"><em>A</em><sub>2</sub><sup>′</sup></span> e <span class="math inline"><em>A</em><sub>2</sub><sup>″</sup></span>, il determinante (l’area con segno) si spezza esattamente nella somma delle due aree parziali: <span class="math inline">2.98 = 2.45 + 0.53</span>.](figures/fig30-determinante-additivita.png){#fig-determinante-additivita}
+![L’assioma di additività su una riga. Spezzando $A_2$ nella somma di $A_2'$ e $A_2''$, il determinante (l’area con segno) si spezza esattamente nella somma delle due aree parziali: $2.98=2.45+0.53$.](figures/fig30-determinante-additivita.png){#fig-determinante-additivita}
 
-![Gli ultimi due assiomi in <span class="math inline">ℝ<sup>3</sup></span>. (a) Se <span class="math inline"><em>A</em><sub>1</sub> = <em>A</em><sub>2</sub></span>, il parallelepipedo collassa in una figura piatta: il volume solido si annulla, <span class="math inline">det (<em>A</em>) = 0</span>. (b) I vettori della base canonica generano il cubo unitario, di volume esattamente <span class="math inline">1</span>: questo fissa la normalizzazione <span class="math inline">det (<em>I</em><sub>3</sub>) = 1</span>.](figures/fig31-determinante-degenere-identita.png){#fig-determinante-degenere-identita}
+![Gli ultimi due assiomi in $\mathbb{R}^3$. (a) Se $A_1=A_2$, il parallelepipedo collassa in una figura piatta: il volume solido si annulla, $\det(A)=0$. (b) I vettori della base canonica generano il cubo unitario, di volume esattamente $1$: questo fissa la normalizzazione $\det(I_3)=1$.](figures/fig31-determinante-degenere-identita.png){#fig-determinante-degenere-identita}
 
 ::: mybox
 Proprietà derivate del Determinante Una funzione determinante $d$ che soddisfa gli assiomi 1, 2 e 3 ha le seguenti ulteriori proprietà fondamentali:
@@ -2103,7 +2105,7 @@ Sia $B = \begin{bmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 5 & 6 & 0 \end{bmatrix}$. Ris
 &= 40 - 39 = 1
 \end{aligned}$$
 
-![Visualizzazione della Regola di Sarrus per la matrice <span class="math inline"><em>B</em></span> dell’Esempio 2: si ripetono le prime due colonne a destra, si sommano i tre prodotti diagonali verdi (positivi) e si sottraggono i tre prodotti diagonali rossi tratteggiati (negativi), ottenendo <span class="math inline">det (<em>B</em>) = 1</span>.](figures/fig32-sarrus.png){#fig-sarrus}
+![Visualizzazione della Regola di Sarrus per la matrice $B$ dell’Esempio 2: si ripetono le prime due colonne a destra, si sommano i tre prodotti diagonali verdi (positivi) e si sottraggono i tre prodotti diagonali rossi tratteggiati (negativi), ottenendo $\det(B)=1$.](figures/fig32-sarrus.png){#fig-sarrus}
 
 **Esempio 3: Sviluppo di Laplace (La ricerca degli zeri)**\
 Sia $C = \begin{bmatrix} 2 & -1 & 0 \\ 3 & 4 & 5 \\ 0 & 1 & -2 \end{bmatrix}$. Possiamo sviluppare lungo qualsiasi riga o colonna. Per faticare di meno, scegliamo la **prima riga** perché contiene uno zero (il terzo calcolo si annullerà automaticamente). Applichiamo la formula $a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13}$: $$\begin{aligned}
@@ -2114,7 +2116,7 @@ Sia $C = \begin{bmatrix} 2 & -1 & 0 \\ 3 & 4 & 5 \\ 0 & 1 & -2 \end{bmatrix}$. P
 &= -26 - 6 = -32
 \end{aligned}$$
 
-![Sviluppo di Laplace per la matrice <span class="math inline"><em>C</em></span> dell’Esempio 3. (a) Si sceglie la prima riga (arancione): il termine con <span class="math inline"><em>a</em><sub>13</sub> = 0</span> si annulla automaticamente. (b) Il minore <span class="math inline"><em>M</em><sub>11</sub></span> si ottiene cancellando riga 1 e colonna 1 (grigio), lasciando la sotto-matrice <span class="math inline">2 × 2</span> (verde) da cui si calcola il cofattore <span class="math inline"><em>C</em><sub>11</sub> = −13</span>.](figures/fig33-laplace.png){#fig-laplace}
+![Sviluppo di Laplace per la matrice $C$ dell’Esempio 3. (a) Si sceglie la prima riga (arancione): il termine con $a_{13}=0$ si annulla automaticamente. (b) Il minore $M_{11}$ si ottiene cancellando riga 1 e colonna 1 (grigio), lasciando la sotto-matrice $2\times2$ (verde) da cui si calcola il cofattore $C_{11}=-13$.](figures/fig33-laplace.png){#fig-laplace}
 
 **Esempio 4: Matrice Triangolare (La via immediata)**\
 Data la matrice triangolare superiore $T = \begin{bmatrix} 5 & 2 & -3 \\ 0 & -2 & 7 \\ 0 & 0 & 3 \end{bmatrix}$, non serve né Sarrus né Laplace. Essendo triangolare, il determinante è semplicemente il prodotto degli elementi sulla diagonale principale: $$\det(T) = 5 \cdot (-2) \cdot 3 = -30$$
@@ -2131,7 +2133,7 @@ Consideriamo questa grande matrice $4 \times 4$: $$M = \begin{bmatrix}
 \det(C) &= \begin{vmatrix} 4 & 1 \\ 2 & 3 \end{vmatrix} = (4 \cdot 3) - (1 \cdot 2) = 12 - 2 = 10
 \end{aligned}$$ Il determinante dell'intera matrice $M$ è il loro prodotto: $$\det(M) = \det(A) \cdot \det(C) = 7 \cdot 10 = 70$$ *Nota:* Calcolare il determinante di questa $4 \times 4$ con Laplace avrebbe richiesto la risoluzione di quattro determinanti $3 \times 3$. Con i blocchi lo abbiamo risolto a mente in dieci secondi!
 
-![La matrice <span class="math inline">4 × 4</span> dell’Esempio 5 partizionata in blocchi: <span class="math inline"><em>A</em></span> (blu, in alto a sinistra), <span class="math inline"><em>C</em></span> (verde, in basso a destra) e il blocco nullo (grigio). Il determinante dell’intera matrice è semplicemente il prodotto <span class="math inline">det (<em>A</em>) ⋅ det (<em>C</em>) = 7 × 10 = 70</span>.](figures/fig34-matrice-blocchi.png){#fig-matrice-blocchi}
+![La matrice $4\times 4$ dell’Esempio 5 partizionata in blocchi: $A$ (blu, in alto a sinistra), $C$ (verde, in basso a destra) e il blocco nullo (grigio). Il determinante dell’intera matrice è semplicemente il prodotto $\det(A)\cdot\det(C)=7\times10=70$.](figures/fig34-matrice-blocchi.png){#fig-matrice-blocchi}
 
 ## Teorema di Esistenza e Unicità del Determinante
 
@@ -2211,7 +2213,7 @@ Verifichiamo il teorema calcolando il prodotto di due matrici $2 \times 2$: $$A 
 
 Ora facciamo il percorso \"difficile\". Calcoliamo fisicamente la matrice prodotto $AB$: $$AB = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \begin{bmatrix} 2 & 0 \\ 1 & 3 \end{bmatrix} = \begin{bmatrix} (2+2) & (0+6) \\ (6+4) & (0+12) \end{bmatrix} = \begin{bmatrix} 4 & 6 \\ 10 & 12 \end{bmatrix}$$ Calcoliamo il determinante della nuova matrice risultante: $$\det(AB) = (4 \cdot 12) - (6 \cdot 10) = 48 - 60 = \textbf{-12}$$ I conti tornano perfettamente!
 
-![Il Teorema di Binet come scalatura di aree. (a) Il quadrato unitario ha area <span class="math inline">1</span>. (b) Applicando <span class="math inline"><em>B</em></span> l’area diventa <span class="math inline">|det <em>B</em>| = 6</span>. (c) Applicando poi <span class="math inline"><em>A</em></span> al risultato, l’area finale è <span class="math inline">|det (<em>A</em><em>B</em>)| = 12 = |det <em>A</em>|×|det <em>B</em>| = 2 × 6</span>.](figures/fig35-binet.png){#fig-binet}
+![Il Teorema di Binet come scalatura di aree. (a) Il quadrato unitario ha area $1$. (b) Applicando $B$ l’area diventa $|\det B|=6$. (c) Applicando poi $A$ al risultato, l’area finale è $|\det(AB)|=12=|\det A|\times|\det B|=2\times6$.](figures/fig35-binet.png){#fig-binet}
 
 ## Determinanti e indipendenza lineare dei vettori
 
@@ -2239,7 +2241,7 @@ Invece di impostare e risolvere un sistema lineare, li impiliamo in una matrice 
 &= -10 + 10 = 0
 \end{aligned}$$ Il determinante è $0$. Possiamo concludere immediatamente, in pochissimi calcoli, che i tre vettori sono **linearmente dipendenti** (uno di essi è combinazione degli altri due) e pertanto *non* possono formare una base per $\mathbb{R}^3$. *(Infatti, a un'osservazione più attenta, si nota che $\mathbf{v}_3 = 2\mathbf{v}_1 + \mathbf{v}_2$).*
 
-![I tre vettori dell’esempio, <span class="math inline"><em>v</em><sub>1</sub>, <em>v</em><sub>2</sub>, <em>v</em><sub>3</sub> = 2<em>v</em><sub>1</sub> + <em>v</em><sub>2</sub></span>, sono complanari: giacciono tutti sullo stesso piano bidimensionale (grigio), coerentemente con <span class="math inline">det [<em>v</em><sub>1</sub>; <em>v</em><sub>2</sub>; <em>v</em><sub>3</sub>] = 0</span>. Non possono quindi formare una base di <span class="math inline">ℝ<sup>3</sup></span>.](figures/fig36-test-indipendenza.png){#fig-test-indipendenza}
+![I tre vettori dell’esempio, $v_1,v_2,v_3=2v_1+v_2$, sono complanari: giacciono tutti sullo stesso piano bidimensionale (grigio), coerentemente con $\det[v_1;v_2;v_3]=0$. Non possono quindi formare una base di $\mathbb{R}^3$.](figures/fig36-test-indipendenza.png){#fig-test-indipendenza}
 
 ## Determinante di una matrice trasposta
 
@@ -2400,7 +2402,7 @@ Ora basta fare il rapporto dei determinanti: $$\begin{aligned}
     x_2 &= \frac{\det(A_2)}{\det(A)} = \frac{-14}{-7} = 2
 \end{aligned}$$ La soluzione unica del sistema è il vettore $\mathbf{x} = [1, 2]^T$.
 
-![La Regola di Cramer come rapporto di aree con segno. (a) Il parallelogramma delle colonne originali di <span class="math inline"><em>A</em></span> ha area <span class="math inline">det (<em>A</em>) = −7</span>. (b) Sostituendo la prima colonna con <span class="math inline"><strong>c</strong></span> si ottiene <span class="math inline"><em>A</em><sub>1</sub></span>, area <span class="math inline">det (<em>A</em><sub>1</sub>) = −7</span>: quindi <span class="math inline"><em>x</em><sub>1</sub> = −7/ − 7 = 1</span>. (c) Sostituendo la seconda colonna si ottiene <span class="math inline"><em>A</em><sub>2</sub></span>, area <span class="math inline">det (<em>A</em><sub>2</sub>) = −14</span>: quindi <span class="math inline"><em>x</em><sub>2</sub> = −14/ − 7 = 2</span>.](figures/fig37-cramer.png){#fig-cramer}
+![La Regola di Cramer come rapporto di aree con segno. (a) Il parallelogramma delle colonne originali di $A$ ha area $\det(A)=-7$. (b) Sostituendo la prima colonna con $\mathbf{c}$ si ottiene $A_1$, area $\det(A_1)=-7$: quindi $x_1=-7/-7=1$. (c) Sostituendo la seconda colonna si ottiene $A_2$, area $\det(A_2)=-14$: quindi $x_2=-14/-7=2$.](figures/fig37-cramer.png){#fig-cramer}
 
 # Autovalori e Autovettori
 
@@ -2428,7 +2430,7 @@ Cosa significa fisicamente l'espressione $T(u) = \lambda u$? Normalmente, quando
 
 Gli autovettori, invece, sono quei rarissimi vettori \"testardi\" che, una volta colpiti dalla trasformazione, **non cambiano direzione**. Rimangono perfettamente bloccati sulla loro retta di partenza. La trasformazione $T$ si limita a stirarli, comprimerli o, al massimo, ribaltarli (se il segno cambia). Il fattore di scala di questo allungamento/compressione è esattamente l'autovalore $\lambda$. Diagonalizzare una matrice significa proprio adottare questi vettori speciali come nuovo sistema di riferimento (nuova base) per lo spazio!\
 
-![Il significato geometrico di autovalore e autovettore. (a) <span class="math inline"><em>u</em></span> è un autovettore: <span class="math inline"><em>A</em><em>u</em></span> giace sulla stessa retta di <span class="math inline"><em>u</em></span>, semplicemente riscalata di <span class="math inline"><em>λ</em> = 2</span>. (b) <span class="math inline"><em>v</em></span> non è un autovettore: <span class="math inline"><em>A</em><em>v</em></span> punta in una direzione diversa da <span class="math inline"><em>v</em></span>.](figures/fig40-autovettore-concetto-2.png){#fig-autovettore-concetto}
+![Il significato geometrico di autovalore e autovettore. (a) $u$ è un autovettore: $Au$ giace sulla stessa retta di $u$, semplicemente riscalata di $\lambda=2$. (b) $v$ non è un autovettore: $Av$ punta in una direzione diversa da $v$.](figures/fig40-autovettore-concetto-2.png){#fig-autovettore-concetto}
 
 **NB**: Perché l'algebra lineare fa di tutto per cercare una base di autovettori e trasformare la matrice in forma diagonale? La risposta è pratica: le matrici diagonali sono le più facili in assoluto da manipolare.
 
@@ -2491,13 +2493,13 @@ Lavoriamo nello spazio tridimensionale $\mathbb{R}^3$. La trasformazione agisce 
 
 - **Autovalore $\lambda = 1$ (I vettori che non cambiano):** Quali vettori rimangono perfettamente identici a se stessi dopo essere stati riflessi? Quelli che giacciono già \"schiacciati\" sullo specchio, ovvero sul piano $xy$. Infatti, se $z=0$, abbiamo $T(x,y,0) = (x,y,0) = 1\cdot(x,y,0)$. Quindi $\lambda = 1$ è un autovalore, e il suo autospazio $V_1$ è l'intero piano $xy$ (dimensione 2).
 
-  ![Gli autospazi della riflessione <span class="math inline"><em>T</em>(<em>x</em>, <em>y</em>, <em>z</em>) = (<em>x</em>, <em>y</em>, −<em>z</em>)</span>. Ogni vettore del piano <span class="math inline"><em>x</em><em>y</em></span> (blu) resta invariato (<span class="math inline"><em>λ</em> = 1</span>); ogni vettore sull’asse <span class="math inline"><em>z</em></span> (verde) si ribalta (<span class="math inline"><em>λ</em> = −1</span>). Un vettore generico <span class="math inline"><em>w</em></span> (arancione), fuori da entrambi gli autospazi, non conserva la propria direzione.](figures/fig41-riflessione-autospazi.png){#fig-riflessione-autospazi}
+  ![Gli autospazi della riflessione $T(x,y,z)=(x,y,-z)$. Ogni vettore del piano $xy$ (blu) resta invariato ($\lambda=1$); ogni vettore sull’asse $z$ (verde) si ribalta ($\lambda=-1$). Un vettore generico $w$ (arancione), fuori da entrambi gli autospazi, non conserva la propria direzione.](figures/fig41-riflessione-autospazi.png){#fig-riflessione-autospazi}
 
 - **Autovalore $\lambda = -1$ (I vettori che si ribaltano):** Quali vettori, guardandosi allo specchio, si ritrovano ribaltati di 180 gradi ma mantengono la stessa direzione di partenza? Quelli perfettamente perpendicolari allo specchio, ovvero sull'asse $z$. Infatti, $T(0,0,z) = (0,0,-z) = -1\cdot(0,0,z)$. Quindi $\lambda = -1$ è un autovalore e il suo autospazio $V_{-1}$ è l'asse $z$ (dimensione 1).
 
-![Una rotazione di <span class="math inline">50<sup>∘</sup></span> applicata a otto vettori diversi: ciascuno (tenue) viene mappato in una direzione differente (pieno). Nessun vettore reale mantiene la propria retta: la rotazione non ha autovalori reali.](figures/fig42-rotazione-no-autovettori.png){#fig-rotazione-no-autovettori}
+![Una rotazione di $50^\circ$ applicata a otto vettori diversi: ciascuno (tenue) viene mappato in una direzione differente (pieno). Nessun vettore reale mantiene la propria retta: la rotazione non ha autovalori reali.](figures/fig42-rotazione-no-autovettori.png){#fig-rotazione-no-autovettori}
 
-![Le autofunzioni dell’operatore derivata. (a) Per ogni autovalore <span class="math inline"><em>λ</em></span>, l’autofunzione <span class="math inline"><em>e</em><sup><em>λ</em><em>x</em></sup></span> ha una forma diversa (decrescente, costante, crescente). (b) Per <span class="math inline"><em>λ</em> = 0.7</span>, la funzione e la sua derivata sono sempre proporzionali: <span class="math inline"><em>f</em><sup>′</sup> = <em>λ</em><em>f</em></span>, l’equivalente funzionale di "non cambiare direzione".](figures/fig43-autofunzioni-derivata.png){#fig-autofunzioni-derivata}
+![Le autofunzioni dell’operatore derivata. (a) Per ogni autovalore $\lambda$, l’autofunzione $e^{\lambda x}$ ha una forma diversa (decrescente, costante, crescente). (b) Per $\lambda=0.7$, la funzione e la sua derivata sono sempre proporzionali: $f'=\lambda f$, l’equivalente funzionale di "non cambiare direzione".](figures/fig43-autofunzioni-derivata.png){#fig-autofunzioni-derivata}
 
 ### 3. Rotazione del piano di un angolo fissato $\alpha$ {#sec-rotazione-del-piano-di-un-angolo-fissato-alpha .unnumbered}
 
@@ -2654,7 +2656,7 @@ Calcoliamo l'autospazio per **$\lambda_1 = 2$**: Sostituiamo $\lambda = 2$ nella
 
 Calcoliamo l'autospazio per **$\lambda_2 = 5$**: Sostituiamo $\lambda = 5$: $$(5I - A) = \begin{bmatrix} 5 - 4 & -1 \\ -2 & 5 - 3 \end{bmatrix} = \begin{bmatrix} 1 & -1 \\ -2 & 2 \end{bmatrix}$$ Risolviamo il sistema: la seconda riga è multipla della prima, la scartiamo. Ci resta $1x - 1y = 0 \implies x = y$. Scegliendo $x=1$, abbiamo $y=1$. L'autovettore base è $\mathbf{v}_2 = \left[\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\right]$. L'autospazio è $V_5 = \text{span}\left( \left[\begin{smallmatrix} 1 \\ 1 \end{smallmatrix}\right] \right)$ con **dimensione 1**.
 
-![Diagonalizzazione geometrica di <span class="math inline">$A=\left[\begin{smallmatrix}4&amp;1\\2&amp;3\end{smallmatrix}\right]$</span>. (a) La griglia standard, trasformata da <span class="math inline"><em>A</em></span>, perde la propria regolarità. (b) La griglia allineata agli autovettori <span class="math inline"><em>v</em><sub>1</sub>, <em>v</em><sub>2</sub></span> resta perfettamente regolare: ogni direzione viene solo stirata, di <span class="math inline"><em>λ</em><sub>1</sub> = 2</span> o <span class="math inline"><em>λ</em><sub>2</sub> = 5</span>.](figures/fig44-diagonalizzazione-geometrica.png){#fig-diagonalizzazione-geometrica}
+![Diagonalizzazione geometrica di $A=\left[\begin{smallmatrix}4&1\\2&3\end{smallmatrix}\right]$. (a) La griglia standard, trasformata da $A$, perde la propria regolarità. (b) La griglia allineata agli autovettori $v_1,v_2$ resta perfettamente regolare: ogni direzione viene solo stirata, di $\lambda_1=2$ o $\lambda_2=5$.](figures/fig44-diagonalizzazione-geometrica.png){#fig-diagonalizzazione-geometrica}
 
 ### Esempio 2: Matrice con Autovalori Ripetuti (Matrice Difettiva) {#sec-esempio-2-matrice-con-autovalori-ripetuti-matrice-difettiva .unnumbered}
 
@@ -2669,7 +2671,7 @@ Calcoliamo l'autospazio associato a $\lambda = 3$. Sostituiamo il valore nella m
 **La diagnosi fatale:**\
 Per l'autovalore $\lambda = 3$, abbiamo: $$\text{Molteplicità geometrica } (1) < \text{Molteplicità algebrica } (2)$$ Lo spazio non è in grado di fornirci $2$ autovettori indipendenti per formare una base. Questa carenza strutturale definisce una **matrice difettiva**. La matrice $B$ non potrà **mai** essere diagonalizzata!
 
-![La matrice difettiva <span class="math inline"><em>B</em></span>. (a) La griglia standard subisce un taglio (shear) sotto <span class="math inline"><em>B</em></span>. (b) Solo l’asse <span class="math inline"><em>x</em></span> resta una direzione fissa: l’autovalore <span class="math inline"><em>λ</em> = 3</span> ha molteplicità algebrica <span class="math inline">2</span> ma molteplicità geometrica <span class="math inline">1</span>, quindi <span class="math inline"><em>B</em></span> non è diagonalizzabile.](figures/fig45-matrice-difettiva.png){#fig-matrice-difettiva}
+![La matrice difettiva $B$. (a) La griglia standard subisce un taglio (shear) sotto $B$. (b) Solo l’asse $x$ resta una direzione fissa: l’autovalore $\lambda=3$ ha molteplicità algebrica $2$ ma molteplicità geometrica $1$, quindi $B$ non è diagonalizzabile.](figures/fig45-matrice-difettiva.png){#fig-matrice-difettiva}
 
 ### Esempio 3: Matrice $3 \times 3$ con Autovalori Distinti {#sec-esempio-3-matrice-3-times-3-con-autovalori-distinti .unnumbered}
 
@@ -2975,7 +2977,7 @@ Lavoriamo in $V = \mathbb{R}^3$. Consideriamo l'operatore $T$ che esegue una rif
 
 La teoria ci dice che $\mathbb{R}^3 = V_1 \oplus V_{-1}$. Cosa significa in pratica? Prendi un qualsiasi vettore dello spazio, ad esempio $\mathbf{v} = [4, 5, 6]^T$. Esso può essere \"smontato\" in un unico modo usando un pezzo di $V_1$ e un pezzo di $V_{-1}$: $$\begin{bmatrix} 4 \\ 5 \\ 6 \end{bmatrix} = \underbrace{\begin{bmatrix} 4 \\ 5 \\ 0 \end{bmatrix}}_{\in V_1} + \underbrace{\begin{bmatrix} 0 \\ 0 \\ 6 \end{bmatrix}}_{\in V_{-1}}$$ Applicare la trasformazione $T$ all'intero vettore $\mathbf{v}$ ora è un gioco da ragazzi, perché sappiamo esattamente come $T$ agisce su ciascun autospazio (moltiplica per $1$ il primo, moltiplica per $-1$ il secondo): $$T(\mathbf{v}) = (1)\begin{bmatrix} 4 \\ 5 \\ 0 \end{bmatrix} + (-1)\begin{bmatrix} 0 \\ 0 \\ 6 \end{bmatrix} = \begin{bmatrix} 4 \\ 5 \\ -6 \end{bmatrix}$$ L'operatore ha agito in modo \"disaccoppiato\" sulle singole componenti spaziali.
 
-![<span class="math inline">ℝ<sup>3</sup> = <em>V</em><sub>1</sub> ⊕ <em>V</em><sub>−1</sub></span> per la riflessione rispetto al piano <span class="math inline"><em>x</em><em>y</em></span>. Il vettore <span class="math inline"><em>v</em> = (4, 5, 6)</span> si decompone in modo unico in <span class="math inline"><em>x</em><sub>1</sub> = (4, 5, 0) ∈ <em>V</em><sub>1</sub></span> e <span class="math inline"><em>x</em><sub>2</sub> = (0, 0, 6) ∈ <em>V</em><sub>−1</sub></span>; la trasformazione agisce separatamente su ciascuna componente, dando <span class="math inline"><em>T</em>(<em>v</em>) = (4, 5, −6)</span>.](figures/fig46-somma-diretta-autospazi.png){#fig-somma-diretta-autospazi}
+![$\mathbb{R}^3=V_1\oplus V_{-1}$ per la riflessione rispetto al piano $xy$. Il vettore $v=(4,5,6)$ si decompone in modo unico in $x_1=(4,5,0)\in V_1$ e $x_2=(0,0,6)\in V_{-1}$; la trasformazione agisce separatamente su ciascuna componente, dando $T(v)=(4,5,-6)$.](figures/fig46-somma-diretta-autospazi.png){#fig-somma-diretta-autospazi}
 
 **Esempio 3: Diagonalizzazione Simultanea (Operatori che Commutano)**\
 Siano $A$ e $B$ due matrici $2 \times 2$: $$A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix} \quad \text{e} \quad B = \begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix}$$ **Passo 1: Verifichiamo se commutano.**\
@@ -3047,7 +3049,7 @@ Molto spesso all'esame ti viene data una matrice $10 \times 10$ e ti viene chies
 
 L'unione dei tre dischi di Gershgorin **non contiene l'origine (lo zero)**. Quindi $0$ non può assolutamente essere un autovalore. Concludiamo istantaneamente che il determinante è diverso da zero e che la matrice **è invertibile**! *(Nota: Le matrici che rispettano questa proprietà, ovvero dove l'elemento diagonale è strettamente maggiore in modulo della somma degli altri elementi della riga, sono dette a \"diagonale strettamente dominante\").*
 
-![I dischi di Gershgorin nel piano complesso. (a) Esempio 1: i tre dischi sono completamente disgiunti, quindi la matrice ha tre autovalori reali distinti ed è diagonalizzabile. (b) Esempio 2: l’origine non è coperta da alcun disco, quindi <span class="math inline">0</span> non può essere autovalore e la matrice è invertibile.](figures/fig47-gershgorin.png){#fig-gershgorin}
+![I dischi di Gershgorin nel piano complesso. (a) Esempio 1: i tre dischi sono completamente disgiunti, quindi la matrice ha tre autovalori reali distinti ed è diagonalizzabile. (b) Esempio 2: l’origine non è coperta da alcun disco, quindi $0$ non può essere autovalore e la matrice è invertibile.](figures/fig47-gershgorin.png){#fig-gershgorin}
 
 # Autovalori di operatori agenti su Spazi Euclidei
 
@@ -3118,7 +3120,7 @@ Gli elementi speculari sono l'opposto del complesso coniugato ($d_{ij} = -\overl
 \mathbf{1+4i} & \mathbf{0}
 \end{bmatrix}$$
 
-![Struttura visiva delle matrici <span class="math inline"><em>A</em></span> (simmetrica) e <span class="math inline"><em>B</em></span> (antisimmetrica) degli esempi. In (a) ogni coppia fuori diagonale è identica rispetto allo specchio della diagonale. In (b) ogni coppia ha segno opposto, il che forza la diagonale principale a essere nulla.](figures/fig53-simm-antisimm-struttura.png){#fig-simm-antisimm-struttura}
+![Struttura visiva delle matrici $A$ (simmetrica) e $B$ (antisimmetrica) degli esempi. In (a) ogni coppia fuori diagonale è identica rispetto allo specchio della diagonale. In (b) ogni coppia ha segno opposto, il che forza la diagonale principale a essere nulla.](figures/fig53-simm-antisimm-struttura.png){#fig-simm-antisimm-struttura}
 
 **Ruolo degli Autovalori**\
 Perché questa distinzione è la più importante di tutta la teoria spettrale? Perché l'essere autoaggiunto o anti-autoaggiunto \"forza\" la natura delle radici del polinomio caratteristico:
@@ -3233,7 +3235,7 @@ Consideriamo la seguente matrice simmetrica reale: $$A = \begin{bmatrix} 1 & 2 \
 
 Verifichiamo il teorema calcolando il prodotto scalare standard in $\mathbb{R}^2$: $$\langle \mathbf{v}_1, \mathbf{v}_2 \rangle = (1 \cdot 1) + (1 \cdot -1) = 1 - 1 = 0$$ I due autovettori sono perfettamente perpendicolari.
 
-![Gli autovettori <span class="math inline"><em>v</em><sub>1</sub> = (1, 1)</span> e <span class="math inline"><em>v</em><sub>2</sub> = (1, −1)</span> della matrice simmetrica <span class="math inline"><em>A</em></span>, associati agli autovalori distinti <span class="math inline"><em>λ</em><sub>1</sub> = 3</span> e <span class="math inline"><em>λ</em><sub>2</sub> = −1</span>, sono perfettamente ortogonali (angolo retto evidenziato in rosso).](figures/fig54-autovettori-ortogonali-esempio.png){#fig-autovettori-ortogonali-esempio}
+![Gli autovettori $v_1=(1,1)$ e $v_2=(1,-1)$ della matrice simmetrica $A$, associati agli autovalori distinti $\lambda_1=3$ e $\lambda_2=-1$, sono perfettamente ortogonali (angolo retto evidenziato in rosso).](figures/fig54-autovettori-ortogonali-esempio.png){#fig-autovettori-ortogonali-esempio}
 
 **Esempio 2: Matrice Complessa Hermitiana (Matrici di Pauli)**\
 Consideriamo la matrice $Y$ di Pauli, celebre in meccanica quantistica per descrivere lo spin degli elettroni. È hermitiana ($Y = Y^\dagger$): $$Y = \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}$$ Il polinomio caratteristico è $\lambda^2 - 1 = 0$. Gli autovalori sono $\lambda_1 = 1$ e $\lambda_2 = -1$ (sono reali, anche se la matrice è piena di numeri immaginari!).
@@ -3376,7 +3378,7 @@ Queste matrici godono di proprietà geometriche e algebriche spettacolari:
 
 5.  **Normalità:** Essendo $U U^\dagger = I = U^\dagger U$, sono **matrici normali**. Grazie al Teorema Spettrale Universale, esse sono sempre unitariamente diagonalizzabili in $\mathbb{C}$.
 
-![Gli autovalori di rotazioni, matrici normali e riflessioni giacciono sempre esattamente sul cerchio unitario del piano complesso (<span class="math inline">|<em>λ</em>| = 1</span>), coerentemente con la conservazione delle lunghezze.](figures/fig55-autovalori-cerchio-unitario.png){#fig-autovalori-cerchio-unitario}
+![Gli autovalori di rotazioni, matrici normali e riflessioni giacciono sempre esattamente sul cerchio unitario del piano complesso ($|\lambda|=1$), coerentemente con la conservazione delle lunghezze.](figures/fig55-autovalori-cerchio-unitario.png){#fig-autovalori-cerchio-unitario}
 
 ### Esempi Pratici {#sec-esempi-pratici-1 .unnumbered}
 
@@ -3495,7 +3497,7 @@ Il Criterio di Sylvester Se non vogliamo calcolare tutti gli autovalori, il Crit
 *Nota:* Se il determinante totale $\Delta_n \neq 0$ ma le condizioni sopra non sono rispettate, la matrice è sicuramente indefinita.
 :::
 
-![Il segno dei minori principali di guida decide la segnatura. (a) Tutti i <span class="math inline"><em>Δ</em><sub><em>k</em></sub></span> positivi: forma definita positiva. (b) La sequenza <span class="math inline">(+, −, +)</span> non rispetta né la regola della definita positiva né quella della definita negativa: la forma è indefinita.](figures/fig56-criterio-sylvester.png){#fig-criterio-sylvester}
+![Il segno dei minori principali di guida decide la segnatura. (a) Tutti i $\Delta_k$ positivi: forma definita positiva. (b) La sequenza $(+,-,+)$ non rispetta né la regola della definita positiva né quella della definita negativa: la forma è indefinita.](figures/fig56-criterio-sylvester.png){#fig-criterio-sylvester}
 
 ### Esempi Pratici {#sec-esempi-pratici-2 .unnumbered}
 
@@ -3735,7 +3737,7 @@ Risolviamo $y'+\dfrac{2}{x}y=x^2$, $\ y(1)=2$.
 
 Dalla soluzione generale trovata sopra, $y(x)=\dfrac{x^3}{5}+\dfrac{C}{x^2}$. Imponiamo $y(1)=2$: $$2 = \frac{1}{5} + C \implies C = \frac{9}{5}$$ La soluzione (unica) del problema di Cauchy è: $$y(x) = \frac{x^3}{5} + \frac{9}{5x^2}$$
 
-![La famiglia di soluzioni <span class="math inline">$y(x)=\frac{x^3}{5}+\frac{C}{x^2}$</span> al variare di <span class="math inline"><em>C</em></span> (grigio); la condizione iniziale <span class="math inline"><em>y</em>(1) = 2</span> seleziona l’unica curva con <span class="math inline"><em>C</em> = 9/5</span> (rosso).](figures/fig57-famiglia-soluzioni-1.png){#fig-famiglia-soluzioni}
+![La famiglia di soluzioni $y(x)=\frac{x^3}{5}+\frac{C}{x^2}$ al variare di $C$ (grigio); la condizione iniziale $y(1)=2$ seleziona l’unica curva con $C=9/5$ (rosso).](figures/fig57-famiglia-soluzioni-1.png){#fig-famiglia-soluzioni}
 
 ## Il Teorema di Esistenza e Unicità
 
@@ -3849,7 +3851,7 @@ Per $y''+ay'+by=0$, l'equazione caratteristica è $\lambda^2+a\lambda+b=0$, con 
 
 esattamente come nella tabella vista in apertura di capitolo --- che è ora semplicemente il caso $n=2$ del risultato generale.
 
-![Le tre casistiche di <span class="math inline"><em>y</em><sup>″</sup> + <em>a</em><em>y</em><sup>′</sup> + <em>b</em><em>y</em> = 0</span>, con gli esempi numerici del testo. (a) <span class="math inline"><em>d</em> &gt; 0</span>: crescita esponenziale dominata dalla radice maggiore. (b) <span class="math inline"><em>d</em> = 0</span>: radice doppia, con il termine <span class="math inline"><em>t</em><em>e</em><sup>2<em>t</em></sup></span> che cresce più lentamente dell’esponenziale puro. (c) <span class="math inline"><em>d</em> &lt; 0</span>: oscillazione la cui ampiezza è modulata dall’inviluppo esponenziale <span class="math inline"><em>e</em><sup><em>α</em><em>t</em></sup></span>.](figures/fig58-tre-casi-secondo-ordine-1.png){#fig-tre-casi-secondo-ordine}
+![Le tre casistiche di $y''+ay'+by=0$, con gli esempi numerici del testo. (a) $d>0$: crescita esponenziale dominata dalla radice maggiore. (b) $d=0$: radice doppia, con il termine $te^{2t}$ che cresce più lentamente dell’esponenziale puro. (c) $d<0$: oscillazione la cui ampiezza è modulata dall’inviluppo esponenziale $e^{\alpha t}$.](figures/fig58-tre-casi-secondo-ordine-1.png){#fig-tre-casi-secondo-ordine}
 
 ### Esempio Semplice ($n=2$, radici reali distinte) {#sec-esempio-semplice-n2-radici-reali-distinte .unnumbered}
 
@@ -3879,7 +3881,7 @@ Risolviamo $y^{(4)}+2y''+y=0$.
 
 **Soluzione generale:** $$y(x) = c_1\cos(x)+c_2\sin(x)+c_3x\cos(x)+c_4x\sin(x)$$ *Verifica di coerenza col Teorema della Dimensionalità:* l'equazione ha ordine $n=4$, e abbiamo trovato esattamente $4$ soluzioni indipendenti --- come garantito dal teorema.
 
-![Il fattore <span class="math inline"><em>t</em></span> come firma delle radici ripetute. (a) Le soluzioni <span class="math inline"><em>t</em>cos <em>t</em></span> e <span class="math inline"><em>t</em>sin <em>t</em></span> dell’Esempio Complesso 2 crescono linearmente, contenute nell’inviluppo <span class="math inline">±<em>t</em></span>. (b) Lo stesso fenomeno nel caso di risonanza forzata <span class="math inline"><em>y</em><sup>″</sup> + 4<em>y</em> = cos (2<em>t</em>)</span>: l’ampiezza <span class="math inline">$\frac{1}{4}t\sin(2t)$</span> cresce senza limite.](figures/fig59-radici-ripetute-risonanza-1.png){#fig-radici-ripetute-risonanza}
+![Il fattore $t$ come firma delle radici ripetute. (a) Le soluzioni $t\cos t$ e $t\sin t$ dell’Esempio Complesso 2 crescono linearmente, contenute nell’inviluppo $\pm t$. (b) Lo stesso fenomeno nel caso di risonanza forzata $y''+4y=\cos(2t)$: l’ampiezza $\frac{1}{4}t\sin(2t)$ cresce senza limite.](figures/fig59-radici-ripetute-risonanza-1.png){#fig-radici-ripetute-risonanza}
 
 ## Struttura della Soluzione Generale (Equazione Non Omogenea)
 
@@ -4131,7 +4133,7 @@ Quando conviene usare Laplace rispetto all'equazione caratteristica?
 - **L'equazione caratteristica resta più rapida quando:** si cerca la soluzione *generale* (con costanti arbitrarie, senza condizioni iniziali specifiche) --- Laplace richiede sempre condizioni iniziali numeriche per essere applicato in questa forma diretta.
 :::
 
-![(a) La soluzione generale di <span class="math inline"><em>y</em><sup>″</sup> − <em>y</em> = 2<em>x</em></span> come somma della parte omogenea <span class="math inline"><em>y</em><sub><em>o</em></sub></span> e della soluzione particolare <span class="math inline"><em>y</em><sub><em>p</em></sub> = −2<em>x</em></span>. (b) La soluzione <span class="math inline"><em>y</em>(<em>t</em>) = 2<em>e</em><sup><em>t</em></sup> − <em>e</em><sup>2<em>t</em></sup></span> del problema di Cauchy, ottenuta sia con la trasformata di Laplace sia con l’equazione caratteristica: i due metodi coincidono esattamente.](figures/fig60-struttura-e-laplace-1.png){#fig-struttura-e-laplace}
+![(a) La soluzione generale di $y''-y=2x$ come somma della parte omogenea $y_o$ e della soluzione particolare $y_p=-2x$. (b) La soluzione $y(t)=2e^t-e^{2t}$ del problema di Cauchy, ottenuta sia con la trasformata di Laplace sia con l’equazione caratteristica: i due metodi coincidono esattamente.](figures/fig60-struttura-e-laplace-1.png){#fig-struttura-e-laplace}
 
 # Sistemi di equazioni differenziali
 
@@ -4748,7 +4750,7 @@ Calcolo dei Coefficienti di Fourier (Reali) Sostituendo il prodotto interno inte
 **Nota importante sulla convenzione $\frac{a_0}{2}$:**\
 Molti libri di testo scrivono la serie come $f(x) \sim \frac{a_0}{2} + \sum (\dots)$. Questa è solo una \"furbata\" algebrica: serve a fare in modo che la formula per calcolare $a_0$ diventi identica a quella di $a_n$ (ovvero con un $1/\pi$ davanti invece che $1/2\pi$). Concettualmente non cambia nulla, è solo un aggiustamento della base.
 
-![Serie di Fourier di un’onda quadra. (a) Le somme parziali <span class="math inline"><em>S</em><sub><em>N</em></sub>(<em>t</em>)</span> per <span class="math inline"><em>N</em></span> crescente si avvicinano progressivamente alla funzione, mostrando il caratteristico fenomeno di Gibbs (sovraelongazione) in prossimità delle discontinuità. (b) Lo spettro delle ampiezze <span class="math inline">|<em>b</em><sub><em>n</em></sub>| = 4/(<em>π</em><em>n</em>)</span> per le armoniche dispari.](figures/fig15-fourier-onda-quadra.png){#fig-fourier-onda-quadra}
+![Serie di Fourier di un’onda quadra. (a) Le somme parziali $S_N(t)$ per $N$ crescente si avvicinano progressivamente alla funzione, mostrando il caratteristico fenomeno di Gibbs (sovraelongazione) in prossimità delle discontinuità. (b) Lo spettro delle ampiezze $|b_n|=4/(\pi n)$ per le armoniche dispari.](figures/fig15-fourier-onda-quadra.png){#fig-fourier-onda-quadra}
 
 ## 4. Forma Complessa (Esponenziale) della Serie {#sec-forma-complessa-esponenziale-della-serie .unnumbered}
 
@@ -4778,7 +4780,7 @@ Chiudiamo richiamando la Formula di Parseval (il Teorema di Pitagora in infinite
 
 $$\underbrace{\frac{1}{\pi} \int_{-\pi}^{\pi} |f(x)|^2 \, dx}_{\text{Energia calcolata nel tempo (Integrale)}} = \underbrace{\frac{a_0^2}{2} + \sum_{n=1}^{\infty} (a_n^2 + b_n^2)}_{\text{Energia calcolata come somma delle frequenze}}$$ Se usiamo la notazione complessa (molto usata in Ingegneria e Fisica), l'identità di Parseval assume una forma incredibilmente elegante e simmetrica: $$\frac{1}{2\pi} \int_{-\pi}^{\pi} |f(x)|^2 \, dx = \sum_{n=-\infty}^{\infty} |c_n|^2$$
 
-![Verifica numerica dell’identità di Parseval per l’onda quadra. (a) L’energia cumulata nel dominio delle frequenze converge all’energia calcolata nel dominio del tempo al crescere del numero di armoniche <span class="math inline"><em>N</em></span>. (b) L’energia residua (troncamento) decresce verso zero, illustrando la convergenza in norma <span class="math inline"><em>L</em><sup>2</sup></span>.](figures/fig16-parseval.png){#fig-parseval}
+![Verifica numerica dell’identità di Parseval per l’onda quadra. (a) L’energia cumulata nel dominio delle frequenze converge all’energia calcolata nel dominio del tempo al crescere del numero di armoniche $N$. (b) L’energia residua (troncamento) decresce verso zero, illustrando la convergenza in norma $L^2$.](figures/fig16-parseval.png){#fig-parseval}
 
 # La Funzione Gamma di Eulero ($\Gamma$)
 
@@ -5179,7 +5181,7 @@ Lo scorrimento, o \"taglio\", è la trasformazione che distorce un quadrato tras
 
 - **Diagonalizzabilità:** Lo scorrimento è l'**esempio geometrico perfetto di matrice difettiva**! Non sarà *mai* diagonalizzabile.
 
-  ![Le cinque trasformazioni notevoli e i loro autospazi. Omotetia e riflessione/proiezione mostrano assi invarianti evidenziati (verde/viola); la rotazione distorce l’intera griglia senza lasciare alcuna direzione fissa (nessun autovettore reale); lo scorrimento lascia fisso solo l’asse <span class="math inline"><em>x</em></span> (rosso), nonostante l’autovalore <span class="math inline"><em>λ</em> = 1</span> sia doppio — la firma geometrica di una matrice difettiva.](figures/fig48-catalogo-trasformazioni.png){#fig-catalogo-trasformazioni}
+  ![Le cinque trasformazioni notevoli e i loro autospazi. Omotetia e riflessione/proiezione mostrano assi invarianti evidenziati (verde/viola); la rotazione distorce l’intera griglia senza lasciare alcuna direzione fissa (nessun autovettore reale); lo scorrimento lascia fisso solo l’asse $x$ (rosso), nonostante l’autovalore $\lambda=1$ sia doppio — la firma geometrica di una matrice difettiva.](figures/fig48-catalogo-trasformazioni.png){#fig-catalogo-trasformazioni}
 
 ## Il Trucco Geometrico: Calcolare Autovettori su Assi Generici {#sec-il-trucco-geometrico-calcolare-autovettori-su-assi-generici .unnumbered}
 

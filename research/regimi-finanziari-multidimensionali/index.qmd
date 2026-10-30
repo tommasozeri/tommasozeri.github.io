@@ -59,19 +59,27 @@ La funzione montante $M(i,t)$ rappresenta un piano nello spazio tridimensionale,
 
 ## Visualizzazione 3D
 
-La 2 mostra le superfici caratteristiche del regime semplice. Si osserva come l'andamento lineare del montante contrasti con la decrescita iperbolica del valore attuale.
+La @fig-superficie-semplice mostra le superfici caratteristiche del regime semplice. Si osserva come l'andamento lineare del montante contrasti con la decrescita iperbolica del valore attuale.
 
-<figure id="fig:superficie_semplice" data-latex-placement="H">
-![Superficie del montante 1 <span class="math inline"><em>M</em>(<em>i</em>, <em>t</em>)</span>](figures/rsc.png)
-![Superficie del montante 2 <span class="math inline"><em>M</em>(<em>i</em>, <em>t</em>)</span>](figures/rsc2.png)
-<figcaption>Superfici 3D del regime semplice per <span class="math inline"><em>C</em> = 1000</span></figcaption>
-</figure>
+::: {#fig-superficie-semplice layout-ncol=2}
 
-<figure id="fig:superficie_semplice" data-latex-placement="H">
-![Superficie del Valore Attuale 1 <span class="math inline"><em>A</em>(<em>i</em>, <em>t</em>)</span>](figures/rsa.png)
-![Superficie del Valore attuale 2 <span class="math inline"><em>A</em>(<em>i</em>, <em>t</em>)</span>](figures/rsa2.png)
-<figcaption>Superfici 3D del regime semplice per <span class="math inline"><em>M</em> = 1000</span></figcaption>
-</figure>
+![Superficie del montante 1 $M(i,t)$](figures/rsc.png)
+
+![Superficie del montante 2 $M(i,t)$](figures/rsc2.png)
+
+Superfici 3D del regime semplice per $C=1000$
+
+:::
+
+::: {layout-ncol=2}
+
+![Superficie del Valore Attuale 1 $A(i,t)$](figures/rsa.png)
+
+![Superficie del Valore attuale 2 $A(i,t)$](figures/rsa2.png)
+
+Superfici 3D del regime semplice per $M=1000$
+
+:::
 
 # Il Regime Composto: Esponenzialità nello Spazio dei Parametri {#sec-regime-composto}
 
@@ -103,17 +111,25 @@ Queste equazioni descrivono superfici con curvatura positiva (montante) e negati
 
 La Figura illustra le superfici del regime composto, evidenziando la crescita esponenziale del montante e il decadimento esponenziale del valore attuale.
 
-<figure id="fig:superficie_composto" data-latex-placement="H">
-![Superficie del montante 1 <span class="math inline"><em>M</em>(<em>i</em>, <em>t</em>)</span>](figures/rcc.png)
-![Superficie del montante 2 <span class="math inline"><em>M</em>(<em>i</em>, <em>t</em>)</span>](figures/rcc2.png)
-<figcaption>Superfici 3D del regime composto per <span class="math inline"><em>C</em> = 1000</span></figcaption>
-</figure>
+::: {#fig-superficie-composto layout-ncol=2}
 
-<figure id="fig:superficie_composto" data-latex-placement="H">
-![Superficie del valore attuale 1 <span class="math inline"><em>A</em>(<em>i</em>, <em>t</em>)</span>](figures/rca.png)
-![Superficie del valore attuale 2 <span class="math inline"><em>A</em>(<em>i</em>, <em>t</em>)</span>](figures/rca2.png)
-<figcaption>Superfici 3D del regime composto per <span class="math inline"><em>M</em> = 1000</span></figcaption>
-</figure>
+![Superficie del montante 1 $M(i,t)$](figures/rcc.png)
+
+![Superficie del montante 2 $M(i,t)$](figures/rcc2.png)
+
+Superfici 3D del regime composto per $C=1000$
+
+:::
+
+::: {layout-ncol=2}
+
+![Superficie del valore attuale 1 $A(i,t)$](figures/rca.png)
+
+![Superficie del valore attuale 2 $A(i,t)$](figures/rca2.png)
+
+Superfici 3D del regime composto per $M=1000$
+
+:::
 
 # Analisi Comparativa attraverso le Superfici 3D {#sec-confronto}
 
@@ -144,17 +160,25 @@ Quando $0 < \beta < e^\alpha - 1$, esiste un tempo critico $t^*$ tale che:
 
 - Per $t > t^*$: il regime composto domina ($M_{composto} > M_{semplice}$)
 
-<figure id="fig:confronto_generale" data-latex-placement="H">
-![Caso 1: Dominanza composta 1](figures/domc1.png){#fig-confronto-caso1}
-![Caso 1: Dominanza composta 1](figures/domc2.png){#fig-confronto-caso2}
-<figcaption>Confronto 3D tra le superfici dei due regimi</figcaption>
-</figure>
+::: {#fig-confronto-generale layout-ncol=2}
 
-<figure id="fig:confronto_generale" data-latex-placement="H">
-![Caso 2: Transizione di dominanza 1](figures/trandom1.png){#fig-confronto-caso1x}
-![Caso 2: Transizione di dominanza 2](figures/trandom2.png){#fig-confronto-caso2x}
-<figcaption>Confronto 3D tra le superfici dei due regimi</figcaption>
-</figure>
+![Caso 1: Dominanza composta 1](figures/domc1.png)
+
+![Caso 1: Dominanza composta 1](figures/domc2.png)
+
+Confronto 3D tra le superfici dei due regimi
+
+:::
+
+::: {layout-ncol=2}
+
+![Caso 2: Transizione di dominanza 1](figures/trandom1.png)
+
+![Caso 2: Transizione di dominanza 2](figures/trandom2.png)
+
+Confronto 3D tra le superfici dei due regimi
+
+:::
 
 ## Analisi delle Derivate Parziali
 

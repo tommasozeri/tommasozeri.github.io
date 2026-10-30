@@ -30,7 +30,7 @@ Una norma in $L^2$ è definita come: $$\Vert X \Vert=\langle X,X \rangle^{1/2}=(
 
 Notiamo che per la bilinearità e per la disuguaglianza di Cauchy-Schwartz (per maggiorare il termine misto $\mathbb{E}[XY]\leq \Vert X\Vert \Vert Y  \Vert$ abbiamo: $$\Vert X+Y \Vert^2 = \mathbb{E}[X^2] + 2\mathbb{E}[XY] + \mathbb{E}[Y^2] \leq \Vert X \Vert^2 + 2\Vert X \Vert \Vert Y \Vert+ \Vert Y\Vert^2=(\Vert X \Vert+ \Vert Y \Vert)^2$$ Applicando la radice quadrata a entrambi i membri, i quadrati si semplificano e così otteniamo la **Disuguaglianza di Minkowski**: $$\Vert X+Y \Vert \leq \Vert X \Vert + \Vert Y \Vert$$
 
-![Il vettore <span class="math inline"><em>X</em> + <em>Y</em></span> è la diagonale del percorso <span class="math inline"><em>X</em> → <em>Y</em></span>: la sua lunghezza non può mai superare la somma delle lunghezze dei due lati, <span class="math inline">∥<em>X</em> + <em>Y</em>∥ ≤ ∥<em>X</em>∥+∥<em>Y</em>∥</span>.](figures/teorema-22-1-triangolare.png){#fig-placeholder}
+![Il vettore $X+Y$ è la diagonale del percorso $X \to Y$: la sua lunghezza non può mai superare la somma delle lunghezze dei due lati, $\|X+Y\| \leq \|X\| + \|Y\|$.](figures/teorema-22-1-triangolare.png){#fig-placeholder}
 
 ::: mybox
 $L^2$ è uno spazio lineare normato $L^2$ è uno spazio lineare normato dotato di inner product $\langle \cdot, \cdot \rangle$. Inoltre, si ha: $$\Vert \cdot \Vert=\langle \cdot, \cdot \rangle$$
@@ -62,7 +62,7 @@ Uno spazio vettoriale normato e completo prende il nome di **Spazio di Banach**.
 $L^2$ è uno spazio completo $L^2$ è uno spazio lineare normato completo
 :::
 
-![La sottosuccessione <span class="math inline"><em>X</em><sub>1</sub>, <em>X</em><sub>2</sub>, <em>X</em><sub>3</sub>, …</span> si muove a passi sempre più piccoli (<span class="math inline"> ≤ 1/2<sup><em>k</em></sup></span>) e per questo è costretta a collassare su un punto limite <span class="math inline"><em>X</em></span>, che appartiene ancora a <span class="math inline"><em>L</em><sup>2</sup></span>.](figures/teorema-22-2-completezza.png){#fig-placeholder}
+![La sottosuccessione $X_1, X_2, X_3, \dots$ si muove a passi sempre più piccoli ($\leq 1/2^k$) e per questo è costretta a collassare su un punto limite $X$, che appartiene ancora a $L^2$.](figures/teorema-22-2-completezza.png){#fig-placeholder}
 
 # Spazi di Hilbert
 
@@ -72,7 +72,7 @@ Uno spazio di Hilbert $\mathcal{H}$ è uno spazio lineare normato completo con u
 $L^2$ e $\mathcal{H}$ $L^2$ è uno spazio di Hilbert.
 :::
 
-![Il prodotto scalare <span class="math inline">⟨<em>X</em>, <em>Y</em>⟩ = ∥<em>X</em>∥ ∥<em>Y</em>∥ cos <em>θ</em></span> racchiude in sé sia la lunghezza dei vettori sia l’angolo tra loro: è questa struttura in più, rispetto a una semplice norma, che rende <span class="math inline"><em>L</em><sup>2</sup></span> uno spazio di Hilbert.](figures/teorema-22-3-hilbert-angolo.png){#fig-placeholderx}
+![Il prodotto scalare $\langle X,Y \rangle = \|X\|\,\|Y\|\,\cos\theta$ racchiude in sé sia la lunghezza dei vettori sia l’angolo tra loro: è questa struttura in più, rispetto a una semplice norma, che rende $L^2$ uno spazio di Hilbert.](figures/teorema-22-3-hilbert-angolo.png){#fig-placeholderx}
 
 D'ora in poi non parleremo più di VA e valori attesi, ma di vettori in un generico spazio di Hilbert $\mathcal{H}$.
 
@@ -95,7 +95,7 @@ Continuità dell'inner product Se $x_n\rightarrow x$ e $y_n\rightarrow y$ in $\m
 
 Questo teorema ci garantisce che il prodotto scalare (e di conseguenza la norma) è una **funzione continua**. In termini di calcolo, significa che l'operazione di limite e il prodotto scalare \"commutano\", ovvero possiamo portare il limite all'interno delle parentesi: $$\lim_{n \to \infty} \langle x_n, y_n \rangle = \left\langle \lim_{n \to \infty} x_n, \lim_{n \to \infty} y_n \right\rangle = \langle x, y \rangle$$
 
-![Se <span class="math inline"><em>X</em><sub><em>n</em></sub> → <em>X</em></span> e <span class="math inline"><em>Y</em><sub><em>n</em></sub> → <em>Y</em></span>, allora anche <span class="math inline">⟨<em>X</em><sub><em>n</em></sub>, <em>Y</em><sub><em>n</em></sub>⟩ → ⟨<em>X</em>, <em>Y</em>⟩</span>: non ci sono salti improvvisi nel passaggio al limite.](figures/teorema-22-4-continuita.png){#fig-placeholderx}
+![Se $X_n \to X$ e $Y_n \to Y$, allora anche $\langle X_n, Y_n \rangle \to \langle X, Y \rangle$: non ci sono salti improvvisi nel passaggio al limite.](figures/teorema-22-4-continuita.png){#fig-placeholderx}
 
 ## Sottospazi di $\mathcal{H}$
 
@@ -110,7 +110,7 @@ Per dimostrare che è un sottospazio, dobbiamo verificare che sia chiuso rispett
 **Perché è \"chiuso\"?**\
 Il fatto che $\Gamma^\perp$ sia un sottospazio *chiuso* (cioè che contenga tutti i suoi punti di accumulazione) deriva direttamente dal teorema sulla **continuità del prodotto scalare**. Se prendiamo una successione $x_n \in \Gamma^\perp$ tale che $x_n \to x$, portando il limite dentro al prodotto scalare avremo che $\langle x, y \rangle = \lim_{n \to \infty} \langle x_n, y \rangle = 0$, garantendo che anche il limite $x$ si trovi in $\Gamma^\perp$.
 
-![Anche se l’insieme di partenza <span class="math inline"><em>Γ</em></span> (la retta orizzontale) non è un sottospazio, il suo ortogonale <span class="math inline"><em>Γ</em><sup>⟂</sup></span> (la retta verticale, fatta di tutti i vettori perpendicolari a <span class="math inline"><em>Γ</em></span>) lo è sempre — lineare e chiuso.](figures/teorema-22-5-ortogonale.png){#fig-placeholder}
+![Anche se l’insieme di partenza $\Gamma$ (la retta orizzontale) non è un sottospazio, il suo ortogonale $\Gamma^{\perp}$ (la retta verticale, fatta di tutti i vettori perpendicolari a $\Gamma$) lo è sempre — lineare e chiuso.](figures/teorema-22-5-ortogonale.png){#fig-placeholder}
 
 ## Distanza
 
@@ -143,7 +143,7 @@ Teorema della Proiezione (o della Migliore Approssimazione)
 Sia $\mathcal{L}$ un sottospazio **chiuso** di uno spazio di Hilbert $\mathcal{H}$ e sia $x \in \mathcal{H}$. Allora esiste un unico vettore $y \in \mathcal{L}$ (chiamato *proiezione ortogonale* di $x$ su $\mathcal{L}$) tale che minimizza la distanza da $x$: $$\Vert x-y \Vert = \inf_{z \in \mathcal{L}} \Vert x-z \Vert = d(x, \mathcal{L})$$
 :::
 
-![Dato un punto <span class="math inline"><em>x</em></span> fuori dal sottospazio <span class="math inline"><em>L</em></span>, esiste un unico <span class="math inline"><em>y</em> ∈ <em>L</em></span> che minimizza la distanza: <span class="math inline">∥<em>x</em> − <em>y</em>∥ = <em>d</em>(<em>x</em>, <em>L</em>)</span>. Qualunque altro punto <span class="math inline"><em>z</em> ∈ <em>L</em></span> è strettamente più lontano.](figures/teorema-22-6-punto-vicino-1.png){#fig-placeholderx}
+![Dato un punto $x$ fuori dal sottospazio $L$, esiste un unico $y \in L$ che minimizza la distanza: $\|x-y\| = d(x,L)$. Qualunque altro punto $z \in L$ è strettamente più lontano.](figures/teorema-22-6-punto-vicino-1.png){#fig-placeholderx}
 
 **Caratterizzazione tramite Ortogonalità**\
 Il vettore $y \in \mathcal{L}$ è la proiezione ortogonale di $x$ se e solo se l'errore di approssimazione $(x - y)$ è ortogonale a tutto il sottospazio $\mathcal{L}$. Ovvero: $$\langle x - y, z \rangle = 0 \quad \forall z \in \mathcal{L}$$ Questo equivale a dire che l'errore $(x - y) \in \mathcal{L}^\perp$.
@@ -177,7 +177,7 @@ Proprietà dell'operatore di proiezione L'operatore di proiezione ortogonale $\P
 **Nota (Linearità):** Oltre a queste, l'operatore $\Pi$ su un sottospazio è sempre un operatore **lineare**, ovvero $\Pi(\alpha x + \beta y) = \alpha \Pi(x) + \beta \Pi(y)$.
 :::
 
-![<span class="math inline"><em>Π</em><em>x</em></span> cade dentro <span class="math inline"><em>L</em></span>, il residuo <span class="math inline"><em>x</em> − <em>Π</em><em>x</em></span> è ortogonale a tutto <span class="math inline"><em>L</em></span>, e proiettare due volte di seguito equivale a proiettare una sola volta: <span class="math inline"><em>Π</em><sup>2</sup> = <em>Π</em></span> (idempotenza).](figures/teorema-22-7-proiezione.png){#fig-placeholder}
+![$\Pi x$ cade dentro $L$, il residuo $x-\Pi x$ è ortogonale a tutto $L$, e proiettare due volte di seguito equivale a proiettare una sola volta: $\Pi^2 = \Pi$ (idempotenza).](figures/teorema-22-7-proiezione.png){#fig-placeholder}
 
 ::: mybox
 Corollario: Decomposizione Ortogonale Sia $\Pi_{\mathcal{L}}$ l'operatore di proiezione ortogonale di $\mathcal{H}$ su un sottospazio chiuso $\mathcal{L}$. Allora l'identità: $$x = \Pi_{\mathcal{L}}(x) + (x - \Pi_{\mathcal{L}}(x))$$ è una **rappresentazione unica** di $x$ come somma di un vettore in $\mathcal{L}$ e uno in $\mathcal{L}^\perp$.
@@ -189,7 +189,7 @@ Il termine residuo (l'errore di approssimazione) $(x - \Pi_{\mathcal{L}}(x))$ è
 **Conseguenza (Teorema di Pitagora)**\
 Poiché per definizione $\Pi_{\mathcal{L}}(x) \perp \Pi_{\mathcal{L}^\perp}(x)$, possiamo applicare il Teorema di Pitagora calcolando la norma al quadrato di entrambi i membri: $$\Vert x \Vert^2 = \Vert \Pi_{\mathcal{L}}(x) \Vert^2 + \Vert x - \Pi_{\mathcal{L}}(x) \Vert^2$$ *Significato pratico:* La \"lunghezza\" totale del vettore è la somma esatta della lunghezza della sua approssimazione e della lunghezza dell'errore commesso. In probabilità, questa è esattamente la formula della **scomposizione della varianza**.
 
-![Ogni <span class="math inline"><em>x</em></span> si scompone in modo unico nella somma di una componente in <span class="math inline"><em>L</em></span> (<span class="math inline"><em>Π</em><em>x</em></span>) e una in <span class="math inline"><em>L</em><sup>⟂</sup></span> (<span class="math inline"><em>x</em> − <em>Π</em><em>x</em></span>), da cui segue anche che <span class="math inline">(<em>L</em><sup>⟂</sup>)<sup>⟂</sup> = <em>L</em></span>.](figures/corollario-22-1-decomposizione.png){#fig-placeholderx}
+![Ogni $x$ si scompone in modo unico nella somma di una componente in $L$ ($\Pi x$) e una in $L^{\perp}$ ($x-\Pi x$), da cui segue anche che $(L^{\perp})^{\perp} = L$.](figures/corollario-22-1-decomposizione.png){#fig-placeholderx}
 
 ::: mybox
 Corollario: Altre proprietà dell'operatore di proiezione Sia $\Pi_{\mathcal{L}}$ l'operatore di proiezione ortogonale di uno spazio di Hilbert $\mathcal{H}$ su un sottospazio chiuso $\mathcal{L}$. Allora valgono le seguenti proprietà:
@@ -243,7 +243,7 @@ Questa espressione è l'esatto analogo della formula classica per il valore atte
 **Il legame con la misura $\mathbb{Q}$**\
 Riprendendo il concetto del \"cambio di universo\" visto in precedenza, le probabilità condizionate $\mathbb{P}(Y=y_k \mid X=x_j)$ non sono altro che i pesi della nuova misura $\mathbb{Q}(Y=y_k)$. Stiamo quindi eseguendo una normale media pesata dei valori di $Y$, ma utilizzando come pesi la nuova distribuzione di probabilità $\mathbb{Q}$ dettata dall'informazione su $X$.
 
-![L’attesa condizionata <span class="math inline"><em>E</em>{<em>Y</em> ∣ <em>X</em> = <em>x</em><sub><em>j</em></sub>}</span> è semplicemente la media di <span class="math inline"><em>Y</em></span> calcolata restringendosi all’evento <span class="math inline">{<em>X</em> = <em>x</em><sub><em>j</em></sub>}</span>: ogni partizione ha la propria media locale.](figures/def23-1-teo23-1-media-partizione.png){#fig-placeholder}
+![L’attesa condizionata $E\{Y \mid X = x_j\}$ è semplicemente la media di $Y$ calcolata restringendosi all’evento $\{X = x_j\}$: ogni partizione ha la propria media locale.](figures/def23-1-teo23-1-media-partizione.png){#fig-placeholder}
 
 ## Valore atteso condizionato di $Y$ data $X$ discreta
 
@@ -324,7 +324,7 @@ Il valore atteso condizionato $\hat{Y}$ è semplicemente la **proiezione ortogon
 
 Sfruttando la linearità del valore atteso, otteniamo: $$\mathbb{E}[YZ] - \mathbb{E}[\hat{Y}Z] = 0 \implies \mathbb{E}[YZ] = \mathbb{E}[\hat{Y}Z]$$ Ecco da dove deriva la definizione principale! Questa proprietà ci garantisce non solo che $\mathbb{E}[Y|X]$ esiste, ma anche che è unico, proprio perché è la migliore approssimazione possibile di $Y$ date le informazioni fornite da $X$.
 
-![<span class="math inline"><em>Ŷ</em> = <em>E</em>{<em>Y</em> ∣ <em>X</em>}</span> è la proiezione ortogonale di <span class="math inline"><em>Y</em></span> sul sottospazio chiuso <span class="math inline"><em>L</em><sup>2</sup>(<em>σ</em>(<em>X</em>))</span>; il residuo <span class="math inline"><em>Y</em> − <em>Ŷ</em></span> è ortogonale a ogni <span class="math inline"><em>Z</em> ∈ <em>L</em><sup>2</sup>(<em>σ</em>(<em>X</em>))</span>.](figures/def23-4-proiezione-condizionata-1.png){#fig-placeholderx}
+![$\hat{Y} = E\{Y \mid X\}$ è la proiezione ortogonale di $Y$ sul sottospazio chiuso $L^2(\sigma(X))$; il residuo $Y - \hat{Y}$ è ortogonale a ogni $Z \in L^2(\sigma(X))$.](figures/def23-4-proiezione-condizionata-1.png){#fig-placeholderx}
 
 **Applicazione del Lemma di Doob-Dynkin**\
 Poiché, per definizione, la variabile $\mathbb{E}[Y|X]$ appartiene allo spazio limitato da $\sigma(X)$, essa è $\sigma(X)$-misurabile. Per il Lemma di Doob-Dynkin, deve esistere una funzione Borel-misurabile $f$ tale per cui: $$\mathbb{E}[Y|X] = f(X)$$ Allo stesso modo, il generico \"vettore di test\" $Z$ può essere scritto come $g(X)$. Pertanto, la definizione $\mathbb{E}[\hat{Y}Z] = \mathbb{E}[YZ]$ assume la sua forma operativa più utile negli esercizi: $$\mathbb{E}[f(X)g(X)] = \mathbb{E}[Yg(X)]$$ per ogni funzione $g$ Borel-misurabile tale che $g(X) \in L^2$.
@@ -402,7 +402,7 @@ Sappiamo che $\mathbb{E}[Y|\mathcal{G}]$ rappresenta la proiezione ortogonale, o
 Indipendenza Sia $Y \in L^1(\Omega, \mathcal{A}, \mathbb{P}$) e supponiamo che $X$ e $Y$ siano indipendenti. Allora: $$\mathbb{E}[Y|X]=\mathbb{E}[Y]$$
 :::
 
-![Se <span class="math inline"><em>X</em></span> e <span class="math inline"><em>Y</em></span> sono indipendenti, <span class="math inline"><em>Y</em></span> non ha componente lungo <span class="math inline"><em>L</em><sup>2</sup>(<em>σ</em>(<em>X</em>))</span>: la proiezione collassa sulla costante, e <span class="math inline"><em>E</em>{<em>Y</em> ∣ <em>X</em>} = <em>E</em>{<em>Y</em>}</span>.](figures/teorema-23-6-indipendenza-1.png){#fig-placeholderx}
+![Se $X$ e $Y$ sono indipendenti, $Y$ non ha componente lungo $L^2(\sigma(X))$: la proiezione collassa sulla costante, e $E\{Y \mid X\} = E\{Y\}$.](figures/teorema-23-6-indipendenza-1.png){#fig-placeholderx}
 
 ## Disuaguaglianze Fondamentali
 
@@ -416,7 +416,7 @@ In parole povere questa disuguaglianza afferma che: *\"La funzione della media �
 **Conseguenza fondamentale: La Varianza Condizionata**\
 Notiamo che la funzione $\phi(x)=x^2$ è convessa. Applicando la disuguaglianza di Jensen otteniamo: $$(\mathbb{E}[X|\mathcal{G}])^2 \leq \mathbb{E}[X^2|\mathcal{G}]$$ Questa disuguaglianza ha un'implicazione importantissima. Se riordiniamo i termini portandoli tutti a destra, otteniamo: $$\mathbb{E}[X^2|\mathcal{G}] - (\mathbb{E}[X|\mathcal{G}])^2 \geq 0$$ La quantità a sinistra è l'esatta definizione della **varianza condizionata** $\text{Var}(X|\mathcal{G})$. Dunque, la disuguaglianza di Jensen ci garantisce matematicamente che, proprio come la varianza classica, anche la varianza condizionata non può mai assumere valori negativi.
 
-![Disuguaglianza di Jensen: <span class="math inline"><em>φ</em>(<em>E</em>{<em>X</em> ∣ 𝒢}) ≤ <em>E</em>{<em>φ</em>(<em>X</em>) ∣ 𝒢}</span>. Per una funzione convessa, la corda (media dei valori) sta sempre sopra la curva (valore nel punto medio).](figures/teorema-23-9-jensen-1.png){#fig-placeholder}
+![Disuguaglianza di Jensen: $\varphi(E\{X \mid \mathcal{G}\}) \leq E\{\varphi(X) \mid \mathcal{G}\}$. Per una funzione convessa, la corda (media dei valori) sta sempre sopra la curva (valore nel punto medio).](figures/teorema-23-9-jensen-1.png){#fig-placeholder}
 
 ### Disuguaglianza di Hölder
 
@@ -454,7 +454,7 @@ Di fatto, è persino uno spazio normato *completo* (ovvero uno **Spazio di Banac
 **Nota tecnica (Il concetto di \"Quasi Certamente\"):**\
 In probabilità, la condizione di definitezza ($\|X\|_p = 0 \iff X=0$) è soddisfatta in senso debole, ovvero $X=0$ *quasi certamente* (con probabilità 1). Per questo motivo, per far funzionare la geometria, lo spazio $L^p$ non è formato da singole funzioni, ma da \"classi di equivalenza\": due variabili aleatorie che differiscono solo su un evento di probabilità nulla vengono considerate esattamente come lo stesso vettore matematico.
 
-![Le palle unitarie di <span class="math inline"><em>L</em><sup><em>p</em></sup></span> per <span class="math inline"><em>p</em> = 1, 2, 4, ∞</span>: la loro convessità per <span class="math inline"><em>p</em> ≥ 1</span> è la geometria che sottende le disuguaglianze di Hölder e di Minkowski.](figures/teorema-23-10-minkowski-palle-lp-1.png){#fig-palle-lp}
+![Le palle unitarie di $L^p$ per $p = 1, 2, 4, \infty$: la loro convessità per $p \geq 1$ è la geometria che sottende le disuguaglianze di Hölder e di Minkowski.](figures/teorema-23-10-minkowski-palle-lp-1.png){#fig-palle-lp}
 
 ## MCT, Lemma di Fatou e DCT condizionati
 

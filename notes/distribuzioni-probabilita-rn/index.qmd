@@ -336,7 +336,7 @@ $$ dove $\mu_i \in \mathbb{R}$ sono le medie, $\sigma_i > 0$ le deviazioni stand
 
 ###  {#sec-section .unnumbered}
 
-![Normale Bivariata: <span class="math inline"><strong>μ</strong> = (0, 0)</span>, <span class="math inline"><em>σ</em><sub>1</sub> = <em>σ</em><sub>2</sub> = 1</span>, <span class="math inline"><em>ρ</em> = 0.6</span>. <em>Sin.</em>: mappa cromatica con curve di livello e marginali. <em>Des.</em>: superficie tridimensionale; la campana ellittica inclinata riflette la correlazione positiva.](figures/01-normale-bivariata.png){#fig-biv-normale}
+![Normale Bivariata: $\boldsymbol{\mu}=(0,0)$, $\sigma_1=\sigma_2=1$, $\rho=0.6$. *Sin.*: mappa cromatica con curve di livello e marginali. *Des.*: superficie tridimensionale; la campana ellittica inclinata riflette la correlazione positiva.](figures/01-normale-bivariata.png){#fig-biv-normale}
 
 ### Lognormale Bivariata {#sec-biv-lognormale}
 
@@ -352,7 +352,7 @@ $$ per $x_1, x_2 > 0$. Le marginali sono Lognormali univariate. La densità cong
 
 ###  {#sec-1 .unnumbered}
 
-![Lognormale Bivariata: <span class="math inline"><em>μ</em><sub>log</sub> = 0</span>, <span class="math inline"><em>σ</em><sub>log</sub> = 1</span>, <span class="math inline"><em>ρ</em><sub>log</sub> = 0.6</span>. <em>Sin.</em>: densità concentrata vicino all’origine con coda asimmetrica verso destra. <em>Des.</em>: picco stretto e asimmetria caratteristica della distribuzione.](figures/02-lognormale-bivariata.png){#fig-biv-lognormale}
+![Lognormale Bivariata: $\mu_{\log}=0$, $\sigma_{\log}=1$, $\rho_{\log}=0.6$. *Sin.*: densità concentrata vicino all’origine con coda asimmetrica verso destra. *Des.*: picco stretto e asimmetria caratteristica della distribuzione.](figures/02-lognormale-bivariata.png){#fig-biv-lognormale}
 
 ### Uniforme Bivariata {#sec-biv-uniforme}
 
@@ -361,7 +361,7 @@ Il vettore $(x_1, x_2)$ ha distribuzione Uniforme bivariata sul rettangolo $[a,b
 
 ###  {#sec-2 .unnumbered}
 
-![Uniforme Bivariata: <span class="math inline"><em>x</em><sub>1</sub> ∼ <em>U</em>(0, 3)</span>, <span class="math inline"><em>x</em><sub>2</sub> ∼ <em>U</em>(0, 2)</span>, componenti indipendenti. <em>Sin.</em>: densità costante sul rettangolo di supporto. <em>Des.</em>: plateau perfettamente piatto.](figures/03-uniforme-bivariata.png){#fig-biv-uniforme}
+![Uniforme Bivariata: $x_1\sim U(0,3)$, $x_2\sim U(0,2)$, componenti indipendenti. *Sin.*: densità costante sul rettangolo di supporto. *Des.*: plateau perfettamente piatto.](figures/03-uniforme-bivariata.png){#fig-biv-uniforme}
 
 ### Esponenziale Bivariata {#sec-biv-esponenziale}
 
@@ -370,7 +370,7 @@ Nel caso di componenti indipendenti, il vettore $(x_1, x_2)$ ha densità congiun
 
 ###  {#sec-3 .unnumbered}
 
-![Esponenziale Bivariata: <span class="math inline"><em>β</em><sub>1</sub> = 1</span>, <span class="math inline"><em>β</em><sub>2</sub> = 1.5</span>, componenti indipendenti. <em>Sin.</em>: massimo nell’origine, decadimento esponenziale in entrambe le direzioni. <em>Des.</em>: picco acuto con decadimento asintotico.](figures/04-esponenziale-bivariata.png){#fig-biv-esponenziale}
+![Esponenziale Bivariata: $\beta_1=1$, $\beta_2=1.5$, componenti indipendenti. *Sin.*: massimo nell’origine, decadimento esponenziale in entrambe le direzioni. *Des.*: picco acuto con decadimento asintotico.](figures/04-esponenziale-bivariata.png){#fig-biv-esponenziale}
 
 ### Gamma Bivariata {#sec-biv-gamma}
 
@@ -382,7 +382,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-4 .unnumbered}
 
-![Gamma Bivariata: <span class="math inline"><em>Γ</em>(<em>α</em><sub>1</sub> = 2, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline"><em>Γ</em>(<em>α</em><sub>2</sub> = 3, <em>β</em><sub>2</sub> = 1)</span>, componenti indipendenti. <em>Sin.</em>: picco spostato dall’origine; mode in <span class="math inline"><em>x</em><sub>1</sub> = 1</span> e <span class="math inline"><em>x</em><sub>2</sub> = 2</span>. <em>Des.</em>: gobba caratteristica della distribuzione Gamma.](figures/05-gamma-bivariata.png){#fig-biv-gamma}
+![Gamma Bivariata: $\Gamma(\alpha_1{=}2,\beta_1{=}1)$, $\Gamma(\alpha_2{=}3,\beta_2{=}1)$, componenti indipendenti. *Sin.*: picco spostato dall’origine; mode in $x_1=1$ e $x_2=2$. *Des.*: gobba caratteristica della distribuzione Gamma.](figures/05-gamma-bivariata.png){#fig-biv-gamma}
 
 ### Weibull Bivariata {#sec-biv-weibull}
 
@@ -394,7 +394,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-5 .unnumbered}
 
-![Weibull Bivariata: <span class="math inline"><em>W</em>(<em>α</em><sub>1</sub> = 2, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline"><em>W</em>(<em>α</em><sub>2</sub> = 3, <em>β</em><sub>2</sub> = 1)</span>, componenti indipendenti. <em>Sin.</em>: marginali con moda interna per <span class="math inline"><em>α</em><sub><em>i</em></sub> &gt; 1</span>. <em>Des.</em>: gobba asimmetrica con decadimento rapido.](figures/06-weibull-bivariata.png){#fig-biv-weibull}
+![Weibull Bivariata: $W(\alpha_1{=}2,\beta_1{=}1)$, $W(\alpha_2{=}3,\beta_2{=}1)$, componenti indipendenti. *Sin.*: marginali con moda interna per $\alpha_i>1$. *Des.*: gobba asimmetrica con decadimento rapido.](figures/06-weibull-bivariata.png){#fig-biv-weibull}
 
 ### Laplace Bivariata {#sec-biv-laplace}
 
@@ -406,7 +406,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-6 .unnumbered}
 
-![Laplace Bivariata: <span class="math inline"><em>L</em>(<em>α</em><sub>1</sub> = 0, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline"><em>L</em>(<em>α</em><sub>2</sub> = 0, <em>β</em><sub>2</sub> = 0.7)</span>, componenti indipendenti. <em>Sin.</em>: picco centrale con code simmetriche. <em>Des.</em>: cresta a spigolo vivo caratteristica della distribuzione di Laplace.](figures/07-laplace-bivariata.png){#fig-biv-laplace}
+![Laplace Bivariata: $L(\alpha_1{=}0,\beta_1{=}1)$, $L(\alpha_2{=}0,\beta_2{=}0.7)$, componenti indipendenti. *Sin.*: picco centrale con code simmetriche. *Des.*: cresta a spigolo vivo caratteristica della distribuzione di Laplace.](figures/07-laplace-bivariata.png){#fig-biv-laplace}
 
 ### Cauchy Bivariata {#sec-biv-cauchy}
 
@@ -418,7 +418,7 @@ Con componenti indipendenti la densità congiunta è: $$f(x_1, x_2) =
 
 ###  {#sec-7 .unnumbered}
 
-![Cauchy Bivariata: <span class="math inline">Cauchy(<em>α</em><sub>1</sub> = 0, <em>β</em><sub>1</sub> = 1)</span>, <span class="math inline">Cauchy(<em>α</em><sub>2</sub> = 0, <em>β</em><sub>2</sub> = 1)</span>, componenti indipendenti. <em>Sin.</em>: picco stretto con code polinomiali pesanti su tutto <span class="math inline">ℝ<sup>2</sup></span>. <em>Des.</em>: picco strettissimo; le code rendono difficile la rappresentazione simultanea del centro e della periferia.](figures/08-cauchy-bivariata.png){#fig-biv-cauchy}
+![Cauchy Bivariata: $\mathrm{Cauchy}(\alpha_1{=}0,\beta_1{=}1)$, $\mathrm{Cauchy}(\alpha_2{=}0,\beta_2{=}1)$, componenti indipendenti. *Sin.*: picco stretto con code polinomiali pesanti su tutto $\mathbb{R}^2$. *Des.*: picco strettissimo; le code rendono difficile la rappresentazione simultanea del centro e della periferia.](figures/08-cauchy-bivariata.png){#fig-biv-cauchy}
 
 ## Covarianza
 

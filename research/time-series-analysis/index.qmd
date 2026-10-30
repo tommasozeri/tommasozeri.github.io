@@ -597,7 +597,7 @@ What emerges are 3 fundamental structural evidences:
   : Granger causality test
 :::
 
-![Granger causality network (<span class="math inline"><em>p</em> &lt; 0.05</span>).](figures/grafdo.png){#fig-granger-network}
+![Granger causality network ($p<0.05$).](figures/grafdo.png){#fig-granger-network}
 
 # Bibliography and Github repository
 

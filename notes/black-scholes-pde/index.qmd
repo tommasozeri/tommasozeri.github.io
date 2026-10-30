@@ -389,7 +389,7 @@ In essence, the transformation from $\mathbb{Q}$ to $\widetilde{\mathbb{Q}}$ rep
 
 Together, the *Girsanov Theorem* and the *Radon--Nikodym derivative* form the rigorous mathematical foundation that enables the transition from the real-world dynamics to the risk-neutral world---and further to any equivalent measure---ensuring a coherent, arbitrage-free approach to derivative pricing.
 
-![GBM with drift <span class="math inline"><em>μ</em></span> (risk free rate + risk premuium) and GBM with drift <span class="math inline"><em>r</em></span> (risk free rate)](figures/pvsq.png){#fig-placeholderx}
+![GBM with drift $\mu$ (risk free rate + risk premuium) and GBM with drift $r$ (risk free rate)](figures/pvsq.png){#fig-placeholderx}
 
 # Pricing
 

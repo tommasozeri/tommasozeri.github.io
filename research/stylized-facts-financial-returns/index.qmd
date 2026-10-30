@@ -115,7 +115,7 @@ The red bands demark the periods where the volatility clustering was remarkable 
 
 ### Empirical Evidence of Volatility Clustering {#sec-empirical-evidence-of-volatility-clustering .unnumbered}
 
-![ACF and PACF for SPX <span class="math inline"><em>r</em><sub><em>t</em></sub><sup>2</sup></span>](figures/acf.png){#fig-acf-pacf}
+![ACF and PACF for SPX $r_t^2$](figures/acf.png){#fig-acf-pacf}
 
 The Autocorrelation (ACF) and Partial Autocorrelation (PACF) plots for the squared log returns of the SPX provide the definitive statistical evidence for the phenomenon of volatility clustering. The ACF plot reveals the overarching character of volatility persistence, showing a slow, methodical decay of autocorrelation that remains statistically significant across numerous lags. This pattern indicates that the memory of the market's volatility is long. Simultaneously, the PACF plot offers a more refined view by isolating the direct effect of each specific lag.
 
@@ -238,7 +238,7 @@ The assumption of time-invariant cointegration parameters is often unrealistic i
 
 ![Rolling parameters (cointegration equation)](figures/cointime.png){#fig-cointime}
 
-![Rolling <span class="math inline"><em>R</em><sup>2</sup></span> and ADF p-value](figures/2.png){#fig-rolling-adf}
+![Rolling $R^2$ and ADF p-value](figures/2.png){#fig-rolling-adf}
 
 
 ::: {.paper-download}

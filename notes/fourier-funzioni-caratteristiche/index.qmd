@@ -83,7 +83,7 @@ Sia $X \sim \mathcal{B}(p)$, ossia $\mathbb{P}(X=1)=p$ e $\mathbb{P}(X=0)=1-p$. 
     = p\,e^{iu} + (1-p).$$ Usando la formula di Eulero possiamo separare parte reale e immaginaria: $$\phi_X(u)
     = \bigl[p\cos u + (1-p)\bigr] + i\,p\sin u.$$ **Osservazione.** Il modulo soddisfa $|\phi_X(u)|\leq 1$ per ogni $u$, con uguaglianza solo in $u=0$ (dove $\phi_X(0)=1$, come atteso). Per $p=\tfrac{1}{2}$ la parte reale è $\tfrac{1+\cos u}{2}=\cos^2\!\tfrac{u}{2}$ e la funzione caratteristica coincide con quella di un coseno smorzato.
 
-![Funzione caratteristica della Bernoulli<span class="math inline">(<em>p</em>)</span> al variare del parametro <span class="math inline"><em>p</em></span>. <em>Sin.</em>: parte reale <span class="math inline"><em>p</em>cos <em>u</em> + (1 − <em>p</em>)</span>, che oscilla tra <span class="math inline">1</span> (in <span class="math inline"><em>u</em> = 0</span>) e <span class="math inline">(1 − 2<em>p</em>)</span>. <em>Centro</em>: parte immaginaria <span class="math inline"><em>p</em>sin <em>u</em></span>, proporzionale a <span class="math inline"><em>p</em></span>. <em>Des.</em>: modulo <span class="math inline">|<em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)|</span>, sempre <span class="math inline"> ≤ 1</span>.](figures/01-bernoulli-cf.png){#fig-cf-bernoulli}
+![Funzione caratteristica della Bernoulli$(p)$ al variare del parametro $p$. *Sin.*: parte reale $p\cos u+(1-p)$, che oscilla tra $1$ (in $u=0$) e $(1-2p)$. *Centro*: parte immaginaria $p\sin u$, proporzionale a $p$. *Des.*: modulo $|\phi_X(u)|$, sempre $\leq 1$.](figures/01-bernoulli-cf.png){#fig-cf-bernoulli}
 
 ### Binomiale$\mathcal{B}(n,p)$
 
@@ -97,7 +97,7 @@ Sia $X \sim \mathcal{B}(n,p)$. **Metodo diretto.** Usando la formula della PMF e
     = \prod_{j=1}^n \phi_{Y_j}(u)
     = \bigl(p\,e^{iu}+1-p\bigr)^n.$$ Il secondo metodo illustra una proprietà fondamentale: *la funzione caratteristica della somma di VA indipendenti è il prodotto delle singole funzioni caratteristiche*.
 
-![Funzione caratteristica della Binomiale<span class="math inline">(<em>n</em>, <em>p</em>)</span>. All’aumentare di <span class="math inline"><em>n</em></span> (con <span class="math inline"><em>p</em></span> fisso) le oscillazioni si fanno più rapide, riflettendo la maggiore dispersione della distribuzione. L’inset mostra la PMF per <span class="math inline"><em>n</em> = 6, <em>p</em> = 0.4</span>.](figures/02-binomial-cf.png){#fig-cf-binomial}
+![Funzione caratteristica della Binomiale$(n,p)$. All’aumentare di $n$ (con $p$ fisso) le oscillazioni si fanno più rapide, riflettendo la maggiore dispersione della distribuzione. L’inset mostra la PMF per $n=6,p=0.4$.](figures/02-binomial-cf.png){#fig-cf-binomial}
 
 ### Poisson$(\lambda)$
 
@@ -110,7 +110,7 @@ Sia $X \sim \mathcal{P}(\lambda)$, con $\mathbb{P}(X=k)=\frac{e^{-\lambda}\lambd
 
 **Osservazione.** Poiché $e^{iu}-1 = (\cos u - 1)+i\sin u$, la parte reale dell'esponente è $\lambda(\cos u -1)\leq 0$: il modulo $|\phi_X(u)| = e^{\lambda(\cos u-1)}\leq 1$ decade oscillando con $u$, senza mai superare l'unità.
 
-![Funzione caratteristica della Poisson<span class="math inline">(<em>λ</em>)</span>. Per <span class="math inline"><em>λ</em></span> grande le oscillazioni diventano più veloci e il modulo decade più rapidamente, coerentemente con una distribuzione più dispersa.](figures/03-poisson-cf.png){#fig-cf-poisson}
+![Funzione caratteristica della Poisson$(\lambda)$. Per $\lambda$ grande le oscillazioni diventano più veloci e il modulo decade più rapidamente, coerentemente con una distribuzione più dispersa.](figures/03-poisson-cf.png){#fig-cf-poisson}
 
 ### Uniforme su $(-a,a)$
 
@@ -123,7 +123,7 @@ Sia $X \sim \mathcal{U}(-a,a)$ con densità $f(x)=\frac{1}{2a}\mathbf{1}_{[-a,a]
 
 **Perché la parte immaginaria è nulla?** L'integrando $\sin(ux)e^{-x^2/2}$ è una funzione dispari su $[-a,a]$, quindi il suo integrale su un dominio simmetrico è zero. La funzione caratteristica di una distribuzione simmetrica è sempre reale.
 
-![Funzione caratteristica dell’Uniforme<span class="math inline">(−<em>a</em>, <em>a</em>)</span> — la funzione <em>sinc</em>. <em>Sin.</em>: <span class="math inline"><em>ϕ</em><sub><em>X</em></sub>(<em>u</em>) = sin (<em>a</em><em>u</em>)/(<em>a</em><em>u</em>)</span>, con zeri in <span class="math inline"><em>u</em> = <em>k</em><em>π</em>/<em>a</em></span>, <span class="math inline"><em>k</em> ≠ 0</span>. <em>Centro</em>: parte immaginaria identicamente nulla per simmetria della distribuzione. <em>Des.</em>: modulo, che coincide con <span class="math inline">|sinc(<em>a</em><em>u</em>)|</span>.](figures/04-uniform-cf.png){#fig-cf-uniform}
+![Funzione caratteristica dell’Uniforme$(-a,a)$ — la funzione *sinc*. *Sin.*: $\phi_X(u)=\sin(au)/(au)$, con zeri in $u=k\pi/a$, $k\neq 0$. *Centro*: parte immaginaria identicamente nulla per simmetria della distribuzione. *Des.*: modulo, che coincide con $|\text{sinc}(au)|$.](figures/04-uniform-cf.png){#fig-cf-uniform}
 
 ### Normale$(0,1)$
 
@@ -145,7 +145,7 @@ Sia $X\sim\mathcal{N}(0,1)$. Il calcolo tramite integrali di contorno o continua
     \implies
     \phi_X(u) = e^C e^{-u^2/2}.$$ La condizione iniziale $\phi_X(0)=1$ impone $e^C=1$, dunque: $$\boxed{\phi_X(u) = e^{-u^2/2}.}$$
 
-![Funzione caratteristica della <span class="math inline">𝒩(0, 1)</span>. <em>Sin.</em>: <span class="math inline"><em>ϕ</em><sub><em>X</em></sub>(<em>u</em>) = <em>e</em><sup>−<em>u</em><sup>2</sup>/2</sup></span> (Gaussiana) e la sua derivata <span class="math inline"><em>ϕ</em><sub><em>X</em></sub><sup>′</sup>(<em>u</em>) = −<em>u</em> <em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)</span>, che ne verifica l’ODE. <em>Centro</em>: <span class="math inline">ln |<em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)| = −<em>u</em><sup>2</sup>/2</span>, parabola. <em>Des.</em>: effetto di <span class="math inline"><em>σ</em></span> sulla larghezza della funzione caratteristica (più <span class="math inline"><em>σ</em></span> è grande, più <span class="math inline"><em>ϕ</em><sub><em>X</em></sub></span> è stretta in <span class="math inline"><em>u</em></span>).](figures/05-normal-cf.png){#fig-cf-normal-std}
+![Funzione caratteristica della $\mathcal{N}(0,1)$. *Sin.*: $\phi_X(u)=e^{-u^2/2}$ (Gaussiana) e la sua derivata $\phi_X'(u)=-u\,\phi_X(u)$, che ne verifica l’ODE. *Centro*: $\ln|\phi_X(u)|=-u^2/2$, parabola. *Des.*: effetto di $\sigma$ sulla larghezza della funzione caratteristica (più $\sigma$ è grande, più $\phi_X$ è stretta in $u$).](figures/05-normal-cf.png){#fig-cf-normal-std}
 
 ### Normale$(\mu,\sigma^2)$
 
@@ -155,7 +155,7 @@ Sia $X\sim\mathcal{N}(\mu,\sigma^2)$. Poiché $Y = \frac{X-\mu}{\sigma}\sim\math
     = e^{iu\mu}\,\phi_Y(u\sigma)
     = e^{iu\mu}\cdot e^{-(u\sigma)^2/2},$$ da cui: $$\boxed{\phi_X(u) = e^{iu\mu - u^2\sigma^2/2}.}$$ **Osservazione.** Il parametro $\mu$ agisce come un fattore di fase $e^{iu\mu}$ (rotazione nel piano complesso), che non altera il *modulo* $|\phi_X(u)|=e^{-u^2\sigma^2/2}$. Il parametro $\sigma$ controlla la *larghezza* della Gaussiana in frequenza: più $\sigma$ è grande, più $\phi_X$ decade rapidamente.
 
-![Funzione caratteristica della Normale<span class="math inline">(<em>μ</em>, <em>σ</em><sup>2</sup>)</span>. La media <span class="math inline"><em>μ</em></span> introduce oscillazioni nella parte reale e immaginaria (si veda la comparazione tra <span class="math inline"><em>μ</em> = 0</span> e <span class="math inline"><em>μ</em> = 2</span>), ma il modulo rimane <span class="math inline"><em>e</em><sup>−<em>u</em><sup>2</sup><em>σ</em><sup>2</sup>/2</sup></span>, indipendente da <span class="math inline"><em>μ</em></span>.](figures/06-normal-general-cf.png){#fig-cf-normal-gen}
+![Funzione caratteristica della Normale$(\mu,\sigma^2)$. La media $\mu$ introduce oscillazioni nella parte reale e immaginaria (si veda la comparazione tra $\mu=0$ e $\mu=2$), ma il modulo rimane $e^{-u^2\sigma^2/2}$, indipendente da $\mu$.](figures/06-normal-general-cf.png){#fig-cf-normal-gen}
 
 ### Esponenziale$(\lambda)$
 
@@ -180,7 +180,7 @@ Sia $X\sim\mathrm{Exp}(\lambda)$ con densità $f(x)=\lambda e^{-\lambda x}\mathb
       - i\,\frac{\lambda u}{\lambda^2+u^2}
     = \frac{\lambda}{\lambda-iu}.$$
 
-![Funzione caratteristica dell’Esponenziale<span class="math inline">(<em>λ</em>)</span>. <em>Sin.</em>: parte reale <span class="math inline"><em>λ</em><sup>2</sup>/(<em>λ</em><sup>2</sup> + <em>u</em><sup>2</sup>)</span>, una Lorentziana centrata in <span class="math inline"><em>u</em> = 0</span>. <em>Centro</em>: parte immaginaria <span class="math inline">−<em>λ</em><em>u</em>/(<em>λ</em><sup>2</sup> + <em>u</em><sup>2</sup>)</span>, antisimmetrica. <em>Des.</em>: modulo <span class="math inline">$\lambda/\sqrt{\lambda^2+u^2}$</span>, decrescente con <span class="math inline"><em>u</em></span>.](figures/07-exponential-cf.png){#fig-cf-exp}
+![Funzione caratteristica dell’Esponenziale$(\lambda)$. *Sin.*: parte reale $\lambda^2/(\lambda^2+u^2)$, una Lorentziana centrata in $u=0$. *Centro*: parte immaginaria $-\lambda u/(\lambda^2+u^2)$, antisimmetrica. *Des.*: modulo $\lambda/\sqrt{\lambda^2+u^2}$, decrescente con $u$.](figures/07-exponential-cf.png){#fig-cf-exp}
 
 ### Gamma$(\alpha,\beta)$
 
@@ -196,7 +196,7 @@ Sia $X\sim\Gamma(\alpha,\beta)$ con densità $f(x)=\frac{\beta^\alpha}{\Gamma(\a
 
 - $\alpha=n/2$, $\beta=1/2$: si ottiene la distribuzione Chi-Quadro con $n$ gradi di libertà.
 
-![Funzione caratteristica della Gamma<span class="math inline">(<em>α</em>, <em>β</em>)</span>. <em>Sin.</em>: parte reale. <em>Centro</em>: parte immaginaria. <em>Des.</em>: modulo <span class="math inline">$(\beta/\sqrt{\beta^2+u^2})^\alpha$</span>; la freccia indica il caso <span class="math inline"><em>α</em> = 1</span> in cui si riduce all’Esponenziale. All’aumentare di <span class="math inline"><em>α</em></span> il modulo decade più lentamente, coerentemente con una distribuzione più concentrata intorno alla media <span class="math inline"><em>α</em>/<em>β</em></span>.](figures/08-gamma-cf.png){#fig-cf-gamma}
+![Funzione caratteristica della Gamma$(\alpha,\beta)$. *Sin.*: parte reale. *Centro*: parte immaginaria. *Des.*: modulo $(\beta/\sqrt{\beta^2+u^2})^\alpha$; la freccia indica il caso $\alpha=1$ in cui si riduce all’Esponenziale. All’aumentare di $\alpha$ il modulo decade più lentamente, coerentemente con una distribuzione più concentrata intorno alla media $\alpha/\beta$.](figures/08-gamma-cf.png){#fig-cf-gamma}
 
 ::: mybox
 Funzione caratteristica di una trasformazione affine Sia $\mathbf{X}$ un vettore aleatorio in $\mathbb{R}^n$ e sia $a\in\mathbb{R}^m$. Sia $\mathbf{A}^{m\times n}$ una matrice rettangolare. Allora: $$\phi_{a+\mathbf{A}\mathbf{X}}(u)=e^{i\langle u,a \rangle}\phi_{\mathbf{X}}(\mathbf{A^t}u)$$ Per tutti gli $u\in\mathbb{R}^m$.

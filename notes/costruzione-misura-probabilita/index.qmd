@@ -149,7 +149,7 @@ In sintesi, la CDF restituisce le probabilità esatte (ed esiste sempre, per var
 1 & \text{se } x \geq \alpha 
 \end{cases}$$
 
-![CDF della Massa di Dirac in <span class="math inline"><em>α</em></span>](figures/dirac.png){#fig-dirac}
+![CDF della Massa di Dirac in $\alpha$](figures/dirac.png){#fig-dirac}
 
 ## Distribuzione Uniforme
 

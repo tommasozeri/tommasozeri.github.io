@@ -514,7 +514,6 @@ $$\begin{aligned}
      \\[4pt]
   \text{Hit Rate}
     &= \frac{1}{|\mathcal{A}|}\sum_{t\in\mathcal{A}}\mathbf{1}[r_t^\mathrm{strat}>0],
-    
 \end{aligned}
 $$ {#eq-cumret}
 

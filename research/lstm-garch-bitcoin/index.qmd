@@ -389,7 +389,7 @@ It is also notable that the GARCH-LSTM improves in-sample RMSE (19.005 vs 19.545
 
 ![Metrics comparison.](figures/confronto-metriche.png){#fig-metrics-cmp}
 
-![<span class="math inline"><em>R</em><sup>2</sup></span> comparison.](figures/confronto-r2.png){#fig-r2-cmp}
+![$R^2$ comparison.](figures/confronto-r2.png){#fig-r2-cmp}
 
 # Conclusions
 
