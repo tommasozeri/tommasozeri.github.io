@@ -9,22 +9,259 @@ categories: [Probability]
 description: "Questo articolo consolida la teoria delle distribuzioni di probabilità su ℝ, chiarendo il ruolo della misura di Lebesgue e sviluppando gli strumenti per ricavare la distribuzione di variabili aleatorie trasformate."
 pdf: probability_theory_for_quantitative_finance-8.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/14/distribuzioni-di-probabilita-su-%e2%84%9d/
+number-sections: true
+number-depth: 3
 ---
 
-```{=html}
-<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-8.pdf">PDF</a></p>
-```
+# Distribuzioni di Probabilità su $\mathbb{R}$
 
-**Distribuzioni di Probabilità su ℝ: Densità, Trasformazioni e Cambio di Variabile**
+Abbiamo visto che una misura di probabilità $\mathbb{P}$ su $(\mathbb{R},\mathcal{B})$ è caratterizzata dalla sua CDF $F(x)=\mathbb{P}((-\infty,x])=\mathbb{P}(X\leq x)$.
 
-Questo articolo consolida la teoria delle distribuzioni di probabilità su ℝ, chiarendo il ruolo della misura di Lebesgue e sviluppando gli strumenti per ricavare la distribuzione di variabili aleatorie trasformate.
+## Misura di Lebesgue
 
-La prima parte introduce la **misura di Lebesgue** come generalizzazione del concetto di lunghezza, evidenziando le differenze cruciali rispetto alla misura di probabilità: l\'intero spazio ha misura infinita, e le inclusioni tra spazi Lᵖ non si trasferiscono automaticamente. Si approfondisce poi il concetto di **PDF come derivata della CDF**, sottolineando che la continuità della CDF non è condizione sufficiente per l\'esistenza della densità: la \"scalinata del diavolo\" di Cantor --- continua ma non assolutamente continua --- illustra questo punto in modo paradigmatico. La densità è unica solo *quasi ovunque* rispetto alla misura di Lebesgue, e la **regola LOTUS** permette di calcolare E\[g(X)\] integrando direttamente rispetto alla densità originale senza ricavare la distribuzione di g(X).
+La misura di Lebesgue è una funzione $m:\mathcal{B}\rightarrow[0,\infty]$ che soddisfa:
 
-La seconda parte è dedicata alla **distribuzione di una VA trasformata** Y = g(X), presentando tre metodi in ordine di generalità. Il **Metodo della CDF** è universale e si applica a qualsiasi g, iniettiva o meno. Il **Teorema del Cambio di Variabile per funzioni iniettive** fornisce la PDF in un solo passaggio tramite fY(y) = fX(h(y))·\|h′(y)\|, dove il fattore jacobiano corregge la distorsione geometrica. Il **Corollario per funzioni monotone a tratti** generalizza il caso non iniettivo sommando i contributi di ciascuna radice di g(x) = y. Come applicazione emblematica, si deriva la **distribuzione Chi-Quadro** come quadrato di una normale standard, con estensione a p gradi di libertà. Il documento si chiude con il **Teorema della Trasformata Inversa**, che permette di simulare qualsiasi distribuzione a partire da una variabile uniforme.
+- Additività numerabile: se $B_1, B_2, \dots \in \mathcal{B}$ sono a due a due disgiunti, cioè $B_i\cap B_j=\emptyset$ per ogni $i\neq j$, allora: $$m\left(\bigcup_{i=1}^{\infty}B_i \right)=\sum_{i=1}^{\infty}m(B_i)$$
 
-## Testo completo
+- se $a,b\in\mathbb{R}$ con $a<b$, allora: $$m((a,b])=b-a$$
 
-```{=html}
-<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-8.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-8.pdf">Download PDF</a></p></object>
-```
+La misura di Lebesgue è la generalizzazione del concetto di lunghezza in $\mathbb{R}$, di area in $\mathbb{R}^2$ e di volume in $\mathbb{R}^3$. Essa associa ad ogni insieme boreliano della Borel $\sigma$-algebra un numero non negativo.
+
+::: mybox
+Unicità ed Esistenza La Misura di Lebesgue esiste ed è unica.
+:::
+
+Abbiamo visto che se conosciamo la CDF, allora conosciamo automaticamente tutta la misura di probabilità $\mathbb{P}$. Ora vogliamo usare questa logica su una misura che non calcola probabilità ma lunghezze.\
+Se la CDF esiste ed è valida, allora esiste anche la misura $m$ che essa caratterizza.\
+La teoria dell'integrazione vista nel capitolo 10 rimane valida se sostituiamo la misura di probabilità con quella di Lebesgue. L'unica differenza è che $m(\mathbb{R})$ non è uguale a 1 come $\mathbb{P}(\Omega)$ con $\Omega=\mathbb{R}$, ma a $+\infty$. Tutti i risultati del capitolo 10 rimangono validi ad eccezione dell'affermazione secondo cui ogni funzione di Borel limitata è integrabile:
+
+::: center
+\"*Ogni VA limitata (funzione misurabile limitata) è integrabile*\"
+:::
+
+In probabilità, se abbiamo una funzione limitata come $f(x)=5$, l'integrale su tutto lo spazio è al massimo $5\times 1=5$. Con la misura di Lebesgue, l'integrale su tutto lo spazio sarebbe $5 \times \infty=\infty$.\
+Inoltre è falsa anche la seguente affermazione del capitolo 10:
+
+::: center
+\"*Vale l'inclusione $L^2\subset L^1$*\"
+:::
+
+$L^2$ è lo spazio delle funzioni quadrato-integrabili, $L^1$ è lo spazio delle funzioni integrabili. In probabilità ciò significa che se il momento secondo di una VA esiste finito, allora esisterà finito anche il momento primo. Con la misura di Lebesgue su $\mathbb{R}$, invece, esistono funzioni quadrato-integrabili che non sono integrabili in $L^1$ (e viceversa).
+
+## Probability Density Function di una misura di probabilità
+
+La densità di una misura di probabilità $\mathbb{P}$ su $(\mathbb{R},\mathcal{B})$ è una funzione positiva e Borel-misurabile $f$ che, per ogni $x\in \mathbb{R}$ verifica: $$\mathbb{P}((-\infty,x])=\int_{-\infty}^xf(y)dy=\int f(y)\mathds{1}_{(-\infty,x]}dy$$ se $\mathbb{P}=P_X$, allora $f$ è la densità della VA $X$.\
+La PDF $f$ è la derivata della CDF e la CDF è l'integrale della PDF, a meno di punti di non derivabilità a cui assegnamo misura nulla.
+
+**N.B.**: Non tutte le distribuzioni di probabilità ammettono una funzione di densità (PDF). Ad esempio, nel caso delle variabili discrete, la densità non esiste (rispetto alla misura di Lebesgue) poiché la funzione di ripartizione (CDF) $F$ non è continua, ma presenta dei salti.\
+È fondamentale ricordare che se una variabile aleatoria ammette una densità $f$, allora la sua CDF $F$ sarà sicuramente continua, ma **non è vero il contrario**. In analisi avanzata e in teoria della misura, affinché una funzione $F$ ammetta una densità, non è sufficiente che sia semplicemente continua: deve essere **assolutamente continua**.\
+Un celebre caso patologico che dimostra come la sola continuità non sia sufficiente è la distribuzione di Cantor, la cui CDF è nota come "scalinata del diavolo". Questa funzione è definita sull'intervallo $[0,1]$, cresce in modo monotono da $0$ a $1$ ed è *continua in ogni suo punto* (pertanto non descrive una variabile discreta, non essendoci salti).
+
+Tuttavia, la sua peculiarità è di essere \"piatta\" quasi ovunque: la sua derivata è pari a zero su un insieme di misura di Lebesgue pari a $1$. Poiché la derivata è nulla quasi dappertutto, il suo integrale vale $0$, rendendo impossibile ricostruire la funzione $F$ originaria integrandone la derivata.
+
+Di conseguenza, la scalinata del diavolo è una funzione continua ma *non* assolutamente continua, e rappresenta una distribuzione di probabilità (detta *singolare continua*) che non ammette alcuna funzione di densità.
+
+::: mybox
+Validità di una densità Una funzione positiva Borel-misurabile $f$ su $\mathbb{R}$ è la densità di una misura di probabilità su $(\mathbb{R},\mathcal{B})$ se e solo se: $$\int f(x)dx=1$$ In questo caso essa determina intermanete la misura di probabilità, e qualsiasi altra funzione positiva Borel-misurabile $g$ tale che $m(f\neq g)=0$ (cioè $f=g$ A.S.) è anch'essa una densità per la stessa misura di probabilità.\
+Viceversa, una misura di probabilità su $(\mathbb{R},\mathcal{B})$ determina la sua densità (quando esiste) a meno di un insieme di misura di Lebesgue nulla (cioè se $f$ e $g$ sono due densità per questa misura di probabilità, allora $m(f\neq g)=0$.
+:::
+
+Questo teorema stabilisce due concetti fondamentali sulla relazione tra una misura di probabilità e la sua funzione di densità (PDF), basandosi sulla teoria dell'integrazione di Lebesgue:
+
+- **Condizione di Normalizzazione:** La prima parte afferma semplicemente che affinché una funzione non negativa possa rappresentare una probabilità, l'area totale sottesa al suo grafico deve essere esattamente $1$. Questa è la traduzione analitica dell'assioma fondamentale secondo cui la probabilità dell'intero spazio campionario è il $100\%$.
+
+- **Unicità \"Quasi Ovunque\" (A.E. o A.S.):** La seconda parte è la più profonda e chiarisce il concetto di equivalenza tra densità. In teoria della misura, ciò che accade su insiemi di \"lunghezza zero\" (cioè di misura di Lebesgue nulla, $m=0$) non altera in alcun modo il calcolo degli integrali.
+
+- **Cosa significa all'atto pratico?** Significa che puoi prendere una densità valida $f$ e modificarne il valore in un punto singolo, in cento punti, o persino in un'infinità numerabile di punti (creando una nuova funzione $g$). Poiché l'insieme dei punti che hai modificato ha misura di Lebesgue nulla ($m(f\neq g)=0$), l'integrale non subirà variazioni: $$\int_A f(x)dx = \int_A g(x)dx \quad \text{per ogni insieme misurabile } A$$
+
+In sintesi, la densità associata a una distribuzione di probabilità esiste ed è unica, ma solo *a meno di insiemi di misura nulla*. In probabilità continua, non ha alcun senso matematico preoccuparsi del \"valore esatto della densità in un singolo punto\", perché alterare la funzione su singoli punti non cambia la misura di probabilità globale che essa definisce.
+
+Una funzione $f$ è una densità valida se:
+
+::: mybox
+Corollario: Expectation Rule Sia $X$ una VA a valori reali con densità $f$. Sia $g$ una funzione Borel-misurabile. Allora $g$ è integrabile rispetto a $P_X$ (la distribution measure di $X$) se e solo se il prodotto $fg$ è integrabile rispetto alla misura di Lebesgue. In questo caso si ha: $$\mathbb{E}[g(X)]=\int g(X)P_X(x)dx=\int g(X)f(x)dx$$ $g$ e una trasformazione Borel-misurabile di $X$. Per esempio, se $g:g(x)=x^2$, allora $\mathbb{E}[g(X)]=\mathbb{E}[X^2]=\int x^2f(x)$.
+:::
+
+Questo corollario è universalmente noto in letteratura come LOTUS - *Law of the Unconscious Statistician*. Stabilisce un principio di importanza pratica monumentale per il calcolo delle probabilità:
+
+- **Il problema:** Se applichiamo una trasformazione $g$ a una variabile aleatoria $X$, otteniamo una nuova variabile aleatoria $Y = g(X)$. Per calcolare il valore atteso di $Y$ seguendo la definizione classica, dovremmo prima calcolare la nuova funzione di densità $f_Y(y)$, un processo analitico spesso lungo e complesso.
+
+- **La soluzione (LOTUS):** Il teorema ci dice che *non è necessario conoscere la densità della nuova variabile $Y$*. Possiamo calcolare il valore atteso della trasformata usando semplicemente la densità $f(x)$ della variabile originale $X$.
+
+- **Perché \"Inconsapevole\"?** Il nome deriva dal fatto che molti studenti (o statistici alle prime armi) calcolano $\mathbb{E}[g(X)]$ inserendo intuitivamente $g(x)$ dentro l'integrale di $f(x)$, convinti di applicare la definizione di valore atteso. In realtà stanno \"inconsapevolmente\" usando un corollario avanzato di teoria della misura che garantisce che questa scorciatoia intuitiva sia matematicamente rigorosa.
+
+## Distributzione di una trasformazione di una VA
+
+**N.B**. Per padroneggiare i teoremi sulle trasformazioni di variabili aleatorie, è essenziale avere chiari i seguenti concetti sulle funzioni reali:
+
+- **Funzione Iniettiva (\"One-to-One\"):** Una funzione è iniettiva se a input diversi corrispondono *sempre* output diversi. Graficamente, tracciando una qualsiasi retta orizzontale, questa intersecherà il grafico della funzione **al massimo una volta**. In formule: se $f(x_1) = f(x_2)$, allora obbligatoriamente $x_1 = x_2$.
+
+- **Funzione Suriettiva (\"Onto\"):** Una funzione è suriettiva se ogni possibile valore del codominio (l'asse $y$ di arrivo) viene \"colpito\" da almeno una $x$. In altre parole, l'immagine della funzione coincide con l'intero codominio.
+
+- **Funzione Biiettiva (o Biunivoca):** È una funzione che è contemporaneamente sia iniettiva che suriettiva. Questa è la condizione perfetta: stabilisce una corrispondenza \"uno a uno\" tra le $x$ e le $y$. **Solo le funzioni biiettive ammettono una funzione inversa globale** $f^{-1}(y)$.
+
+**Il rapporto cruciale con le Derivate (Monotonia)**
+
+- **Derivata mai nulla (Iniettività garantita):** Se la derivata prima $f'(x)$ non cambia mai segno (è *sempre* $>0$ o *sempre* $<0$), la funzione è **strettamente monotona** (sempre crescente o sempre decrescente). Una funzione strettamente monotona non \"torna mai indietro\", quindi è automaticamente **iniettiva** e invertibile. (Questo è il motivo per cui il Corollario 1 richiede una derivata mai nulla).
+
+- **Derivata che si annulla e cambia segno (Perdita di iniettività):** Se $f'(x)$ passa da negativa a positiva (o viceversa), significa che la funzione ha un minimo o un massimo (come la parabola $Y=X^2$ in $x=0$). La funzione \"torna indietro\", permettendo a una retta orizzontale di intersecare il grafico due o più volte. Qui **l'iniettività crolla**, e per trovare le probabilità sarai obbligato a usare il Corollario 2, spezzando il dominio esattamente nei punti in cui $f'(x) = 0$.
+
+::: mybox
+Teorema del Cambio di Variabile Sia X una VA con densità $f_X$ e sia $g$ una funzione Borel-misurabile. Sia $Y=g(X)$ una trasformazione della VA $X$. Allora: $$F_Y(y)=\mathbb{P}(Y\leq y)=\mathbb{P}(g(X)\leq y)=\int_{\{u:g(u)\leq y\}}f_X(u)du$$ Dove il dominio di integrazione è costituito dai punti in cui $g(X)\leq y$.
+:::
+
+Se $F_Y$ è differenziabile allora possiamo usare il teorema per trovare la densità.
+
+Questo risultato, noto formalmente come **Metodo della CDF**, è lo strumento analitico più generale e potente per ricavare la distribuzione di una variabile aleatoria trasformata $Y = g(X)$.
+
+Ecco i punti chiave per comprenderne l'utilità e il funzionamento:
+
+- **Validità universale:** A differenza di altre formule più rapide (come il teorema del cambio di variabile che utilizza la derivata della funzione inversa), questo integrale funziona **sempre**. In particolare, è il metodo da utilizzare obbligatoriamente quando la funzione $g(x)$ *non è iniettiva* (ad esempio le parabole $Y = X^2$ o i valori assoluti $Y = |X|$), casi in cui le formule inverse falliscono.
+
+- **Traduzione degli eventi:** Il cuore logico del teorema è un \"cambio di vocabolario\". Poiché non conosciamo nulla della nuova variabile $Y$, traduciamo l'evento $\{Y \leq y\}$ nel suo esatto equivalente basato sulla vecchia variabile: l'evento $\{g(X) \leq y\}$.
+
+- **Determinazione del dominio:** All'atto pratico, applicare il teorema significa risolvere la disuguaglianza $g(x) \leq y$ trattando $y$ come un parametro fisso. Le soluzioni di questa disuguaglianza ti indicheranno esattamente quali intervalli di $x$ devi usare come estremi per integrare la densità originale $f_X(x)$.
+
+- **Dalla CDF alla PDF:** Il risultato di questo calcolo integrale è la funzione di ripartizione $F_Y(y)$. Se il problema richiede la funzione di densità $f_Y(y)$ della nuova variabile, il passaggio finale consiste semplicemente nel derivare il risultato ottenuto: $$f_Y(y) = \frac{d}{dy} F_Y(y)$$
+
+**Esempio:** Sia $X$ una variabile aleatoria con distribuzione uniforme su $[0,1]$ e sia $Y = -\frac{1}{\lambda} \log(X)$, con $\lambda > 0$.
+
+Allora la funzione di ripartizione (CDF) di $Y$ è: $$\begin{aligned}
+F_Y(y) &= \mathbb{P}\left(-\frac{1}{\lambda} \log(X) \leq y\right) \\
+       &= \mathbb{P}(\log(X) \geq -\lambda y) \\
+       &= \mathbb{P}(X \geq e^{-\lambda y}) \\
+       &= \begin{cases} 
+          1 - e^{-\lambda y} & \text{per } y \geq 0 \\
+          0 & \text{altrimenti}
+          \end{cases}
+\end{aligned}$$
+
+Pertanto, derivando rispetto a $y$ otteniamo la funzione di densità (PDF): $$f_Y(y) = \frac{d}{dy}F_Y(y) = 
+\begin{cases} 
+\lambda e^{-\lambda y} & \text{se } y > 0 \\
+0 & \text{se } y \leq 0
+\end{cases}$$ e vediamo chiaramente che $Y$ segue una distribuzione esponenziale di parametro $\lambda$.\
+**N.B.**: L'esempio precedente è ingannevolmente semplice perché la funzione di trasformazione $g(x) = -\frac{1}{\lambda}\log(x)$ era iniettiva (o \"uno-a-uno\", cioè strettamente monotona). Il risultato generale per trasformazioni non iniettive è fornito di seguito:
+
+::: mybox
+Teorema del cambio di variabile (funzioni iniettive) Sia $X$ una VA con densità continua $f_X$. Sia $g:\mathbb{R}\rightarrow\mathbb{R}$ una funzione continuamente differenziabile[^1] con derivata mai nulla (quindi $g$ è monotona). sia $h(y)=g^{-1}(y)$ la funzione inversa (anch'essa continuamente differenziabile). Allora $Y=g(X)$ ha la densità: $$f_Y(y)=f_X(h(y))\times|h^{'}(y)|$$
+:::
+
+Questo corollario rappresenta il metodo più rapido e diretto per trovare la densità di una variabile aleatoria trasformata, poiché permette di saltare completamente il calcolo e la derivazione della Funzione di Ripartizione (CDF), fornendo la PDF in un solo passaggio.
+
+Per comprendere intuitivamente la formula, possiamo scomporla nei suoi tre elementi fondamentali:
+
+- **Il ritorno all'origine ($h(y)$):** Vogliamo calcolare la densità della nuova variabile $Y$ in un punto $y$. Per farlo, dobbiamo scoprire da dove \"proviene\" questa probabilità. La funzione inversa $h(y) = g^{-1}(y)$ agisce come una macchina del tempo: prende il valore $y$ e ci dice esattamente quale valore originario $x$ lo ha generato.
+
+- **La densità di partenza ($f_X(h(y))$):** Una volta scoperto il punto originario $x$, andiamo a leggere quanta \"massa di probabilità\" c'era in quel punto valutando la densità originale $f_X$.
+
+- **Il fattore di distorsione ($|h'(y)|$):** Questa è la componente più brillante del teorema. Applicare una funzione $g(x)$ non significa solo \"spostare\" i punti sull'asse, ma spesso li *stira* o li *comprime*. Questo significa che la densità di probabilità si diluisce o si concentra. La derivata dell'inversa (che in più dimensioni prenderà il nome di *Jacobiano*) serve esattamente a misurare e compensare questa deformazione geometrica dello spazio, garantendo che l'area totale rimanga 1.
+
+**Perché il valore assoluto?** La densità di probabilità, per definizione, non può mai essere un numero negativo. Se la trasformazione $g(x)$ fosse strettamente decrescente, la derivata della sua inversa sarebbe negativa. Il valore assoluto assicura che il fattore di scala rimanga positivo, preservando la correttezza della PDF geometrica.
+
+::: mybox
+Teorema del Cambio di Variabile (funzioni non iniettive) Sia $X$ una VA con densità continua $f_X$. Sia $g:\mathbb{R}\rightarrow\mathbb{R}$ una funzione continuamente differenziabile e monotona a tratti. Questo significa che esistono intervalli disgiunti $I_1, I_2, \dots, I_n$ che formano una partizione di $\mathbb{R}$ tali che, su ogni intervallo $I_i$, la restrizione della funzione $g_i: I_i \rightarrow g(I_i)$ sia strettamente monotona (e quindi invertibile).
+
+Sia $h_i(y) = g_i^{-1}(y)$ la funzione inversa definita sull'immagine dell'intervallo $I_i$. Allora la variabile trasformata $Y=g(X)$ ha densità: $$f_Y(y) = \sum_{i=1}^n f_X(h_i(y)) \cdot |h_i'(y)| \cdot \mathds{1}_{g(I_i)}(y)$$
+:::
+
+Questo corollario generalizza il teorema precedente per gestire le **funzioni non iniettive** (come la parabola $Y=X^2$, il valore assoluto $Y=|X|$ o le funzioni trigonometriche). In questi casi, la funzione \"sale e scende\", il che significa che un singolo valore finale $y$ può essere stato generato da più valori iniziali distinti di $x$.
+
+Ecco la logica passo-passo che si cela dietro la formula:
+
+- **Il \"Divide et Impera\" ($I_1, I_2, \dots, I_n$):** Poiché non possiamo calcolare un'unica funzione inversa per tutta $g(x)$, spezziamo il dominio originale (l'asse $x$) in intervalli più piccoli all'interno dei quali la funzione si comporta \"bene\" (cioè o è sempre crescente, o è sempre decrescente).
+
+- **Applicazione del caso iniettivo:** Su ciascuno di questi singoli \"pezzi\", la funzione è iniettiva. Possiamo quindi calcolare l'inversa locale $h_i(y)$ e applicare l'esatta formula che abbiamo visto per il caso iniettivo (densità originale moltiplicata per il fattore di distorsione $|h_i'(y)|$).
+
+- **La somma delle probabilità ($\sum$):** Se un valore $y$ può provenire da tre punti diversi sull'asse $x$ (ad esempio, uno nel primo intervallo, uno nel secondo e uno nel terzo), la densità totale nel punto $y$ sarà semplicemente la somma delle densità \"trasportate\" da ciascuno di questi tre punti originari.
+
+- **La funzione indicatrice ($\mathds{1}_{g(I_i)}(y)$):** Questo è un \"interruttore\" matematico. Vale $1$ se il valore $y$ può effettivamente essere raggiunto partendo dall'intervallo $i$-esimo, e vale $0$ altrimenti. Serve a garantire che, nella sommatoria, non aggiungiamo probabilità da intervalli che non possono fisicamente generare quel particolare valore $y$.
+
+**Esempio classico ($Y=X^2$):** Se vogliamo calcolare la densità di $Y=X^2$, spezziamo il dominio di $X$ in due intervalli: $I_1 = (-\infty, 0)$ dove la funzione decresce, e $I_2 = (0, \infty)$ dove cresce. Per un dato valore $y > 0$, la probabilità finale sarà la somma delle probabilità provenienti dal ramo positivo $x = +\sqrt{y}$ e dal ramo negativo $x = -\sqrt{y}$.\
+Il precedente teorema con i suoi corollari spiega la tecnica per trovare la PDF quando si trasforma una VA. I metodi presentati sono 3:
+
+- **Metodo della CDF**
+
+  1.  Scrivi la definizione: $F_Y(y)=\mathbb{P}(Y\leq y)$
+
+  2.  Sostituisci $Y$ con $g(X)$: $\mathbb{P}(g(X)\leq y)$
+
+  3.  Isola $X$: $\mathbb{P}(X\leq g^{-1}(X))=\mathbb{P}(X\leq h(y))$
+
+  4.  Deriva la CDF $F_Y$ per trovare la PDF $f_Y$
+
+- **Formula del cambio di varibaile**:\
+  se $g$ e strettamente monotona, non serve fare l'integrale ogni volta, ma si applica la formula: $$f_Y(y)=f_X(h(y))\times |h^{'}(y)|$$
+
+- **Formula del cambio di variabile con funzioni monotone a tratti**:\
+  se $g(x)$ è monotona solo in alcuni tratti, non esiste una singola funzione inversa (per risolvere $x^2=4$ hai due inverse: $x=2$ e $x=-2$). Quindi partizioniamo il dominio in intervalli $I_i$ dove la funzione è monotona e per ogni $I_i$ applichiamo la formula del cambio di variabile, poi sommiamo i singoli contributi.
+
+**Esempio: La trasformazione $Y = X^2$**
+
+Sia $X$ una variabile aleatoria Normale Standard, ovvero $X \sim \mathcal{N}(0,1)$, la cui funzione di densità è: $$f_X(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$$ Vogliamo trovare la densità della variabile trasformata $Y = X^2$.\
+**Metodo 1: Tramite il Corollario (Funzione non iniettiva)** La funzione $g(x) = x^2$ non è né monotona né iniettiva su tutto $\mathbb{R}$. Dividiamo quindi il dominio in due intervalli in cui la funzione è strettamente monotona: $I_1 = (0, \infty)$ in cui cresce, e $I_2 = (-\infty, 0)$ in cui decresce.
+
+- Sul ramo positivo ($I_1$), la funzione inversa è $h_1(y) = \sqrt{y}$. La sua derivata è $h_1'(y) = \frac{1}{2\sqrt{y}}$.
+
+- Sul ramo negativo ($I_2$), la funzione inversa è $h_2(y) = -\sqrt{y}$. La sua derivata è $h_2'(y) = -\frac{1}{2\sqrt{y}}$.
+
+In entrambi i casi, il valore assoluto della derivata è $|h_i'(y)| = \frac{1}{2\sqrt{y}}$.
+
+Applicando la formula per le funzioni monotone a tratti (per $y > 0$), sommiamo i due contributi: $$\begin{aligned}
+f_Y(y) &= f_X(h_1(y))|h_1'(y)| + f_X(h_2(y))|h_2'(y)| \\
+       &= \left( \frac{1}{\sqrt{2\pi}} e^{-y/2} \right) \frac{1}{2\sqrt{y}} + \left( \frac{1}{\sqrt{2\pi}} e^{-y/2} \right) \frac{1}{2\sqrt{y}} \\
+       &= \frac{1}{\sqrt{2\pi}} \frac{1}{\sqrt{y}} e^{-y/2} \mathds{1}_{(0,\infty)}(y)
+\end{aligned}$$ La variabile aleatoria $Y$ così ottenuta prende il nome di **variabile aleatoria Chi-Quadro con 1 grado di libertà** (denotata con $\chi^2_1$).\
+**Metodo 2: \"A mano\" (Tramite la Funzione di Ripartizione)** L'esempio precedente è sufficientemente semplice da poter essere risolto anche senza usare il teorema, applicando la definizione generale: $$\begin{aligned}
+F_Y(y) &= \mathbb{P}(Y \leq y) = \mathbb{P}(X^2 \leq y) \\
+       &= \mathbb{P}(-\sqrt{y} \leq X \leq \sqrt{y}) \\
+       &= F_X(\sqrt{y}) - F_X(-\sqrt{y})
+\end{aligned}$$
+
+Ora deriviamo rispetto a $y$ per trovare la densità $f_Y(y)$, applicando la regola della catena. Ricordiamo che la derivata di $F_X(x)$ è $f_X(x)$ e che la normale standard è una funzione pari, per cui $f_X(-\sqrt{y}) = f_X(\sqrt{y})$: $$\begin{aligned}
+f_Y(y) &= \frac{d}{dy} \left[ F_X(\sqrt{y}) - F_X(-\sqrt{y}) \right] \\
+       &= f_X(\sqrt{y}) \cdot \frac{d}{dy}(\sqrt{y}) - f_X(-\sqrt{y}) \cdot \frac{d}{dy}(-\sqrt{y}) \\
+       &= f_X(\sqrt{y}) \left( \frac{1}{2\sqrt{y}} \right) - f_X(\sqrt{y}) \left( -\frac{1}{2\sqrt{y}} \right) \\
+       &= 2 \cdot f_X(\sqrt{y}) \left( \frac{1}{2\sqrt{y}} \right) = f_X(\sqrt{y}) \frac{1}{\sqrt{y}}
+\end{aligned}$$ Sostituendo la formula della normale $f_X(\sqrt{y}) = \frac{1}{\sqrt{2\pi}} e^{-y/2}$, otteniamo esattamente lo stesso risultato del Metodo 1.\
+
+::: mybox
+Metodo Alternativo: Cambio di Variabile tramite la Derivata Originale Esiste una formulazione equivalente, e spesso più operativa, del Teorema del Cambio di Variabile per funzioni non iniettive. Invece di ricavare analiticamente le funzioni inverse $h_i(y)$ e calcolare le loro derivate, è possibile operare direttamente sulla derivata della funzione di trasformazione originale $g(x)$.
+
+Sia $Y = g(X)$ e fissiamo un valore $y$. Se indichiamo con $x_1, x_2, \dots, x_k$ le *radici* dell'equazione $g(x) = y$ (ovvero tutti i punti di partenza nell'asse $x$ tali per cui la funzione \"colpisce\" l'altezza $y$), la densità di $Y$ è data dalla somma dei contributi di ciascuna radice: $$f_Y(y) = \sum_{x_i : g(x_i) = y} \frac{f_X(x_i)}{|g'(x_i)|}$$ Dove $g'(x_i)$ è la derivata della funzione $g(x)$ valutata in corrispondenza della radice $i$-esima.
+:::
+
+**Perché funziona e quando conviene usarlo:**
+
+- **Il fondamento teorico (Analisi 1):** Questo metodo non è in contraddizione con la formula delle funzioni inverse, ma ne è la diretta conseguenza. Il Teorema della Derivata della Funzione Inversa stabilisce infatti che la derivata dell'inversa è l'esatto reciproco della derivata della funzione originale valutata nel punto corrispondente: $$|h_i'(y)| = \frac{1}{|g'(x_i)|}$$ Sostituendo questa identità nella formula del libro, la moltiplicazione per $|h_i'(y)|$ si trasforma magicamente in una divisione per $|g'(x_i)|$.
+
+- **Aggirare le inverse complesse:** È il metodo d'elezione quando la funzione $g(x)$ è facilissima da derivare, ma la sua inversa $h(y)$ è scomoda o propensa a generare errori di calcolo (es. funzioni trigonometriche, dove derivare un seno è più semplice che derivare un arcoseno).
+
+- **Il trucco della sostituzione implicita:** Il vero superpotere di questa formula risiede nel fatto che *non è necessario conoscere il valore esatto delle radici $x_i$*. Poiché sappiamo per definizione che in quei punti vale l'equazione $g(x_i) = y$, ci basta calcolare la derivata $g'(x)$ e manipolarla (spesso tramite banali identità algebriche o trigonometriche) fino a far comparire il blocco $g(x)$, che sostituiremo con $y$. In questo modo, la $x$ scompare dalla derivata prima ancora di doverla esplicitare.
+
+::: mybox
+Teorema della Trasformata Inversa
+
+Sia $F$ una funzione di ripartizione su $\mathbb{R}$. Sia $U$ una variabile aleatoria distribuita uniformemente sull'intervallo $(0, 1)$, ovvero $U \sim \mathcal{U}(0,1)$.
+
+Definiamo l'inversa generalizzata (o funzione quantile) di $F$ come: $$F^{-1}(u) = \inf \{ x \in \mathbb{R} : F(x) \ge u \} \quad \text{per } u \in (0,1)$$
+
+Allora, la variabile aleatoria $X$ definita come: $$X = F^{-1}(U)$$ ha esattamente $F$ come sua funzione di ripartizione, ovvero: $$P(X \le x) = F(x) \quad \forall x \in \mathbb{R}$$
+
+*Nota:* Se la funzione $F$ è continua e strettamente crescente, l'inversa generalizzata coincide con la funzione inversa classica, e possiamo scrivere più semplicemente che per $X = F^{-1}(U)$ vale $F_X(x) = F(x)$.
+:::
+
+::: mybox
+La Distribuzione Chi-Quadro ($\chi^2$) La distribuzione Chi-Quadro gioca un ruolo importante in Statistica. Sia $p$ un numero intero positivo. Una variabile aleatoria $X$ si dice avere densità Chi-Quadro con $p$ gradi di libertà (denotata con $\chi^2_p$) se la sua PDF per $x > 0$ è: $$f(x) = \frac{1}{\Gamma(p/2)2^{p/2}} x^{p/2-1} e^{-x/2}$$ Proprietà fondamentali:
+
+1.  **Casi Particolari:** È un caso speciale della distribuzione Gamma: $X \sim \text{Gamma}(p/2, 1/2)$. Inoltre, se $p=2$, la $\chi^2_2$ è semplicemente una variabile aleatoria Esponenziale di parametro $\lambda = 1/2$.
+
+2.  **Relazione con la Normale:** Come dimostrato sopra, il quadrato di una singola normale standard è una $\chi^2_1$. Generalizzando, se prendiamo $p$ variabili normali standard indipendenti, la somma dei loro quadrati si distribuisce come una $\chi^2_p$. Questa distribuzione emerge in modo naturale nella statistica inferenziale quando si cerca di stimare la varianza di una popolazione normale.
+:::
+
+[^1]: Una funzione si dice *continuamente differenziabile* (o di classe $C^1$) se ammette derivata in ogni punto del suo dominio e se tale funzione derivata è a sua volta continua, garantendo così un grafico \"liscio\" e privo di punti angolosi.
+
+
+::: {.paper-download}
+[Scarica il PDF](probability_theory_for_quantitative_finance-8.pdf){.btn-paper download=""}
+:::
