@@ -322,7 +322,7 @@ Gating the primary band's signal by cross-wavelet strength against four macroeco
 
 ## HMM Regime Detection
 
-Fitting the two-state HMM of @sec-hmm over the full sample and correlating its smoothed stress probability against the wavelet strength signal of the primary band gives a correlation of $\bm{0.61}$ (evaluated post warm-up): two independently constructed statistical tools -- a spectral significance test and a latent-state regime classifier -- agree that the same historical periods are "special". Using the HMM signal **directionally**, however (as an additional gate on the same mean-reversion trade), is counterproductive (@tbl-hmm).
+Fitting the two-state HMM of @sec-hmm over the full sample and correlating its smoothed stress probability against the wavelet strength signal of the primary band gives a correlation of $\boldsymbol{0.61}$ (evaluated post warm-up): two independently constructed statistical tools -- a spectral significance test and a latent-state regime classifier -- agree that the same historical periods are "special". Using the HMM signal **directionally**, however (as an additional gate on the same mean-reversion trade), is counterproductive (@tbl-hmm).
 
 ::: {#tbl-hmm}
   Variant                        Sharpe   Ann. Ret.     Max DD   Train Sharpe   Test Sharpe

@@ -441,15 +441,15 @@ GARCH(1,1) model forecasts are constructed by recursion. The one-step-ahead fore
 ### Forecasting with GJR-GARCH Models
 
 GJR-GARCH forecasts are complicated by the asymmetric term. The one-step-ahead forecast is deterministic, since all conditioning variables are known at time $t$: $$\mathbb{E}_t[\sigma_{t+1}^2] = \omega + \alpha_1 \varepsilon_t^2
-+ \gamma\, \varepsilon_t^2\, \mathds{1}_{[\varepsilon_t < 0]} + \beta_1 \sigma_t^2$$ For the two-step-ahead forecast: $$\begin{aligned}
++ \gamma\, \varepsilon_t^2\, \mathbb{1}_{[\varepsilon_t < 0]} + \beta_1 \sigma_t^2$$ For the two-step-ahead forecast: $$\begin{aligned}
 \mathbb{E}_t[\sigma_{t+2}^2]
 &= \mathbb{E}_t\bigl[\omega + \alpha_1 \varepsilon_{t+1}^2
-   + \gamma\, \varepsilon_{t+1}^2\, \mathds{1}_{[\varepsilon_{t+1}<0]}
+   + \gamma\, \varepsilon_{t+1}^2\, \mathbb{1}_{[\varepsilon_{t+1}<0]}
    + \beta_1 \sigma_{t+1}^2\bigr] \\
 &= \omega + \alpha_1\,\mathbb{E}_t[\sigma_{t+1}^2]
-   + \gamma\,\mathbb{E}_t\bigl[\sigma_{t+1}^2\,\mathds{1}_{[e_{t+1}<0]}\bigr]
+   + \gamma\,\mathbb{E}_t\bigl[\sigma_{t+1}^2\,\mathbb{1}_{[e_{t+1}<0]}\bigr]
    + \beta_1\,\mathbb{E}_t[\sigma_{t+1}^2]
-\end{aligned}$$ Under conditionally normal innovations, $e_{t+1} \sim \mathcal{N}(0,1)$ and $\sigma_{t+1}^2$ is $\mathcal{F}_t$-measurable at the forecasting step, so: $$\mathbb{E}_t\bigl[\sigma_{t+1}^2\,\mathds{1}_{[e_{t+1}<0]}\bigr]
+\end{aligned}$$ Under conditionally normal innovations, $e_{t+1} \sim \mathcal{N}(0,1)$ and $\sigma_{t+1}^2$ is $\mathcal{F}_t$-measurable at the forecasting step, so: $$\mathbb{E}_t\bigl[\sigma_{t+1}^2\,\mathbb{1}_{[e_{t+1}<0]}\bigr]
 = \tfrac{1}{2}\,\mathbb{E}_t[\sigma_{t+1}^2]$$ Substituting: $$\mathbb{E}_t[\sigma_{t+2}^2] = \omega + \left(\alpha_1 + \frac{\gamma}{2}
 + \beta_1\right)\mathbb{E}_t[\sigma_{t+1}^2]$$ The forecast recursion thus depends on the modified persistence parameter $\phi^* = \alpha_1 + \frac{\gamma}{2} + \beta_1$, which also governs the covariance stationarity condition of the GJR-GARCH(1,1) process.
 
@@ -1026,11 +1026,11 @@ $$ {#eq-ck}
 A Markov chain is time-homogeneous if the transition kernel does not depend on $t$: $p(x_{t+1} \mid x_t) = p(x_1 \mid x_0)$ for all $t$. Under this assumption, which we maintain throughout the chapter, the dynamics of the process are completely characterized by the kernel alone. A distribution $\pi^*$ is stationary for the Markov chain if: $$
     \pi^*(A) = \int_{\mathcal{X}} p(x' \mid x)\, \pi^*(dx)
     \quad \forall\, A \in \mathcal{B}(\mathbb{R})
-$$ or, in the discrete case, $\bm{\pi}^* = \bm{\pi}^* \mathbf{P}$. The stationary distribution is the left eigenvector of $\mathbf{P}$ associated with the unit eigenvalue. Under ergodicity conditions the distribution of the chain converges to the stationary distribution regardless of the initial condition: $\Pr(X_t = j) \to \pi_j^*$ as $t \to \infty$. In the HMM context, $\pi_k^*$ represents the expected proportion of time the system spends in regime $k$ in the long run.
+$$ or, in the discrete case, $\boldsymbol{\pi}^* = \boldsymbol{\pi}^* \mathbf{P}$. The stationary distribution is the left eigenvector of $\mathbf{P}$ associated with the unit eigenvalue. Under ergodicity conditions the distribution of the chain converges to the stationary distribution regardless of the initial condition: $\Pr(X_t = j) \to \pi_j^*$ as $t \to \infty$. In the HMM context, $\pi_k^*$ represents the expected proportion of time the system spends in regime $k$ in the long run.
 
 ### Implications for Statistical Arbitrage {#sec-implications-for-statistical-arbitrage .unnumbered}
 
-The Markov property has an important consequence for pairs trading. If the latent state vector $\bm{\alpha}_t = (\alpha_t, \beta_t, \sigma_t^2, s_t)'$, comprising the intercept, the hedge ratio, the conditional volatility, and the market regime, satisfies the Markov property, then the optimal forecast of the spread at time $t+1$ requires only the current estimate of the latent state, not the memory of the entire price history. This is the principle underlying both the Kalman Filter recursion and the HMM forward algorithm. Both update the latent state estimate in a single iteration that combines the previous estimate with the new observation, without ever directly accessing the full history.
+The Markov property has an important consequence for pairs trading. If the latent state vector $\boldsymbol{\alpha}_t = (\alpha_t, \beta_t, \sigma_t^2, s_t)'$, comprising the intercept, the hedge ratio, the conditional volatility, and the market regime, satisfies the Markov property, then the optimal forecast of the spread at time $t+1$ requires only the current estimate of the latent state, not the memory of the entire price history. This is the principle underlying both the Kalman Filter recursion and the HMM forward algorithm. Both update the latent state estimate in a single iteration that combines the previous estimate with the new observation, without ever directly accessing the full history.
 
 ## Limits of Static Cointegration and Dynamic OLS
 
@@ -1123,43 +1123,43 @@ The state-space representation is the formal framework that separates observable
 A linear Gaussian state-space system is defined by: 
 
 $$\begin{aligned}
-    \bm{y}_t &= \mathbf{Z}_t\, \bm{\alpha}_t + \mathbf{d}_t +
-    \bm{\varepsilon}_t, \qquad \bm{\varepsilon}_t \sim
+    \boldsymbol{y}_t &= \mathbf{Z}_t\, \boldsymbol{\alpha}_t + \mathbf{d}_t +
+    \boldsymbol{\varepsilon}_t, \qquad \boldsymbol{\varepsilon}_t \sim
     \mathcal{N}(\mathbf{0},\, \mathbf{H}_t)
      \\
-    \bm{\alpha}_{t+1} &= \mathbf{T}_t\, \bm{\alpha}_t +
-    \mathbf{c}_t + \mathbf{R}_t\, \bm{\eta}_t, \qquad
-    \bm{\eta}_t \sim \mathcal{N}(\mathbf{0},\, \mathbf{Q}_t)
+    \boldsymbol{\alpha}_{t+1} &= \mathbf{T}_t\, \boldsymbol{\alpha}_t +
+    \mathbf{c}_t + \mathbf{R}_t\, \boldsymbol{\eta}_t, \qquad
+    \boldsymbol{\eta}_t \sim \mathcal{N}(\mathbf{0},\, \mathbf{Q}_t)
     
 \end{aligned}
 $$ {#eq-obs-eq}
 
- for $t = 1, \ldots, T$, where $\bm{y}_t \in \mathbb{R}^p$ is the vector of observed variables, $\bm{\alpha}_t \in
+ for $t = 1, \ldots, T$, where $\boldsymbol{y}_t \in \mathbb{R}^p$ is the vector of observed variables, $\boldsymbol{\alpha}_t \in
 \mathbb{R}^m$ is the latent state vector, $\mathbf{Z}_t \in
 \mathbb{R}^{p \times m}$ is the design matrix, $\mathbf{T}_t
-\in \mathbb{R}^{m \times m}$ is the transition matrix, $\mathbf{R}_t \in \mathbb{R}^{m \times g}$ is the selection matrix, $\mathbf{H}_t$ and $\mathbf{Q}_t$ are the innovation covariance matrices, and $\mathbf{d}_t$, $\mathbf{c}_t$ are deterministic offset vectors. The noises are assumed uncorrelated: $\mathbb{E}[\bm{\varepsilon}_t \bm{\eta}_s'] =
+\in \mathbb{R}^{m \times m}$ is the transition matrix, $\mathbf{R}_t \in \mathbb{R}^{m \times g}$ is the selection matrix, $\mathbf{H}_t$ and $\mathbf{Q}_t$ are the innovation covariance matrices, and $\mathbf{d}_t$, $\mathbf{c}_t$ are deterministic offset vectors. The noises are assumed uncorrelated: $\mathbb{E}[\boldsymbol{\varepsilon}_t \boldsymbol{\eta}_s'] =
 \mathbf{0}$ for all $t, s$.
 
 ### Interpretation of the Components {#sec-interpretation-of-the-components .unnumbered}
 
-The **observation equation** [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"} describes how the unobservable latent state $\bm{\alpha}_t$ generates the observations $\bm{y}_t$. The matrix $\mathbf{Z}_t$ determines the relationship between state and observation; $\bm{\varepsilon}_t$ is the measurement noise capturing sampling errors and idiosyncratic components.
+The **observation equation** [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"} describes how the unobservable latent state $\boldsymbol{\alpha}_t$ generates the observations $\boldsymbol{y}_t$. The matrix $\mathbf{Z}_t$ determines the relationship between state and observation; $\boldsymbol{\varepsilon}_t$ is the measurement noise capturing sampling errors and idiosyncratic components.
 
 The **transition equation** [\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"} describes the law of motion of the latent state vector. The matrix $\mathbf{T}_t$ describes the persistence of the state, playing the role of the autoregressive coefficients in a VAR. The matrix $\mathbf{Q}_t$ controls the rate of change of the state: a small $\mathbf{Q}_t$ implies slowly evolving parameters, while a large $\mathbf{Q}_t$ allows rapid variation.
 
 ### Markovian Structure {#sec-markovian-structure .unnumbered}
 
-A key feature of the state-space model is that $\bm{\alpha}_t$ is a first-order Markov process: given the transition equation [\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"} and Gaussianity, the distribution of $\bm{\alpha}_{t+1}$ depends only on $\bm{\alpha}_t$ and not on the prior history. This implies that the joint distribution of the entire system $(\bm{y}_{1:T}, \bm{\alpha}_{1:T})$ factorizes as: $$
-    p(\bm{y}_{1:T}, \bm{\alpha}_{1:T}) = p(\bm{\alpha}_1)
-    \prod_{t=1}^T p(\bm{y}_t \mid \bm{\alpha}_t)
-    \prod_{t=1}^{T-1} p(\bm{\alpha}_{t+1} \mid \bm{\alpha}_t)
-$$ This factorization is what makes recursive inference via the Kalman Filter possible. The quantities $p(\bm{y}_t \mid
-\bm{\alpha}_t)$ and $p(\bm{\alpha}_{t+1} \mid \bm{\alpha}_t)$ are read directly from equations [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"}--[\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"}.
+A key feature of the state-space model is that $\boldsymbol{\alpha}_t$ is a first-order Markov process: given the transition equation [\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"} and Gaussianity, the distribution of $\boldsymbol{\alpha}_{t+1}$ depends only on $\boldsymbol{\alpha}_t$ and not on the prior history. This implies that the joint distribution of the entire system $(\boldsymbol{y}_{1:T}, \boldsymbol{\alpha}_{1:T})$ factorizes as: $$
+    p(\boldsymbol{y}_{1:T}, \boldsymbol{\alpha}_{1:T}) = p(\boldsymbol{\alpha}_1)
+    \prod_{t=1}^T p(\boldsymbol{y}_t \mid \boldsymbol{\alpha}_t)
+    \prod_{t=1}^{T-1} p(\boldsymbol{\alpha}_{t+1} \mid \boldsymbol{\alpha}_t)
+$$ This factorization is what makes recursive inference via the Kalman Filter possible. The quantities $p(\boldsymbol{y}_t \mid
+\boldsymbol{\alpha}_t)$ and $p(\boldsymbol{\alpha}_{t+1} \mid \boldsymbol{\alpha}_t)$ are read directly from equations [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"}--[\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"}.
 
 ### Initialization {#sec-initialization .unnumbered}
 
 To start the recursion one must specify the initial state distribution: $$
-    \bm{\alpha}_1 \sim \mathcal{N}(\bm{a}_1, \mathbf{P}_1)
-$$ where $\bm{a}_1 = \mathbb{E}[\bm{\alpha}_1]$ is the prior mean and $\mathbf{P}_1 = \mathbb{V}(\bm{\alpha}_1)$ is the initial covariance. For stationary states such as an AR(1) with $|\phi| < 1$, $\mathbf{P}_1$ can be set to the unconditional covariance of the process. For non-stationary states such as a random walk (the case of the dynamic hedge ratio) one uses *diffuse initialization*: $\mathbf{P}_1 = \kappa
+    \boldsymbol{\alpha}_1 \sim \mathcal{N}(\boldsymbol{a}_1, \mathbf{P}_1)
+$$ where $\boldsymbol{a}_1 = \mathbb{E}[\boldsymbol{\alpha}_1]$ is the prior mean and $\mathbf{P}_1 = \mathbb{V}(\boldsymbol{\alpha}_1)$ is the initial covariance. For stationary states such as an AR(1) with $|\phi| < 1$, $\mathbf{P}_1$ can be set to the unconditional covariance of the process. For non-stationary states such as a random walk (the case of the dynamic hedge ratio) one uses *diffuse initialization*: $\mathbf{P}_1 = \kappa
 \mathbf{I}$ with $\kappa \to \infty$, which is equivalent to imposing a flat prior on the initial state and letting the algorithm learn entirely from the data [@durbin_koopman2012]. In practice $\kappa = 10^6$ or $\kappa = 10^7$.
 
 ### Signal-to-Noise Ratio (SNR) {#sec-signal-to-noise-ratio-snr .unnumbered}
@@ -1167,12 +1167,12 @@ $$ where $\bm{a}_1 = \mathbb{E}[\bm{\alpha}_1]$ is the prior mean and $\mathbf{P
 The ratio between the state process variance and the measurement noise variance governs the reactivity of the filter. For the dynamic hedge ratio model with $\mathbf{T} =
 \mathbf{I}$: $$
     \text{SNR} = \frac{q_\beta}{\sigma_\varepsilon^2}
-$$ A high SNR means that changes in the hedge ratio are large relative to the measurement noise: the filter trusts recent observations more and updates $\beta_t$ quickly. A low SNR means the observations are noisy relative to parameter variation, so the filter trusts the prior forecast more and updates slowly, producing smoother estimates. The optimal SNR is estimated by maximizing the state-space log-likelihood with respect to $\bm{\psi} = (\sigma_\varepsilon^2, q_\alpha,
+$$ A high SNR means that changes in the hedge ratio are large relative to the measurement noise: the filter trusts recent observations more and updates $\beta_t$ quickly. A low SNR means the observations are noisy relative to parameter variation, so the filter trusts the prior forecast more and updates slowly, producing smoother estimates. The optimal SNR is estimated by maximizing the state-space log-likelihood with respect to $\boldsymbol{\psi} = (\sigma_\varepsilon^2, q_\alpha,
 q_\beta)$.
 
 ### Pairs Trading Application {#sec-pairs-trading-application .unnumbered}
 
-In the bivariate pairs trading context the model is set up as follows. The observed variable is the price of the first asset $y_t = Y_{1,t}$. The latent state vector $\bm{\alpha}_t = (\alpha_t, \beta_t)'$ contains the intercept and the time-varying hedge ratio. The design matrix is the regressor vector at time $t$: $\mathbf{Z}_t = (1, Y_{2,t})$. The model equations are: 
+In the bivariate pairs trading context the model is set up as follows. The observed variable is the price of the first asset $y_t = Y_{1,t}$. The latent state vector $\boldsymbol{\alpha}_t = (\alpha_t, \beta_t)'$ contains the intercept and the time-varying hedge ratio. The design matrix is the regressor vector at time $t$: $\mathbf{Z}_t = (1, Y_{2,t})$. The model equations are: 
 
 $$\begin{aligned}
     Y_{1,t} &= \begin{bmatrix} 1 & Y_{2,t} \end{bmatrix}
@@ -1197,7 +1197,7 @@ State-space models differ depending on the latent state space $\mathcal{X}$. The
 
 ### Continuous Spaces: Kalman Filter {#sec-continuous-spaces-kalman-filter .unnumbered}
 
-When $\bm{\alpha}_t \in \mathbb{R}^m$, the latent state vector varies continuously over time. State trajectories are smooth in the sense that $\bm{\alpha}_{t+1}$ is close to $\bm{\alpha}_t$, modelling gradual parameter variation. The Kalman Filter provides the exact solution for this case under Gaussianity: at each $t$ it computes the conditional Gaussian distribution of $\bm{\alpha}_t$ given $\bm{y}_{1:t}$, fully characterized by the filtered mean $\bm{a}_{t|t}$ and filtered covariance $\mathbf{P}_{t|t}$.
+When $\boldsymbol{\alpha}_t \in \mathbb{R}^m$, the latent state vector varies continuously over time. State trajectories are smooth in the sense that $\boldsymbol{\alpha}_{t+1}$ is close to $\boldsymbol{\alpha}_t$, modelling gradual parameter variation. The Kalman Filter provides the exact solution for this case under Gaussianity: at each $t$ it computes the conditional Gaussian distribution of $\boldsymbol{\alpha}_t$ given $\boldsymbol{y}_{1:t}$, fully characterized by the filtered mean $\boldsymbol{a}_{t|t}$ and filtered covariance $\mathbf{P}_{t|t}$.
 
 Examples in the statistical arbitrage context:
 
@@ -1223,29 +1223,29 @@ Examples in the statistical arbitrage context:
 
 ### The Hybrid Framework {#sec-the-hybrid-framework .unnumbered}
 
-The framework proposed in this thesis combines both types of state spaces in a two-level hierarchical architecture. At the upper level, the discrete regime $s_t$ governed by the HMM determines the structure of the emission distributions and the state-dependent trading rules. At the lower level, the continuous parameters $\bm{\alpha}_t = (\alpha_t, \beta_t)'$ managed by the Kalman Filter evolve within the current regime. This scheme, discussed in detail in @sec-sub-kf-hmm-integration, allows us to capture simultaneously the slow and gradual variation of the hedge ratio and the discrete structural changes of the market regime.
+The framework proposed in this thesis combines both types of state spaces in a two-level hierarchical architecture. At the upper level, the discrete regime $s_t$ governed by the HMM determines the structure of the emission distributions and the state-dependent trading rules. At the lower level, the continuous parameters $\boldsymbol{\alpha}_t = (\alpha_t, \beta_t)'$ managed by the Kalman Filter evolve within the current regime. This scheme, discussed in detail in @sec-sub-kf-hmm-integration, allows us to capture simultaneously the slow and gradual variation of the hedge ratio and the discrete structural changes of the market regime.
 
 ## The Kalman Filter
 
-The Kalman Filter (KF), originally developed by Kalman for engineering applications [@kalman1960] and adopted in econometrics by Harvey [@harvey1989] and Durbin and Koopman [@durbin_koopman2012], is a recursive algorithm that computes, at each $t$, the conditional distribution of the state vector $\bm{\alpha}_t$ given the available observations $\bm{y}_{1:t}$. For the linear Gaussian model defined by equations [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"}--[\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"}, the KF provides the exact solution to the filtering problem: the conditional distribution of $\bm{\alpha}_t$ given $\bm{y}_{1:t}$ is Gaussian, and the KF computes its mean and covariance recursively. No other linear estimator has lower variance.
+The Kalman Filter (KF), originally developed by Kalman for engineering applications [@kalman1960] and adopted in econometrics by Harvey [@harvey1989] and Durbin and Koopman [@durbin_koopman2012], is a recursive algorithm that computes, at each $t$, the conditional distribution of the state vector $\boldsymbol{\alpha}_t$ given the available observations $\boldsymbol{y}_{1:t}$. For the linear Gaussian model defined by equations [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"}--[\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"}, the KF provides the exact solution to the filtering problem: the conditional distribution of $\boldsymbol{\alpha}_t$ given $\boldsymbol{y}_{1:t}$ is Gaussian, and the KF computes its mean and covariance recursively. No other linear estimator has lower variance.
 
-The algorithm alternates between two steps for each new observation. The *prediction step* projects the state estimate one step forward in time before observing $\bm{y}_t$, while the *update step* corrects the forecast by incorporating the information in the new observation.
+The algorithm alternates between two steps for each new observation. The *prediction step* projects the state estimate one step forward in time before observing $\boldsymbol{y}_t$, while the *update step* corrects the forecast by incorporating the information in the new observation.
 
 We follow the notation of Durbin and Koopman [@durbin_koopman2012]:
 
-- $\bm{a}_{t|t-1} = \mathbb{E}[\bm{\alpha}_t \mid
-      \bm{y}_{1:t-1}]$: prior state estimate at time $t$, based on information up to $t-1$.
+- $\boldsymbol{a}_{t|t-1} = \mathbb{E}[\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t-1}]$: prior state estimate at time $t$, based on information up to $t-1$.
 
-- $\mathbf{P}_{t|t-1} = \text{Var}(\bm{\alpha}_t \mid
-      \bm{y}_{1:t-1})$: prior covariance matrix (uncertainty before observing $\bm{y}_t$).
+- $\mathbf{P}_{t|t-1} = \text{Var}(\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t-1})$: prior covariance matrix (uncertainty before observing $\boldsymbol{y}_t$).
 
-- $\bm{a}_{t|t} = \mathbb{E}[\bm{\alpha}_t \mid
-      \bm{y}_{1:t}]$: posterior (filtered) state estimate after incorporating $\bm{y}_t$.
+- $\boldsymbol{a}_{t|t} = \mathbb{E}[\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t}]$: posterior (filtered) state estimate after incorporating $\boldsymbol{y}_t$.
 
-- $\mathbf{P}_{t|t} = \text{Var}(\bm{\alpha}_t \mid
-      \bm{y}_{1:t})$: posterior covariance matrix (residual uncertainty after the update).
+- $\mathbf{P}_{t|t} = \text{Var}(\boldsymbol{\alpha}_t \mid
+      \boldsymbol{y}_{1:t})$: posterior covariance matrix (residual uncertainty after the update).
 
-- $\bm{v}_t = \bm{y}_t - \mathbf{Z}_t \bm{a}_{t|t-1}
+- $\boldsymbol{v}_t = \boldsymbol{y}_t - \mathbf{Z}_t \boldsymbol{a}_{t|t-1}
       - \mathbf{d}_t$: innovation, the one-step-ahead forecast error.
 
 - $\mathbf{F}_t = \mathbf{Z}_t \mathbf{P}_{t|t-1}
@@ -1256,10 +1256,10 @@ We follow the notation of Durbin and Koopman [@durbin_koopman2012]:
 
 ### Prediction Step {#sec-prediction-step .unnumbered}
 
-Starting from the filtered estimate $\bm{a}_{t-1|t-1}$ and covariance $\mathbf{P}_{t-1|t-1}$ at time $t-1$, the prediction step projects the state to time $t$ using the transition equation: 
+Starting from the filtered estimate $\boldsymbol{a}_{t-1|t-1}$ and covariance $\mathbf{P}_{t-1|t-1}$ at time $t-1$, the prediction step projects the state to time $t$ using the transition equation: 
 
 $$\begin{aligned}
-    \bm{a}_{t|t-1} &= \mathbf{T}_{t-1}\, \bm{a}_{t-1|t-1} +
+    \boldsymbol{a}_{t|t-1} &= \mathbf{T}_{t-1}\, \boldsymbol{a}_{t-1|t-1} +
     \mathbf{c}_{t-1}  \\
     \mathbf{P}_{t|t-1} &= \mathbf{T}_{t-1}\,
     \mathbf{P}_{t-1|t-1}\, \mathbf{T}_{t-1}' + \mathbf{R}_{t-1}
@@ -1273,16 +1273,16 @@ $$ {#eq-kf-pred-a}
 
 ### Update Step {#sec-update-step .unnumbered}
 
-When the observation $\bm{y}_t$ becomes available, the filter updates the state estimate by combining the prior forecast with the information in the new observation: 
+When the observation $\boldsymbol{y}_t$ becomes available, the filter updates the state estimate by combining the prior forecast with the information in the new observation: 
 
 $$\begin{aligned}
-    \bm{v}_t &= \bm{y}_t - \mathbf{Z}_t\, \bm{a}_{t|t-1} -
+    \boldsymbol{v}_t &= \boldsymbol{y}_t - \mathbf{Z}_t\, \boldsymbol{a}_{t|t-1} -
     \mathbf{d}_t  \\
     \mathbf{F}_t &= \mathbf{Z}_t\, \mathbf{P}_{t|t-1}\,
     \mathbf{Z}_t' + \mathbf{H}_t  \\
     \mathbf{K}_t &= \mathbf{P}_{t|t-1}\, \mathbf{Z}_t'\,
     \mathbf{F}_t^{-1}  \\
-    \bm{a}_{t|t} &= \bm{a}_{t|t-1} + \mathbf{K}_t\, \bm{v}_t
+    \boldsymbol{a}_{t|t} &= \boldsymbol{a}_{t|t-1} + \mathbf{K}_t\, \boldsymbol{v}_t
      \\
     \mathbf{P}_{t|t} &= \left(\mathbf{I} - \mathbf{K}_t\,
     \mathbf{Z}_t\right) \mathbf{P}_{t|t-1}
@@ -1293,9 +1293,9 @@ $$ {#eq-kf-innov}
 ### Kalman Gain {#sec-kalman-gain .unnumbered}
 
 The Kalman gain $\mathbf{K}_t$ determines the relative weight assigned to the prior forecast versus the new observation. Rewriting equation [\[eq:kf_update_a\]](#eq:kf_update_a){reference-type="eqref" reference="eq:kf_update_a"}: $$
-    \bm{a}_{t|t} = \underbrace{\left(\mathbf{I} - \mathbf{K}_t
-    \mathbf{Z}_t\right) \bm{a}_{t|t-1}}_{\text{weight on
-    forecast}} + \underbrace{\mathbf{K}_t\, \bm{y}_t}
+    \boldsymbol{a}_{t|t} = \underbrace{\left(\mathbf{I} - \mathbf{K}_t
+    \mathbf{Z}_t\right) \boldsymbol{a}_{t|t-1}}_{\text{weight on
+    forecast}} + \underbrace{\mathbf{K}_t\, \boldsymbol{y}_t}
     _{\text{weight on observation}}
 $$ The posterior estimate is a weighted average of the prior forecast and the new observation. When the measurement noise $\mathbf{H}_t$ is large relative to the prior uncertainty $\mathbf{P}_{t|t-1}$, the observations are noisy: $\mathbf{F}_t \approx \mathbf{H}_t$ is large, $\mathbf{K}_t \approx \mathbf{0}$, and the filter nearly ignores the new observation in favor of the prior. Conversely, when $\mathbf{H}_t \to \mathbf{0}$ the observations are essentially noise-free, so $\mathbf{K}_t \to \mathbf{P}_{t|t-1}\mathbf{Z}_t'
 (\mathbf{Z}_t\mathbf{P}_{t|t-1}\mathbf{Z}_t')^{-1}$ and the filter trusts the observation completely.
@@ -1318,22 +1318,22 @@ $$ At this point the Kalman gain stabilizes at $\mathbf{K}_\infty = \mathbf{P}_\
 
 ### Log-Likelihood and Parameter Estimation {#sec-log-likelihood-and-parameter-estimation .unnumbered}
 
-The innovations $\bm{v}_t$ produced by the KF are serially uncorrelated: $\mathbb{E}[\bm{v}_t \bm{v}_s'] = \mathbf{0}$ for $t \neq s$. This orthogonality of innovations is a direct consequence of the orthogonal projection and allows the joint density of the observations to be factorized: $$
-    p(\bm{y}_{1:T} \mid \bm{\psi}) = \prod_{t=1}^T
-    p(\bm{y}_t \mid \bm{y}_{1:t-1},\, \bm{\psi}) =
-    \prod_{t=1}^T \mathcal{N}(\bm{y}_t;\, \mathbf{Z}_t
-    \bm{a}_{t|t-1} + \mathbf{d}_t,\, \mathbf{F}_t)
+The innovations $\boldsymbol{v}_t$ produced by the KF are serially uncorrelated: $\mathbb{E}[\boldsymbol{v}_t \boldsymbol{v}_s'] = \mathbf{0}$ for $t \neq s$. This orthogonality of innovations is a direct consequence of the orthogonal projection and allows the joint density of the observations to be factorized: $$
+    p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\psi}) = \prod_{t=1}^T
+    p(\boldsymbol{y}_t \mid \boldsymbol{y}_{1:t-1},\, \boldsymbol{\psi}) =
+    \prod_{t=1}^T \mathcal{N}(\boldsymbol{y}_t;\, \mathbf{Z}_t
+    \boldsymbol{a}_{t|t-1} + \mathbf{d}_t,\, \mathbf{F}_t)
 $$ The log-likelihood follows from the prediction error decomposition [@harvey1989]: 
 
 $$
-    \log \mathcal{L}(\bm{\psi}) = -\frac{Tp}{2}\log(2\pi) -
-    \frac{1}{2}\sum_{t=1}^T \left[\log|\mathbf{F}_t(\bm{\psi})|
-    + \bm{v}_t(\bm{\psi})'\, \mathbf{F}_t(\bm{\psi})^{-1}\,
-    \bm{v}_t(\bm{\psi}) \right]
+    \log \mathcal{L}(\boldsymbol{\psi}) = -\frac{Tp}{2}\log(2\pi) -
+    \frac{1}{2}\sum_{t=1}^T \left[\log|\mathbf{F}_t(\boldsymbol{\psi})|
+    + \boldsymbol{v}_t(\boldsymbol{\psi})'\, \mathbf{F}_t(\boldsymbol{\psi})^{-1}\,
+    \boldsymbol{v}_t(\boldsymbol{\psi}) \right]
 $$ {#eq-kf-loglik}
 
- where the dependence of $\bm{v}_t$ and $\mathbf{F}_t$ on the parameters $\bm{\psi} = (\sigma_\varepsilon^2, q_\alpha,
-q_\beta)$ is made explicit. Maximizing [\[eq:kf_loglik\]](#eq:kf_loglik){reference-type="eqref" reference="eq:kf_loglik"} with respect to $\bm{\psi}$, typically via gradient-based algorithms such as L-BFGS-B with multiple starting points to avoid local maxima, yields the MLE parameter estimates.
+ where the dependence of $\boldsymbol{v}_t$ and $\mathbf{F}_t$ on the parameters $\boldsymbol{\psi} = (\sigma_\varepsilon^2, q_\alpha,
+q_\beta)$ is made explicit. Maximizing [\[eq:kf_loglik\]](#eq:kf_loglik){reference-type="eqref" reference="eq:kf_loglik"} with respect to $\boldsymbol{\psi}$, typically via gradient-based algorithms such as L-BFGS-B with multiple starting points to avoid local maxima, yields the MLE parameter estimates.
 
 ![Top panel: components of the Kalman gain <span class="math inline"><strong>k</strong><sub><em>t</em></sub></span> for the intercept (<span class="math inline"><em>k</em><sub><em>t</em></sub><sup>(<em>α</em>)</sup></span>) and the hedge ratio (<span class="math inline"><em>k</em><sub><em>t</em></sub><sup>(<em>β</em>)</sup></span>) on GLD/SLV (2010–2019). The shaded blue area highlights the initial transient due to diffuse initialization; dashed lines indicate the steady-state values <span class="math inline"><em>K</em><sub>∞</sub><sup>(<em>α</em>)</sup></span> and <span class="math inline"><em>K</em><sub>∞</sub><sup>(<em>β</em>)</sup></span>. Bottom panel: posterior covariance <span class="math inline"><strong>P</strong><sub><em>t</em>|<em>t</em></sub></span> on a logarithmic scale. The monotone convergence toward <span class="math inline"><em>P</em><sub>∞</sub></span> (dashed lines) is the empirical solution of the Riccati equation and certifies that the filter has reached steady state.](figures/6-kalman-gain.png){#fig-kalman-gain}
 
@@ -1380,13 +1380,13 @@ q_\beta)$ is made explicit. Maximizing [\[eq:kf_loglik\]](#eq:kf_loglik){refere
 
 ### Kalman Smoother {#sec-kalman-smoother .unnumbered}
 
-The KF produces filtered estimates $\bm{a}_{t|t}$ that use only the observations up to time $t$. For historical analysis and model calibration it is useful to compute the smoothed estimates $\bm{a}_{t|T}$, which use the full time series $\bm{y}_{1:T}$ to infer the state at time $t$. The Rauch-Tung-Striebel smoother [@rauch1965] computes the smoothed estimates via a backward recursion running from $t = T$ back to $t = 1$: 
+The KF produces filtered estimates $\boldsymbol{a}_{t|t}$ that use only the observations up to time $t$. For historical analysis and model calibration it is useful to compute the smoothed estimates $\boldsymbol{a}_{t|T}$, which use the full time series $\boldsymbol{y}_{1:T}$ to infer the state at time $t$. The Rauch-Tung-Striebel smoother [@rauch1965] computes the smoothed estimates via a backward recursion running from $t = T$ back to $t = 1$: 
 
 $$\begin{aligned}
     \mathbf{L}_t &= \mathbf{P}_{t|t}\, \mathbf{T}_t'\,
     \mathbf{P}_{t+1|t}^{-1}  \\
-    \bm{a}_{t|T} &= \bm{a}_{t|t} + \mathbf{L}_t\,
-    \left(\bm{a}_{t+1|T} - \bm{a}_{t+1|t}\right)
+    \boldsymbol{a}_{t|T} &= \boldsymbol{a}_{t|t} + \mathbf{L}_t\,
+    \left(\boldsymbol{a}_{t+1|T} - \boldsymbol{a}_{t+1|t}\right)
      \\
     \mathbf{P}_{t|T} &= \mathbf{P}_{t|t} + \mathbf{L}_t\,
     \left(\mathbf{P}_{t+1|T} - \mathbf{P}_{t+1|t}\right)
@@ -1394,7 +1394,7 @@ $$\begin{aligned}
 \end{aligned}
 $$ {#eq-smoother-l}
 
- The smoothed estimates $\bm{a}_{t|T}$ cannot be used for real-time trading because they require future observations, but they are essential for ex-post analysis and model optimization.
+ The smoothed estimates $\boldsymbol{a}_{t|T}$ cannot be used for real-time trading because they require future observations, but they are essential for ex-post analysis and model optimization.
 
 ## Recursive Bayesian Estimation
 
@@ -1403,56 +1403,56 @@ The Kalman Filter can be derived in the Bayesian framework as a special case of 
 The filtering problem consists in computing the posterior distribution of the latent state at time $t$ given all information up to $t$: 
 
 $$
-    p(\bm{\alpha}_t \mid \bm{y}_{1:t}) \propto
-    p(\bm{y}_t \mid \bm{\alpha}_t)\, p(\bm{\alpha}_t \mid
-    \bm{y}_{1:t-1})
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t}) \propto
+    p(\boldsymbol{y}_t \mid \boldsymbol{\alpha}_t)\, p(\boldsymbol{\alpha}_t \mid
+    \boldsymbol{y}_{1:t-1})
 $$ {#eq-bayes-update}
 
  This is simply Bayes' theorem applied to the filtering problem: the posterior is proportional to the likelihood of the current observation times the prior predictive distribution. The prior predictive is obtained by integrating out the previous state: 
 
 $$
-    p(\bm{\alpha}_t \mid \bm{y}_{1:t-1}) = \int
-    p(\bm{\alpha}_t \mid \bm{\alpha}_{t-1})\,
-    p(\bm{\alpha}_{t-1} \mid \bm{y}_{1:t-1})\,
-    d\bm{\alpha}_{t-1}
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t-1}) = \int
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{\alpha}_{t-1})\,
+    p(\boldsymbol{\alpha}_{t-1} \mid \boldsymbol{y}_{1:t-1})\,
+    d\boldsymbol{\alpha}_{t-1}
 $$ {#eq-bayes-predict}
 
  [\[eq:bayes_update\]](#eq:bayes_update){reference-type="ref" reference="eq:bayes_update"}--[\[eq:bayes_predict\]](#eq:bayes_predict){reference-type="eqref" reference="eq:bayes_predict"} define the recursive Bayesian filter. Without Gaussianity and linearity these equations have no closed-form solution and require approximation methods such as the Particle Filter or the Unscented Kalman Filter. Under Gaussianity and linearity the analytical solution exists and is the Kalman Filter.
 
 Assume the filtered distribution at time $t-1$ is Gaussian: $$
-    p(\bm{\alpha}_{t-1} \mid \bm{y}_{1:t-1}) =
-    \mathcal{N}(\bm{\alpha}_{t-1};\, \bm{a}_{t-1|t-1},\,
+    p(\boldsymbol{\alpha}_{t-1} \mid \boldsymbol{y}_{1:t-1}) =
+    \mathcal{N}(\boldsymbol{\alpha}_{t-1};\, \boldsymbol{a}_{t-1|t-1},\,
     \mathbf{P}_{t-1|t-1})
-$$ **Prediction step:** since the transition $p(\bm{\alpha}_t \mid \bm{\alpha}_{t-1}) = \mathcal{N}(
-\bm{\alpha}_t;\, \mathbf{T} \bm{\alpha}_{t-1} + \mathbf{c},\,
+$$ **Prediction step:** since the transition $p(\boldsymbol{\alpha}_t \mid \boldsymbol{\alpha}_{t-1}) = \mathcal{N}(
+\boldsymbol{\alpha}_t;\, \mathbf{T} \boldsymbol{\alpha}_{t-1} + \mathbf{c},\,
 \mathbf{RQR}')$ is Gaussian and the convolution of Gaussians is Gaussian, the integral [\[eq:bayes_predict\]](#eq:bayes_predict){reference-type="eqref" reference="eq:bayes_predict"} can be computed analytically: $$\begin{aligned}
-    p(\bm{\alpha}_t \mid \bm{y}_{1:t-1}) &= \int
-    \mathcal{N}(\mathbf{T}\bm{\alpha}_{t-1} + \mathbf{c},\,
-    \mathbf{RQR}')\, \mathcal{N}(\bm{a}_{t-1|t-1},\,
-    \mathbf{P}_{t-1|t-1})\, d\bm{\alpha}_{t-1}  \\
-    &= \mathcal{N}\!\left(\bm{\alpha}_t;\,
-    \mathbf{T}\bm{a}_{t-1|t-1} + \mathbf{c},\,
+    p(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t-1}) &= \int
+    \mathcal{N}(\mathbf{T}\boldsymbol{\alpha}_{t-1} + \mathbf{c},\,
+    \mathbf{RQR}')\, \mathcal{N}(\boldsymbol{a}_{t-1|t-1},\,
+    \mathbf{P}_{t-1|t-1})\, d\boldsymbol{\alpha}_{t-1}  \\
+    &= \mathcal{N}\!\left(\boldsymbol{\alpha}_t;\,
+    \mathbf{T}\boldsymbol{a}_{t-1|t-1} + \mathbf{c},\,
     \mathbf{T}\mathbf{P}_{t-1|t-1}\mathbf{T}' +
     \mathbf{RQR}'\right)  \\
-    &= \mathcal{N}\!\left(\bm{\alpha}_t;\, \bm{a}_{t|t-1},\,
+    &= \mathcal{N}\!\left(\boldsymbol{\alpha}_t;\, \boldsymbol{a}_{t|t-1},\,
     \mathbf{P}_{t|t-1}\right)
 \end{aligned}$$ which coincides exactly with equations [\[eq:kf_pred_a\]](#eq:kf_pred_a){reference-type="eqref" reference="eq:kf_pred_a"}--[\[eq:kf_pred_P\]](#eq:kf_pred_P){reference-type="eqref" reference="eq:kf_pred_P"}.
 
-**Update step:** The joint distribution of $(\bm{\alpha}_t, \bm{y}_t)$ given $\bm{y}_{1:t-1}$ is jointly Gaussian. Using the properties of the conditional Gaussian, the covariance between $\bm{\alpha}_t$ and $\bm{y}_t$ is: $$
-    \text{Cov}(\bm{\alpha}_t, \bm{y}_t \mid \bm{y}_{1:t-1})
+**Update step:** The joint distribution of $(\boldsymbol{\alpha}_t, \boldsymbol{y}_t)$ given $\boldsymbol{y}_{1:t-1}$ is jointly Gaussian. Using the properties of the conditional Gaussian, the covariance between $\boldsymbol{\alpha}_t$ and $\boldsymbol{y}_t$ is: $$
+    \text{Cov}(\boldsymbol{\alpha}_t, \boldsymbol{y}_t \mid \boldsymbol{y}_{1:t-1})
     = \mathbf{P}_{t|t-1} \mathbf{Z}_t'
-$$ The conditional distribution of $\bm{\alpha}_t$ given $\bm{y}_t$ follows from the conditional Gaussian formula: $$\begin{aligned}
-    \mathbb{E}[\bm{\alpha}_t \mid \bm{y}_{1:t}] &=
-    \bm{a}_{t|t-1} + \mathbf{P}_{t|t-1} \mathbf{Z}_t'\,
-    \mathbf{F}_t^{-1}\, \bm{v}_t = \bm{a}_{t|t} \\
-    \text{Var}(\bm{\alpha}_t \mid \bm{y}_{1:t}) &=
+$$ The conditional distribution of $\boldsymbol{\alpha}_t$ given $\boldsymbol{y}_t$ follows from the conditional Gaussian formula: $$\begin{aligned}
+    \mathbb{E}[\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t}] &=
+    \boldsymbol{a}_{t|t-1} + \mathbf{P}_{t|t-1} \mathbf{Z}_t'\,
+    \mathbf{F}_t^{-1}\, \boldsymbol{v}_t = \boldsymbol{a}_{t|t} \\
+    \text{Var}(\boldsymbol{\alpha}_t \mid \boldsymbol{y}_{1:t}) &=
     \mathbf{P}_{t|t-1} - \mathbf{P}_{t|t-1} \mathbf{Z}_t'\,
     \mathbf{F}_t^{-1}\, \mathbf{Z}_t \mathbf{P}_{t|t-1} =
     \mathbf{P}_{t|t}
 \end{aligned}$$ which coincide with equations [\[eq:kf_update_a\]](#eq:kf_update_a){reference-type="eqref" reference="eq:kf_update_a"}--[\[eq:kf_update_P\]](#eq:kf_update_P){reference-type="eqref" reference="eq:kf_update_P"}. The Gaussian form is preserved at every iteration. Starting from a Gaussian prior, the posterior is Gaussian and becomes the prior for the next step. This conjugate closure is the key property that makes the KF computationally tractable.
 
 ::: theorem
-**Theorem 1** (Optimality of the Kalman Filter). *Under the linear Gaussian state-space model [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"}--[\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"}, the Kalman Filter is the optimal estimator of $\bm{\alpha}_t$ in the sense of minimum mean squared error (MMSE) among all estimators, linear and nonlinear.*
+**Theorem 1** (Optimality of the Kalman Filter). *Under the linear Gaussian state-space model [\[eq:obs_eq\]](#eq:obs_eq){reference-type="eqref" reference="eq:obs_eq"}--[\[eq:state_eq\]](#eq:state_eq){reference-type="eqref" reference="eq:state_eq"}, the Kalman Filter is the optimal estimator of $\boldsymbol{\alpha}_t$ in the sense of minimum mean squared error (MMSE) among all estimators, linear and nonlinear.*
 :::
 
 Under non-Gaussianity, the KF remains the optimal linear MMSE estimator (BLUE) but a nonlinear estimator may exist with lower mean squared error.
@@ -1466,47 +1466,47 @@ The application of the Kalman Filter to pairs trading is the recursive estimatio
 The state-space model for the dynamic hedge ratio is the one introduced in @sec-sub-ssr, equations [\[eq:obs_pt\]](#eq:obs_pt){reference-type="eqref" reference="eq:obs_pt"}--[\[eq:state_pt\]](#eq:state_pt){reference-type="eqref" reference="eq:state_pt"}: 
 
 $$\begin{aligned}
-    Y_{1,t} &= \mathbf{z}_t' \bm{\alpha}_t + \varepsilon_t,
+    Y_{1,t} &= \mathbf{z}_t' \boldsymbol{\alpha}_t + \varepsilon_t,
     \qquad \varepsilon_t \sim \mathcal{N}(0, \sigma_\varepsilon^2)
      \\
-    \bm{\alpha}_{t+1} &= \bm{\alpha}_t + \bm{\eta}_t, \qquad
-    \bm{\eta}_t \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})
+    \boldsymbol{\alpha}_{t+1} &= \boldsymbol{\alpha}_t + \boldsymbol{\eta}_t, \qquad
+    \boldsymbol{\eta}_t \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})
     
 \end{aligned}
 $$ {#eq-hedge-obs}
 
- with $\mathbf{z}_t = (1, Y_{2,t})'$, $\bm{\alpha}_t =
+ with $\mathbf{z}_t = (1, Y_{2,t})'$, $\boldsymbol{\alpha}_t =
 (\alpha_t, \beta_t)'$ and $\mathbf{Q} = \text{diag}(q_\alpha,
-q_\beta)$. The parameters to be estimated via MLE are $\bm{\psi} = (\sigma_\varepsilon^2, q_\alpha, q_\beta)$.
+q_\beta)$. The parameters to be estimated via MLE are $\boldsymbol{\psi} = (\sigma_\varepsilon^2, q_\alpha, q_\beta)$.
 
 ### KF Recursion on the Hedge Ratio {#sec-kf-recursion-on-the-hedge-ratio .unnumbered}
 
 For the univariate case $p = 1$ the KF equations simplify to scalar form. Let $\mathbf{z}_t = \mathbf{Z}_t'$ to be consistent with vector notation.
 
-*Initialization:* $\bm{a}_{1|0} = \bm{0}$, $\mathbf{P}_{1|0} = \kappa \mathbf{I}_2$ with $\kappa = 10^6$.
+*Initialization:* $\boldsymbol{a}_{1|0} = \boldsymbol{0}$, $\mathbf{P}_{1|0} = \kappa \mathbf{I}_2$ with $\kappa = 10^6$.
 
 *For $t = 1, \ldots, T$:*
 
 $$\begin{aligned}
-    v_t &= Y_{1,t} - \mathbf{z}_t' \bm{a}_{t|t-1}
+    v_t &= Y_{1,t} - \mathbf{z}_t' \boldsymbol{a}_{t|t-1}
     \tag{Innovation} \\
     f_t &= \mathbf{z}_t' \mathbf{P}_{t|t-1} \mathbf{z}_t +
     \sigma_\varepsilon^2 \tag{Innovation variance} \\
     \mathbf{k}_t &= \mathbf{P}_{t|t-1} \mathbf{z}_t / f_t
     \tag{Kalman gain} \\
-    \bm{a}_{t|t} &= \bm{a}_{t|t-1} + \mathbf{k}_t\, v_t
+    \boldsymbol{a}_{t|t} &= \boldsymbol{a}_{t|t-1} + \mathbf{k}_t\, v_t
     \tag{State update} \\
     \mathbf{P}_{t|t} &= \left(\mathbf{I}_2 - \mathbf{k}_t
     \mathbf{z}_t'\right) \mathbf{P}_{t|t-1}
     \tag{Covariance update} \\
-    \bm{a}_{t+1|t} &= \bm{a}_{t|t} \tag{State prediction} \\
+    \boldsymbol{a}_{t+1|t} &= \boldsymbol{a}_{t|t} \tag{State prediction} \\
     \mathbf{P}_{t+1|t} &= \mathbf{P}_{t|t} + \mathbf{Q}
     \tag{Covariance prediction}
 \end{aligned}$$
 
 ### Dynamic Spread and Adaptive Z-score {#sec-dynamic-spread-and-adaptive-z-score .unnumbered}
 
-The one-step-ahead prediction $\hat{\beta}_{t|t-1} = [\bm{a}_{t|t-1}]_2$ (second component of the predicted state vector) allows us to define the dynamic spread: 
+The one-step-ahead prediction $\hat{\beta}_{t|t-1} = [\boldsymbol{a}_{t|t-1}]_2$ (second component of the predicted state vector) allows us to define the dynamic spread: 
 
 $$
     S_t = Y_{1,t} - \hat{\alpha}_{t|t-1} - \hat{\beta}_{t|t-1}\,
@@ -1525,7 +1525,7 @@ $$ {#eq-adaptive-zscore}
 
 The innovation variance $f_t$ gives a confidence band for the spread: $$
     \hat{Y}_{1,t} \pm z_{\alpha/2}\sqrt{f_t}
-$$ where $\hat{Y}_{1,t} = \mathbf{z}_t' \bm{a}_{t|t-1}$ is the one-step-ahead forecast of $Y_{1,t}$. This band has exact $(1 - \alpha)$ coverage under the Gaussian state-space model. It widens during periods of high parametric uncertainty and narrows during stable periods, providing a risk measure that automatically adapts to market conditions.
+$$ where $\hat{Y}_{1,t} = \mathbf{z}_t' \boldsymbol{a}_{t|t-1}$ is the one-step-ahead forecast of $Y_{1,t}$. This band has exact $(1 - \alpha)$ coverage under the Gaussian state-space model. It widens during periods of high parametric uncertainty and narrows during stable periods, providing a risk measure that automatically adapts to market conditions.
 
 ![Comparison between the static z-score <span class="math inline"><em>z</em><sub><em>t</em></sub><sup>OLS</sup> = <em>S</em><sub><em>t</em></sub><sup>OLS</sup> / <em>σ̂</em><sub><em>ε</em></sub></span> (top panel) and the adaptive z-score <span class="math inline">$z_t^{\mathrm{KF}} = v_t\,/\,\sqrt{f_t}$</span> (bottom panel) on GLD/SLV (2010–2019). The shaded pink area highlights the high-volatility episode of August 2015 – February 2016. The static z-score shows a persistent negative drift in the second half of the sample caused by the mis-estimated hedge ratio, generating false short entry signals. The adaptive z-score remains stationary around zero throughout the sample, with the conditional standard deviation <span class="math inline">$\sqrt{f_t}$</span> self-calibrating to the current market context.](figures/2-ols-spread-vs-kf-spread.png){#fig-zscore-comparison}
 
@@ -1536,13 +1536,13 @@ K\}$ that identifies the current market regime. HMMs were introduced in signal a
 
 ### Properties of Markov Chains {#sec-properties-of-markov-chains .unnumbered}
 
-A discrete Markov chain on $\mathcal{S} = \{1, \ldots, K\}$ is completely characterized by two objects. The first is the initial distribution $\bm{\pi} = (\pi_1, \ldots, \pi_K)'$ with $\pi_k = \Pr(s_1 = k)$ and $\sum_k \pi_k = 1$. The second is the transition matrix $\mathbf{P} \in [0,1]^{K
+A discrete Markov chain on $\mathcal{S} = \{1, \ldots, K\}$ is completely characterized by two objects. The first is the initial distribution $\boldsymbol{\pi} = (\pi_1, \ldots, \pi_K)'$ with $\pi_k = \Pr(s_1 = k)$ and $\sum_k \pi_k = 1$. The second is the transition matrix $\mathbf{P} \in [0,1]^{K
 \times K}$ with elements: $$
     p_{ij} = \Pr(s_{t+1} = j \mid s_t = i), \quad
     \sum_{j=1}^K p_{ij} = 1 \quad \forall i
 $$ Row $i$ of $\mathbf{P}$ is the probability distribution of states at time $t+1$ when the current state is $i$. The diagonal element $p_{ii}$ measures regime persistence: the expected duration in regime $i$ before a transition is geometrically distributed with mean $d_i = 1/(1 - p_{ii})$. Typical values in finance are $p_{11} \approx 0.97$ for the low-volatility regime (average duration $\approx 33$ days) and $p_{22} \approx 0.90$ for the high-volatility regime (average duration $\approx 10$ days). This reflects the empirically documented asymmetry: markets spend extended periods in low volatility, punctuated by shorter but intense stress episodes.
 
-The stationary distribution $\bm{\pi}^*$ satisfies $\bm{\pi}^* = \bm{\pi}^* \mathbf{P}$ and is the left eigenvector of $\mathbf{P}$ associated with the unit eigenvalue. For a two-state HMM ($K=2$) with transition matrix: $$
+The stationary distribution $\boldsymbol{\pi}^*$ satisfies $\boldsymbol{\pi}^* = \boldsymbol{\pi}^* \mathbf{P}$ and is the left eigenvector of $\mathbf{P}$ associated with the unit eigenvalue. For a two-state HMM ($K=2$) with transition matrix: $$
     \mathbf{P} = \begin{bmatrix} p_{11} & 1 - p_{11} \\
     1 - p_{22} & p_{22} \end{bmatrix}
 $$ the stationary distribution is: 
@@ -1556,48 +1556,48 @@ $$ {#eq-hmm-stat}
 
 ### Definition of HMM {#sec-definition-of-hmm .unnumbered}
 
-A Hidden Markov Model is a Markov chain with hidden (unobservable) states coupled to an emission process that generates the observations. An HMM is defined by the triple $\bm{\lambda} = (\mathbf{P}, \bm{\pi}, \{f_k\}_{k=1}^K)$ where:
+A Hidden Markov Model is a Markov chain with hidden (unobservable) states coupled to an emission process that generates the observations. An HMM is defined by the triple $\boldsymbol{\lambda} = (\mathbf{P}, \boldsymbol{\pi}, \{f_k\}_{k=1}^K)$ where:
 
 - $\mathbf{P}$ is the transition matrix between latent states.
 
-- $\bm{\pi}$ is the initial state distribution.
+- $\boldsymbol{\pi}$ is the initial state distribution.
 
-- $f_k(\bm{y}_t) = p(\bm{y}_t \mid s_t = k;\,
-      \bm{\theta}_k)$ is the emission density of regime $k$, with parameters $\bm{\theta}_k$.
+- $f_k(\boldsymbol{y}_t) = p(\boldsymbol{y}_t \mid s_t = k;\,
+      \boldsymbol{\theta}_k)$ is the emission density of regime $k$, with parameters $\boldsymbol{\theta}_k$.
 
-The observations $\bm{y}_t$ are conditionally independent given the state sequence: $$
-    p(\bm{y}_t \mid s_t, s_{t-1}, \ldots, s_1, \bm{y}_{1:t-1}) = p(\bm{y}_t \mid s_t).
+The observations $\boldsymbol{y}_t$ are conditionally independent given the state sequence: $$
+    p(\boldsymbol{y}_t \mid s_t, s_{t-1}, \ldots, s_1, \boldsymbol{y}_{1:t-1}) = p(\boldsymbol{y}_t \mid s_t).
 $$ The standard choice is regime-dependent Gaussian emission: 
 
 $$
-    \bm{y}_t \mid s_t = k \sim \mathcal{N}(\bm{\mu}_k,\,
-    \bm{\Sigma}_k)
+    \boldsymbol{y}_t \mid s_t = k \sim \mathcal{N}(\boldsymbol{\mu}_k,\,
+    \boldsymbol{\Sigma}_k)
 $$ {#eq-hmm-emission}
 
  The unconditional distribution of the observations is a Gaussian mixture: $$
-    p(\bm{y}_t) = \sum_{k=1}^K \pi_k^*\,
-    \mathcal{N}(\bm{y}_t;\, \bm{\mu}_k,\, \bm{\Sigma}_k)
+    p(\boldsymbol{y}_t) = \sum_{k=1}^K \pi_k^*\,
+    \mathcal{N}(\boldsymbol{y}_t;\, \boldsymbol{\mu}_k,\, \boldsymbol{\Sigma}_k)
 $$ which provides a formal explanation for the non-Gaussianity documented in financial returns: excess kurtosis in the unconditional distribution emerges from the mixture structure, even when each component is Gaussian.
 
 ### Three Fundamental Problems {#sec-three-fundamental-problems .unnumbered}
 
 Practical use of HMMs requires solving three computational problems identified by Rabiner [@rabiner1989]:
 
-**Problem 1** (Evaluation): given the model $\bm{\lambda}$ and an observation sequence $\bm{y}_{1:T}$, what is $p(\bm{y}_{1:T} \mid \bm{\lambda})$? This quantity is needed to compare models with different numbers of regimes and for MLE parameter estimation.
+**Problem 1** (Evaluation): given the model $\boldsymbol{\lambda}$ and an observation sequence $\boldsymbol{y}_{1:T}$, what is $p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\lambda})$? This quantity is needed to compare models with different numbers of regimes and for MLE parameter estimation.
 
-**Problem 2** (Decoding): given the observation sequence $\bm{y}_{1:T}$, what is the most likely latent state sequence $\hat{s}_{1:T}^* = \arg\max_{s_{1:T}} p(s_{1:T} \mid
-\bm{y}_{1:T}, \bm{\lambda})$? The answer gives a segmentation of the time series into market regimes.
+**Problem 2** (Decoding): given the observation sequence $\boldsymbol{y}_{1:T}$, what is the most likely latent state sequence $\hat{s}_{1:T}^* = \arg\max_{s_{1:T}} p(s_{1:T} \mid
+\boldsymbol{y}_{1:T}, \boldsymbol{\lambda})$? The answer gives a segmentation of the time series into market regimes.
 
-**Problem 3** (Learning): how do we estimate the model parameters $\bm{\lambda}$ from an observation sequence $\bm{y}_{1:T}$? This is the estimation problem, solved by the Baum-Welch algorithm.
+**Problem 3** (Learning): how do we estimate the model parameters $\boldsymbol{\lambda}$ from an observation sequence $\boldsymbol{y}_{1:T}$? This is the estimation problem, solved by the Baum-Welch algorithm.
 
 ### Forward Algorithm: Solution to Problem 1 {#sec-forward-algorithm-solution-to-problem-1 .unnumbered}
 
 The solution to Problem 1 is based on the forward variable: $$
-    \alpha_t(k) = p(\bm{y}_{1:t},\, s_t = k \mid \bm{\lambda})
-$$ which represents the joint probability of observing the sequence $\bm{y}_{1:t}$ and being in state $k$ at time $t$.
+    \alpha_t(k) = p(\boldsymbol{y}_{1:t},\, s_t = k \mid \boldsymbol{\lambda})
+$$ which represents the joint probability of observing the sequence $\boldsymbol{y}_{1:t}$ and being in state $k$ at time $t$.
 
 *Initialization:* $$
-    \alpha_1(k) = \pi_k\, f_k(\bm{y}_1), \qquad k = 1,
+    \alpha_1(k) = \pi_k\, f_k(\boldsymbol{y}_1), \qquad k = 1,
     \ldots, K
 $$
 
@@ -1605,28 +1605,28 @@ $$
 
 $$
     \alpha_t(j) = \left[\sum_{i=1}^K \alpha_{t-1}(i)\,
-    p_{ij}\right] f_j(\bm{y}_t), \qquad j = 1, \ldots, K
+    p_{ij}\right] f_j(\boldsymbol{y}_t), \qquad j = 1, \ldots, K
 $$ {#eq-forward-rec}
 
 *Termination:* $$
-    p(\bm{y}_{1:T} \mid \bm{\lambda}) = \sum_{k=1}^K
+    p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\lambda}) = \sum_{k=1}^K
     \alpha_T(k)
 $$
 
-Recursion [\[eq:forward_rec\]](#eq:forward_rec){reference-type="eqref" reference="eq:forward_rec"} sums, for each state $j$ at time $t$, the probability of having been in each state $i$ at time $t-1$ (weighted by the transition probability $p_{ij}$) and multiplies by the emission probability $f_j(\bm{y}_t)$. The computational cost is $O(K^2 T)$, compared to $O(K^T)$ for exhaustive enumeration.
+Recursion [\[eq:forward_rec\]](#eq:forward_rec){reference-type="eqref" reference="eq:forward_rec"} sums, for each state $j$ at time $t$, the probability of having been in each state $i$ at time $t-1$ (weighted by the transition probability $p_{ij}$) and multiplies by the emission probability $f_j(\boldsymbol{y}_t)$. The computational cost is $O(K^2 T)$, compared to $O(K^T)$ for exhaustive enumeration.
 
 ### Backward Algorithm {#sec-backward-algorithm .unnumbered}
 
 The backward variable is defined as: $$
-    \beta_t(k) = p(\bm{y}_{t+1:T} \mid s_t = k,\, \bm{\lambda})
-$$ and represents the probability of observing the future sequence $\bm{y}_{t+1:T}$ given that the system is in state $k$ at time $t$.
+    \beta_t(k) = p(\boldsymbol{y}_{t+1:T} \mid s_t = k,\, \boldsymbol{\lambda})
+$$ and represents the probability of observing the future sequence $\boldsymbol{y}_{t+1:T}$ given that the system is in state $k$ at time $t$.
 
 *Initialization:* $\beta_T(k) = 1$ for all $k$.
 
 *Recursion ($t = T-1, \ldots, 1$):* 
 
 $$
-    \beta_t(i) = \sum_{j=1}^K p_{ij}\, f_j(\bm{y}_{t+1})\,
+    \beta_t(i) = \sum_{j=1}^K p_{ij}\, f_j(\boldsymbol{y}_{t+1})\,
     \beta_{t+1}(j)
 $$ {#eq-backward-rec}
 
@@ -1635,8 +1635,8 @@ The backward variable is the mirror image of the forward: it sums, for each stat
 The forward and backward quantities combine to produce the smoothed regime probabilities: 
 
 $$
-    \gamma_t(k) = \Pr(s_t = k \mid \bm{y}_{1:T},\,
-    \bm{\lambda}) = \frac{\alpha_t(k)\, \beta_t(k)}
+    \gamma_t(k) = \Pr(s_t = k \mid \boldsymbol{y}_{1:T},\,
+    \boldsymbol{\lambda}) = \frac{\alpha_t(k)\, \beta_t(k)}
     {\sum_{j=1}^K \alpha_t(j)\, \beta_t(j)}
 $$ {#eq-gamma-smoothed}
 
@@ -1644,26 +1644,26 @@ $$ {#eq-gamma-smoothed}
 
 $$
     \xi_t(i,j) = \Pr(s_t = i,\, s_{t+1} = j \mid
-    \bm{y}_{1:T},\, \bm{\lambda}) = \frac{\alpha_t(i)\,
-    p_{ij}\, f_j(\bm{y}_{t+1})\, \beta_{t+1}(j)}
-    {p(\bm{y}_{1:T} \mid \bm{\lambda})}
+    \boldsymbol{y}_{1:T},\, \boldsymbol{\lambda}) = \frac{\alpha_t(i)\,
+    p_{ij}\, f_j(\boldsymbol{y}_{t+1})\, \beta_{t+1}(j)}
+    {p(\boldsymbol{y}_{1:T} \mid \boldsymbol{\lambda})}
 $$ {#eq-xi-smoothed}
 
 ### Viterbi Algorithm: Solution to Problem 2 {#sec-viterbi-algorithm-solution-to-problem-2 .unnumbered}
 
 The Viterbi algorithm [@viterbi1967] solves Problem 2 by finding the most probable state sequence via dynamic programming. Define: $$
-    \delta_t(k) = \max_{s_{1:t-1}} p(\bm{y}_{1:t},\,
-    s_{1:t-1},\, s_t = k \mid \bm{\lambda})
+    \delta_t(k) = \max_{s_{1:t-1}} p(\boldsymbol{y}_{1:t},\,
+    s_{1:t-1},\, s_t = k \mid \boldsymbol{\lambda})
 $$ as the probability of the most probable path ending in state $k$ at time $t$.
 
 *Initialization:* $\delta_1(k) = \pi_k\,
-f_k(\bm{y}_1)$, $\psi_1(k) = 0$.
+f_k(\boldsymbol{y}_1)$, $\psi_1(k) = 0$.
 
 *Recursion ($t = 2, \ldots, T$):* 
 
 $$\begin{aligned}
     \delta_t(j) &= \max_{i \in \mathcal{S}}\left[
-    \delta_{t-1}(i)\, p_{ij}\right] f_j(\bm{y}_t)
+    \delta_{t-1}(i)\, p_{ij}\right] f_j(\boldsymbol{y}_t)
      \\
     \psi_t(j) &= \arg\max_{i \in \mathcal{S}}\left[
     \delta_{t-1}(i)\, p_{ij}\right]
@@ -1675,13 +1675,13 @@ $$ {#eq-viterbi-delta}
     \hat{s}_T^* = \arg\max_{k} \delta_T(k), \qquad
     \hat{s}_t^* = \psi_{t+1}(\hat{s}_{t+1}^*) \quad
     \text{for } t = T-1, \ldots, 1
-$$ The pointers $\psi_t(j)$ store the optimal state at the previous step: backtracking reconstructs the most probable state sequence. Note that the Viterbi sequence $\hat{s}_{1:T}^*$ is globally optimal (it maximizes the joint probability $p(s_{1:T} \mid \bm{y}_{1:T})$) but may differ from the sequence obtained by selecting, at each $t$, the regime with the highest marginal probability.
+$$ The pointers $\psi_t(j)$ store the optimal state at the previous step: backtracking reconstructs the most probable state sequence. Note that the Viterbi sequence $\hat{s}_{1:T}^*$ is globally optimal (it maximizes the joint probability $p(s_{1:T} \mid \boldsymbol{y}_{1:T})$) but may differ from the sequence obtained by selecting, at each $t$, the regime with the highest marginal probability.
 
 ### Baum-Welch Algorithm: Solution to Problem 3 {#sec-baum-welch-algorithm-solution-to-problem-3 .unnumbered}
 
 Baum-Welch is a special case of the Expectation-Maximization (EM) algorithm [@dempster1977] for MLE estimation of HMM parameters. It alternates between an E-step (computing expectations of the latent quantities given the current model) and an M-step (maximizing the expected complete-data log-likelihood with respect to the parameters).
 
-*E-step:* with the current parameters $\bm{\lambda}^{(s)}$ run the forward [\[eq:forward_rec\]](#eq:forward_rec){reference-type="eqref" reference="eq:forward_rec"} and backward [\[eq:backward_rec\]](#eq:backward_rec){reference-type="eqref" reference="eq:backward_rec"} recursions and compute $\gamma_t(k)$ [\[eq:gamma_smoothed\]](#eq:gamma_smoothed){reference-type="eqref" reference="eq:gamma_smoothed"} and $\xi_t(i,j)$ [\[eq:xi_smoothed\]](#eq:xi_smoothed){reference-type="eqref" reference="eq:xi_smoothed"} for all $t$ and all pairs $(i,j)$.
+*E-step:* with the current parameters $\boldsymbol{\lambda}^{(s)}$ run the forward [\[eq:forward_rec\]](#eq:forward_rec){reference-type="eqref" reference="eq:forward_rec"} and backward [\[eq:backward_rec\]](#eq:backward_rec){reference-type="eqref" reference="eq:backward_rec"} recursions and compute $\gamma_t(k)$ [\[eq:gamma_smoothed\]](#eq:gamma_smoothed){reference-type="eqref" reference="eq:gamma_smoothed"} and $\xi_t(i,j)$ [\[eq:xi_smoothed\]](#eq:xi_smoothed){reference-type="eqref" reference="eq:xi_smoothed"} for all $t$ and all pairs $(i,j)$.
 
 *M-step:* update the parameters using the closed-form update equations: 
 
@@ -1689,12 +1689,12 @@ $$\begin{aligned}
     \hat{p}_{ij} &= \frac{\sum_{t=1}^{T-1} \xi_t(i,j)}
     {\sum_{t=1}^{T-1} \gamma_t(i)}
      \\
-    \hat{\bm{\mu}}_k &= \frac{\sum_{t=1}^T \gamma_t(k)\,
-    \bm{y}_t}{\sum_{t=1}^T \gamma_t(k)}
+    \hat{\boldsymbol{\mu}}_k &= \frac{\sum_{t=1}^T \gamma_t(k)\,
+    \boldsymbol{y}_t}{\sum_{t=1}^T \gamma_t(k)}
      \\
-    \hat{\bm{\Sigma}}_k &= \frac{\sum_{t=1}^T \gamma_t(k)\,
-    \left(\bm{y}_t - \hat{\bm{\mu}}_k\right)\left(\bm{y}_t
-    - \hat{\bm{\mu}}_k\right)'}{\sum_{t=1}^T \gamma_t(k)}
+    \hat{\boldsymbol{\Sigma}}_k &= \frac{\sum_{t=1}^T \gamma_t(k)\,
+    \left(\boldsymbol{y}_t - \hat{\boldsymbol{\mu}}_k\right)\left(\boldsymbol{y}_t
+    - \hat{\boldsymbol{\mu}}_k\right)'}{\sum_{t=1}^T \gamma_t(k)}
     
 \end{aligned}
 $$ {#eq-bw-p}
@@ -1737,30 +1737,30 @@ $$ {#eq-hamilton-model}
  where $s_t$ follows a Markov chain on $\{1, 2\}$. The unconditional distribution is a Gaussian mixture: $$
     p(r_t) = \pi_1^* \mathcal{N}(\mu_1, \sigma_1^2) +
     \pi_2^* \mathcal{N}(\mu_2, \sigma_2^2)
-$$ with $\bm{\pi}^*$ given by equation [\[eq:hmm_stat\]](#eq:hmm_stat){reference-type="eqref" reference="eq:hmm_stat"}. This model gives a formal account of two stylized facts from @sec-stylized: non-Gaussianity (the leptokurtic unconditional distribution emerges from the mixture structure) and regime shifting (the variation of $s_t$ describes the structural changes in the process). Ang and Bekaert [@ang_bekaert2002] document that two-regime Markov-switching models fit equity and bond returns better than constant-parameter models, particularly in capturing regime-dependent correlations.
+$$ with $\boldsymbol{\pi}^*$ given by equation [\[eq:hmm_stat\]](#eq:hmm_stat){reference-type="eqref" reference="eq:hmm_stat"}. This model gives a formal account of two stylized facts from @sec-stylized: non-Gaussianity (the leptokurtic unconditional distribution emerges from the mixture structure) and regime shifting (the variation of $s_t$ describes the structural changes in the process). Ang and Bekaert [@ang_bekaert2002] document that two-regime Markov-switching models fit equity and bond returns better than constant-parameter models, particularly in capturing regime-dependent correlations.
 
 ### Markov-Switching VAR {#sec-markov-switching-var .unnumbered}
 
 The Hamilton model extends to the multivariate context as the Markov-Switching VAR (MS-VAR): 
 
 $$
-    \bm{y}_t = \bm{\mu}_{s_t} + \sum_{j=1}^P \bm{\Phi}_{j,
-    s_t}\, \bm{y}_{t-j} + \bm{\varepsilon}_t, \qquad
-    \bm{\varepsilon}_t \sim \mathcal{N}(\mathbf{0},
-    \bm{\Sigma}_{s_t})
+    \boldsymbol{y}_t = \boldsymbol{\mu}_{s_t} + \sum_{j=1}^P \boldsymbol{\Phi}_{j,
+    s_t}\, \boldsymbol{y}_{t-j} + \boldsymbol{\varepsilon}_t, \qquad
+    \boldsymbol{\varepsilon}_t \sim \mathcal{N}(\mathbf{0},
+    \boldsymbol{\Sigma}_{s_t})
 $$ {#eq-ms-var}
 
- Here the conditional mean, autoregressive coefficients, and covariance matrix all change with the current regime $s_t$. The MS-VAR is particularly relevant for multivariate pairs trading: the regime-dependent correlation matrix $\bm{\Sigma}_{s_t}$ captures the correlation breakdown documented in @sec-sub-corr-breakdown, allowing us to distinguish the regime of high correlation and stable cointegration from the regime of unstable correlation and degraded cointegration.
+ Here the conditional mean, autoregressive coefficients, and covariance matrix all change with the current regime $s_t$. The MS-VAR is particularly relevant for multivariate pairs trading: the regime-dependent correlation matrix $\boldsymbol{\Sigma}_{s_t}$ captures the correlation breakdown documented in @sec-sub-corr-breakdown, allowing us to distinguish the regime of high correlation and stable cointegration from the regime of unstable correlation and degraded cointegration.
 
 ### The Hamilton Filter {#sec-the-hamilton-filter .unnumbered}
 
-The Hamilton filter is the specialization of the forward recursion [\[eq:forward_rec\]](#eq:forward_rec){reference-type="eqref" reference="eq:forward_rec"} to the econometric context. Denoting by $\hat{\bm{\xi}}_{t|t-1}$ the $K \times 1$ vector of predicted regime probabilities and by $\hat{\bm{\xi}}_{t|t}$ the filtered probabilities: 
+The Hamilton filter is the specialization of the forward recursion [\[eq:forward_rec\]](#eq:forward_rec){reference-type="eqref" reference="eq:forward_rec"} to the econometric context. Denoting by $\hat{\boldsymbol{\xi}}_{t|t-1}$ the $K \times 1$ vector of predicted regime probabilities and by $\hat{\boldsymbol{\xi}}_{t|t}$ the filtered probabilities: 
 
 $$\begin{aligned}
-    \hat{\bm{\xi}}_{t|t-1} &= \mathbf{P}'\,
-    \hat{\bm{\xi}}_{t-1|t-1}  \\
-    \hat{\xi}_{t|t}^{(k)} &= \frac{f_k(\bm{y}_t)\,
-    \hat{\xi}_{t|t-1}^{(k)}}{\sum_{j=1}^K f_j(\bm{y}_t)\,
+    \hat{\boldsymbol{\xi}}_{t|t-1} &= \mathbf{P}'\,
+    \hat{\boldsymbol{\xi}}_{t-1|t-1}  \\
+    \hat{\xi}_{t|t}^{(k)} &= \frac{f_k(\boldsymbol{y}_t)\,
+    \hat{\xi}_{t|t-1}^{(k)}}{\sum_{j=1}^K f_j(\boldsymbol{y}_t)\,
     \hat{\xi}_{t|t-1}^{(j)}} 
 \end{aligned}
 $$ {#eq-hamilton-pred}
@@ -1769,28 +1769,28 @@ $$ {#eq-hamilton-pred}
 
 ## Market Regime Detection
 
-Regime detection is the problem of inferring, given the estimated model $\hat{\bm{\lambda}}$ and the observation sequence $\bm{y}_{1:t}$, the current market regime $s_t$. In the pairs trading context this inference is operational: the filtered probability of being in a favorable regime determines whether the signal generated by the Kalman Filter is executed or suppressed.
+Regime detection is the problem of inferring, given the estimated model $\hat{\boldsymbol{\lambda}}$ and the observation sequence $\boldsymbol{y}_{1:t}$, the current market regime $s_t$. In the pairs trading context this inference is operational: the filtered probability of being in a favorable regime determines whether the signal generated by the Kalman Filter is executed or suppressed.
 
 There are three quantities of interest:
 
-1.  **Filtered probabilities:** $\hat{\xi}_{t|t}^{(k)} = \Pr(s_t = k \mid \bm{y}_{1:t},
-        \hat{\bm{\lambda}})$. These use only the information available up to time $t$ and are therefore the only ones usable for real-time trading decisions. Computed from recursion [\[eq:hamilton_pred\]](#eq:hamilton_pred){reference-type="eqref" reference="eq:hamilton_pred"}--[\[eq:hamilton_update\]](#eq:hamilton_update){reference-type="eqref" reference="eq:hamilton_update"}.
+1.  **Filtered probabilities:** $\hat{\xi}_{t|t}^{(k)} = \Pr(s_t = k \mid \boldsymbol{y}_{1:t},
+        \hat{\boldsymbol{\lambda}})$. These use only the information available up to time $t$ and are therefore the only ones usable for real-time trading decisions. Computed from recursion [\[eq:hamilton_pred\]](#eq:hamilton_pred){reference-type="eqref" reference="eq:hamilton_pred"}--[\[eq:hamilton_update\]](#eq:hamilton_update){reference-type="eqref" reference="eq:hamilton_update"}.
 
-2.  **Smoothed probabilities:** $\hat{\xi}_{t|T}^{(k)} = \Pr(s_t = k \mid \bm{y}_{1:T},
-        \hat{\bm{\lambda}})$. These use the full time series and produce more accurate estimates of the regime at time $t$, but require future observations. Useful only for ex-post analysis, structural break identification, and model validation.
+2.  **Smoothed probabilities:** $\hat{\xi}_{t|T}^{(k)} = \Pr(s_t = k \mid \boldsymbol{y}_{1:T},
+        \hat{\boldsymbol{\lambda}})$. These use the full time series and produce more accurate estimates of the regime at time $t$, but require future observations. Useful only for ex-post analysis, structural break identification, and model validation.
 
 3.  **Viterbi sequence:** $\hat{s}_{1:T}^*$. The globally most probable latent state sequence, computed by the Viterbi algorithm. It gives a hard segmentation of the time series into regimes, useful for visualization and for estimating regime-dependent parameters.
 
-![Filtered regime probabilities <span class="math inline">$\phi_t = \Pr(s_t=1 \mid \bm{y}_{1:t}, \hat{\bm{\lambda}})$</span> (top panel) and smoothed probabilities <span class="math inline">$\hat{\xi}_{t|T}^{(1)} = \Pr(s_t=1 \mid \bm{y}_{1:T}, \hat{\bm{\lambda}})$</span> (bottom panel) on GLD (2010–2019). Shaded areas indicate periods in which <span class="math inline"><em>ϕ</em><sub><em>t</em></sub> &lt; 0.5</span> (regime 2 prevailing). The dashed line is the operational threshold <span class="math inline"><em>ϕ</em><sup>*</sup> = 0.65</span>. The lag of the filtered probabilities relative to the smoothed probabilities at regime transitions highlights the informational cost of operating in real time versus ex-post analysis.](figures/4-filtered-vs-smoothed-probabilities.png){#fig-regime-probs}
+![Filtered regime probabilities <span class="math inline">$\phi_t = \Pr(s_t=1 \mid \boldsymbol{y}_{1:t}, \hat{\boldsymbol{\lambda}})$</span> (top panel) and smoothed probabilities <span class="math inline">$\hat{\xi}_{t|T}^{(1)} = \Pr(s_t=1 \mid \boldsymbol{y}_{1:T}, \hat{\boldsymbol{\lambda}})$</span> (bottom panel) on GLD (2010–2019). Shaded areas indicate periods in which <span class="math inline"><em>ϕ</em><sub><em>t</em></sub> &lt; 0.5</span> (regime 2 prevailing). The dashed line is the operational threshold <span class="math inline"><em>ϕ</em><sup>*</sup> = 0.65</span>. The lag of the filtered probabilities relative to the smoothed probabilities at regime transitions highlights the informational cost of operating in real time versus ex-post analysis.](figures/4-filtered-vs-smoothed-probabilities.png){#fig-regime-probs}
 
 ![Top panel: log-price time series of GLD and SLV (2010–2019) with background coloured according to the Viterbi sequence <span class="math inline"><em>ŝ</em><sub>1 : <em>T</em></sub><sup>*</sup></span> (green = stable regime 1, pink = stress regime 2). Bottom panel: filtered probabilities <span class="math inline"><em>ϕ</em><sub><em>t</em></sub></span> (left axis) and the Viterbi sequence as a step function (right axis). The correspondence between regime 2 periods and known stress episodes in the gold and silver markets (Gold ATH 2011–2012, China shock 2015–2016, sell-off 2018) confirms the HMM’s ability to structurally identify periods of degraded cointegration.](figures/5-viterbi-regime-sequence.png){#fig-viterbi-prices}
 
 ### Selecting the Number of Regimes {#sec-selecting-the-number-of-regimes .unnumbered}
 
 The number of regimes $K$ is a model hyperparameter and must be selected by balancing fit and parsimony. For a Gaussian univariate HMM the number of free parameters is $d_K = K(K-1) + 2K = K^2 + K$, and the information criteria are: $$\begin{aligned}
-    \text{AIC} &= -2 \log \mathcal{L}(\hat{\bm{\lambda}}) +
+    \text{AIC} &= -2 \log \mathcal{L}(\hat{\boldsymbol{\lambda}}) +
     2 d_K \\
-    \text{BIC} &= -2 \log \mathcal{L}(\hat{\bm{\lambda}}) +
+    \text{BIC} &= -2 \log \mathcal{L}(\hat{\boldsymbol{\lambda}}) +
     d_K \log T
 \end{aligned}$$ The BIC penalizes complexity more heavily and is preferred for HMMs. In practice, for pairs trading $K = 2$ (low/high volatility) is almost always sufficient and produces interpretable regimes. Models with $K = 3$ can capture an intermediate phase but at the cost of greater numerical instability.
 
@@ -1798,7 +1798,7 @@ The number of regimes $K$ is a model hyperparameter and must be selected by bala
 
 The filtered probability of being in the favorable regime is: $$
     \phi_t = \hat{\xi}_{t|t}^{(1)} = \Pr(s_t = 1 \mid
-    \bm{y}_{1:t}, \hat{\bm{\lambda}})
+    \boldsymbol{y}_{1:t}, \hat{\boldsymbol{\lambda}})
 $$ where regime 1 is conventionally the low-volatility, stable cointegration regime (identified during estimation as the regime with $\hat{\sigma}_1 < \hat{\sigma}_2$). A composite indicator that combines the regime probability with the estimated duration in the current regime is: $$
     \Phi_t = \phi_t \cdot \left(1 - e^{-\phi_t /
     (1 - p_{11})}\right)
@@ -1852,10 +1852,10 @@ The Kalman Filter and the HMM play complementary and non-overlapping roles in th
 
 The integrated KF-HMM system operates according to the following pipeline, repeated at each new data point:
 
-1.  **KF update:** with the new price pair $(Y_{1,t}, Y_{2,t})$, run the prediction and update steps of the Kalman Filter to obtain the updated filtered estimate $\hat{\bm{\alpha}}_{t|t} = (\hat{\alpha}_{t|t},
+1.  **KF update:** with the new price pair $(Y_{1,t}, Y_{2,t})$, run the prediction and update steps of the Kalman Filter to obtain the updated filtered estimate $\hat{\boldsymbol{\alpha}}_{t|t} = (\hat{\alpha}_{t|t},
         \hat{\beta}_{t|t})'$, the innovation $v_t$, and its variance $f_t$.
 
-2.  **HMM update:** with the current observation $\bm{y}_t$ (standardized returns or the normalized z-score from the previous step), update the filtered regime probability $\phi_t$ via the Hamilton filter [\[eq:hamilton_pred\]](#eq:hamilton_pred){reference-type="eqref" reference="eq:hamilton_pred"}--[\[eq:hamilton_update\]](#eq:hamilton_update){reference-type="eqref" reference="eq:hamilton_update"}.
+2.  **HMM update:** with the current observation $\boldsymbol{y}_t$ (standardized returns or the normalized z-score from the previous step), update the filtered regime probability $\phi_t$ via the Hamilton filter [\[eq:hamilton_pred\]](#eq:hamilton_pred){reference-type="eqref" reference="eq:hamilton_pred"}--[\[eq:hamilton_update\]](#eq:hamilton_update){reference-type="eqref" reference="eq:hamilton_update"}.
 
 3.  **Dynamic z-score:** the KF innovation, normalized by its conditional standard deviation, produces the adaptive z-score defined in [\[eq:adaptive_zscore\]](#eq:adaptive_zscore){reference-type="eqref" reference="eq:adaptive_zscore"}: $$
             z_t = \frac{v_t}{\sqrt{f_t}}
@@ -1893,10 +1893,10 @@ Without the regime condition the signal $z_t > z^*$ is ambiguous. The condition 
 
 The KF-HMM architecture is estimated in three steps:
 
-**Step 1 (KF):** estimate the hyperparameters $\hat{\bm{\psi}} = (\hat{\sigma}_\varepsilon^2, \hat{q}_\alpha,
-\hat{q}_\beta)$ by maximizing the log-likelihood [\[eq:kf_loglik\]](#eq:kf_loglik){reference-type="eqref" reference="eq:kf_loglik"} via L-BFGS-B. Obtain the filtered state estimates $\{\hat{\bm{\alpha}}_{t|t}\}_{t=1}^T$, the innovations $\{v_t\}$, and the innovation variances $\{f_t\}$. Compute the dynamic spread $S_t = v_t$ and the adaptive z-score $z_t = v_t / \sqrt{f_t}$.
+**Step 1 (KF):** estimate the hyperparameters $\hat{\boldsymbol{\psi}} = (\hat{\sigma}_\varepsilon^2, \hat{q}_\alpha,
+\hat{q}_\beta)$ by maximizing the log-likelihood [\[eq:kf_loglik\]](#eq:kf_loglik){reference-type="eqref" reference="eq:kf_loglik"} via L-BFGS-B. Obtain the filtered state estimates $\{\hat{\boldsymbol{\alpha}}_{t|t}\}_{t=1}^T$, the innovations $\{v_t\}$, and the innovation variances $\{f_t\}$. Compute the dynamic spread $S_t = v_t$ and the adaptive z-score $z_t = v_t / \sqrt{f_t}$.
 
-**Step 2 (HMM):** estimate a $K$-regime HMM on the regime observations $\bm{y}_t^{\text{HMM}}$ (raw returns, standardized returns, or z-scores). Estimate $\hat{\bm{\lambda}}$ via Baum-Welch with $N_{\text{init}} = 50$ random initializations. Obtain the filtered probability series $\{\phi_t\}_{t=1}^T$.
+**Step 2 (HMM):** estimate a $K$-regime HMM on the regime observations $\boldsymbol{y}_t^{\text{HMM}}$ (raw returns, standardized returns, or z-scores). Estimate $\hat{\boldsymbol{\lambda}}$ via Baum-Welch with $N_{\text{init}} = 50$ random initializations. Obtain the filtered probability series $\{\phi_t\}_{t=1}^T$.
 
 **Step 3 (Threshold optimization):** optimize the thresholds $(z^*, z^{\text{exit}}, \phi^*)$ on the training sample by maximizing a performance metric (e.g. Sharpe ratio) via three-dimensional grid search, followed by walk-forward validation to prevent overfitting [@lopezdeprado2018].
 

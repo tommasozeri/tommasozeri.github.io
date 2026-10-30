@@ -137,13 +137,13 @@ In generale, fermarsi a un termine con segno positivo (dispari) fornisce un limi
 
 ## La funzione indicatrice
 
-La funzione indicatrice è definita da: $$\mathds {1}_A(\omega) = 
+La funzione indicatrice è definita da: $$\mathbb {1}_A(\omega) = 
 \begin{cases} 
 1 & \text{se } \omega \in A \\
 0 & \text{se } \omega \notin A
 \end{cases}$$
 
-Diciamo che una sequenza di eventi $\{A_n\}_{n\geq 1}\in \mathcal{A}$ converge all'evento $A$ se, per ogni $\omega\in\Omega$: $$\lim_{n\rightarrow\infty}\mathds {1}_{A_n}(\omega)=\mathds {1}_A(\omega)$$ Il che significa che per ogni possibile risultato dell'esperimento, la sequenza di 0 e 1 generata da $\mathds {1}_{A_n}(\omega)$ si stabilizza a $\mathds {1}_A(\omega)$.\
+Diciamo che una sequenza di eventi $\{A_n\}_{n\geq 1}\in \mathcal{A}$ converge all'evento $A$ se, per ogni $\omega\in\Omega$: $$\lim_{n\rightarrow\infty}\mathbb {1}_{A_n}(\omega)=\mathbb {1}_A(\omega)$$ Il che significa che per ogni possibile risultato dell'esperimento, la sequenza di 0 e 1 generata da $\mathbb {1}_{A_n}(\omega)$ si stabilizza a $\mathbb {1}_A(\omega)$.\
 
 ## Convergenza degli eventi
 
@@ -160,7 +160,7 @@ Nella teoria degli insiemi, dire che una successione di eventi $A_n$ \"converge\
 Per dimostrare la convergenza definiamo: $$\limsup_{n\rightarrow\infty}{A_n}=\bigcap_{n=1}^\infty\bigcup_{m\geq n}A_m$$ Come l'insieme degli eventi che accadono infinitamente spesso (i.o, infinitely often). Prendi un punto $n$ e unisci tutti gli elementi da $n$ in poi. Questo significa che l'evento accade almeno una volta dal momento $n$ in poi. L'intersezione esterna impone che questa cosa sia vera per qualsiasi punto di partenza $n$ scelto. E
 
 $$\liminf_{n\rightarrow\infty}{A_n}=\bigcup_{n=1}^\infty\bigcap_{m\geq n}A_m$$ Come l'insieme degli eventi che accadono definitivamente. Prendi un punto di partenza $n$ e interseca tutti gli eventi da lì in poi. Questo crea un insieme di cose che accadono per tutti gli $A_n$ dal quel punto di partenza $n$ in poi. L'unione esterna fissa il punto di partenza $n$. Quindi sono gli eventi che da un certo $n$ in poi succedono sempre.\
-poichè $\mathcal{A}$ è una $\sigma$-algebra, abbiamo che $\limsup_{n\rightarrow\infty}{A_n} \in\mathcal{A}$ e $\liminf_{n\rightarrow\infty}{A_n}\in \mathcal{A}$. Se ipotizziamo che $A_n\rightarrow A$, il che significa che $\lim_{n\rightarrow\infty}\mathds {1}_{A_n}(\omega)=\mathds {1}_A(\omega)$, questo è equivalente a dire che $A=\limsup_{n\rightarrow\infty}{A_n}=\liminf_{n\rightarrow\infty}{A_n}$. Pertanto $A\in\mathcal{A}$. Ora siano $B_n = \bigcap_{m\geq n} A_m$ e $C_n = \bigcup_{m\geq n} A_m$. Allora $B_n \uparrow A$[^1] e $C_n \downarrow A$[^2]. $$\lim_{n\rightarrow \infty}\mathbb{P}(B_n)=\lim_{n\rightarrow \infty}\mathbb{P}(C_n)=\mathbb{P}(A)$$ Tuttavia $B_n\subset A_n \subset C_n$ pertanto, per la monotonia della misura di probabilità: $\mathbb{P}(B_n)\leq \mathbb{P}(A_n) \leq \mathbb{P}(C_n)$ e per il Teorema dei Carabinieri: $$\lim_{n\to\infty} \mathbb{P}(A_n) =\mathbb{P}(A)$$ Esattamente come con i numeri, dove il limite esiste se limite destro e sinistro esistono, per gli insiemi diciamo che il limite esiste se e solo se $A=\limsup_{n\rightarrow\infty}{A_n}=\liminf_{n\rightarrow\infty}{A_n}$. Ovvero se gli eventi che accadono i.o. sono esattamente gli eventi che accadono definitivamente.
+poichè $\mathcal{A}$ è una $\sigma$-algebra, abbiamo che $\limsup_{n\rightarrow\infty}{A_n} \in\mathcal{A}$ e $\liminf_{n\rightarrow\infty}{A_n}\in \mathcal{A}$. Se ipotizziamo che $A_n\rightarrow A$, il che significa che $\lim_{n\rightarrow\infty}\mathbb {1}_{A_n}(\omega)=\mathbb {1}_A(\omega)$, questo è equivalente a dire che $A=\limsup_{n\rightarrow\infty}{A_n}=\liminf_{n\rightarrow\infty}{A_n}$. Pertanto $A\in\mathcal{A}$. Ora siano $B_n = \bigcap_{m\geq n} A_m$ e $C_n = \bigcup_{m\geq n} A_m$. Allora $B_n \uparrow A$[^1] e $C_n \downarrow A$[^2]. $$\lim_{n\rightarrow \infty}\mathbb{P}(B_n)=\lim_{n\rightarrow \infty}\mathbb{P}(C_n)=\mathbb{P}(A)$$ Tuttavia $B_n\subset A_n \subset C_n$ pertanto, per la monotonia della misura di probabilità: $\mathbb{P}(B_n)\leq \mathbb{P}(A_n) \leq \mathbb{P}(C_n)$ e per il Teorema dei Carabinieri: $$\lim_{n\to\infty} \mathbb{P}(A_n) =\mathbb{P}(A)$$ Esattamente come con i numeri, dove il limite esiste se limite destro e sinistro esistono, per gli insiemi diciamo che il limite esiste se e solo se $A=\limsup_{n\rightarrow\infty}{A_n}=\liminf_{n\rightarrow\infty}{A_n}$. Ovvero se gli eventi che accadono i.o. sono esattamente gli eventi che accadono definitivamente.
 
 [^1]: Essendo $B_n$ un'intersezione di sempre meno insiemi al crescere di $n$, intersecare meno elementi restituisce un insieme via via più grande. Pertanto è una successione monotona crescente verso il limite.
 

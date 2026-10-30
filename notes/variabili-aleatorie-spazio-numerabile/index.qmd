@@ -92,7 +92,7 @@ Se $X^2\in \mathcal{L}^1$ e $a > 0$, allora:
 
 $$\mathbb{P}(|X|\geq a)\leq\frac{\mathbb{E}[X^2]}{a^2}$$ e $$\mathbb{P}(|X-\mathbb{E}[X]|\geq a)\leq\frac{\mathbb{V}[X]}{a^2}$$
 
-Poichè $a^2\mathds{1}_{\{|X|\leq a\}}\leq X^2$ (sempre verà poichè $o\leq X^2$ e $a^2\leq X^2$), prendendo il valore atteso, abbiamo $a^2\mathbb{P}(|X|\geq a)\leq \mathbb{E}[X^2]$.\
+Poichè $a^2\mathbb{1}_{\{|X|\leq a\}}\leq X^2$ (sempre verà poichè $o\leq X^2$ e $a^2\leq X^2$), prendendo il valore atteso, abbiamo $a^2\mathbb{P}(|X|\geq a)\leq \mathbb{E}[X^2]$.\
 Il modo migliore per capire quanto sia potente questa disuguaglianza in probabilità è sostituire il valore $a$ con un multiplo della deviazione standard $a=k\sigma$: $$\mathbb{P}(|X-\mathbb{E}[X]|\geq k\sigma)\leq\frac{\sigma^2}{k^2\sigma^2}=\frac{1}{k^2}$$ Se scegliamo $k=2$, la probabilità che un dato di allontani dalla media per più di 2 deviazioni standard è al massimo $1/2^2=1/4$. Il restante $75\%$ dei dati cadrà sempre vicino alla media.
 
 ### *Esempio* {#sec-esempio-2 .unnumbered}

@@ -174,7 +174,7 @@ Since $\Phi$ is a function of a stochastic process, it is itself a stochastic pr
 
 Itô's lemma also holds in a more general form:\
 let $Y_t:=\Phi(t,X_t)$, then: $$
-  \bm{  dY_t=\frac{\partial\Phi(t,X_t)}{\partial t}dt+\frac{\partial\Phi(t,X_t)}{\partial X}dX_t+\frac{\partial^2\Phi(t,X_t)}{\partial X^2}\langle dX, dX \rangle_t}
+  \boldsymbol{  dY_t=\frac{\partial\Phi(t,X_t)}{\partial t}dt+\frac{\partial\Phi(t,X_t)}{\partial X}dX_t+\frac{\partial^2\Phi(t,X_t)}{\partial X^2}\langle dX, dX \rangle_t}
 $$ Where $\langle dX, dX \rangle_t$ is the covariance of $X_t$.\
 Since $X$ is an Itô process, then $\langle dX, dX \rangle_t = \sigma^2_t dt$. We can therefore rewrite the SDE (13) as follows: $$
 dY_t=  \left[ \frac{\partial \Phi(t, X_t)}{\partial t} + \mu(t, X_t) \frac{\partial \Phi(t, X_t)}{\partial X} + \frac{1}{2} \sigma^2 \frac{\partial^2 \Phi(t, X_t)}{\partial X^2} \right] dt \\
@@ -380,17 +380,17 @@ A fan chart is a powerful visualization technique in financial risk analysis tha
 
 # The Continuous Time Market Model Settings
 
-Let's take in exam a continous time market model. For every $t\in[0,T]$ we consider a stochastic vector $\bm{X_t}:=(X_t^1,...,X_t^M)$ of the market state variables. This is a vector of variables describing the market at time $t$ --- such as interest rates, economic indicators, etc. These variables evolve randomly over time, influenced by both deterministic trends (drift $\bm{\mu}$) and randomness via Brownian motions $\bm{W}_t$. The dynamics of the vector is: $$
-    d\bm{X_t}=\bm{\mu}dt+\Sigma d\bm{W_t}
+Let's take in exam a continous time market model. For every $t\in[0,T]$ we consider a stochastic vector $\boldsymbol{X_t}:=(X_t^1,...,X_t^M)$ of the market state variables. This is a vector of variables describing the market at time $t$ --- such as interest rates, economic indicators, etc. These variables evolve randomly over time, influenced by both deterministic trends (drift $\boldsymbol{\mu}$) and randomness via Brownian motions $\boldsymbol{W}_t$. The dynamics of the vector is: $$
+    d\boldsymbol{X_t}=\boldsymbol{\mu}dt+\Sigma d\boldsymbol{W_t}
 $$
 
 Where
 
-- $\bm{\mu}:=(\mu^1,...,\mu^M)^T$ is the drift vector
+- $\boldsymbol{\mu}:=(\mu^1,...,\mu^M)^T$ is the drift vector
 
 - $\Sigma:=(\sigma_{i,k}), \quad i=1,...,M,\quad k=1,...,n$ is the variance-covariance matrix
 
-- $\bm{W_t}:=(W_t^1,...,W_t^n)^T$ is the vector of independent brownian motions
+- $\boldsymbol{W_t}:=(W_t^1,...,W_t^n)^T$ is the vector of independent brownian motions
 
 Moreover, let $B=\{B_t\}_{t\in [0,T]}$, and $P=\{P_t\}_{t\in [0,T]}$, two stochastic processes which represent, respectively, a risk-free security and the price of a risky asset like a stock.\
 More precisely, we will have:
@@ -417,7 +417,7 @@ More precisely, we will have:
 
   The quantity $\nabla \tilde{P}$ is the gradient of the vector $\tilde{P}$.
 
-  Using Itô's Lemma, we compute how a function of stochastic variables evolves. The dynamics of $P_t$, which depends on the market state $\bm{X}_t$.
+  Using Itô's Lemma, we compute how a function of stochastic variables evolves. The dynamics of $P_t$, which depends on the market state $\boldsymbol{X}_t$.
 
 ![Comparison of risk-free bond (<span class="math inline"><em>B</em><sub><em>t</em></sub></span>) and risky asset (<span class="math inline"><em>P</em><sub><em>t</em></sub></span>) trajectories. The blue curve shows deterministic growth <span class="math inline"><em>B</em><sub><em>t</em></sub> = <em>e</em><sup><em>r</em><em>t</em></sup></span> (<span class="math inline"><em>r</em> = 5%</span>), while red curves show 6 simulated paths of a geometric Brownian motion (<span class="math inline"><em>μ</em> = 10%</span>, <span class="math inline"><em>σ</em> = 20%</span>).](figures/marketstate.png){#fig-risk-vs-risky}
 
@@ -431,21 +431,21 @@ $$V_t := \sum_{k=1}^N \theta_t^{(k)} P_t^{(k)}.$$
 
 # Portfolio Optimization
 
-Let us consider a financial market with $n$ risky assets, whose returns over a given investment horizon are represented by a random vector $\bm{R} = (R_1, R_2, \dots, R_n)^\top$. Each component $R_i$ denotes the return of asset $i$, and the investor allocates their wealth across these assets through a vector of portfolio weights $\bm{w} = (w_1, w_2, \dots, w_n)^\top$, where $w_i$ is the proportion of total wealth invested in asset $i$. We assume that $\bm{w}^\top \bm{1} = 1$, i.e., the entire wealth is invested in the portfolio.
+Let us consider a financial market with $n$ risky assets, whose returns over a given investment horizon are represented by a random vector $\boldsymbol{R} = (R_1, R_2, \dots, R_n)^\top$. Each component $R_i$ denotes the return of asset $i$, and the investor allocates their wealth across these assets through a vector of portfolio weights $\boldsymbol{w} = (w_1, w_2, \dots, w_n)^\top$, where $w_i$ is the proportion of total wealth invested in asset $i$. We assume that $\boldsymbol{w}^\top \boldsymbol{1} = 1$, i.e., the entire wealth is invested in the portfolio.
 
-The expected returns of the assets are given by the vector $\bm{\mu} := \mathbb{E}[\bm{R}] \in \mathbb{R}^n$, and the risk (in terms of variance) is captured by the covariance matrix $\Sigma := \mathbb{E}\left[ (\bm{R} - \bm{\mu})(\bm{R} - \bm{\mu})^\top \right] \in \mathbb{R}^{n \times n}$, which is symmetric and positive semi-definite.
+The expected returns of the assets are given by the vector $\boldsymbol{\mu} := \mathbb{E}[\boldsymbol{R}] \in \mathbb{R}^n$, and the risk (in terms of variance) is captured by the covariance matrix $\Sigma := \mathbb{E}\left[ (\boldsymbol{R} - \boldsymbol{\mu})(\boldsymbol{R} - \boldsymbol{\mu})^\top \right] \in \mathbb{R}^{n \times n}$, which is symmetric and positive semi-definite.
 
-The return of the portfolio is the weighted sum of the asset returns: $$R_p := \bm{w}^\top \bm{R},$$ with expected value and variance given by: $$\mathbb{E}[R_p] = \bm{w}^\top \bm{\mu}, \qquad \text{Var}(R_p) = \bm{w}^\top \Sigma \bm{w}.$$
+The return of the portfolio is the weighted sum of the asset returns: $$R_p := \boldsymbol{w}^\top \boldsymbol{R},$$ with expected value and variance given by: $$\mathbb{E}[R_p] = \boldsymbol{w}^\top \boldsymbol{\mu}, \qquad \text{Var}(R_p) = \boldsymbol{w}^\top \Sigma \boldsymbol{w}.$$
 
-The fundamental problem of portfolio optimization, as introduced by Markowitz, consists in determining the vector of weights $\bm{w}$ that minimizes the portfolio risk (variance) while achieving a desired level of expected return. Formally, the mean-variance optimization problem is stated as follows: $$\begin{aligned}
-    &\min_{\bm{w}} && \bm{w}^\top \Sigma \bm{w} \\
-    &\text{subject to} && \bm{w}^\top \bm{1} = 1, \\
-    &&& \bm{w}^\top \bm{\mu} = \mu^*,
+The fundamental problem of portfolio optimization, as introduced by Markowitz, consists in determining the vector of weights $\boldsymbol{w}$ that minimizes the portfolio risk (variance) while achieving a desired level of expected return. Formally, the mean-variance optimization problem is stated as follows: $$\begin{aligned}
+    &\min_{\boldsymbol{w}} && \boldsymbol{w}^\top \Sigma \boldsymbol{w} \\
+    &\text{subject to} && \boldsymbol{w}^\top \boldsymbol{1} = 1, \\
+    &&& \boldsymbol{w}^\top \boldsymbol{\mu} = \mu^*,
 \end{aligned}$$ where $\mu^*$ is a fixed target expected return. The solution to this quadratic optimization problem yields the portfolio with minimum risk among all those with expected return $\mu^*$.
 
-Alternatively, an investor may wish to maximize a utility function that trades off expected return and variance, typically of the form: $$U(\bm{w}) := \bm{w}^\top \bm{\mu} - \frac{\gamma}{2} \bm{w}^\top \Sigma \bm{w},$$ where $\gamma > 0$ is the risk aversion parameter. The corresponding optimization problem becomes: $$\begin{aligned}
-    &\max_{\bm{w}} && \bm{w}^\top \bm{\mu} - \frac{\gamma}{2} \bm{w}^\top \Sigma \bm{w} \\
-    &\text{subject to} && \bm{w}^\top \bm{1} = 1.
+Alternatively, an investor may wish to maximize a utility function that trades off expected return and variance, typically of the form: $$U(\boldsymbol{w}) := \boldsymbol{w}^\top \boldsymbol{\mu} - \frac{\gamma}{2} \boldsymbol{w}^\top \Sigma \boldsymbol{w},$$ where $\gamma > 0$ is the risk aversion parameter. The corresponding optimization problem becomes: $$\begin{aligned}
+    &\max_{\boldsymbol{w}} && \boldsymbol{w}^\top \boldsymbol{\mu} - \frac{\gamma}{2} \boldsymbol{w}^\top \Sigma \boldsymbol{w} \\
+    &\text{subject to} && \boldsymbol{w}^\top \boldsymbol{1} = 1.
 \end{aligned}$$
 
 Solving these optimization problems across varying values of $\mu^*$ or $\gamma$ allows us to construct the *efficient frontier*, which is the set of portfolios offering the highest expected return for each level of risk. Every point on the efficient frontier corresponds to an optimal trade-off between risk and return, and the investor's preferences determine which portfolio on this frontier is most suitable.

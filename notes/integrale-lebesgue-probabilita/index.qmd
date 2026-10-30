@@ -19,11 +19,11 @@ Sia $(\Omega, \mathcal{A}, \mathbb{P})$ uno spazio di probabilità. Vogliamo def
 
 ## Variabili Aleatorie Semplici
 
-Una VA è detta semplice se assume solo un numero finito di valori. $$X=\sum_{i=1}^na_i\mathds{1}_{A_i}$$ Vediamo che in questo caso, per ogni iterazione della sommatoria, $X$ può assumere solo due valori: $0$ e $a_i$, con $a_i\in\mathbb{R}$ e $A_i\in\mathcal{A}$.\
+Una VA è detta semplice se assume solo un numero finito di valori. $$X=\sum_{i=1}^na_i\mathbb{1}_{A_i}$$ Vediamo che in questo caso, per ogni iterazione della sommatoria, $X$ può assumere solo due valori: $0$ e $a_i$, con $a_i\in\mathbb{R}$ e $A_i\in\mathcal{A}$.\
 
 ![Variabile Aleatoria Semplice in uno spazio <span class="math inline"><em>Ω</em></span> equiprobabile](figures/va-semplice.png){#fig-placeholder}
 
-Se $X$ è semplice, il suo valore atteso è: $$\mathbb{E}[X]=\int_{\Omega} XdP=\mathbb{E}[\sum_{i=1}^na_i\mathds{1}_{A_i}]=\sum_{i=1}^na_i\mathbb{P}(A_i)$$
+Se $X$ è semplice, il suo valore atteso è: $$\mathbb{E}[X]=\int_{\Omega} XdP=\mathbb{E}[\sum_{i=1}^na_i\mathbb{1}_{A_i}]=\sum_{i=1}^na_i\mathbb{P}(A_i)$$
 
 **N.B.**: il valore atteso rimane un operatore lineare e monotono.
 
@@ -72,7 +72,7 @@ Questo approccio non richiede che $\Omega$ sia numerabile o geometricamente semp
 
 Formalmente, dato uno spazio di misura $(\Omega, \mathcal{A}, \mu)$ e una funzione misurabile $f: \Omega \to \mathbb{R}$, l'integrale di Lebesgue si costruisce in tre passi:
 
-1.  **Funzioni semplici:** Se $s = \sum_{i=1}^n c_i \mathds{1}_{E_i}$ è una funzione semplice (con $E_i \in \mathcal{A}$ disgiunti), il suo integrale è: $$\int_{\Omega} s \, d\mu = \sum_{i=1}^n c_i \mu(E_i)$$
+1.  **Funzioni semplici:** Se $s = \sum_{i=1}^n c_i \mathbb{1}_{E_i}$ è una funzione semplice (con $E_i \in \mathcal{A}$ disgiunti), il suo integrale è: $$\int_{\Omega} s \, d\mu = \sum_{i=1}^n c_i \mu(E_i)$$
 
 2.  **Funzioni non negative:** Se $f \geq 0$ è misurabile, il suo integrale è definito tramite approssimazione dal basso: $$\int_{\Omega} f \, d\mu = \sup \left\{ \int_{\Omega} s \, d\mu : 0 \leq s \leq f, \, s \text{ è semplice} \right\}$$
 

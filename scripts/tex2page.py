@@ -496,6 +496,9 @@ def fence(m):
 
 
 md = re.sub(r"^(`{3,})[ \t]*\{([^}\n]*)\}[ \t]*$", fence, md, flags=re.M)
+# packages MathJax does not have: bm, dsfont, bbm
+for a_, b_ in [(r"\\bm(?![a-zA-Z])", r"\\boldsymbol"), (r"\\mathds(?![a-zA-Z])", r"\\mathbb"), (r"\\mathbbm(?![a-zA-Z])", r"\\mathbb")]:
+    md, ab = re.sub(a_, b_, md), re.sub(a_, b_, ab)
 md = re.sub(r"\n{3,}", "\n\n", md).strip("\n")
 
 # ---------------------------------------------------------------- the page
