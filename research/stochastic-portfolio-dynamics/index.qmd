@@ -166,8 +166,8 @@ $$ The differential form is:
 
 $$
 \mathrm{d}\Phi(t, W_t) = \frac{\partial \Phi(t, W_t)}{\partial t}\,\mathrm{d}t + \frac{\partial \Phi(t, W_t)}{\partial W} \,\mathrm{d}W_t + \frac{1}{2} \frac{\partial^2 \Phi(t, W_t)}{\partial W^2} (\mathrm{d}W_t)^2 \\
-= \left( \frac{\partial \Phi(t, W_t)}{\partial t} + \frac{1}{2} \frac{\partial^2 \Phi(t, W_t)}{\partial W^2} \right) \mathrm{d}t + \frac{\partial \Phi(t, W_t)}{\partial W} \,\mathrm{d}W_t\footnote{In Itô calculus, we assume that $(\mathrm{d}W_t)^2 = \mathrm{d}t$, while products such as $\mathrm{d}t \cdot \mathrm{d}W_t$ and $(\mathrm{d}t)^2$ are negligible (i.e., they vanish in the infinitesimal sense). Therefore, the term $(\mathrm{d}W_t)^2$ is replaced by $\mathrm{d}t$ in the simplified form of the equation.}
-$$
+= \left( \frac{\partial \Phi(t, W_t)}{\partial t} + \frac{1}{2} \frac{\partial^2 \Phi(t, W_t)}{\partial W^2} \right) \mathrm{d}t + \frac{\partial \Phi(t, W_t)}{\partial W} \,\mathrm{d}W_t
+$$[^3]
 
 Since $\Phi$ is a function of a stochastic process, it is itself a stochastic process. We are therefore interested in understanding its dynamics, that is, the equation that describes how $\Phi$ evolves over time, taking into account both the deterministic trends and the random fluctuations inherited from the original process.
 
@@ -398,7 +398,7 @@ More precisely, we will have:
           dB_t=r_tB_tdt
   $$ with $B_0:=1$
 
-- $P_t=\hat{P}(t,X_t)$, where $\hat{P}(^. ,^.)$ is a continuous, differentiable deterministic function.The dynamics of $P$ are obtained by applying Itō's lemma and using the multiplication rules [^3], as follows:
+- $P_t=\hat{P}(t,X_t)$, where $\hat{P}(^. ,^.)$ is a continuous, differentiable deterministic function.The dynamics of $P$ are obtained by applying Itō's lemma and using the multiplication rules [^4], as follows:
 
   $$\frac{dP_t}{P_t} = \frac{1}{P_t} \left[ \frac{\partial \tilde{P}}{\partial t} + \sum_{i=1}^M \mu^{(i)} \frac{\partial \tilde{P}}{\partial X_i^{(i)}} + \frac{1}{2} \sum_{i,j=1}^M \frac{\partial^2 \tilde{P}}{\partial X_i^{(i)} \partial X_i^{(j)}} \sum_{h,k=1}^n \sigma_{i,k} \cdot \sigma_{j,h} \right] dt$$
 
@@ -670,7 +670,9 @@ Practical applications of this tool range from individual wealth management to i
 
 [^2]: $\mathcal{L}^2$ is a space of functions that are \"square-integrable.\" This means that if you take the function, square it, and then add up (integrate) the values over the entire domain, the result must be a finite number.
 
-[^3]: For Itō processes $X_t$ and $Y_t$: $d(X_t Y_t) = X_t \, dY_t + Y_t \, dX_t + dX_t \, dY_t,$ where $dX_t \, dY_t = \sigma_X \sigma_Y \, dt$ (if $dW_t^{(1)} = dW_t^{(2)}$). For correlated Brownian motions: $$ d(X_t Y_t) = X_t   dY_t + Y_t   dX_t + \_X \_Y   dt.
+[^3]: In Itô calculus, we assume that $(\mathrm{d}W_t)^2 = \mathrm{d}t$, while products such as $\mathrm{d}t \cdot \mathrm{d}W_t$ and $(\mathrm{d}t)^2$ are negligible (i.e., they vanish in the infinitesimal sense). Therefore, the term $(\mathrm{d}W_t)^2$ is replaced by $\mathrm{d}t$ in the simplified form of the equation.
+
+[^4]: For Itō processes $X_t$ and $Y_t$: $d(X_t Y_t) = X_t \, dY_t + Y_t \, dX_t + dX_t \, dY_t,$ where $dX_t \, dY_t = \sigma_X \sigma_Y \, dt$ (if $dW_t^{(1)} = dW_t^{(2)}$). For correlated Brownian motions: $$ d(X_t Y_t) = X_t   dY_t + Y_t   dX_t + \_X \_Y   dt.
 
 
 ::: {.paper-download}

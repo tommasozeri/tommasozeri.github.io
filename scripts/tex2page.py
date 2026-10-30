@@ -251,6 +251,31 @@ def fix_tabulars(t):
 
 
 body = fix_tabulars(body)
+
+
+# \footnote inside display math (LaTeX tolerates it, MathJax does not): move it after the equation
+def move_math_footnotes(t):
+    pat = re.compile(r"\\begin\{(equation|align|gather|multline|eqnarray)(\*?)\}.*?\\end\{\1\2\}|\\\[.*?\\\]", re.S)
+
+    def fix(m):
+        blk, notes, out, i = m.group(0), [], [], 0
+        while True:
+            j = blk.find("\\footnote{", i)
+            if j < 0:
+                out.append(blk[i:])
+                break
+            e = group_end(blk, j + len("\\footnote"))
+            if e < 0:
+                out.append(blk[i:])
+                break
+            out.append(blk[i:j])
+            notes.append(blk[j:e + 1])
+            i = e + 1
+        return "".join(out) + "".join(notes)
+    return pat.sub(fix, t)
+
+
+body = move_math_footnotes(body)
 body = re.sub(r"\\(?:shortstack|makecell|thead)(?:\[[^\]]*\])?\{((?:[^{}]|\{[^{}]*\})*)\}",
               lambda m: m.group(1).replace("\\\\", " "), body)
 body = re.sub(r"(\\multicolumn\{[^}]*\}\{)((?:[^{}]|\{[^{}]*\})*)\}",
@@ -437,6 +462,13 @@ def eq(m):
     inner = re.sub(r"\\begin\{(equation|multline|gather)\*?\}(.*?)\\end\{\1\*?\}", r"\2", inner, flags=re.S)
     inner = re.sub(r"\\begin\{(align|eqnarray|flalign)\*?\}(.*?)\\end\{\1\*?\}", r"\\begin{aligned}\2\\end{aligned}", inner, flags=re.S)
     inner = inner.replace("\\nonumber", "").replace("\\notag", "")
+    # unbalanced braces in the source (LaTeX shrugs, MathJax stops): rebalance
+    bal = len(re.findall(r"(?<!\\){", inner)) - len(re.findall(r"(?<!\\)}", inner))
+    while bal < 0:
+        k = max(i for i in range(len(inner)) if inner[i] == "}" and not inner[:i].endswith("\\end{aligned") and (i == 0 or inner[i - 1] != "\\"))
+        inner = inner[:k] + inner[k + 1:]
+        bal += 1
+    inner += "}" * bal
     if "\\begin{" in inner and not re.search(r"^(:::|#|- |\*\*)", inner, re.M):
         inner = re.sub(r"\n[ \t]*(?=\n)", "", inner)
     if "aligned" in inner and "\\tag" in inner:   # MathJax: no \tag inside aligned

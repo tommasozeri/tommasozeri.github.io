@@ -78,6 +78,10 @@ In sintesi, la densità associata a una distribuzione di probabilità esiste ed 
 
 Una funzione $f$ è una densità valida se:
 
+- $f$ deve essere sempre positiva o nulla ($f(x)\geq0$)
+
+- L'area totale deve essere esattamente 1 ($\int f(x)dx=1$)
+
 ::: mybox
 Corollario: Expectation Rule Sia $X$ una VA a valori reali con densità $f$. Sia $g$ una funzione Borel-misurabile. Allora $g$ è integrabile rispetto a $P_X$ (la distribution measure di $X$) se e solo se il prodotto $fg$ è integrabile rispetto alla misura di Lebesgue. In questo caso si ha: $$\mathbb{E}[g(X)]=\int g(X)P_X(x)dx=\int g(X)f(x)dx$$ $g$ e una trasformazione Borel-misurabile di $X$. Per esempio, se $g:g(x)=x^2$, allora $\mathbb{E}[g(X)]=\mathbb{E}[X^2]=\int x^2f(x)$.
 :::

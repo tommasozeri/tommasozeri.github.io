@@ -290,7 +290,7 @@ However, pricing options under a jump--diffusion model, such as the GBM with jum
 let $W=\{W_t\}_{t\geq 0}$ be a brownian motion and $\Phi_t=\Phi(t, W_t)$ a function that is continuous and once differentiable with respect to the first variable, and twice differentiable with respect to the second variable, with bounded derivatives. Then: $$\Phi(t,W_t)=\Phi(0,W_0)+\int_0^t\frac{\partial\Phi(s,W_s)}{\partial s}ds+\int_0^t\frac{\partial\Phi(s,W_s)}{\partial W_s}dW_s+\frac{1}{2}\int_0^t\frac{\partial^2\Phi(s,W_s)}{\partial W^2}ds$$ The differential form is:
 
 $$\mathrm{d}\Phi(t, W_t) = \frac{\partial \Phi(t, W_t)}{\partial t}\,\mathrm{d}t + \frac{\partial \Phi(t, W_t)}{\partial W} \,\mathrm{d}W_t + \frac{1}{2} \frac{\partial^2 \Phi(t, W_t)}{\partial W^2} (\mathrm{d}W_t)^2 \\
-= \left( \frac{\partial \Phi(t, W_t)}{\partial t} + \frac{1}{2} \frac{\partial^2 \Phi(t, W_t)}{\partial W^2} \right) \mathrm{d}t + \frac{\partial \Phi(t, W_t)}{\partial W} \,\mathrm{d}W_t\footnote{In Itô calculus, we assume that $(\mathrm{d}W_t)^2 = \mathrm{d}t$, while products such as $\mathrm{d}t \cdot \mathrm{d}W_t$ and $(\mathrm{d}t)^2$ are negligible (i.e., they vanish in the infinitesimal sense). Therefore, the term $(\mathrm{d}W_t)^2$ is replaced by $\mathrm{d}t$ in the simplified form of the equation.}$$
+= \left( \frac{\partial \Phi(t, W_t)}{\partial t} + \frac{1}{2} \frac{\partial^2 \Phi(t, W_t)}{\partial W^2} \right) \mathrm{d}t + \frac{\partial \Phi(t, W_t)}{\partial W} \,\mathrm{d}W_t$$[^5]
 
 Since $\Phi$ is a function of a stochastic process, it is itself a stochastic process. We are therefore interested in understanding its dynamics, that is, the equation that describes how $\Phi$ evolves over time, taking into account both the deterministic trends and the random fluctuations inherited from the original process.
 
@@ -409,15 +409,17 @@ $$\begin{cases}
     dS_t=S_t\mu_tdt+S_t\sigma_tdW_t
 \end{cases}$$
 
-We would like to find the dynamic of $M_t$ (i.e. how $M_t$ evolves in time). We first apply Itô's Lemma on $\Phi(t,S_t):
+We would like to find the dynamic of $M_t$ (i.e. how $M_t$ evolves in time). We first apply Itô's Lemma on $\Phi(t,S_t)$:
 
-\begin{equation}
+$$
 d\Phi(t,S_t)=\frac{\partial\Phi(t,S_t)}{\partial t}dt+\frac{\partial\Phi(t,S_t)}{\partial S_t}dS_t+\frac{1}{2}\frac{\partial^2\Phi(t,S_t)}{\partial S_t^2} (dSt)^2
-\end{equation}
+$$
 
-Now, we substitute the differentials$dS_t$and$(dS_t)\^2$with:\\
-\begin{itemize}
-    \item$dS_t=S_t_tdt+S_t_tdW_t$\item (dS_t)^2=S_t^2\sigma_t^2dt$
+Now, we substitute the differentials $dS_t$ and $(dS_t)^2$ with:\
+
+- $dS_t=S_t\mu_tdt+S_t\sigma_tdW_t$
+
+- $(dS_t)^2=S_t^2\sigma_t^2dt$
 
 This yields:
 
@@ -487,7 +489,7 @@ dM_t = e^{-\int_0^t r_s \, ds}
 \Bigg].
 $$
 
-Where the blue part is the deterministic part and red part is the stochastic one[^5].
+Where the blue part is the deterministic part and red part is the stochastic one[^6].
 
 Now, if we want the process $dM_t$ to be a martingale we have to impose that the drift (deterministic) part is equal to 0:
 
@@ -499,7 +501,7 @@ $$
 + \tfrac{1}{2}\sigma_t^2 S_t^2 \frac{\partial^2 \Phi(t, S_t)}{\partial S_t^2}
 - r_t \Phi(t, S_t)
 \Big) dt=0
-}}
+}
 $$ This is the Kolmogorov Backward PDE, or pricing PDE, with terminal condition $\Phi(T,S_T)=$Payoff$(S_t)$.\
 If $\Phi(t,S_t)$ is the price of an option witten on the underlying $S_t$, then the Kolmogorov Backward PDE assures that the discounted price of the option is a martingale.\
 Moreover, if we are able to determine the solution of the PDE (which is often not possible analytically due to its complexity), we can obtain the theoretical price of the option.\
@@ -802,7 +804,9 @@ This decomposition is fundamental in stochastic calculus and financial modeling,
 
 [^4]: $\mathcal{L}^2$ is a space of functions that are \"square-integrable.\" This means that if you take the function, square it, and then add up (integrate) the values over the entire domain, the result must be a finite number.
 
-[^5]: According to the **Doob--Meyer decomposition theorem**, any semimartingale can be uniquely decomposed into the sum of a local martingale and a predictable finite variation process. Hence, the separation between the blue (deterministic) and red (stochastic) components is unique.
+[^5]: In Itô calculus, we assume that $(\mathrm{d}W_t)^2 = \mathrm{d}t$, while products such as $\mathrm{d}t \cdot \mathrm{d}W_t$ and $(\mathrm{d}t)^2$ are negligible (i.e., they vanish in the infinitesimal sense). Therefore, the term $(\mathrm{d}W_t)^2$ is replaced by $\mathrm{d}t$ in the simplified form of the equation.
+
+[^6]: According to the **Doob--Meyer decomposition theorem**, any semimartingale can be uniquely decomposed into the sum of a local martingale and a predictable finite variation process. Hence, the separation between the blue (deterministic) and red (stochastic) components is unique.
 
 
 ::: {.paper-download}
