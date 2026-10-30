@@ -13,56 +13,653 @@ citation:
   type: report
   pdf-url: https://tommasozeri.github.io/research/kf-innovations-heteroskedasticity/kf-innovations-heteroskedasticity.pdf
 google-scholar: true
+abstract: |
+  This paper studies whether modeling heteroskedasticity in the innovations of a Kalman Filter (KF) used to estimate the dynamic hedge ratio in a pairs trading strategy improves, relative to a homoskedastic benchmark, (i) the calibration of the trading z-score, (ii) the forecasting accuracy of the conditional variance, and (iii) the realized-risk metrics of a backtest that applies the same trading rule to both models. The candidate universe spans 101 cross-sector pairs, of which 23 are selected by the cointegration screening described below, over a daily sample running from 2010 to the present. Beyond the standard pair-level tests, the statistical apparatus includes a **panel test** that pools evidence at the level of the individual pair-day rather than the pair, and an inverse-variance-weighted combination of p-values (Stouffer-Liptak) alongside the equal-weighted version. The two questions this paper asks receive answers of markedly different strength: the forecasting advantage of GARCH over the conditional variance is strongly significant (aggregate Diebold-Mariano test, $Z=9.86$), while the evidence on realized backtested risk remains weak even under a panel test on more than 85,000 pair-day observations ($p=0.27$). This divergence, given the statistical power available, is best read as evidence of a genuinely weak or absent effect on this specific question, not merely as a symptom of a small sample.
+number-sections: true
+number-depth: 3
 ---
 
-```{=html}
-<p class="paper-links"><a class="btn-paper" href="kf-innovations-heteroskedasticity.pdf">PDF</a> <a class="btn-paper" href="kf_heteroskedasticity_pairs_trading.ipynb" download>Notebook</a> <a class="btn-paper" href="#quarto-citation">Cite</a></p>
-```
+# Introduction
 
-## Abstract
+*Pairs trading* is a statistical arbitrage strategy that exploits the long-run equilibrium relationship between the (log) prices of two securities: if this relationship is stable, a temporary divergence between the two prices can be treated as a mean-reversion signal and exploited by opening opposite positions on the two securities (long one, short the other) in anticipation that the divergence will close. The central methodological challenge is twofold: first, establishing which pairs of securities genuinely have a stable (non-spurious) equilibrium relationship; second, reliably estimating, and keeping updated over time, the hedge ratio between the two securities, since historical relationships can drift slowly (beta drift, regime changes).
 
-This paper studies whether modeling heteroskedasticity in the innovations of a Kalman Filter (KF) used to estimate the dynamic hedge ratio in a pairs trading strategy improves, relative to a homoskedastic benchmark, (i) the calibration of the trading z-score, (ii) the forecasting accuracy of the conditional variance, and (iii) the realized-risk metrics of a backtest that applies the same trading rule to both models. The candidate universe spans 101 cross-sector pairs, of which 23 are selected by cointegration screening, over a daily sample running from 2010 to the present. Beyond the standard pair-level tests, the statistical apparatus includes a panel test that pools evidence at the level of the individual pair-day rather than the pair, and an inverse-variance-weighted combination of p-values (Stouffer-Liptak) alongside the equal-weighted version.
+This paper addresses the second problem with a **Kalman Filter** (KF), which treats the hedge ratio as a latent state that evolves over time, rather than as a constant estimated once via a static OLS regression. The KF produces, at each point in time, an estimate of the hedge ratio and a series of *innovations*: the one-step-ahead prediction errors, which, if the model is correctly specified, should behave as Gaussian white noise with known variance.
 
-The two questions receive answers of markedly different strength: the forecasting advantage of GARCH over the conditional variance is strongly significant (aggregate Diebold-Mariano test, $Z = 9.86$), while the evidence on realized backtested risk remains weak even under a panel test on more than 85,000 pair-day observations ($p = 0.27$). Given the statistical power available, this divergence reads as a genuinely weak or absent effect, not merely as a symptom of a small sample.
+In practice, however, financial innovations typically display *volatility clustering*: periods of high volatility tend to cluster together in time, a phenomenon documented since [Engle, (1982)](#ref-engle1982) and formalized in the **GARCH** models of [Bollerslev, (1986)](#ref-bollerslev1986). If the KF's innovations are heteroskedastic but the filter assumes (or uses in practice) a constant variance, the z-score built on that variance, the quantity that drives the strategy's entry and exit decisions, will be poorly calibrated: it will understate risk in turbulent periods and overstate it in calm ones.
 
-## Setup
+This paper addresses three research questions:
 
-The hedge ratio between the log prices $y_t$ and $x_t$ is a latent state following a random walk (local-level model):
+::: hypothesis
+**Hypothesis 1** (H1: Diagnosis). *Do the out-of-sample KF innovations show statistically significant evidence of ARCH effects (volatility clustering)?*
+:::
+
+::: hypothesis
+**Hypothesis 2** (H2: Calibration). *Does correcting the innovation variance with a GARCH model improve the calibration of the z-score relative to the constant-variance assumption implicit in a homoskedastic KF?*
+:::
+
+::: hypothesis
+**Hypothesis 3** (H3: Risk). *Does the GARCH correction reduce the realized risk (not the P&L) of a backtested pairs trading strategy, holding the trading rule fixed?*
+:::
+
+A fourth question is added to these three, more direct and statistically better identified than H3: does GARCH produce a more accurate forecaster of the conditional variance than the one implicit in the baseline? This question is evaluated separately because it isolates pure forecasting accuracy from everything that adds noise to the H3 backtest (the trading rule, transaction costs, and a sample of only as many independent observations as there are selected pairs, rather than days).
+
+#### Design choices aimed at statistical power.
+
+Several of the tests in this paper, most notably H3, have only as many independent observations as there are selected pairs, since each pair contributes a single summary statistic to the pair-level tests. This is a real constraint on statistical power, and it motivates four design choices used throughout: (i) the candidate universe spans 101 cross-sector pairs over a sample that starts in 2010, with a data-download procedure (@sec-download-robusto) designed so that a single ticker with insufficient history does not silently truncate the sample for the entire universe; (ii) a **panel test** (@sec-panel-bootstrap) aggregates the evidence on H3 at the level of the individual pair-day, instead of collapsing each pair to a single number before aggregating; (iii) an **inverse-variance-weighted** combination (the Liptak method) is reported alongside the equal-weighted Stouffer combination throughout (@sec-combinazione-pvalue); (iv) alongside a binary robustness threshold on cointegration strength, a **continuously weighted** version recovers information from pairs that are weakly, but not null, cointegrated (@sec-robustezza-metodo).
+
+The rest of the paper is organized as follows. @sec-background introduces the theoretical tools used throughout (cointegration, hypothesis testing, p-value combination methods, the Kalman Filter, GARCH models, forecast evaluation, block bootstrap and its panel extension). @sec-metodologia describes the empirical pipeline in detail. @sec-risultati reports the results on real data. @sec-discussione discusses the results critically, including the role of numerical safeguards in the pipeline and a case in which precision-weighted combination produces a different conclusion from the equal-weighted one. @sec-conclusioni concludes.
+
+# Theoretical Background {#sec-background}
+
+## Cointegration {#sec-cointegrazione}
+
+Many financial time series (log prices) are *integrated of order 1*, denoted $I(1)$: not stationary on their own, but with a stationary first difference. Two $I(1)$ series taken individually may nonetheless share a common stochastic trend, in which case a linear combination of the two *is* stationary.
+
+::: definition
+**Definition 1** (Cointegration). *Two series $y_t, x_t$ integrated of order 1 are said to be **cointegrated** if there exists $\beta \neq 0$ such that $$u_t = y_t - \beta x_t$$ is stationary, i.e. $I(0)$.*
+:::
+
+Intuitively: $y_t$ and $x_t$ may wander arbitrarily far from their starting point (they are $I(1)$), but their combination $u_t$ cannot drift indefinitely: it oscillates around a mean, with a mean-reverting force pulling it back. This property is exactly what makes $u_t$ (the *spread*) a natural candidate for a pairs trading strategy: if it is stationary, deviations from its mean are temporary by statistical construction, not merely by intuition.
+
+It is important to distinguish cointegration from simple *correlation*: two series can be strongly correlated in returns without being cointegrated in levels (which would produce a spread that wanders without ever returning), and conversely can be weakly correlated in returns while still being cointegrated in levels. Cointegration is the property relevant to pairs trading, not correlation.
+
+#### Engle-Granger test.
+
+The two-step test of [Engle and Granger, (1987)](#ref-engle1987) is the simplest approach:
+
+1.  estimate $\hat\beta$ by OLS regression of $y_t$ on $x_t$;
+
+2.  apply a unit-root test (Augmented Dickey-Fuller, ADF) to the residuals $\hat u_t = y_t - \hat\beta x_t$.
+
+The null hypothesis of the ADF test is that $\hat u_t$ has a unit root (non-stationarity, hence *absence* of cointegration); rejecting the null at a given significance level $\alpha$ is evidence of cointegration. Since the regression can be run in either direction ($y$ on $x$ or $x$ on $y$, with generally different residuals in finite samples), this paper uses the minimum p-value across the two directions (a bidirectional test), which is more conservative toward false negatives than toward false positives.
+
+#### Johansen test.
+
+The test of [Johansen, (1988)](#ref-johansen1988) ([Johansen, 1991](#ref-johansen1991)) generalizes the approach to a multivariate VAR-based setting, and does not require choosing in advance which series is the dependent variable, a limitation of the Engle-Granger test when the relationship between the two series is not clear-cut. The Johansen *trace test* compares the computed statistic against tabulated critical values that depend on the chosen confidence level (90%, 95%, 99%): in this paper the column of critical values used follows directly the $\alpha$ configured for the screening step, so that a more permissive $\alpha$ (e.g. 0.10) consistently uses the 90% threshold rather than the stricter 95% one.
+
+#### Combining the two tests and structural instability.
+
+A pair is selected only if *both* tests (Engle-Granger and Johansen) judge it cointegrated (AND logic), a more conservative criterion than relying on a single test. Because cointegration estimated over a long sample (in this paper, over 15 years) may no longer reflect the relationship currently in force, due to structural breaks (mergers, spin-offs, regime changes), a pair is nonetheless included if it is cointegrated over the full sample **or** over the most recent $k$ years (a recent window), an OR criterion designed not to discard pairs whose relationship holds now but would appear extinct when judged only by the long-run average.
+
+## Hypothesis testing: a brief review {#sec-test-ipotesi}
+
+A hypothesis test compares a null hypothesis $H_0$ (typically "no effect") against an alternative $H_1$, computing the probability (the *p-value*) of observing a result as extreme as, or more extreme than, the one observed, *assuming $H_0$ is true*. A small p-value (conventionally $<\alpha=0.05$) leads to rejecting $H_0$. Two errors are always possible: a **Type I error** (rejecting $H_0$ when it is true, with probability $\alpha$ by construction) and a **Type II error** (failing to reject $H_0$ when it is false, with probability $\beta$); the **power** of the test is $1-\beta$, the probability of correctly rejecting $H_0$ when it is false. Power increases with sample size and with the size of the true effect, and decreases with the variability of the test statistic: this is exactly why the design choices of @sec-panel-bootstrap and the wide pair universe of @sec-metodologia matter, not to manipulate results but to give real effects a fair chance of being detected.
+
+All directional tests used in this paper (ARCH-LM is an exception, being non-directional) are **one-sided**: the alternative is not "the two models differ" but specifically "GARCH is better than the baseline" (lower QLIKE loss, lower realized volatility), consistent with the direction expected from theory (@sec-garch). A one-sided test has greater power than a two-sided one at the same $\alpha$, at the cost of being unable to detect (or formally test for) an effect in the opposite direction.
+
+#### Multiple testing.
+
+When the same test is repeated across $N$ independent pairs, the probability of obtaining *at least one* false positive by pure chance grows with $N$: with $N=23$ tests at $\alpha=0.05$ each, the probability of at least one spurious rejection under the joint null is $1-(1-0.05)^{23}\approx 69\%$, nearly 70%: a reminder that a wider pair universe makes the multiple testing problem *more*, not less, relevant. Two standard corrections are used in this paper to interpret pair-level results:
+
+- **Bonferroni correction**: reject $H_0$ for test $i$ only if $p_i < \alpha/N$, controlling the probability of *at least one* false positive across the whole family of tests (the *family-wise error rate*, FWER). It is conservative, especially for large $N$.
+
+- **Benjamini-Hochberg procedure (FDR)** ([Benjamini and Hochberg, 1995](#ref-benjamini1995)): order the p-values $p_{(1)}\le\dots\le p_{(N)}$ and reject all hypotheses up to the largest $k$ such that $p_{(k)} \le \frac{k}{N}\alpha$. This controls the expected proportion of false positives *among the rejections* (the *false discovery rate*), not the probability of a single false positive, and is therefore less conservative than Bonferroni. Both corrections are reported because they answer different questions: Bonferroni answers "can I trust each individual rejection on its own?", Benjamini-Hochberg answers "what fraction of the rejections I report is likely to be spurious?".
+
+## Combining p-values across pairs: Stouffer and weighted Stouffer (Liptak) {#sec-combinazione-pvalue}
+
+The mirror-image problem to multiple testing is low power: with a limited number of pairs, a real but moderate effect may fail to reach significance in any single test even though it is systematic. Three non-parametric methods are used in this paper to aggregate evidence across pairs.
+
+#### Sign test.
+
+Looks only at the *direction* of the effect (how many of $k$ pairs show an improvement), ignoring effect size and individual p-values. Under the null that the corrected model has no systematic effect, the number of "improved" pairs is $\text{Binomial}(k,0.5)$. It is the most conservative of the three methods (it discards information on effect size and on the precision with which it is estimated) but also the most robust and the hardest to misuse.
+
+#### Stouffer's method (equal-weighted).
+
+Converts each one-sided p-value $p_i$ into a z-score via the standard normal quantile function, $z_i=\Phi^{-1}(1-p_i)$, and combines them as 
 
 $$
-\beta_t = \beta_{t-1} + w_t, \qquad y_t = \beta_t x_t + v_t .
+Z=\frac{1}{\sqrt{k}}\sum_{i=1}^k z_i,
+$$ {#eq-stouffer}
+
+ from which a combined p-value $p = 1-\Phi(Z)$ follows. Under the joint null (no effect in any pair) and with independent tests, $Z\sim\mathcal N(0,1)$. It weighs every test equally, regardless of how precisely its individual effect has been estimated.
+
+#### Weighted Stouffer's method (Liptak).
+
+[Liptak, (1958)](#ref-liptak1958) generalizes [\[eq:stouffer\]](#eq:stouffer){reference-type="ref" reference="eq:stouffer"} by introducing weights $w_i$ specific to each test: 
+
 $$
+Z_w = \frac{\sum_{i=1}^k w_i z_i}{\sqrt{\sum_{i=1}^k w_i^2}},
+$$ {#eq-liptak}
 
-The innovation $e_t = y_t - \beta_{t|t-1} x_t$ is the trading signal, standardized by an estimate of its variance:
+ which reduces to the equal-weighted Stouffer method when $w_i=1\;\forall i$. The most efficient choice of weights, when available, is $w_i = 1/\widehat{\text{SE}}_i$, the inverse of the standard error of the estimated effect underlying test $i$ (not of the z-score, which by construction has variance 1 under the null, but of the economic quantity the test is measuring: for example the mean QLIKE loss difference, or the realized volatility difference). In this paper, $\widehat{\text{SE}}_i$ is available directly: the Newey-West standard error of the Diebold-Mariano statistic (@sec-qlike) for the forecasting- accuracy test, and the empirical standard error of the bootstrap distribution for the H3 test (@sec-test-significativita).
+
+#### A word of caution.
+
+Precision weighting is statistically more efficient than equal-weighted combination *under the assumption of a true effect common to all pairs* (a fixed-effects model, in meta-analysis terminology): if the pairs genuinely share the same underlying effect, weighting the more precise estimates more heavily reduces the variance of the combined estimate. If instead the effect is genuinely heterogeneous across pairs, plausible whenever the phenomenon being tested depends on idiosyncratic characteristics of each pair, as turns out to be the case for H3 (@sec-discussione), precision weighting can amplify the influence of a single precisely estimated pair whose effect runs in a different direction from the majority, rather than stabilizing the combined estimate. This paper always reports both versions (equal-weighted and weighted) precisely to make it visible when the two diverge, itself an informative signal about whether the fixed-effects assumption holds.
+
+## The Kalman Filter {#sec-kf-teoria}
+
+The Kalman Filter ([Kalman, 1960](#ref-kalman1960)) is an optimal recursive estimator (in the minimum-variance sense, under linearity and Gaussianity assumptions) for the unobserved state of a linear dynamic system described by a *state-space* model: $$\begin{aligned}
+\text{state equation:} \quad & \beta_t = \beta_{t-1} + w_t, \qquad w_t \sim \mathcal N(0,Q) \\
+\text{observation equation:} \quad & y_t = H_t \beta_t + v_t, \qquad v_t \sim \mathcal N(0,R)
+\end{aligned}$$ where $\beta_t$ is the latent state (not directly observed), $y_t$ the observation, $Q$ the process variance (how much the state can move from one instant to the next) and $R$ the measurement variance (noise in the observation). The model used in this paper is the simplest possible case: a scalar state following a pure random walk, with no drift, chosen deliberately to isolate the effect of the variance correction (the object of this study) from every other modeling choice about the state.
+
+The filter proceeds in two recursive steps, at each instant $t$: $$\begin{aligned}
+\text{\emph{predict}:}\quad & \beta_{t|t-1} = \beta_{t-1|t-1}, \qquad
+P_{t|t-1} = P_{t-1|t-1} + Q \\
+\text{\emph{update}:}\quad & e_t = y_t - H_t \beta_{t|t-1} \quad \text{(innovation)}\\
+& S_t = H_t P_{t|t-1} H_t^\top + R \quad \text{(innovation variance)}\\
+& K_t = P_{t|t-1} H_t^\top S_t^{-1} \quad \text{(Kalman gain)}\\
+& \beta_{t|t} = \beta_{t|t-1} + K_t e_t, \qquad
+P_{t|t} = (1-K_t H_t) P_{t|t-1}
+\end{aligned}$$ The **innovation** $e_t$ is the one-step-ahead prediction error: how far the realized observation deviates from the one expected given the state estimated at the previous step. The **Kalman gain** $K_t$ weighs how much the current innovation updates the state estimate: it is large when the process variance $Q$ is large relative to $R$ (the state moves a lot, so the most recent observation is trusted more) and small in the opposite case. If the model is correctly specified, $e_t \sim \mathcal N(0, S_t)$ and the standardized innovations $e_t/\sqrt{S_t}$ are standard Gaussian white noise: a property that can be checked empirically (@sec-garch), and central to this paper.
+
+The variance parameters $Q,R$ are generally not known a priori and are estimated by maximum likelihood (MLE), maximizing the Gaussian log-likelihood of the innovations 
 
 $$
-z_t = \frac{e_t}{\sqrt{h_t}}, \qquad h_t = S_t \ \text{(baseline)}, \qquad h_t = h_t^{\text{GARCH}} \ \text{(corrected)} .
+\ell(Q,R) = -\frac12\sum_t \left[\log(2\pi S_t) + \frac{e_t^2}{S_t}\right]
+$$ {#eq-kf-loglik}
+
+ with respect to $Q,R$ (in practice, to their logarithms, to guarantee positivity during numerical optimization, here carried out with the L-BFGS-B algorithm). Note the formal similarity between [\[eq:kf-loglik\]](#eq:kf-loglik){reference-type="ref" reference="eq:kf-loglik"} and the QLIKE loss ([\[eq:qlike\]](#eq:qlike){reference-type="ref" reference="eq:qlike"}, @sec-qlike): this is not a coincidence, both derive from the same Gaussian likelihood logic applied to a ratio between an observed squared deviation and an estimated variance.
+
+## The Kalman Filter applied to pairs trading {#sec-kf-pairs}
+
+In the pairs trading context, the latent state $\beta_t$ is the dynamic **hedge ratio** between the log prices $y_t$ and $x_t$ of the pair's two securities, modeled as a *random walk* (a *local-level* model): $$\begin{aligned}
+\beta_t &= \beta_{t-1} + w_t \\
+y_t &= \beta_t x_t + v_t
+\end{aligned}$$ Unlike a static OLS estimate of the hedge ratio (which assumes a constant relationship over the whole sample), the KF allows the hedge ratio to evolve over time, reflecting relationships that change gradually, a more realistic assumption over a horizon of more than 15 years, as used in this paper.
+
+The innovation $e_t = y_t - \beta_{t|t-1}x_t$ is, in this context, the raw trading signal: the distance between the observed price of $y_t$ and the one expected given the current hedge ratio. The **trading z-score** is obtained by standardizing the innovation by its estimated standard deviation: 
+
 $$
+z_t = \frac{e_t}{\sqrt{h_t}}
+$$ {#eq-zscore}
 
-$S_t$ is the innovation variance produced by the filter itself; $h_t^{\text{GARCH}}$ is the conditional variance of a GARCH model fitted to $e_t$, with order and error distribution chosen by BIC over a grid. The numerator is identical in both models.
+ where $h_t$ is the estimate of the innovation variance at time $t$. In the **baseline** model $h_t = S_t$, the variance produced directly by the KF (constant over time except for the periodic re-estimation of $Q,R$); in the **GARCH-corrected** model (@sec-garch), $h_t$ is instead the conditional variance produced by a GARCH model fitted to the series $e_t$. The numerator $e_t$ is identical in the two models: only the variance estimate in the denominator changes, so that any difference between the two z-scores, and, downstream, between the two trading rules derived from them, is attributable exclusively to *how* the variance is estimated, not to a different signal. This is the single most important design choice in the whole paper: it isolates the effect of the GARCH correction from every other difference between the two models.
 
-Everything is walk-forward: every refit uses only data prior to the point where it is applied, and both models trade under the same entry, exit and stop rule, so any difference comes from the z-score alone.
+The z-score drives the trading rule: a position is opened when $|z_t|$ exceeds an entry threshold, and closed when it falls back below an exit threshold (or when it exceeds a stop-loss threshold). It is therefore critical that $z_t$ be well calibrated, that it actually follow a $\mathcal N(0,1)$ (or the assumed distribution), because the entry and exit thresholds are chosen assuming that calibration: a z-score that systematically exceeds its nominal distribution in high-volatility periods generates more frequent, and more frequently false, entry signals exactly when risk is highest.
 
-## Main results
+## Heteroskedasticity and ARCH/GARCH models {#sec-garch}
 
-| Question | Test | Result |
-|---|---|---|
-| H1: ARCH effects in KF innovations | ARCH-LM, out of sample | Significant in 20 of 23 pairs |
-| H2: z-score calibration | PIT-Kolmogorov-Smirnov | Baseline rejected in 23 of 23; GARCH not rejected in 19 of 23 |
-| Variance forecast accuracy | QLIKE, Diebold-Mariano | GARCH better in 19 of 23; Stouffer $Z = 9.86$, $p < 10^{-4}$ |
-| H3: realized backtest risk | Block bootstrap, Stouffer | Lower volatility in 13 of 23; $Z = 1.09$, $p = 0.137$ |
-| H3, pooled | Panel test, 85,054 pair-days | $t = 0.63$, $p = 0.27$ |
+The KF's local-level model implicitly assumes that the innovation variance is (nearly) constant over time, except for the periodic re-estimation of $Q,R$. Financial markets, however, typically exhibit **volatility clustering**: periods of high volatility tend to follow one another, as do periods of calm: a phenomenon known since the pioneering work of [Mandelbrot, (1963)](#ref-mandelbrot1963) and formalized statistically by [Engle, (1982)](#ref-engle1982) with **ARCH** (*AutoRegressive Conditional Heteroskedasticity*) models.
 
-The three pairs with no ARCH effect (BSX/EW, ISRG/EW, LMT/NOC) are discussed separately in the paper, as is the collapse of the precision-weighted Stouffer test on H3, which is a useful warning on when inverse-variance weighting misleads.
+#### ARCH-LM test.
 
-![Out-of-sample innovations for BAX/CI and the ACF of their squares: the clustering signature behind H1.](fig-acf-innovations.png)
+Engle's Lagrange multiplier test checks the null of no ARCH effects by regressing the squared residuals $e_t^2$ on their own lags: $$e_t^2 = \alpha_0 + \sum_{i=1}^p \alpha_i e_{t-i}^2 + \eta_t$$ Under $H_0: \alpha_1=\dots=\alpha_p=0$ (no ARCH effects), the auxiliary regression's $nR^2$ statistic is asymptotically $\chi^2_p$ (in this paper, $p=10$ lags). Rejecting the null is evidence that the conditional variance depends on its own past: precisely the phenomenon a GARCH model is designed to capture.
 
-![FAST/MAS: filtered hedge ratio, KF innovations, out-of-sample z-score and innovation standard deviation under both models (grey = baseline, red = GARCH).](fig-kf-diagnostics.png)
+#### GARCH and EGARCH models.
 
-![AMGN/LH: GARCH z-score with trade entries and exits over GARCH's longest underwater stretch. It shows why GARCH can trade a deeper drawdown for a longer, shallower one.](fig-drawdown-diagnostic.png)
+The GARCH$(p,q)$ model of [Bollerslev, (1986)](#ref-bollerslev1986) generalizes ARCH by making the conditional variance also a function of its own history, not only of past shocks: 
 
-## Full text
+$$
+h_t = \omega + \sum_{i=1}^{q}\alpha_i \epsilon_{t-i}^2 + \sum_{j=1}^{p}\beta_j h_{t-j}.
+$$ {#eq-garch}
 
-```{=html}
-<object class="pdf-viewer" data="kf-innovations-heteroskedasticity.pdf" type="application/pdf"><p><a href="kf-innovations-heteroskedasticity.pdf">Download PDF</a></p></object>
-```
+ The GJR-GARCH model adds an asymmetric term $\gamma\, \epsilon_{t-1}^2\, \mathbb 1[\epsilon_{t-1}<0]$ to capture the *leverage effect* (negative shocks raising volatility more than positive shocks of equal magnitude). The EGARCH model of [Nelson, (1991)](#ref-nelson1991) achieves a similar effect by operating on the log of the variance: 
+
+$$
+\log h_t = \omega + \beta \log h_{t-1} + \alpha\left(|z_{t-1}| - \sqrt{2/\pi}\right) + \gamma z_{t-1},
+\qquad z_{t-1} = \frac{\epsilon_{t-1}}{\sqrt{h_{t-1}}},
+$$ {#eq-egarch}
+
+ which guarantees the positivity of $h_t$ without having to constrain the parameters (unlike standard GARCH, where $\omega,\alpha_i,\beta_j \ge 0$ must be imposed explicitly).
+
+In this paper the order, family (GARCH/EGARCH) and error distribution (Normal, Student-$t$, skewed Student-$t$ of [Hansen, (1994)](#ref-hansen1994)) are chosen for each pair via a *grid search* over $2\times3\times2\times2\times2=48$ combinations (family $\times$ distribution $\times$ order $p\in\{1,2\}$ $\times$ order $q\in\{1,2\}$ $\times$ asymmetric term $o\in\{0,1\}$), selecting the model with the lowest BIC (*Bayesian Information Criterion*) on the initial estimation window: a criterion that penalizes model complexity and guards against overfitting.
+
+## Testing distributional calibration: the PIT-Kolmogorov-Smirnov test {#sec-pit-ks}
+
+Beyond diagnosing volatility clustering (H1), it is useful to test directly whether a model's assumed distribution for the standardized innovation is actually correct: that is, whether the z-score is **calibrated**, not merely whether its variance responds to clustering. The baseline model assumes $z_t \sim \mathcal N(0,1)$; the GARCH-corrected model assumes whichever distribution the grid search of @sec-garch selected (Normal, Student-$t$, or skewed Student-$t$).
+
+The **probability integral transform** (PIT) provides a distribution-free way to test this. If $F$ is truly the distribution of $z_t$, then 
+
+$$
+u_t = F(z_t)
+$$ {#eq-pit}
+
+ is distributed Uniform$(0,1)$, regardless of what $F$ is: a general probabilistic fact, not an approximation. Computing $u_t$ for each out-of-sample day, using each model's own cumulative distribution function ($\Phi$ for the baseline; the fitted Normal, Student-$t$, or skewed Student-$t$ CDF, evaluated at its estimated parameters, for GARCH), yields a series that should look like an i.i.d. Uniform$(0,1)$ sample if the model is correctly calibrated. If the model systematically under- or over-states the variance in some regime, the $u_t$ will crowd toward the extremes (0 or 1) more often than a uniform distribution would imply.
+
+The **Kolmogorov-Smirnov test** then formalizes this comparison. Given the sequence $\{u_t\}_{t=1}^T$, define the statistic 
+
+$$
+D = \sup_{x\in[0,1]} \big|F_n(x) - x\big|,
+$$ {#eq-ks-stat}
+
+ the largest vertical distance between the empirical CDF $F_n$ of $\{u_t\}$ and the CDF of the Uniform$(0,1)$ distribution (which is simply $x$). Under $H_0$ (correct calibration), $\sqrt{T}\cdot D$ converges to the Kolmogorov distribution, from which the reported p-value is obtained. A small p-value rejects $H_0$: the distribution assumed for the z-score is wrong somewhere over its support, which means the entry, exit, and stop-loss thresholds, chosen assuming that crossing $z=2$ has a specific nominal probability, do not reflect the true probability.
+
+As a complementary, more targeted diagnostic, this paper also reports the empirical **coverage rate** in the highest-volatility subperiod (the top tertile of 21-day realized volatility): the fraction of days in that subperiod on which $|z_t|$ exceeds the nominal 5% critical value of the assumed distribution. This isolates the specific failure mode that motivates the whole study: a baseline model whose variance is nearly constant over time cannot "know" that the pair has entered a high-volatility regime, so its z-score exceeds the nominal threshold far more often than 5% exactly when risk is already elevated; a well-specified GARCH model, updating $h_t$ dynamically, should keep the exceedance rate close to 5% even there. The Kolmogorov-Smirnov test is the formal, whole-sample test of calibration; the high-volatility coverage rate is the targeted diagnostic for the regime in which miscalibration matters most for trading.
+
+## Evaluating forecasting accuracy: QLIKE and the Diebold-Mariano test {#sec-qlike}
+
+Comparing two variance models on the basis of the realized risk of a backtest (H3) is a legitimate question, but a statistically weak one: the answer also depends on the trading rule, on transaction costs, and on as many independent observations as there are selected pairs, a small number even after widening the universe (@sec-metodologia). A more direct and better-identified question is whether one model's variance forecast $h_t$ is more accurate than the other's, evaluated day by day over the whole out-of-sample period (thousands of observations per pair, see @sec-risultati).
+
+The problem is that the true conditional variance is not observable: only the noisy proxy $e_t^2$ is available. [Patton, (2011)](#ref-patton2011) shows that not every loss function yields a correct ranking of models when evaluated against a noisy proxy rather than the true variance; the **QLIKE loss** 
+
+$$
+\text{QLIKE}(e_t^2, h_t) = \frac{e_t^2}{h_t} - \log\!\left(\frac{e_t^2}{h_t}\right) - 1
+$$ {#eq-qlike}
+
+ is among the few that are "robust" in this sense: the model that minimizes the expected QLIKE is, in expectation, the one whose conditional variance is closest to the true one, even when evaluated only against $e_t^2$. In this paper the ratio $e_t^2/h_t$ is truncated to a maximum of 100 before being inserted into [\[eq:qlike\]](#eq:qlike){reference-type="ref" reference="eq:qlike"}: an implementation detail, discussed in @sec-metodologia, that turns out to matter empirically (@sec-discussione).
+
+The **Diebold-Mariano test** ([Diebold and Mariano, 1995](#ref-diebold1995)) compares two models on the basis of the day-by-day loss difference, $$d_t = \text{QLIKE}_{\text{base}}(t) - \text{QLIKE}_{\text{GARCH}}(t),$$ testing $H_0: \mathbb E[d_t]=0$ (equal forecasting accuracy) against $H_1: \mathbb E[d_t]>0$ (GARCH more accurate). Since $d_t$ is typically autocorrelated (both models are evaluated on the same realization of $e_t$), the standard error of the mean $\bar d$ is estimated with the **Newey-West HAC estimator** ([Newey and West, 1987](#ref-neweywest1987)), robust to autocorrelation: 
+
+$$
+\widehat{\text{Var}}(\bar d) = \frac1n\left[\hat\gamma_0 + 2\sum_{\ell=1}^{L}\left(1-\frac{\ell}{L+1}\right)\hat\gamma_\ell\right],
+\qquad L = \left\lfloor 4\left(\frac{n}{100}\right)^{2/9}\right\rfloor,
+$$ {#eq-newey-west}
+
+ from which the statistic $DM = \bar d / \sqrt{\widehat{\text{Var}}(\bar d)}$ follows, asymptotically $\mathcal N(0,1)$ under $H_0$. This standard error also serves, as discussed in @sec-combinazione-pvalue, as the natural weight $w_i=1/\text{SE}_i$ used in the weighted Stouffer combination applied to the pair-level Diebold-Mariano results.
+
+## Block bootstrap: from the pair-level test to the panel test {#sec-panel-bootstrap}
+
+A standard non-parametric bootstrap (independent resampling with replacement of individual observations) assumes the observations are independent and identically distributed: a false assumption for daily financial returns, which display autocorrelation (especially in their squares, due to the volatility clustering discussed in @sec-garch). The **block bootstrap** ([K\"unsch, 1989](#ref-kunsch1989)) solves this by resampling *contiguous blocks* of observations rather than single points: if the block is long enough to contain most of the relevant serial dependence, the resampled blocks can be treated as approximately independent of one another, while still preserving the dependence structure within each block. This paper uses a *circular* variant: indices of a block that exceed the length of the series wrap around to the beginning (arithmetic modulo $n$), so that every point in the original series has an equal chance of being included in a resampled block, regardless of its position.
+
+#### Pair-level bootstrap (@sec-test-significativita, H3). {#sec-pair-level-bootstrap-sectest-significativita-h3}
+
+To test whether GARCH reduces the realized volatility of a single pair, both net-return series (baseline and GARCH) are resampled *using the same block start points*, preserving the day-by-day pairing between the two models (which share the same underlying returns $r_t^y,r_t^x$ but differ in the entry/exit rule induced by their respective z-scores). The statistic tested is the difference between the resampled sample volatilities, and the p-value is the fraction of resamples in which that difference does not support the risk reduction expected under H3.
+
+#### Panel extension.
+
+The pair-level test summarizes an entire pair's out-of-sample history in a single number (its realized volatility) before aggregating evidence across pairs (@sec-combinazione-pvalue), a choice that, as discussed in @sec-test-ipotesi, caps the power of the aggregate test at the number of pairs, not at the much larger number of days observed. The **panel test** instead pools every individual pair-day as its own observation: with $k$ pairs and $n$ out-of-sample days each, the panel test has $k\times n$ observations rather than $k$.
+
+Formally, let 
+
+$$
+d_{p,t} = \frac{\big(r^{\text{base}}_{p,t}\big)^2 - \big(r^{\text{GARCH}}_{p,t}\big)^2}
+{\widehat{\text{Var}}\big(r^{\text{base}}_{p,\cdot}\big)},
+\qquad \text{clipped to } [-c,\,c],\ c=50,
+$$ {#eq-panel-diff}
+
+ be the daily difference of squared net returns between the two models for pair $p$ on day $t$, scaled by the baseline model's *own* variance for that pair (so that a structurally more volatile pair, such as CCI/SPG, does not mechanically dominate the aggregate mean relative to a quieter pair, such as FAST/MAS) and truncated at a fixed value: the same kind of safeguard already used for the QLIKE loss [\[eq:qlike\]](#eq:qlike){reference-type="eqref" reference="eq:qlike"}, here protecting against a near-degenerate pair or a single numerically anomalous backtest day. The test statistic is the panel mean $\bar d = \frac{1}{kn}\sum_{p,t} d_{p,t}$; its standard error is estimated by resampling, for each bootstrap replicate, **the same block start points for all pairs simultaneously**: a necessary condition to preserve not only the autocorrelation within each pair, but also the *cross-sectional* dependence between pairs on the same calendar day (a common market volatility regime moves several pairs' returns at once). From this follows a normal-approximation test analogous to the Diebold-Mariano construction: $$t = \frac{\bar d}{\widehat{\text{SE}}(\bar d)}, \qquad p = 1-\Phi(t).$$
+
+# Methodology {#sec-metodologia}
+
+## Data and pair universe
+
+The starting universe consists of **101 candidate security pairs**, selected across sectors (financials, healthcare, technology, industrials, consumer staples, energy, utilities, materials, REITs, communication services, plus a few sector/country ETFs), with daily prices from **January 1, 2010** to September 22, 2026: a sample of over 16 years spanning multiple volatility regimes, including the 2020 pandemic crash and the 2022 rate-hiking cycle.
+
+## Data download robustness {#sec-download-robusto}
+
+Downloading prices for the whole ticker universe as a single joint DataFrame and then dropping rows with at least one missing value (`dropna(how="any")`) is the simplest procedure, but has a dangerous flaw when the universe is wide: a *single* ticker with a late listing date, a delisting, or a gap in its data silently truncates the sample *for every pair*, not only for those that use that ticker: exactly the kind of loss of statistical power this paper's design tries to avoid. The procedure adopted here computes, for each ticker, the fraction of missing observations over the full requested window; a ticker with more than 5% missing data is dropped (together with every candidate pair that uses it), and the drop is reported explicitly; the remaining, fully populated tickers are then aligned to their common date range as before. This safeguard is what makes the 2010 start date safe: without it, a single security listed after that date among the 101 candidates could silently truncate the available history for the entire universe.
+
+## Cointegration screening {#sec-screening-metodologia}
+
+Each pair is tested with bidirectional Engle-Granger and Johansen (@sec-cointegrazione), using $\text{COINT\_ALPHA}=0.10$: a more permissive threshold than the conventional 0.05, chosen because at $\alpha=0.05$ the selected pair universe was too small for meaningful statistical analysis. A pair is selected if cointegrated over the full sample *or* over the most recent $\text{COINT\_RECENT\_YEARS}=4$ years. A pair is also discarded if the standard deviation of its KF innovations is numerically close to zero (threshold $10^{-5}$), a safeguard against near-identical pairs (e.g. dual-class shares of the same issuer) for which the z-score would be numerical noise, not signal.
+
+## Walk-forward estimation of the Kalman Filter
+
+For each selected pair, $Q$ and $R$ are estimated by MLE (@sec-kf-teoria) on an initial estimation window of $\text{TRAIN\_WINDOW}=504$ days (about two trading years), and re-estimated every $\text{REFIT\_FREQ}=126$ days (about six months) on a rolling window: a *walk-forward* scheme that uses, at every point in time, only information available up to that moment (no look-ahead).
+
+## GARCH model selection and estimation
+
+For each pair, the order, family (GARCH/EGARCH) and distribution are selected once, by grid search on the initial estimation window (@sec-garch); the *parameters* of the selected model are then re-estimated every $\text{REFIT\_FREQ}$ days on the same cadence as the KF, and the conditional variance is extended day by day using only innovations realized up to that point.
+
+#### Numerical safeguards.
+
+The day-by-day recursion can, in rare cases, produce a variance $h_t$ numerically close to zero (typically with EGARCH, whose log-variance can drift downward during a prolonged calm stretch between re-estimations), which makes the ratio $e_t^2/h_t$, and with it the z-score and the QLIKE loss, unstable. Two safeguards are applied: (i) the variance $h_t$ is floored at $10^{-4}$ times the median variance over the initial estimation window; (ii) the ratio $e_t^2/h_t$ in the QLIKE loss [\[eq:qlike\]](#eq:qlike){reference-type="eqref" reference="eq:qlike"} is truncated at a maximum of 100 (already an extreme deviation for a single observation), so that neither a residual numerical artifact nor a genuine, isolated tail event can dominate the aggregate test. An analogous safeguard (truncation at $\pm50$) protects the scaled difference used in the panel test [\[eq:panel-diff\]](#eq:panel-diff){reference-type="eqref" reference="eq:panel-diff"}. These floors and truncations matter for correctly interpreting the results: without them, a single near-degenerate pair or a single anomalous backtest day could dominate an aggregate statistic that is meant to summarize the whole pair universe, not one outlier within it (@sec-discussione).
+
+## Constructing the z-score: baseline and GARCH
+
+As defined in [\[eq:zscore\]](#eq:zscore){reference-type="ref" reference="eq:zscore"}, both models share the same innovation $e_t$ produced by the KF; only the denominator changes: $S_t$ for the baseline, $h_t^{\text{GARCH}}$ for the corrected model.
+
+## Trading rule and backtest
+
+The same rule is applied to both models, so that any difference in results is attributable exclusively to the construction of the z-score:
+
+- **Entry**: a position is opened (short if $z_t > \text{ENTRY\_Z}$, long if $z_t < -\text{ENTRY\_Z}$) with $\text{ENTRY\_Z}=2.0$;
+
+- **Exit**: closed when $|z_t|$ falls below $\text{EXIT\_Z}=0.5$;
+
+- **Stop-loss**: forcibly closed if $|z_t|$ exceeds $\text{STOP\_Z}=4.0$;
+
+- **Costs**: $\text{COST\_BPS}=2.0$ basis points per unit of turnover, per leg.
+
+The strategy's net daily return is $r_t^{\text{net}} = \text{pos}_{t-1}(r_t^y - \hat\beta_{t-1} r_t^x) - \text{cost}_t$, where $\text{pos}_{t-1}$ and $\hat\beta_{t-1}$ are known at time $t-1$ (no look-ahead).
+
+## Risk metrics
+
+Consistent with the goal of isolating the effect of the variance correction on *risk*, not on P&L, the H3 comparison relies exclusively on four risk metrics:
+
+- **Annualized volatility** of daily net returns;
+
+- **Max drawdown**: the largest peak-to-trough loss of the equity curve;
+
+- **Drawdown duration**: the longest consecutive stretch (in trading days) spent below the previous peak;
+
+- **CVaR at 5%** (Expected Shortfall): the average loss over the worst 5% of days, a tail-risk measure that volatility alone may not capture.
+
+No return metric (Sharpe ratio, P&L, equity curves) is reported, by design.
+
+## Significance testing: pair-level and panel {#sec-test-significativita}
+
+The difference in realized volatility between the two models is tested, for each pair individually, with a **circular block bootstrap** (blocks of $\text{BOOTSTRAP\_BLOCK}=20$ days, $\text{N\_BOOTSTRAP}=1000$ resamples, @sec-panel-bootstrap), resampling both series with the same block start points to preserve the day-by-day pairing. Pair-level evidence is then aggregated with the sign test, the equal-weighted Stouffer method, and its inverse-variance-weighted version ([\[eq:stouffer\]](#eq:stouffer){reference-type="ref" reference="eq:stouffer"}--[\[eq:liptak\]](#eq:liptak){reference-type="ref" reference="eq:liptak"}), using as weight the inverse of the bootstrap standard error of the estimated volatility difference for each pair.
+
+Alongside these pair-level tests, a **panel test** (@sec-panel-bootstrap) addresses the same question (does GARCH reduce realized net-return volatility) by pooling every pair-day of the whole selected universe directly, instead of first collapsing each pair to a single summary statistic. The same panel-test construction, applied to the daily QLIKE loss difference rather than the squared net return difference, would in effect coincide with an already pair-level Diebold-Mariano test (@sec-qlike) extended to multi-pair pooling; this is not implemented separately because the pair-level Diebold-Mariano test is already sufficiently powerful on its own (@sec-risultati), unlike the H3 backtested-risk test, where panel pooling is this paper's main methodological contribution.
+
+## Robustness: a stricter threshold and continuous weighting {#sec-robustezza-metodo}
+
+Since $\text{COINT\_ALPHA}=0.10$ is more permissive than the conventional 0.05, every selected pair is re-tested at the stricter threshold $\text{STRICT\_ALPHA}=0.05$; the results (H3, forecasting accuracy, panel test) are re-reported, in aggregate form, restricted to the subset that survives this more conservative screening. As a complement to this binary cut, which can discard pairs that are weakly, but not null, cointegrated, a **continuous cointegration-strength weighting** is also used: each pair receives a weight $w_p = -\log_{10}\big(\min(p^{\text{EG}}_{\text{full}},\, p^{\text{EG}}_{\text{recent}})\big)$ (more strongly cointegrated pairs, i.e. with a smaller p-value, receive a larger weight), used in the weighted Liptak combination [\[eq:liptak\]](#eq:liptak){reference-type="eqref" reference="eq:liptak"} applied to the *entire* set of selected pairs, not only the subset that passes the strict threshold: recovering information from borderline pairs instead of discarding them entirely.
+
+# Results {#sec-risultati}
+
+The cointegration screening (@sec-cointegrazione) on 101 candidate pairs selected **23 pairs**: MSFT/VRSN, BAX/CI, AON/SPGI, CCI/PLD, DVN/EQT, EWA/EWL, GD/NSC, GE/ITW, CCI/SPG, TRV/ALL, BSX/EW, ISRG/EW, ADBE/CRM, ADP/PAYX, HON/EMR, ITW/DOV, LMT/NOC, MCD/YUM, SBUX/CMG, SLB/HAL, SO/D, PSA/EXR, VTR/WELL.
+
+## H1: Diagnosing ARCH effects
+
+@tbl-h1 reports the ARCH-LM test (@sec-garch) on the KF's out-of-sample innovations. **20 of 23 pairs** show strongly significant evidence of volatility clustering; the three exceptions are BSX/EW ($p=0.9999918$), ISRG/EW ($p=0.9972040$) and LMT/NOC ($p=0.5046$): their innovation variance already appears substantially homoskedastic. It is worth noting that two of the three exceptions share the same leg (EW, Edwards Lifesciences), a hint, not conclusive on just two observations, that the relevant characteristic may lie in that specific security more than in the pair itself (@sec-discussione).
+
+::: {#tbl-h1}
+  Pair                ARCH-LM p-value  Significant (5%)
+  ----------- ----------------------- ------------------
+  MSFT/VRSN       $1.33\times10^{-9}$        Yes
+  BAX/CI         $1.36\times10^{-12}$        Yes
+  AON/SPGI      $5.42\times10^{-103}$        Yes
+  CCI/PLD        $6.21\times10^{-38}$        Yes
+  DVN/EQT        $1.21\times10^{-57}$        Yes
+  EWA/EWL       $4.89\times10^{-212}$        Yes
+  GD/NSC          $2.50\times10^{-4}$        Yes
+  GE/ITW         $6.68\times10^{-39}$        Yes
+  CCI/SPG       $3.54\times10^{-247}$        Yes
+  TRV/ALL        $3.94\times10^{-44}$        Yes
+  BSX/EW        $9.9999\times10^{-1}$         No
+  ISRG/EW       $9.9720\times10^{-1}$         No
+  ADBE/CRM        $3.61\times10^{-2}$        Yes
+  ADP/PAYX      $4.75\times10^{-197}$        Yes
+  HON/EMR        $6.13\times10^{-81}$        Yes
+  ITW/DOV        $4.62\times10^{-20}$        Yes
+  LMT/NOC         $5.05\times10^{-1}$         No
+  MCD/YUM         $1.05\times10^{-6}$        Yes
+  SBUX/CMG        $1.07\times10^{-5}$        Yes
+  SLB/HAL       $4.53\times10^{-171}$        Yes
+  SO/D           $6.27\times10^{-23}$        Yes
+  PSA/EXR        $5.83\times10^{-26}$        Yes
+  VTR/WELL       $3.40\times10^{-17}$        Yes
+
+  : H1: ARCH-LM test on out-of-sample KF innovations (23 pairs).
+:::
+
+## H2: Calibration of the z-score
+
+@tbl-h2 compares, for each pair and model, the empirical coverage rate in the high-volatility subperiod (top tertile of 21-day realized volatility) against the nominal 5%, and the p-value of the PIT-Kolmogorov-Smirnov test (@sec-pit-ks) over the full out-of-sample period. For the baseline the z-score is tested against $\mathcal N(0,1)$; for GARCH, against the distribution actually selected by the grid search (Normal, Student-$t$, or skewed Student-$t$), using the `cdf`/`ppf` functions native to the `arch` library rather than always assuming Normality.
+
+::: {#tbl-h2}
+  Pair        Model     High-vol coverage (nom. 5%)   PIT-KS stat         PIT-KS p-value
+  ----------- ------- ----------------------------- ------------- ----------------------
+  ADBE/CRM    base                           0.0892        0.0953   $1.10\times10^{-29}$
+  ADBE/CRM    GARCH                          0.0843        0.0202               $0.0952$
+  ADP/PAYX    base                           0.0908        0.0808   $1.98\times10^{-21}$
+  ADP/PAYX    GARCH                          0.0876        0.0159               $0.3039$
+  AON/SPGI    base                           0.0916        0.0809   $1.61\times10^{-21}$
+  AON/SPGI    GARCH                          0.0860        0.0125               $0.6074$
+  BAX/CI      base                           0.0941        0.0642   $1.07\times10^{-13}$
+  BAX/CI      GARCH                          0.1257        0.0239               $0.0285$
+  BSX/EW      base                           0.0649        0.0992   $3.75\times10^{-32}$
+  BSX/EW      GARCH                          0.0819        0.0123               $0.6277$
+  CCI/PLD     base                           0.0973        0.0719   $4.41\times10^{-17}$
+  CCI/PLD     GARCH                          0.0876        0.0209               $0.0788$
+  CCI/SPG     base                           0.1257        0.0726   $2.05\times10^{-17}$
+  CCI/SPG     GARCH                          0.0795        0.0154               $0.3441$
+  DVN/EQT     base                           0.1525        0.0653   $3.60\times10^{-14}$
+  DVN/EQT     GARCH                          0.0762        0.0132               $0.5323$
+  EWA/EWL     base                           0.1200        0.0569   $7.58\times10^{-11}$
+  EWA/EWL     GARCH                          0.1703        0.0289               $0.0040$
+  GD/NSC      base                           0.0973        0.0697   $4.38\times10^{-16}$
+  GD/NSC      GARCH                          0.0835        0.0136               $0.5000$
+  GE/ITW      base                           0.1184        0.0550   $3.73\times10^{-10}$
+  GE/ITW      GARCH                          0.0770        0.0287               $0.0045$
+  HON/EMR     base                           0.1095        0.0608   $2.60\times10^{-12}$
+  HON/EMR     GARCH                          0.0835        0.0145               $0.4146$
+  ISRG/EW     base                           0.0714        0.1137   $4.59\times10^{-42}$
+  ISRG/EW     GARCH                          0.0779        0.0158               $0.3104$
+  ITW/DOV     base                           0.1014        0.0783   $3.44\times10^{-20}$
+  ITW/DOV     GARCH                          0.0738        0.0141               $0.4514$
+  LMT/NOC     base                           0.0916        0.0743   $3.39\times10^{-18}$
+  LMT/NOC     GARCH                          0.0868        0.0186               $0.1532$
+  MCD/YUM     base                           0.1038        0.0769   $1.80\times10^{-19}$
+  MCD/YUM     GARCH                          0.0876        0.0190               $0.1369$
+  MSFT/VRSN   base                           0.1054        0.0684   $1.81\times10^{-15}$
+  MSFT/VRSN   GARCH                          0.0884        0.0161               $0.2873$
+  PSA/EXR     base                           0.0746        0.0892   $4.77\times10^{-26}$
+  PSA/EXR     GARCH                          0.0795        0.0309               $0.0017$
+  SBUX/CMG    base                           0.1054        0.1108   $5.02\times10^{-40}$
+  SBUX/CMG    GARCH                          0.0868        0.0196               $0.1138$
+  SLB/HAL     base                           0.1306        0.0751   $1.37\times10^{-18}$
+  SLB/HAL     GARCH                          0.1046        0.0223               $0.0503$
+  SO/D        base                           0.1233        0.0487    $4.65\times10^{-8}$
+  SO/D        GARCH                          0.0892        0.0091               $0.9173$
+  TRV/ALL     base                           0.1054        0.0969   $1.07\times10^{-30}$
+  TRV/ALL     GARCH                          0.0965        0.0152               $0.3528$
+  VTR/WELL    base                           0.0949        0.0892   $4.96\times10^{-26}$
+  VTR/WELL    GARCH                          0.0973        0.0214               $0.0676$
+
+  : H2: high-volatility coverage and PIT-KS test, baseline vs. GARCH (23 pairs $\times$ 2 models).
+:::
+
+Two patterns emerge clearly. First, the baseline's high-volatility coverage almost always exceeds the nominal 5% (typically 9--15%, with a single modest exception), the classic sign of a homoskedastic model that understates risk exactly when volatility rises; GARCH reduces it for the large majority of pairs. Second, the PIT-KS test rejects uniformity for the baseline in *every single one* of the 23 pairs (all p-values $<0.04$, most $<10^{-10}$), while for GARCH it fails to reject in **19 of 23 pairs** at the 5% level: the four exceptions, BAX/CI ($p=0.0285$), EWA/EWL ($p=0.0040$), GE/ITW ($p=0.0045$), and PSA/EXR ($p=0.0017$), show that the GARCH correction does not perfectly normalize the z-score everywhere, but this remains the exception, not the rule.
+
+## Forecasting accuracy: QLIKE and Diebold-Mariano
+
+@tbl-qlike reports, per pair, the mean QLIKE loss difference ($\text{base}-\text{GARCH}$, positive when GARCH has lower loss), the Newey-West standard error of the mean ([\[eq:newey-west\]](#eq:newey-west){reference-type="ref" reference="eq:newey-west"}, also used as a weight in the Liptak combination), and the Diebold-Mariano test (@sec-qlike) over $n=3698$ out-of-sample days per pair.
+
+::: {#tbl-qlike}
+  Pair          Mean loss diff.    SE (Newey-West)   DM statistic               p-value
+  ----------- ------------------ ----------------- -------------- ---------------------
+  MSFT/VRSN             $0.0664$          $0.0206$        $3.227$   $6.26\times10^{-4}$
+  BAX/CI               $-2.3428$          $0.5670$       $-4.132$             $0.99998$
+  AON/SPGI              $0.1733$          $0.0629$        $2.755$   $2.93\times10^{-3}$
+  CCI/PLD               $0.1113$          $0.0318$        $3.502$   $2.31\times10^{-4}$
+  DVN/EQT               $0.5654$          $0.1107$        $5.108$   $1.63\times10^{-7}$
+  EWA/EWL              $-2.3915$          $0.6616$       $-3.615$             $0.99985$
+  GD/NSC                $0.0671$          $0.0212$        $3.166$   $7.74\times10^{-4}$
+  GE/ITW               $-0.7347$          $0.2460$       $-2.986$             $0.99859$
+  CCI/SPG               $1.0495$          $0.3110$        $3.374$   $3.70\times10^{-4}$
+  TRV/ALL               $0.1809$          $0.0649$        $2.786$   $2.67\times10^{-3}$
+  BSX/EW                $0.0183$          $0.0219$        $0.833$              $0.2024$
+  ISRG/EW               $0.0381$          $0.0299$        $1.275$              $0.1012$
+  ADBE/CRM             $-0.0149$          $0.0118$       $-1.259$              $0.8959$
+  ADP/PAYX              $0.1705$          $0.0996$        $1.711$   $4.35\times10^{-2}$
+  HON/EMR               $0.1444$          $0.0626$        $2.308$   $1.05\times10^{-2}$
+  ITW/DOV               $0.1180$          $0.0361$        $3.269$   $5.40\times10^{-4}$
+  LMT/NOC               $0.0887$          $0.0269$        $3.296$   $4.90\times10^{-4}$
+  MCD/YUM               $0.1723$          $0.0588$        $2.930$   $1.70\times10^{-3}$
+  SBUX/CMG              $0.1807$          $0.0603$        $2.996$   $1.37\times10^{-3}$
+  SLB/HAL               $0.4348$          $0.1101$        $3.948$   $3.94\times10^{-5}$
+  SO/D                  $0.1481$          $0.0329$        $4.505$   $3.32\times10^{-6}$
+  PSA/EXR               $0.2232$          $0.0443$        $5.044$   $2.28\times10^{-7}$
+  VTR/WELL              $0.5592$          $0.1717$        $3.257$   $5.62\times10^{-4}$
+
+  : Diebold-Mariano test on QLIKE loss, GARCH vs. baseline ($n=3698$ per pair, 23 pairs).
+:::
+
+In **19 of 23 pairs** GARCH's mean loss is lower than the baseline's (sign test: $p=0.0013$); four pairs show the opposite sign (BAX/CI, EWA/EWL, GE/ITW, ADBE/CRM), the first three with strongly negative DM statistics. The aggregate equal-weighted Stouffer test across the 23 pairs is strongly significant: $Z=9.862$, $p<0.0001$; the inverse-variance-weighted Liptak version gives $Z=8.126$, $p<0.0001$, weaker than equal-weighted but still overwhelming, since here the pairs with the smallest SE (hence the largest weight) largely agree with the majority.
+
+## H3: Backtested risk comparison
+
+@tbl-h3 reports the four risk metrics for both models, and @tbl-h3sig the pair-level significance test on the volatility reduction. As a first descriptive summary, the share of pairs (out of 23) for which the GARCH correction improves each metric relative to the baseline is: 57% for annualized volatility, 52% for max drawdown, 30% for drawdown duration, 39% for CVaR at 95%. None of these shares departs markedly from the 50% expected under the null of no systematic effect, a descriptive picture consistent with the formal tests that follow.
+
+::: {#tbl-h3}
+  Pair        Model     Annualized vol.    Max drawdown   Drawdown duration (days)   CVaR 95%
+  ----------- ------- ------------------ -------------- -------------------------- ----------
+  ADBE/CRM    base                0.0842      $-0.3472$                       1685     0.0074
+  ADBE/CRM    GARCH               0.0808      $-0.3167$                       1685     0.0075
+  ADP/PAYX    base                0.0618      $-0.2362$                       2748     0.0054
+  ADP/PAYX    GARCH               0.0535      $-0.1937$                       1063     0.0051
+  AON/SPGI    base                0.0981      $-0.2519$                       1610     0.0085
+  AON/SPGI    GARCH               0.0957      $-0.3068$                       1630     0.0096
+  BAX/CI      base                0.0961      $-0.3180$                       2743     0.0097
+  BAX/CI      GARCH               0.1025      $-0.5467$                       3678     0.0128
+  BSX/EW      base                0.0710      $-0.2022$                       2830     0.0073
+  BSX/EW      GARCH               0.0772      $-0.1937$                       3019     0.0078
+  CCI/PLD     base                0.0857      $-0.4249$                       2784     0.0096
+  CCI/PLD     GARCH               0.0873      $-0.3729$                       1935     0.0102
+  CCI/SPG     base                0.2019      $-0.7223$                       3319     0.0182
+  CCI/SPG     GARCH               0.1670      $-0.7096$                       3319     0.0150
+  DVN/EQT     base                0.2096      $-0.8226$                       3695     0.0279
+  DVN/EQT     GARCH               0.2047      $-0.8904$                       3695     0.0229
+  EWA/EWL     base                0.0632      $-0.1417$                       1158     0.0058
+  EWA/EWL     GARCH               0.0683      $-0.0796$                       1278     0.0065
+  GD/NSC      base                0.0799      $-0.2290$                       1148     0.0079
+  GD/NSC      GARCH               0.0802      $-0.1915$                       1148     0.0078
+  GE/ITW      base                0.1140      $-0.6918$                       3679     0.0163
+  GE/ITW      GARCH               0.0936      $-0.5230$                       3679     0.0122
+  HON/EMR     base                0.0961      $-0.4699$                       3248     0.0108
+  HON/EMR     GARCH               0.0920      $-0.4547$                       3248     0.0097
+  ISRG/EW     base                0.0875      $-0.2846$                       2825     0.0084
+  ISRG/EW     GARCH               0.0981      $-0.3037$                       2802     0.0094
+  ITW/DOV     base                0.0747      $-0.1982$                       2053     0.0064
+  ITW/DOV     GARCH               0.0693      $-0.2644$                       2053     0.0065
+  LMT/NOC     base                0.0557      $-0.2666$                       3182     0.0056
+  LMT/NOC     GARCH               0.0563      $-0.2931$                       1985     0.0064
+  MCD/YUM     base                0.0750      $-0.1167$                        547     0.0066
+  MCD/YUM     GARCH               0.0750      $-0.2236$                       1919     0.0084
+  MSFT/VRSN   base                0.0809      $-0.2174$                       1274     0.0085
+  MSFT/VRSN   GARCH               0.0825      $-0.1391$                       1226     0.0079
+  PSA/EXR     base                0.0513      $-0.1940$                       2912     0.0002
+  PSA/EXR     GARCH               0.0538      $-0.1941$                       2436     0.0057
+  SBUX/CMG    base                0.1847      $-0.4641$                       2719     0.0181
+  SBUX/CMG    GARCH               0.1650      $-0.4235$                       2893     0.0168
+  SLB/HAL     base                0.1401      $-0.6801$                       1684     0.0138
+  SLB/HAL     GARCH               0.1206      $-0.5810$                       3624     0.0141
+  SO/D        base                0.0548      $-0.1937$                       1568     0.0060
+  SO/D        GARCH               0.0532      $-0.2214$                       2298     0.0062
+  TRV/ALL     base                0.0789      $-0.2745$                       1638     0.0069
+  TRV/ALL     GARCH               0.0740      $-0.3179$                       1638     0.0067
+  VTR/WELL    base                0.1052      $-0.6119$                       3110     0.0093
+  VTR/WELL    GARCH               0.1041      $-0.6130$                       2789     0.0096
+
+  : H3: risk metrics, baseline vs. GARCH (23 pairs $\times$ 2 models).
+:::
+
+Note that, for several pairs (DVN/EQT, GE/ITW, CCI/SPG, SBUX/CMG, among others), the drawdown duration approaches or coincides with the entire length of the out-of-sample period ($n=3698$): over a horizon of more than 14 years, these strategies never recovered a new equity high after a certain point, a fact worth keeping in mind when interpreting the duration metric (@sec-discussione).
+
+::: {#tbl-h3sig}
+  Pair          $\Delta$ volatility   Bootstrap SE   p-value (one-sided)  Signif. (5%)
+  ----------- --------------------- -------------- --------------------- --------------
+  MSFT/VRSN              $0.000101$     $0.000186$               $0.717$       No
+  BAX/CI                 $0.000405$     $0.000239$               $0.964$       No
+  AON/SPGI              $-0.000149$     $0.000249$               $0.281$       No
+  CCI/PLD                $0.000105$     $0.000288$               $0.631$       No
+  DVN/EQT               $-0.000307$     $0.002665$               $0.406$       No
+  EWA/EWL                $0.000316$     $0.000206$               $0.941$       No
+  GD/NSC                 $0.000022$     $0.000173$               $0.567$       No
+  GE/ITW                $-0.001290$     $0.000353$               $0.000$      Yes
+  CCI/SPG               $-0.002194$     $0.001597$               $0.046$      Yes
+  TRV/ALL               $-0.000313$     $0.000258$               $0.111$       No
+  BSX/EW                 $0.000394$     $0.000254$               $0.964$       No
+  ISRG/EW                $0.000668$     $0.000460$               $0.948$       No
+  ADBE/CRM              $-0.000216$     $0.000201$               $0.157$       No
+  ADP/PAYX              $-0.000522$     $0.000536$               $0.273$       No
+  HON/EMR               $-0.000253$     $0.000369$               $0.229$       No
+  ITW/DOV               $-0.000343$     $0.000207$               $0.038$      Yes
+  LMT/NOC                $0.000039$     $0.000234$               $0.603$       No
+  MCD/YUM                $0.000004$     $0.000345$               $0.542$       No
+  SBUX/CMG              $-0.001239$     $0.000751$               $0.038$      Yes
+  SLB/HAL               $-0.001228$     $0.000941$               $0.163$       No
+  SO/D                  $-0.000104$     $0.000168$               $0.278$       No
+  PSA/EXR                $0.000153$     $0.000158$               $0.853$       No
+  VTR/WELL              $-0.000069$     $0.000220$               $0.409$       No
+
+  : H3: block bootstrap on the realized volatility difference (GARCH vs. baseline, 23 pairs).
+:::
+
+In 13 of 23 pairs GARCH reduces realized volatility, but the sign test remains far from significance ($p=0.339$). Four pairs are individually significant at the 5% level (GE/ITW, CCI/SPG, ITW/DOV, SBUX/CMG), but only GE/ITW ($p<0.001$) survives a Bonferroni correction for 23 tests ($\alpha/23\approx0.0022$); the Benjamini-Hochberg procedure also admits CCI/SPG. The aggregate equal-weighted Stouffer test, $Z=1.092$, $p=0.137$, does not reach significance at the 5% level; the inverse-variance-weighted version collapses further to $Z=0.137$, $p=0.445$: a particularly instructive case discussed in detail in @sec-discussione.
+
+## Panel test: pooling at the pair-day level {#sec-risultati-panel}
+
+The panel test introduced in @sec-panel-bootstrap pools the entire selected universe at the level of the individual pair-day: $23$ pairs $\times$ $3698$ days $= \mathbf{85{,}054}$ pair-day observations, more than 3,600 times the number of independent observations (23) available to the pair-level test of the previous subsection. The result is $t=0.626$, $p=0.266$ (one-sided), not significant, and substantially in line (neither qualitatively stronger nor weaker) with the pair-level result of @tbl-h3sig. With a sample of this size, if there existed even a modest but systematic aggregate effect on backtested risk reduction, the panel test would have more than enough power to detect it; failing to find one shifts the interpretation from "perhaps power is still lacking" to "the effect, on this specific question, is likely weak or absent in the population" (@sec-discussione).
+
+## Robustness
+
+Re-applying the cointegration screening at the stricter threshold $\text{STRICT\_ALPHA}=0.05$, **11 of 23 pairs** survive (@tbl-robustezza): AON/SPGI, GE/ITW, BSX/EW, ISRG/EW, ADBE/CRM, ADP/PAYX, LMT/NOC, MCD/YUM, SBUX/CMG, SLB/HAL, PSA/EXR.
+
+::: {#tbl-robustezza}
+  Pair         Passes $\alpha=0.05$
+  ----------- ----------------------
+  MSFT/VRSN             No
+  BAX/CI                No
+  AON/SPGI             Yes
+  CCI/PLD               No
+  DVN/EQT               No
+  EWA/EWL               No
+  GD/NSC                No
+  GE/ITW               Yes
+  CCI/SPG               No
+  TRV/ALL               No
+  BSX/EW               Yes
+  ISRG/EW              Yes
+  ADBE/CRM             Yes
+  ADP/PAYX             Yes
+  HON/EMR               No
+  ITW/DOV               No
+  LMT/NOC              Yes
+  MCD/YUM              Yes
+  SBUX/CMG             Yes
+  SLB/HAL              Yes
+  SO/D                  No
+  PSA/EXR              Yes
+  VTR/WELL              No
+
+  : Robustness: cointegration screening at $\alpha=0.05$ (23 pairs).
+:::
+
+On the restricted subset of 11 pairs, the sign test for H3 (volatility reduction) gives 6/11 pairs with a reduction, $p=0.500$ (not significant), and the equal-weighted Stouffer test confirms the absence of a signal, $Z=0.964$, $p=0.168$: essentially the same non-significant result as the full 23-pair sample, not a stronger one. The aggregate test for forecasting accuracy (QLIKE/Diebold-Mariano) on the same subset remains significant: the sign test gives 9/11 pairs with lower GARCH loss ($p=0.033$) and the equal-weighted Stouffer test $Z=6.194$, $p<0.0001$. The panel test restricted to the same 11 pairs ($11\times3698=40{,}678$ pair-day observations) gives $t=-0.763$, $p=0.777$, consistent with, not in conflict with, the pair-level Stouffer test on the same subset: both the pair-level and pair-day-level tests agree in finding no significant risk reduction even when the sample is restricted to the most strongly cointegrated pairs.
+
+The continuous cointegration-strength weighting (@sec-robustezza-metodo), applied to the full 23-pair sample rather than only the strict subset, gives for H3 $Z=1.371$, $p=0.085$: a result of the same sign as the equal-weighted one but still not significant at the 5% level, unlike the collapse (all the way to a sign flip) already observed in the bootstrap-precision-weighted version (@sec-discussione); for forecasting accuracy (QLIKE/Diebold-Mariano) the same continuous weighting instead gives $Z=9.063$, $p<0.0001$, substantially in line with every other version of the test: a further confirmation that GARCH's forecasting advantage is robust to whichever aggregation scheme is used, while the H3 result remains weak and on the margin of significance under every aggregation scheme tried, a diagnostic symptom discussed in the following section.
+
+# Discussion {#sec-discussione}
+
+## Two different questions, two different answers: power does not change the substance
+
+The most important result of this paper is that "GARCH forecasts variance better" (previous section, @tbl-qlike) and "GARCH reduces the risk of a backtested portfolio" (@tbl-h3sig) are *not the same question*. The two questions respond *differently* to an increase in statistical power: the evidence on forecasting accuracy is decisive (Stouffer $Z=9.86$ across 23 pairs), while the evidence on H3 is not, remaining substantially unchanged even when pooling moves from the pair level (23 observations) to the pair-day level (85,054 observations, @sec-risultati-panel: $p=0.266$, against $p=0.137$ for the pair-level equal-weighted test: the same conclusion, not a stronger one).
+
+This is precisely the behavior expected when one effect is real and detectable with enough power (forecast accuracy) against another that is weak or absent in the population (backtested risk): more power reveals the first with increasing clarity, while confirming the absence of the second becomes progressively more credible: with 85,054 panel observations, if there existed even a modest aggregate effect on realized risk reduction, the panel test would almost certainly have detected it. Not finding one is stronger evidence of no effect on this specific metric, not a residual symptom of under-power. A plausible explanation for the divergence is that the QLIKE loss evaluates forecasting accuracy *on average*, day by day, while what matters for the trading rule is above all *timing* around the days on which positions are opened or closed: a model can have a slightly worse average loss while still getting the direction right at the moments that matter for the strategy, and vice versa: the backtest also adds its own noise (transaction costs, discrete entry/exit thresholds, path-dependency of the equity curve) that the QLIKE loss, evaluated directly on the innovations, does not experience.
+
+## The collapse of the weighted Stouffer test in H3: a methodological warning
+
+The most interesting result from a methodological standpoint is the behavior of the Liptak weighted combination (@sec-combinazione-pvalue) on H3: across the full 23-pair sample, the equal-weighted Stouffer test gives $Z=1.092$ while the bootstrap-precision-weighted version collapses to $Z=0.137$: a marked weakening, in the opposite direction from what one would expect if precision weighting were simply "cleaning up noise". The explanation lies in @tbl-h3sig: the pair with the smallest bootstrap standard error, hence the largest weight in the weighted combination, is PSA/EXR ($\text{SE}=0.000158$), whose effect runs in the *opposite* direction from H3 (GARCH increased, rather than reduced, realized volatility for that pair, $p=0.853$). Since this is the most precisely estimated pair in the whole sample, its weight in the sum of [\[eq:liptak\]](#eq:liptak){reference-type="ref" reference="eq:liptak"} is enough to drag down the positive, if weak, signal of the equal-weighted test.
+
+This is exactly the warning anticipated in @sec-combinazione-pvalue: inverse-variance weighting is more efficient than equal-weighted combination only under the assumption of a true effect common to all pairs (a fixed-effects model). That it produces here a *different* result, not merely a more precise one, is itself a signal that this assumption is probably false for H3: the effect of the GARCH correction on backtested risk does not appear to be a universal constant across pairs, but rather to depend substantially on idiosyncratic characteristics of each pair, consistent with the observation that the pairs "strong" for H3 (e.g. GE/ITW) and those "strong" for forecasting accuracy do not coincide. A more nuanced pattern is seen in the continuous cointegration-strength-weighted version (@sec-risultati, $Z=1.371$ for H3 against $Z=9.063$ for forecasting accuracy): here the signal on H3 neither collapses nor flips sign, but still stays below the 5% significance threshold, while the signal on forecasting accuracy stays stable regardless of the weighting scheme: indirect but convergent evidence that the first effect is fragile/heterogeneous (sensitive to the chosen weighting scheme, even when not reversed by it) and the second robust. The difference between the two weighting schemes is itself instructive: bootstrap-precision weighting, driven by a single anomalous pair (PSA/EXR), produces a drastic collapse that nearly cancels the signal ($Z=0.137$); cointegration-strength weighting, which does not depend on the precision of the effect estimate but on the quality of the long-run relationship between the two securities, instead leaves the weak but positive equal-weighted signal essentially intact ($Z=1.371$). The overall picture that emerges from every version of the H3 test, equal-weighted, precision-weighted, cointegration-weighted, pair-day-level panel, and restricted to the $\alpha=0.05$ subset, is therefore one of a positive but weak signal, never significant at the 5% level, and sensitive to the chosen aggregation scheme: a result consistent with a heterogeneous effect across pairs rather than with either a total absence of effect or a strong effect masked by low power.
+
+## Pairs without ARCH effects: BSX/EW, ISRG/EW, LMT/NOC
+
+The only three pairs without significant evidence of volatility clustering (@tbl-h1) are also, not by chance, among those where GARCH offers the smallest calibration benefit (@tbl-h2: BSX/EW and ISRG/EW still show a non-rejected PIT-KS test for GARCH, but starting from a baseline that is already relatively less poorly calibrated than pairs with strong ARCH effects), and never appear among the individually significant pairs in either H3 or the QLIKE comparison. It is worth noting that two of the three pairs share the same leg, EW (Edwards Lifesciences): an observation consistent with the idea that the absence of ARCH effects may reside in a characteristic of that specific security (e.g. a structurally more stable volatility profile) rather than being a pair-specific coincidence: a hypothesis that would merit verification on a larger sample of pairs containing EW, beyond the scope of this paper. Where there is no genuine heteroskedasticity to correct for, the GARCH correction has little or nothing to offer, and can even introduce noise of its own.
+
+## The role of numerical safeguards
+
+The floors and truncations described in @sec-metodologia are not a cosmetic implementation detail: without them, a single pair's day-by-day recursion can produce a QLIKE loss or a panel-test statistic several orders of magnitude larger than every other pair's, purely as a numerical artifact of the recursion (typically an EGARCH conditional variance drifting toward zero during a long calm stretch, or a near-degenerate, quasi-identical pair). Because the aggregate tests in this paper (Stouffer, Liptak, the panel test) combine information across pairs or across pair-days, a single such artifact, left unguarded, would not merely distort one row of a results table; it would dominate an aggregate statistic meant to summarize the whole selected universe, potentially reversing the sign or the significance of a combined test that has nothing to do with the anomaly itself. This is why the QLIKE ratio [\[eq:qlike\]](#eq:qlike){reference-type="eqref" reference="eq:qlike"} is truncated at 100 and the panel-test differential [\[eq:panel-diff\]](#eq:panel-diff){reference-type="eqref" reference="eq:panel-diff"} at $\pm50$: both bounds are set well above any plausible genuine tail event for a single observation, so that they discipline numerical artifacts without materially affecting the many well-behaved observations that make up the bulk of each test.
+
+## Limitations
+
+Several limitations remain. First, sensitivity to the cointegration screening threshold $\text{COINT\_ALPHA}$ is still material: only 11 of 23 pairs survive the stricter threshold $\alpha=0.05$ (@tbl-robustezza), and on that subset both the pair-level H3 test and the panel test remain non-significant (@sec-risultati), in line with the full-sample result: a convergence that, while reinforcing the conclusion of a weak H3 effect, does not resolve the uncertainty already discussed about effect heterogeneity across pairs, since a sample of only 11 pairs still has limited power to distinguish "no effect" from "heterogeneous effect of mixed sign". Second, extending the sample period back to 2010 introduces backtests with drawdown durations approaching the length of the entire sample for several pairs (@sec-risultati): an intrinsic limitation of the drawdown- duration metric when applied over a very long horizon, not specific to this paper but worth bearing in mind when interpreting @tbl-h3. Third, this paper compares the baseline only against GARCH; a simpler exponentially weighted moving average (EWMA) correction, tested in an unreported side analysis, shows a qualitatively similar but quantitatively weaker pattern, consistent with the absence, in EWMA, of a fitted distributional shape as in GARCH. Finally, the panel test itself, despite pooling thousands of observations, does not resolve a more fundamental limitation: if the H3 effect is genuinely heterogeneous across pairs (@sec-discussione), no increase in power can produce a meaningful aggregate estimate of an "average effect" that simply does not exist as a single constant: the problem is not (any longer) one of power, but of the very shape of the question H3 poses.
+
+# Conclusion and Future Work {#sec-conclusioni}
+
+The three research questions receive answers of different strength. **H1** is confirmed clearly: 20 of 23 pairs show strongly significant evidence of volatility clustering in the KF innovations. **H2** is confirmed systematically: the GARCH correction reduces high-volatility over-exposure and resolves the PIT-KS rejection in 19 of 23 pairs. **H3** finds weak, non-robust evidence: neither the sign test, nor the aggregate Stouffer test (equal- or precision-weighted), nor a panel test on more than 85,000 pair-day observations reaches significance at the 5% level across the full sample. The supplementary question on pure forecasting accuracy (QLIKE/Diebold-Mariano) instead offers the strongest evidence in favor of GARCH, evidence that grows stronger, not merely confirmed, as statistical power increases. The central message of this paper is precisely this divergence: the GARCH correction works well exactly where it is designed to work (the estimation of conditional variance, evaluated directly), but this advantage does not transmit reliably, and, with more data, decreasingly plausibly as a mere symptom of low power, to the realized risk of a complete trading strategy.
+
+Natural directions for future work include: an explicit analysis of H3 effect heterogeneity across pairs (for example a random-effects meta-analytic model, rather than the fixed-effects model implicit in the Liptak combination, @sec-combinazione-pvalue), which could formalize statistically what this paper observes only qualitatively; a sensitivity analysis of the H3 results to the trading rule's parameters ($\text{TRAIN\_WINDOW}$, $\text{REFIT\_FREQ}$, $\text{COST\_BPS}$, entry/exit thresholds); and the implementation of two further modeling approaches from the original research plan: Sage-Husa-type adaptive estimation and a GARCH-in-KF model estimated jointly with the state, rather than in two separate stages as in this paper.
+
+# References {.unnumbered}
+
+[]{#ref-benjamini1995}Benjamini, Y., Hochberg, Y. (1995). *Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing*. Journal of the Royal Statistical Society, Series B, 57(1), 289--300.
+
+[]{#ref-bollerslev1986}Bollerslev, T. (1986). *Generalized Autoregressive Conditional Heteroskedasticity*. Journal of Econometrics, 31(3), 307--327.
+
+[]{#ref-diebold1995}Diebold, F.X., Mariano, R.S. (1995). *Comparing Predictive Accuracy*. Journal of Business & Economic Statistics, 13(3), 253--263.
+
+[]{#ref-engle1982}Engle, R.F. (1982). *Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation*. Econometrica, 50(4), 987--1007.
+
+[]{#ref-engle1987}Engle, R.F., Granger, C.W.J. (1987). *Co-integration and Error Correction: Representation, Estimation, and Testing*. Econometrica, 55(2), 251--276.
+
+[]{#ref-hansen1994}Hansen, B.E. (1994). *Autoregressive Conditional Density Estimation*. International Economic Review, 35(3), 705--730.
+
+[]{#ref-johansen1988}Johansen, S. (1988). *Statistical Analysis of Cointegration Vectors*. Journal of Economic Dynamics and Control, 12(2--3), 231--254.
+
+[]{#ref-johansen1991}Johansen, S. (1991). *Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models*. Econometrica, 59(6), 1551--1580.
+
+[]{#ref-kalman1960}Kalman, R.E. (1960). *A New Approach to Linear Filtering and Prediction Problems*. Journal of Basic Engineering, 82(1), 35--45.
+
+[]{#ref-kunsch1989}Künsch, H.R. (1989). *The Jackknife and the Bootstrap for General Stationary Observations*. The Annals of Statistics, 17(3), 1217--1241.
+
+[]{#ref-liptak1958}Liptak, T. (1958). *On the Combination of Independent Tests*. Magyar Tudomanyos Akademia Matematikai Kutato Intezetenek Kozlemenyei, 3, 171--197.
+
+[]{#ref-mandelbrot1963}Mandelbrot, B. (1963). *The Variation of Certain Speculative Prices*. The Journal of Business, 36(4), 394--419.
+
+[]{#ref-nelson1991}Nelson, D.B. (1991). *Conditional Heteroskedasticity in Asset Returns: A New Approach*. Econometrica, 59(2), 347--370.
+
+[]{#ref-neweywest1987}Newey, W.K., West, K.D. (1987). *A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix*. Econometrica, 55(3), 703--708.
+
+[]{#ref-patton2011}Patton, A.J. (2011). *Volatility Forecast Comparison Using Imperfect Volatility Proxies*. Journal of Econometrics, 160(1), 246--256.
+
+
+::: {.paper-download}
+[Download PDF](kf-innovations-heteroskedasticity.pdf){.btn-paper download=""} [Code](kf_heteroskedasticity_pairs_trading.ipynb){.btn-paper}
+:::
