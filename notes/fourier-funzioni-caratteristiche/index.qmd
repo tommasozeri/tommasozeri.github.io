@@ -9,20 +9,236 @@ categories: [Probability, Fourier Analysis]
 description: "Le funzioni caratteristiche sono lo strumento analitico più potente della teoria della probabilità moderna: a differenza della funzione generatrice dei momenti, esistono sempre (per qualsiasi distribuzione) e codificano in un'unica funzione a valori complessi tutta l'informazione probabilistica di una variabile aleatoria."
 pdf: probability_theory_for_quantitative_finance-11.pdf
 wordpress: https://tommasozeri2932001-vbfzw.wordpress.com/2026/05/25/trasformata-di-fourier-e-funzioni-caratteristiche/
+number-sections: true
+number-depth: 3
 ---
 
-```{=html}
-<p class="paper-links"><a class="btn-paper" href="probability_theory_for_quantitative_finance-11.pdf">PDF</a></p>
-```
+# Funzioni Caratteristiche
 
-Le funzioni caratteristiche sono lo strumento analitico più potente della teoria della probabilità moderna: a differenza della funzione generatrice dei momenti, esistono sempre (per qualsiasi distribuzione) e codificano in un\'unica funzione a valori complessi tutta l\'informazione probabilistica di una variabile aleatoria.
+Capita spesso di poter risolvere problemi e/o ricavare proprietà di oggetti matematici trasformandoli in un altro spazio, risolvendo il problema in quella sede, per poi antitrasformare. Le due trasformate più importanti sono quelle di Laplace e di Fourier, usate sia per le equazioni differenziali che per la probabilità.\
+Scriviamo $\langle\mathbf{X},\mathbf{Y}\rangle$ per indicare il prodotto scalare tra i vettori $\mathbf{X}$ e $\mathbf{Y}$ $\in\mathbb{R}^n$.\
+Se $\mathbf{X}=[X_1,...,X_n]$ e $\mathbf{Y}=[Y_1,...,Y_n]$ allora: $$\langle\mathbf{X},\mathbf{Y}\rangle=\sum_{j=1}^n X_j Y_j$$ La trasformata di Laplace di una distribuzione è la Moment Generating Function (MGF) di quella distribuzione. Una volta trasformata la funzione nel nuovo spazio, basta calcolare le sue derivate per calcolare i momenti, senza dover risolvere integrali complessi.\
+La trasformata di Fourier di una distribuzione è la Funzione Caratteristica di quella distribuzione. A differenza di Laplace, Fourier esiste sempre, poiché usando numeri complessi, ruota lo spazio invece di espanderlo. Vedremo che la trasformata di Fourier e le funzioni caratteristiche ci serviranno per dimostrare il Teorema del Limite Centrale.\
+L'idea centrale della trasformata di Fourier è quella di mappare una distribuzione reale in una funzione a valori complessi. Per farlo si usa la formula di Eulero: $$e^{ix}=\cos(x)+i\sin(x)$$ Anche se stiamo integrando una funzione a valori complessi, possiamo farlo tranquillamente spezzando l'integrale in parte reale (coseno) e immaginaria (seno). Poiché il modulo di questo numero complesso è sempre $1$, questi integrali non esplodono: esistono e sono finiti. $$|e^{ix}| = \sqrt{\cos^2(x) + \sin^2(x)} = 1$$
 
-In questo articolo calcoliamo esplicitamente la funzione caratteristica φ_X(u) = E\[e\^{iuX}\] per le otto distribuzioni fondamentali (Bernoulli, Binomiale, Poisson, Uniforme, Normale (standard e generale), Esponenziale e Gamma) mostrando per ciascuna la derivazione passo-passo e un plot a tre pannelli (parte reale, immaginaria e modulo) al variare dei parametri.
+## Trasformata di Fourier
 
-Due risultati emergono con chiarezza: la funzione caratteristica della somma di variabili indipendenti è il prodotto delle singole trasformate (proprietà sfruttata per Binomiale e Gamma), e la funzione caratteristica della Normale si ricava in modo elementare risolvendo un\'ODE senza ricorrere all\'analisi complessa. Completano la trattazione il Teorema di Unicità di Fourier e il Teorema di Continuità di Lévy, che sono le fondamenta su cui poggia la dimostrazione del Teorema del Limite Centrale.
+Sia $\mu$ una misura di probabilità in $\mathbb{R}^n$. La sua trasformata di Fourier $\hat{\mu}$ è una funzione in $\mathbb{R}^n$ data da: $$\hat{\mu}(u)=\int e^{i\langle u,\mathbf{x}\rangle}\mu (d\mathbf{x})$$ Dove $i=\sqrt{-1}$. Integriamo la funzione a valori complessi $\mathbf{x}\rightarrow e^{i\langle u, \mathbf{x}\rangle}$. Conoscendo l'identità trigonometrica (Eulero): $$e^{i\langle u,\mathbf{x}\rangle}=\cos(\langle u,\mathbf{x}\rangle)+i\sin(\langle u,\mathbf{x}\rangle)$$ ora entrambe le funzioni $\mathbf{x}\rightarrow \cos(\langle u, \mathbf{x}\rangle)$ e $\mathbf{x}\rightarrow \sin(\langle u, \mathbf{x}\rangle)$ sono limitate e Borel-misurabili (seno e coseno sono continue e sempre limitate), quindi integrabili e: $$\hat{\mu}(u)=\int e^{i\langle u,\mathbf{x}\rangle}\mu (d\mathbf{x})=\int \cos(\langle u,\mathbf{x}\rangle)\mu(d\mathbf{x})+i\int \sin(\langle u,\mathbf{x}\rangle)\mu(d\mathbf{x})$$
 
-## Testo completo
+## Funzione Caratteristica
 
-```{=html}
-<object class="pdf-viewer" data="probability_theory_for_quantitative_finance-11.pdf" type="application/pdf"><p><a href="probability_theory_for_quantitative_finance-11.pdf">Download PDF</a></p></object>
-```
+Sia $\mathbf{X}$ un vettore aleatorio in $\mathbb{R}^n$. La sua funzione caratteristica $\phi_{\mathbf{X}}$, definita su $\mathbb{R}^n$ è: $$\phi_{\mathbf{X}}(u)=\mathbb{E}[e^{i\langle u,\mathbf{X} \rangle}]$$ Notiamo che: $$\phi_{\mathbf{X}}(u) = \mathbb{E}[e^{i\langle u,\mathbf{X} \rangle}] = \int e^{i\langle u,\mathbf{x} \rangle} P_{\mathbf{X}}(d\mathbf{x}) = \hat{P}_{\mathbf{X}}(u)$$ Dove $P_{\mathbf{X}}$ è la distribuzione di $\mathbf{X}$. Pertanto le funzioni caratteristiche esistono sempre, poiché sono uguali alle trasformate di Fourier della misura di probabilità, che esistono sempre.
+
+::: mybox
+Proprietà delle funzioni caratteristiche Sia $\mu$ una misura di probabilità su $\mathbb{R}^n$.
+
+- Allora $\hat{\mu}$ è una funzione limitata e continua con $\hat{\mu}(0)=1$. Questo significa che la curva della funzione caratteristica passa sempre per il punto $(0,1)$. $$\hat{\mu}(0) = \int e^{i\langle 0,\mathbf{x} \rangle}\mu(d\mathbf{x}) = \int 1 \, \mu(d\mathbf{x}) = 1$$
+
+- Le funzioni caratteristiche sono sempre limitate dal cerchio unitario: $$|\hat{\mu}(u)| \leq 1$$ Questa è una diretta conseguenza della disuguaglianza triangolare per gli integrali $\left( \left| \int \dots \right| \leq \int | \dots | \right)$.
+
+- La funzione caratteristica è una funzione continua: se varia leggermente il parametro $u$, il valore di $\hat{\mu}(u)$ cambierà solo di poco.
+:::
+
+Le proprietà appena elencate ci permettono di introdurre i due teoremi cardine che giustificano l'enorme utilità delle funzioni caratteristiche in probabilità. Il primo garantisce che non perdiamo informazioni passando nello spazio trasformato, il secondo è lo strumento principale per studiare la convergenza delle variabili aleatorie.
+
+### Teorema di Unicità (o Inversione) {#sec-teorema-di-unicit-o-inversione .unnumbered}
+
+La funzione caratteristica identifica in modo univoco una distribuzione di probabilità. Questo significa che se due vettori aleatori $\mathbf{X}$ e $\mathbf{Y}$ (o due misure di probabilità $\mu_1$ e $\mu_2$) hanno la stessa funzione caratteristica per ogni punto, allora hanno esattamente la stessa distribuzione. In simboli: $$\phi_{\mathbf{X}}(u) = \phi_{\mathbf{Y}}(u) \quad \forall u \in \mathbb{R}^n \iff P_{\mathbf{X}} = P_{\mathbf{Y}}$$ **Cosa ne deriva:** Questo risultato è un potente strumento di calcolo. Se, compiendo delle operazioni su una variabile incognita, calcoliamo la sua funzione caratteristica e scopriamo che coincide con quella di una distribuzione nota (ad esempio, una Gaussiana), possiamo concludere con assoluta certezza che la nostra variabile segue quella distribuzione nota.
+
+### Teorema di Continuità di Lévy {#sec-teorema-di-continuit-di-l-vy .unnumbered}
+
+Questo teorema stabilisce un'equivalenza perfetta tra la convergenza delle variabili aleatorie (in distribuzione) e la convergenza puntuale delle loro funzioni caratteristiche nello spazio trasformato.
+
+Sia $\{\mathbf{X}_n\}_{n \in \mathbb{N}}$ una successione di vettori aleatori con le rispettive funzioni caratteristiche $\phi_{\mathbf{X}_n}(u)$. Se per ogni $u \in \mathbb{R}^n$ il limite: $$\lim_{n \to \infty} \phi_{\mathbf{X}_n}(u) = \phi(u)$$ esiste, e se la funzione limite $\phi(u)$ è continua in $u=0$, allora vale che:
+
+1.  La funzione limite $\phi(u)$ è la funzione caratteristica di un qualche vettore aleatorio $\mathbf{X}$.
+
+2.  La successione $\mathbf{X}_n$ converge in distribuzione a $\mathbf{X}$ (scritto comunemente come $\mathbf{X}_n \xrightarrow{d} \mathbf{X}$).
+
+**Cosa ne deriva (Il Teorema del Limite Centrale):** Dimostrare la convergenza in distribuzione usando direttamente le definizioni (ovvero calcolando il limite degli integrali o delle Funzioni di Ripartizione) è spesso matematicamente intrattabile. Grazie al Teorema di Lévy, il problema si semplifica drasticamente: è sufficiente calcolare il limite algebrico delle funzioni caratteristiche $\phi_{\mathbf{X}_n}(u)$ e verificare che il risultato coincida con la funzione caratteristica della distribuzione Normale.
+
+::: mybox
+Generazione dei momenti Sia $\mathbf{X}$ un vettore aleatorio in $\mathbb{R}^n$ e supponiamo che $\mathbb{E}[|\mathbf{X}|^m]<\infty$ per un qualche intero $m$. Allora $\phi_{\mathbf{X}}$ ha derivate parziali fino all'ordine $m$ e: $$\frac{\partial^m\phi_{\mathbf{X}}}{\partial x_{j1},...,x_{jm}}=i^m\mathbb{E}[X_{j1},...,X_{jm}]$$
+:::
+
+Questa proprietà è estremamente potente dal punto di vista computazionale. Ci dice che per trovare i momenti di una variabile aleatoria (che sono alla base del calcolo di media, varianza e covarianza) non dobbiamo calcolare complessi integrali del tipo $\int x^m \mu(dx)$, ma ci basta semplicemente derivare la funzione caratteristica e valutarla nell'origine ($u=0$).
+
+Nel caso unidimensionale (una singola variabile aleatoria $X \in \mathbb{R}$), le formule si semplificano in modo molto intuitivo:
+
+- **Momento primo (Media):** Derivando una volta ($m=1$) e ponendo $u=0$, otteniamo $\phi_X'(0) = i\mathbb{E}[X]$. Ricordando che $1/i = -i$, ricaviamo direttamente il valore atteso: $$\mathbb{E}[X] = -i\phi_X'(0)$$
+
+- **Momento secondo:** Derivando due volte ($m=2$), otteniamo $\phi_X''(0) = i^2\mathbb{E}[X^2]$. Poiché l'unità immaginaria al quadrato fa $-1$ ($i^2 = -1$), abbiamo: $$\mathbb{E}[X^2] = -\phi_X''(0)$$
+
+**Cosa ne deriva (Calcolo della Varianza):** Conoscendo questi due momenti, possiamo ricavare la varianza della distribuzione usando la sua definizione standard $\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$. Sostituendo i risultati ottenuti dalle funzioni caratteristiche, la varianza diventa una semplice operazione algebrica tra derivate: $$\text{Var}(X) = -\phi_X''(0) + (\phi_X'(0))^2$$ La formula della funzione caratteristica è un integrale contenente un esponenziale complesso $e^{iux}$. Se deriviamo l'esponenziale rispetto a $u$, scende il termine $ix$. Se lo facciamo $m$ volte, scende il termine $(ix)^m$. Il teorema ci assicura che possiamo scambiare derivata e integrale, purhcè il momento $m$-esimo esista.
+
+## Esempi di Funzioni Caratteristiche
+
+Nei seguenti esempi calcoliamo esplicitamente la funzione caratteristica $\phi_X(u) = \mathbb{E}[e^{iuX}]$ per le principali distribuzioni di probabilità, sia discrete che continue. Ricordiamo che per la formula di Eulero $e^{i\theta}=\cos\theta + i\sin\theta$, la funzione caratteristica è sempre una funzione a valori complessi e il suo modulo soddisfa $|\phi_X(u)|\leq 1$ per ogni $u\in\mathbb{R}$.
+
+### Bernoulli$(p)$
+
+Sia $X \sim \mathcal{B}(p)$, ossia $\mathbb{P}(X=1)=p$ e $\mathbb{P}(X=0)=1-p$. Applicando direttamente la definizione di valore atteso su uno spazio discreto (trasporto), otteniamo: $$\phi_X(u)
+    = \mathbb{E}[e^{iuX}]
+    = e^{iu \cdot 0}(1-p) + e^{iu \cdot 1}\,p
+    = p\,e^{iu} + (1-p).$$ Usando la formula di Eulero possiamo separare parte reale e immaginaria: $$\phi_X(u)
+    = \bigl[p\cos u + (1-p)\bigr] + i\,p\sin u.$$ **Osservazione.** Il modulo soddisfa $|\phi_X(u)|\leq 1$ per ogni $u$, con uguaglianza solo in $u=0$ (dove $\phi_X(0)=1$, come atteso). Per $p=\tfrac{1}{2}$ la parte reale è $\tfrac{1+\cos u}{2}=\cos^2\!\tfrac{u}{2}$ e la funzione caratteristica coincide con quella di un coseno smorzato.
+
+![Funzione caratteristica della Bernoulli<span class="math inline">(<em>p</em>)</span> al variare del parametro <span class="math inline"><em>p</em></span>. <em>Sin.</em>: parte reale <span class="math inline"><em>p</em>cos <em>u</em> + (1 − <em>p</em>)</span>, che oscilla tra <span class="math inline">1</span> (in <span class="math inline"><em>u</em> = 0</span>) e <span class="math inline">(1 − 2<em>p</em>)</span>. <em>Centro</em>: parte immaginaria <span class="math inline"><em>p</em>sin <em>u</em></span>, proporzionale a <span class="math inline"><em>p</em></span>. <em>Des.</em>: modulo <span class="math inline">|<em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)|</span>, sempre <span class="math inline"> ≤ 1</span>.](figures/01-bernoulli-cf.png){#fig-cf-bernoulli}
+
+### Binomiale$\mathcal{B}(n,p)$
+
+Sia $X \sim \mathcal{B}(n,p)$. **Metodo diretto.** Usando la formula della PMF e il teorema binomiale: $$\phi_X(u)
+    = \mathbb{E}[e^{iuX}]
+    = \sum_{j=0}^{n}\binom{n}{j}e^{iuj}p^j(1-p)^{n-j}
+    = \bigl(p\,e^{iu}+1-p\bigr)^n.$$ **Metodo tramite indipendenza.** Poiché $X = \sum_{j=1}^n Y_j$ con $Y_1,\ldots,Y_n$ i.i.d. Bernoulli$(p)$, per indipendenza delle $\sigma$-algebre generate dalle $Y_j$: $$\phi_X(u)
+    = \mathbb{E}\!\left[e^{iu\sum_{j=1}^n Y_j}\right]
+    = \mathbb{E}\!\left[\prod_{j=1}^n e^{iuY_j}\right]
+    = \prod_{j=1}^n \mathbb{E}[e^{iuY_j}]
+    = \prod_{j=1}^n \phi_{Y_j}(u)
+    = \bigl(p\,e^{iu}+1-p\bigr)^n.$$ Il secondo metodo illustra una proprietà fondamentale: *la funzione caratteristica della somma di VA indipendenti è il prodotto delle singole funzioni caratteristiche*.
+
+![Funzione caratteristica della Binomiale<span class="math inline">(<em>n</em>, <em>p</em>)</span>. All’aumentare di <span class="math inline"><em>n</em></span> (con <span class="math inline"><em>p</em></span> fisso) le oscillazioni si fanno più rapide, riflettendo la maggiore dispersione della distribuzione. L’inset mostra la PMF per <span class="math inline"><em>n</em> = 6, <em>p</em> = 0.4</span>.](figures/02-binomial-cf.png){#fig-cf-binomial}
+
+### Poisson$(\lambda)$
+
+Sia $X \sim \mathcal{P}(\lambda)$, con $\mathbb{P}(X=k)=\frac{e^{-\lambda}\lambda^k}{k!}$. $$\phi_X(u)
+    = \mathbb{E}[e^{iuX}]
+    = \sum_{k=0}^{\infty} e^{iuk}\frac{e^{-\lambda}\lambda^k}{k!}
+    = e^{-\lambda}\sum_{k=0}^{\infty}\frac{(\lambda e^{iu})^k}{k!}
+    = e^{-\lambda}\cdot e^{\lambda e^{iu}}
+    = e^{\lambda(e^{iu}-1)}.$$ Nell'ultimo passaggio abbiamo riconosciuto la serie di Taylor dell'esponenziale $e^z = \sum_{k=0}^\infty z^k/k!$ con $z=\lambda e^{iu}$.
+
+**Osservazione.** Poiché $e^{iu}-1 = (\cos u - 1)+i\sin u$, la parte reale dell'esponente è $\lambda(\cos u -1)\leq 0$: il modulo $|\phi_X(u)| = e^{\lambda(\cos u-1)}\leq 1$ decade oscillando con $u$, senza mai superare l'unità.
+
+![Funzione caratteristica della Poisson<span class="math inline">(<em>λ</em>)</span>. Per <span class="math inline"><em>λ</em></span> grande le oscillazioni diventano più veloci e il modulo decade più rapidamente, coerentemente con una distribuzione più dispersa.](figures/03-poisson-cf.png){#fig-cf-poisson}
+
+### Uniforme su $(-a,a)$
+
+Sia $X \sim \mathcal{U}(-a,a)$ con densità $f(x)=\frac{1}{2a}\mathbf{1}_{[-a,a]}(x)$. $$\phi_X(u)
+    = \frac{1}{2a}\int_{-a}^{a}e^{iux}\,dx
+    = \frac{e^{iua}-e^{-iua}}{2a\cdot iu}.$$ Usando la formula di Eulero $e^{i\theta}-e^{-i\theta}=2i\sin\theta$: $$\phi_X(u)
+    = \frac{2i\sin(au)}{2aiu}
+    = \frac{\sin(au)}{au}
+    \quad (\text{funzione sinc}).$$ Il caso $u=0$ si risolve per continuità: $\lim_{u\to 0}\frac{\sin(au)}{au}=1$.
+
+**Perché la parte immaginaria è nulla?** L'integrando $\sin(ux)e^{-x^2/2}$ è una funzione dispari su $[-a,a]$, quindi il suo integrale su un dominio simmetrico è zero. La funzione caratteristica di una distribuzione simmetrica è sempre reale.
+
+![Funzione caratteristica dell’Uniforme<span class="math inline">(−<em>a</em>, <em>a</em>)</span> — la funzione <em>sinc</em>. <em>Sin.</em>: <span class="math inline"><em>ϕ</em><sub><em>X</em></sub>(<em>u</em>) = sin (<em>a</em><em>u</em>)/(<em>a</em><em>u</em>)</span>, con zeri in <span class="math inline"><em>u</em> = <em>k</em><em>π</em>/<em>a</em></span>, <span class="math inline"><em>k</em> ≠ 0</span>. <em>Centro</em>: parte immaginaria identicamente nulla per simmetria della distribuzione. <em>Des.</em>: modulo, che coincide con <span class="math inline">|sinc(<em>a</em><em>u</em>)|</span>.](figures/04-uniform-cf.png){#fig-cf-uniform}
+
+### Normale$(0,1)$
+
+Sia $X\sim\mathcal{N}(0,1)$. Il calcolo tramite integrali di contorno o continuazione analitica è standard ma non elementare. Presentiamo qui una derivazione basata su un'ODE, che ha il pregio di usare solo strumenti di Analisi 1.
+
+**Passo 1 --- Eliminazione della parte immaginaria.** Poiché $\sin(ux)e^{-x^2/2}$ è una funzione dispari e integrabile, il suo integrale su $\mathbb{R}$ è zero, quindi: $$\phi_X(u)
+    = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}\cos(ux)\,e^{-x^2/2}\,dx.$$
+
+**Passo 2 --- Derivazione sotto il segno di integrale.** Per il Teorema 13.2 (convergenza dominata, poiché $|x\sin(ux)e^{-x^2/2}|\leq |x|e^{-x^2/2}\in L^1$) possiamo derivare rispetto a $u$: $$\phi_X'(u)
+    = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}
+      (-x\sin ux)\,e^{-x^2/2}\,dx.$$
+
+**Passo 3 --- Integrazione per parti.** Integrando per parti con $v'=xe^{-x^2/2}$ e $w=\sin(ux)$: $$\phi_X'(u)
+    = -\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}
+      u\cos(ux)\,e^{-x^2/2}\,dx
+    = -u\,\phi_X(u).$$
+
+**Passo 4 --- Risoluzione dell'ODE.** Si ottiene l'equazione differenziale ordinaria $\frac{\phi_X'(u)}{\phi_X(u)} = -u$, la cui soluzione generale è: $$\ln|\phi_X(u)| = -\frac{u^2}{2} + C
+    \implies
+    \phi_X(u) = e^C e^{-u^2/2}.$$ La condizione iniziale $\phi_X(0)=1$ impone $e^C=1$, dunque: $$\boxed{\phi_X(u) = e^{-u^2/2}.}$$
+
+![Funzione caratteristica della <span class="math inline">𝒩(0, 1)</span>. <em>Sin.</em>: <span class="math inline"><em>ϕ</em><sub><em>X</em></sub>(<em>u</em>) = <em>e</em><sup>−<em>u</em><sup>2</sup>/2</sup></span> (Gaussiana) e la sua derivata <span class="math inline"><em>ϕ</em><sub><em>X</em></sub><sup>′</sup>(<em>u</em>) = −<em>u</em> <em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)</span>, che ne verifica l’ODE. <em>Centro</em>: <span class="math inline">ln |<em>ϕ</em><sub><em>X</em></sub>(<em>u</em>)| = −<em>u</em><sup>2</sup>/2</span>, parabola. <em>Des.</em>: effetto di <span class="math inline"><em>σ</em></span> sulla larghezza della funzione caratteristica (più <span class="math inline"><em>σ</em></span> è grande, più <span class="math inline"><em>ϕ</em><sub><em>X</em></sub></span> è stretta in <span class="math inline"><em>u</em></span>).](figures/05-normal-cf.png){#fig-cf-normal-std}
+
+### Normale$(\mu,\sigma^2)$
+
+Sia $X\sim\mathcal{N}(\mu,\sigma^2)$. Poiché $Y = \frac{X-\mu}{\sigma}\sim\mathcal{N}(0,1)$, possiamo scrivere $X = \mu + \sigma Y$. Usando il Teorema 13.3 (shift e scala): $$\phi_X(u)
+    = \mathbb{E}[e^{iu(\mu+\sigma Y)}]
+    = e^{iu\mu}\,\mathbb{E}[e^{i(u\sigma)Y}]
+    = e^{iu\mu}\,\phi_Y(u\sigma)
+    = e^{iu\mu}\cdot e^{-(u\sigma)^2/2},$$ da cui: $$\boxed{\phi_X(u) = e^{iu\mu - u^2\sigma^2/2}.}$$ **Osservazione.** Il parametro $\mu$ agisce come un fattore di fase $e^{iu\mu}$ (rotazione nel piano complesso), che non altera il *modulo* $|\phi_X(u)|=e^{-u^2\sigma^2/2}$. Il parametro $\sigma$ controlla la *larghezza* della Gaussiana in frequenza: più $\sigma$ è grande, più $\phi_X$ decade rapidamente.
+
+![Funzione caratteristica della Normale<span class="math inline">(<em>μ</em>, <em>σ</em><sup>2</sup>)</span>. La media <span class="math inline"><em>μ</em></span> introduce oscillazioni nella parte reale e immaginaria (si veda la comparazione tra <span class="math inline"><em>μ</em> = 0</span> e <span class="math inline"><em>μ</em> = 2</span>), ma il modulo rimane <span class="math inline"><em>e</em><sup>−<em>u</em><sup>2</sup><em>σ</em><sup>2</sup>/2</sup></span>, indipendente da <span class="math inline"><em>μ</em></span>.](figures/06-normal-general-cf.png){#fig-cf-normal-gen}
+
+### Esponenziale$(\lambda)$
+
+Sia $X\sim\mathrm{Exp}(\lambda)$ con densità $f(x)=\lambda e^{-\lambda x}\mathbf{1}_{x\geq 0}$.
+
+**Calcolo diretto (formale).** $$\phi_X(u)
+    = \int_0^{\infty}e^{iux}\lambda e^{-\lambda x}\,dx
+    = \lambda\int_0^{\infty}e^{(iu-\lambda)x}\,dx
+    = \frac{\lambda}{\lambda-iu}.$$ Questo passaggio è formalmente giustificato dal fatto che $\mathrm{Re}(iu-\lambda)=-\lambda<0$, quindi l'integrale converge.
+
+**Metodo elementare (senza analisi complessa).** Si verifica per derivazione diretta che: $$\begin{aligned}
+    \frac{d}{dx}\!\left[
+      \tfrac{\lambda}{\lambda^2+u^2}e^{-\lambda x}
+      (-\lambda\cos(ux)+u\sin(ux))\right]
+    &= \lambda e^{-\lambda x}\cos(ux),\\
+    \frac{d}{dx}\!\left[
+      \tfrac{\lambda}{\lambda^2+u^2}e^{-\lambda x}
+      (-u\cos(ux)-\lambda\sin(ux))\right]
+    &= \lambda e^{-\lambda x}\sin(ux).
+\end{aligned}$$ Integrando su $[0,+\infty)$ e raccogliendo parte reale e immaginaria: $$\phi_X(u)
+    = \frac{\lambda^2}{\lambda^2+u^2}
+      - i\,\frac{\lambda u}{\lambda^2+u^2}
+    = \frac{\lambda}{\lambda-iu}.$$
+
+![Funzione caratteristica dell’Esponenziale<span class="math inline">(<em>λ</em>)</span>. <em>Sin.</em>: parte reale <span class="math inline"><em>λ</em><sup>2</sup>/(<em>λ</em><sup>2</sup> + <em>u</em><sup>2</sup>)</span>, una Lorentziana centrata in <span class="math inline"><em>u</em> = 0</span>. <em>Centro</em>: parte immaginaria <span class="math inline">−<em>λ</em><em>u</em>/(<em>λ</em><sup>2</sup> + <em>u</em><sup>2</sup>)</span>, antisimmetrica. <em>Des.</em>: modulo <span class="math inline">$\lambda/\sqrt{\lambda^2+u^2}$</span>, decrescente con <span class="math inline"><em>u</em></span>.](figures/07-exponential-cf.png){#fig-cf-exp}
+
+### Gamma$(\alpha,\beta)$
+
+Sia $X\sim\Gamma(\alpha,\beta)$ con densità $f(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}
+\mathbf{1}_{x>0}$.
+
+**Calcolo tramite la struttura additiva.** La distribuzione Gamma con parametro di forma *intero* $\alpha=n$ può essere scritta come somma di $n$ variabili esponenziali i.i.d.: $X = Z_1+\cdots+Z_n$, con $Z_i\sim\mathrm{Exp}(\beta)$. Per indipendenza e usando il risultato dell'Esempio 7: $$\phi_X(u)
+    = \prod_{i=1}^{n}\phi_{Z_i}(u)
+    = \left(\frac{\beta}{\beta-iu}\right)^n
+    = \frac{\beta^n}{(\beta-iu)^n}.$$ Per $\alpha\in\mathbb{R}^+$ generico il risultato si estende per continuazione analitica o con l'integrale di contorno, dando: $$\boxed{\phi_X(u) = \left(\frac{\beta}{\beta-iu}\right)^\alpha.}$$ **Verifica: casi particolari.**
+
+- $\alpha=1$: $\phi_X(u)=\frac{\beta}{\beta-iu}$, che è esattamente la funzione caratteristica dell'Esponenziale$(\beta)$.
+
+- $\alpha=n/2$, $\beta=1/2$: si ottiene la distribuzione Chi-Quadro con $n$ gradi di libertà.
+
+![Funzione caratteristica della Gamma<span class="math inline">(<em>α</em>, <em>β</em>)</span>. <em>Sin.</em>: parte reale. <em>Centro</em>: parte immaginaria. <em>Des.</em>: modulo <span class="math inline">$(\beta/\sqrt{\beta^2+u^2})^\alpha$</span>; la freccia indica il caso <span class="math inline"><em>α</em> = 1</span> in cui si riduce all’Esponenziale. All’aumentare di <span class="math inline"><em>α</em></span> il modulo decade più lentamente, coerentemente con una distribuzione più concentrata intorno alla media <span class="math inline"><em>α</em>/<em>β</em></span>.](figures/08-gamma-cf.png){#fig-cf-gamma}
+
+::: mybox
+Funzione caratteristica di una trasformazione affine Sia $\mathbf{X}$ un vettore aleatorio in $\mathbb{R}^n$ e sia $a\in\mathbb{R}^m$. Sia $\mathbf{A}^{m\times n}$ una matrice rettangolare. Allora: $$\phi_{a+\mathbf{A}\mathbf{X}}(u)=e^{i\langle u,a \rangle}\phi_{\mathbf{X}}(\mathbf{A^t}u)$$ Per tutti gli $u\in\mathbb{R}^m$.
+:::
+
+Questo teorema ci spiega come si comporta la funzione caratteristica quando applichiamo una trasformazione affine a un vettore aleatorio. Riduciamo il problema al caso scalare ($n=1$, $m=1$), $\mathbf{A}=b\in\mathbb{R}$, $a$ diventa un numero $a \in \mathbb{R}$. La nostra nuova VA trasformata sarà $Y=a+bX$. Il teorema ci dice che: $$\phi_{a+bx}(u)=e^{iua}\phi_{X}(bu)$$ Questo ci dice che geometricamente, nel dominio complesso, ci sono due effetti separati che derivano dalle proprietà dell'algebra lineare applicate al prodotto scalare:
+
+- Effetto della moltiplicazione $bX$: moltiplicare la VA $X$ per lo scalare $b$ equivale a stirare o comprimere la sua distribuzione (cambia la varianza). Nelle funzioni caratteristiche questo corrisponde a un cambio di scala dell'argomento $u$: $$\phi_{X}(u)\rightarrow \phi_{X}(bu)$$
+
+- Effetto della traslazione $(a+...)$: aggiungere una costante $a$ significa spostare l'intera distribuzione a destra o a sinistra (cambia la media: $$e^{iu}\rightarrow e^{iua}=\cos(ua)+i\sin(ua)$$ Moltiplicare per $\cos(ua)+i\sin(ua)$ significa ruotare la funzione caratteristica nel piano complesso di un angolo proporzionale a $u$ e ad $a$.
+
+## Proprietà delle Funzioni Caratteristiche
+
+Affinchè le trasformate siano utili, abbiamo bisogno di sapere che la conoscenza della trasformata caratterizza la distribuzione che le da origine.ù Il prossimo teorema ci garantisce che esiste una corrispondenza biunivoca (1 a 1): due distribuzioni diverse non possono avere la stessa funzione caratteristica. Se due VA hanno la stessa funzione caratteristica allora hanno la stessa distribuzione.\
+Questo fatto è estremamente utile per dimostrare la convergenza delle VA (come nel CLT). Spesso è difficile dimostrare che una successione di distribuzioni complicate (per esempio la somma di 1000 variabili binomiali) si avvicina a una normale, ma è molto facile dimostrare che le loro funzioni caratteristiche di avvicinano a quelle di una normale.
+
+::: mybox
+Teorema di unicità o di Inversione La trasformata di Fourier $\hat{\mu}$ di una misura di probabilità $\mu$ su $\mathbb{R}^n$ caratterizza $\mu$.\
+Ovvero, se due misure di probabilità su $\mathbb{R}^n$ ammettono la stessa trasformata di Fourier, esse sono uguali.
+:::
+
+Il Teorema di Unicità è uno dei risultati più potenti e rassicuranti della teoria della probabilità. Ci dice che la funzione caratteristica si comporta esattamente come un'impronta digitale (o il DNA) di una variabile aleatoria. Non ci sono ambiguità: se durante un problema calcoli la trasformata di Fourier di una variabile incognita e il risultato è identico alla trasformata di una distribuzione nota, allora la tua variabile ha esattamente quella distribuzione nota.\
+Il teorema garantisce una corrispondenza biunivoca perfetta. Questo significa che la mappa che associa una misura alla sua trasformata è invertibile non solo in linea teorica, ma in modo costruttivo. Esistono infatti formule analitiche (come la *Formula di Inversione di Lévy*) per \"tornare indietro\", ovvero per ricostruire la misura originale $\mu$ conoscendo solo $\hat{\mu}$.
+
+In particolare, se la misura $\mu$ ammette una funzione di densità $f(\mathbf{x})$ e la sua funzione caratteristica è assolutamente integrabile (cioè $\int |\hat{\mu}(u)| \, du < \infty$), possiamo trovare la densità originale calcolando l'antitrasformata di Fourier: $$f(\mathbf{x}) = \frac{1}{(2\pi)^n} \int_{\mathbb{R}^n} e^{-i\langle u,\mathbf{x} \rangle} \hat{\mu}(u) \, du$$ Notiamo come l'esponente nell'antitrasformata abbia il segno meno ($-i$) rispetto alla trasformata diretta.
+
+**L'utilità Pratica: Somme di Variabili Indipendenti**\
+La vera utilità di questo teorema si manifesta quando dobbiamo sommare variabili aleatorie indipendenti. Se $X$ e $Y$ sono variabili indipendenti, calcolare la distribuzione della loro somma $Z = X + Y$ nello spazio originale richiede la risoluzione di un integrale di convoluzione, spesso ostico.
+
+Nello spazio di Fourier, invece, la convoluzione si trasforma in una semplice moltiplicazione algebrica: $$\phi_{Z}(u) = \phi_{X}(u) \cdot \phi_{Y}(u)$$ A questo punto, basta moltiplicare le due funzioni. Grazie al Teorema di Unicità, ci basterà guardare il risultato di questa moltiplicazione: se lo riconosciamo (ad esempio, se il prodotto ci dà la funzione caratteristica di una Gaussiana o di una Poisson), sapremo immediatamente qual è la distribuzione di $Z$, senza aver calcolato nessun integrale complesso.\
+In probabilità due VA sono indipendenti se la loro densità congiunta si fattorizza nel prodotto delle densità marginali. Questa regola si trasferisce in modo identico nel campo complesso: le VA sono indipendenti se e solo se la funzione caratteristica congiunta si fattorizza nel prodotto delle sinogle funzioni caratteristiche.
+
+::: mybox
+Verifica dell'indipendenza tramite funzioni caratteristiche Sia $\mathbf{X}=[X_1,...X_n]$ un vettore aleatorio in $\mathbb{R}^n$. Allora le VA reali $\{X_j\}_{1\leq j \leq n}$ sono indipendenti se e solo se: $$\phi_{\mathbf{X}}(u_1,...,u_n)=\prod_{j=1}^n\phi_{X_j}(u_j)$$ Dove $\phi_{\mathbf{X}}(u_1,...,u_n)$ è la funzione caratteristica congiunta.
+:::
+
+Dimostrare l'indipendenza di due o più variabili usando le funzioni di densità (o ripartizione) congiunte può essere un incubo, perché richiede di risolvere integrali multipli o gestire domini complessi. Con le funzioni caratteristiche, il problema dell'indipendenza si riduce a un banale controllo algebrico: calcoli la funzione caratteristica congiunta, guardi la formula risultante e ti chiedi: *\"Posso separare tutte le $u_1$ dalle $u_2$ e dalle $u_3$ scrivendole come fattori moltiplicativi indipendenti?\"*. Se la risposta è sì, sono indipendenti. Se trovi un termine misto (es. $u_1 \cdot u_2$ in un esponente non separabile), sono dipendenti.\
+Questo teorema è lo strumento principale usato per dimostrare una proprietà magica della distribuzione Normale: per le variabili aleatorie congiuntamente Gaussiane, *assenza di correlazione implica indipendenza*. Guardando la funzione caratteristica di un vettore Gaussiano, ci si accorge subito che se la covarianza (e quindi la correlazione) tra le variabili è zero, i termini misti nell'esponente della trasformata spariscono, e la funzione congiunta si spezza esattamente nel prodotto delle funzioni marginali.
+
+**N.B.**: Avere $\phi_{\mathbf{X}}(u,...,u)=\prod \phi_{X_j}(u)$ $\forall u \in \mathbb{R}$ non è sufficiente affinchè le $X_j$ siano indipendenti.
+
+
+::: {.paper-download}
+[Scarica il PDF](probability_theory_for_quantitative_finance-11.pdf){.btn-paper download=""}
+:::
