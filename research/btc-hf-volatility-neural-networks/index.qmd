@@ -2,7 +2,7 @@
 title: "Forecasting High-Frequency Bitcoin Volatility: Neural Networks, Market Microstructure and On-Chain Data"
 author: Tommaso Zeri
 date: 2026-10-31
-image: cover.jpg
+image: cover-v2.jpg
 lang: en
 idioma: English
 categories: [Volatility, Machine Learning, Crypto]
