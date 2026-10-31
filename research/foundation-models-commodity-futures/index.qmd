@@ -11,7 +11,7 @@ abstract: |
   We evaluate four recent time series foundation models (Timestral-28M, Timestral-209M, TimesFM-3 and Chronos-2), used zero-shot, against econometric benchmarks on 15 commodity futures, with daily forecasts from January 2024 to October 2026. For price distributions, the best model lowers the CRPS of the random walk by 2–4% and beats AutoARIMA and AutoETS, while Chronos-2 is worse than the random walk at one day. For Value-at-Risk, the models match GARCH and are better calibrated than historical simulation. For realized volatility, they do not beat HAR on their own, but an equal-weight combination with a log-HAR beats HAR at every horizon, by up to 7%. Among the covariates tested, only the commodity's own implied volatility helps, lowering QLIKE by 6–14% at one day, but a log-HAR given the same index gains almost as much. Foundation models are useful for commodity forecasting mainly as complements to econometric models.
 keywords: [Foundation models, Probabilistic forecasting, Commodity futures, Value-at-Risk, Realized volatility, Implied volatility, Forecast combination]
 pdf: foundation-models-commodity-futures.pdf
-code: https://github.com/tommasozeri/Commodity-foundation-models
+code: https://github.com/tommasozeri/Time-Series-Foundation-Models-for-Commodity-Futures
 bibliography: references.bib
 number-sections: true
 number-depth: 3
@@ -615,7 +615,7 @@ During the preparation of this work the author(s) used Claude (Anthropic) to wri
 
 
 ::: {.paper-download}
-[Download PDF](foundation-models-commodity-futures.pdf){.btn-paper download=""} [Code on GitHub](https://github.com/tommasozeri/Commodity-foundation-models){.btn-paper}
+[Download PDF](foundation-models-commodity-futures.pdf){.btn-paper download=""} [Code on GitHub](https://github.com/tommasozeri/Time-Series-Foundation-Models-for-Commodity-Futures){.btn-paper}
 :::
 
 # References {.unnumbered}
