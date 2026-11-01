@@ -8,6 +8,7 @@ idioma: English
 categories: [Machine Learning, Volatility, Crypto]
 description: "Four zero-shot foundation models on the realized variance of Bitcoin and Ether, against HAR models adjusted for the calendar pattern of crypto volatility. Alone they gain little; combined with a log-HAR they cut hourly QLIKE by 3–8%. Only DVOL helps as a covariate, and a placebo test exposes Chronos-2."
 pdf: foundation-models-crypto-realized-volatility.pdf
+code: https://github.com/tommasozeri/Crypto-Time-Series-Foundation-Models
 citation:
   type: report
   pdf-url: https://tommasozeri.github.io/research/foundation-models-crypto-realized-volatility/foundation-models-crypto-realized-volatility.pdf
@@ -563,5 +564,5 @@ The study has limits. It covers two assets, one exchange and one sampling freque
 
 
 ::: {.paper-download}
-[Download PDF](foundation-models-crypto-realized-volatility.pdf){.btn-paper download=""}
+[Download PDF](foundation-models-crypto-realized-volatility.pdf){.btn-paper download=""} [Code](https://github.com/tommasozeri/Crypto-Time-Series-Foundation-Models){.btn-paper}
 :::
