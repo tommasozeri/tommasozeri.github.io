@@ -2,6 +2,7 @@
 title: "Bitcoin Prediction Contracts against the Options Market: Kalshi Prices and Deribit-Implied Probabilities"
 author: Tommaso Zeri
 date: 2026-11-09
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Prediction Markets, Options, Crypto]
