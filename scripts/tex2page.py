@@ -209,6 +209,7 @@ body = re.sub(r"\(\s*\\ref\{(eq[^}]+)\}\s*\)", r"\\eqref{\1}", body)
 # longtable: keep the first header only
 body = re.sub(r"\\endfirsthead.*?\\endhead", "", body, flags=re.S)
 body = re.sub(r"(\\(?:bottomrule|hline|midrule)\s*)?\\endfoot.*?(\\endlastfoot)?", "", body)
+body = re.sub(r"\\cmidrule(?:\([a-z]*\))?\{[^}]*\}", "", body)
 body = re.sub(r"\\endlastfoot|\\endhead|\\endfirsthead", "", body)
 
 # custom column types pandoc does not know (L{..}, X, C{..}); width arg of tabularx / tabular*
@@ -510,6 +511,7 @@ if items and not bib_names:
     labels = {}
     for opt, key, txt in items:
         key = key.strip()
+        txt = re.sub(r'\\(["\'`^~])\{?([A-Za-z])\}?', lambda a: __import__("unicodedata").normalize("NFC", a.group(2) + {'"': "\u0308", "'": "\u0301", "`": "\u0300", "^": "\u0302", "~": "\u0303"}[a.group(1)]), txt)
         flat = re.sub(r"\\[a-zA-Z]+\*?|[{}~]", " ", txt)
         flat = re.sub(r"\s+", " ", flat).strip()
         yr = re.search(r"\(?((?:1[89]|20)\d\d[a-z]?)\)?", flat)
