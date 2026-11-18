@@ -167,8 +167,22 @@ def img(m):
 body = re.sub(r"\\includegraphics(\[[^\]]*\])?\{([^}]+)\}", img, body)
 
 # TikZ / pgfplots -> SVG
-tikz_pre = "\n".join(l for l in pre.splitlines()
-                     if re.match(r"\s*\\(usetikzlibrary|usepgfplotslibrary|definecolor|pgfplotsset|tikzset|colorlet|newcommand|DeclareMathOperator|renewcommand)", l))
+def _pre_cmds(t):
+    out = []
+    for m in re.finditer(r"\\(usetikzlibrary|usepgfplotslibrary|definecolor|pgfplotsset|tikzset|colorlet|newcommand|DeclareMathOperator|renewcommand)\b", t):
+        j, depth, started = m.end(), 0, False
+        while j < len(t):
+            c = t[j]
+            if c == "{": depth += 1; started = True
+            elif c == "}": depth -= 1
+            elif c == "\n" and depth == 0 and started:
+                break
+            j += 1
+        out.append(t[m.start():j].strip())
+    return "\n".join(out)
+
+
+tikz_pre = _pre_cmds(pre)
 pkgs = "\\usepackage{amsmath,amssymb,amsfonts,bm,xcolor}\n\\usepackage{tikz}\n"
 if "pgfplots" in pre:
     pkgs += "\\usepackage{pgfplots}\n"
@@ -186,8 +200,11 @@ def tikz(m):
            "\n\\begin{document}\n" + m.group(0) + "\n\\end{document}\n")
     (d / f"t{n_tikz}.tex").write_text(doc)
     subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error", f"t{n_tikz}.tex"],
-                   cwd=d, capture_output=True, timeout=120)
+                   cwd=d, capture_output=True, timeout=120,
+                   env={**os.environ, "TEXINPUTS": f"{SRC}//:{SRC.parent}//:"})
     pdf = d / f"t{n_tikz}.pdf"
+    if not pdf.exists():
+        os.makedirs("/tmp/t2p_fail", exist_ok=True); shutil.copy(d / f"t{n_tikz}.log", f"/tmp/t2p_fail/{PAGE.name}-{n_tikz}.log") if (d / f"t{n_tikz}.log").exists() else None
     if not pdf.exists():
         log.append(f"tikz {n_tikz} failed to compile")
         return ""
@@ -486,7 +503,7 @@ def eq(m):
 
 
 # park cross-reference links first: their text "\[label\]" looks like display math
-md = re.sub(r"\[((?:\\\]|[^\]$\n])*)\]\(#([^)\s]+)\)\{reference-type=\"[^\"]*\"[^}]*\}",
+md = re.sub(r"\[((?:\\\]|\\\[|[^\[\]$\n])*)\]\(#([^)\s]+)\)\{reference-type=\"[^\"]*\"[^}]*\}",
             lambda m: "ZZREF" + m.group(2).replace(":", "ZZC") + "ZZEND", md)
 md = re.sub(r"\$\$(.*?)\$\$", eq, md, flags=re.S)
 # ids pandoc put on raw divs / spans for labels inside theorems etc.

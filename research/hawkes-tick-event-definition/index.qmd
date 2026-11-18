@@ -1,0 +1,258 @@
+---
+title: "The Event Definition Is the Model: Fitting a Multivariate Hawkes Process to Tick Quotes"
+author: Tommaso Zeri
+date: 2026-11-15
+image: cover.jpg
+lang: en
+idioma: English
+categories: [Market Microstructure, Hawkes Processes, Crypto]
+description: "Every mid-price change as an event gives microsecond kernels and a basis that never reverts. Moves of at least 0.5 bp give a stationary process with cross-excitation above self-excitation. With the full estimation toolkit."
+pdf: hawkes-tick-event-definition.pdf
+code: https://github.com/tommasozeri/hawkes-tick-event-definition
+citation:
+  type: report
+  pdf-url: https://tommasozeri.github.io/research/hawkes-tick-event-definition/hawkes-tick-event-definition.pdf
+google-scholar: true
+abstract: |
+  A multivariate Hawkes process is a natural model for two prices that react to each other, but first one has to decide what an event is. On the Binance BTC perpetual and spot quote streams, taking every change of the mid-price as an event gives 1.4 million events a day with a median gap of 33 microseconds and kernels with half-lives of a few microseconds. Filtering the bursts is not enough: the remaining moves have heterogeneous sizes, and the fitted model implies a perpetual--spot basis that widens permanently, with an hourly standard deviation of hundreds of dollars against a basis that in the data reverts within seconds. Defining an event as a move of at least 0.5 basis points from a reference price, on quotes cleaned of glitches, gives a tenth of the events with nearly identical sizes on both legs. On these events the fitted process is stationary in every window of thirteen days (spectral radius 0.64--0.91), on every BTC day from 2024 the cross-excitation between the two legs is larger than the self-excitation, and the time-rescaling statistics fall by an order of magnitude. The article then describes the estimation toolkit: the $O(N)$ recursive likelihood, two exponentials per pair, a piecewise baseline against spurious criticality, multi-start optimisation, time-rescaling diagnostics, and simulate-and-recover tests.
+number-sections: true
+number-depth: 3
+---
+
+# The problem
+
+The basis between a perpetual future and its spot market is the difference of two mid-prices quoted on the same exchange. At the scale of milliseconds it moves because one leg moves and the other has not followed yet. A model of the basis at that scale has to say two things: how often each leg moves, and whether a move of one leg calls for a further move of the same leg (the gap widens) or of the other leg (the gap closes). A multivariate Hawkes process says both. Its intensities depend on the past events of every type, and its branching matrix measures how many follow-up events of each type a given event generates.
+
+The data are the full best-quote streams of the BTC/USDT perpetual and spot markets of Binance on eleven days between December 2022 and September 2026, and of ETH on two days. On 1 March 2026 there are 11 million spot quotes and 37 million perpetual quotes. The model has four event types: perpetual up, perpetual down, spot up, spot down. The choice between "every mid change" and "a move of half a basis point" as the event decides whether the fitted model has self-excitation or cross-excitation as its dominant channel, whether it is close to criticality, and whether its implied basis is stationary, with the same estimator in both cases.
+
+# Hawkes processes in one page
+
+A $d$-dimensional point process is a sequence of event times $t_1 < t_2 < \dots$ with types $y_n \in \{1, \dots, d\}$. It is described by its conditional intensity $\lambda_i(t)$, the instantaneous rate of events of type $i$ given everything that happened before $t$. For a Poisson process $\lambda_i$ is a constant. For a Hawkes process ([Hawkes et al. 1971](#ref-hawkes1971)) it is a baseline plus a sum of decaying bumps, one per past event: 
+
+$$
+\lambda_i(t) = \mu_i + \sum_{j=1}^{d} \sum_{t^j_n < t} \varphi_{ij}(t - t^j_n), \qquad \varphi_{ij}(u) = \sum_{k=1}^{K} \alpha_{ijk}\, e^{-\beta_{ijk} u}.
+$$ {#eq-intensity}
+
+ The first index is the excited type and the second the exciting type, so $\varphi_{ij}$ reads "$i$ excited by $j$". Diagonal kernels are self-excitation, off-diagonal ones cross-excitation. Here each kernel is a sum of $K$ exponentials; $K = 1$ is the textbook case and $K = 2$ is the specification used below.
+
+The process has a cluster representation ([Hawkes et al. 1971](#ref-hawkes1971); [Laub 2015](#ref-laub2015)). Immigrants of type $j$ arrive as a Poisson process of rate $\mu_j$, and every event, immigrant or not, has a Poisson number of children of type $i$ with mean 
+
+$$
+G_{ij} = \int_0^\infty \varphi_{ij}(u)\, du = \sum_{k} \frac{\alpha_{ijk}}{\beta_{ijk}} .
+$$ {#eq-g}
+
+ $G$ is the branching matrix. The process has a stationary version if and only if its spectral radius $\rho(G)$ is below one, and then the mean intensities are $\Lambda = (I - G)^{-1} \mu$. A share $1 - \mu_i/\Lambda_i$ of the events of type $i$ is endogenous, generated by earlier events rather than by the baseline. As $\rho(G)$ approaches one, clusters stop dying out. Whether markets really sit near that critical point, or whether estimates near one come from misspecified baselines and kernels, has been debated ([Hardiman 2013](#ref-hardiman2013); [Filimonov et al. 2015](#ref-filimonov2015)); @sec-baseline shows the second mechanism at work.
+
+For the basis, number the types $0 =$ perp up, $1 =$ perp down, $2 =$ spot up, $3 =$ spot down. If every event moved its leg by a constant mark, $m_p$ on the perpetual and $m_s$ on the spot, the basis would be a linear function of the counts, 
+
+$$
+B(t) = B(0) + v_B^\top N(t), \qquad v_B = (m_p,\, -m_p,\, -m_s,\, m_s),
+$$ {#eq-basis}
+
+ and every property of the basis would follow from the Hawkes parameters in closed form. One example is the permanent impact of an event of type $j$, its own move plus the net move of all its descendants, $v_B^\top (I - G)^{-1} e_j$. Self-excitation of the perpetual widens the basis, cross-excitation from the perpetual to the spot closes it. The marks do not enter the intensities; they enter only the map @eq-basis from counts to prices. @eq-basis is exact only if the marks are constant, and this is where the event definition enters.
+
+# What counts as an event {#sec-events}
+
+## Every mid change
+
+The obvious definition is that every change of the mid-price $(\text{bid} + \text{ask})/2$ is an event. On BTC on 1 March 2026 this gives 1.43 million events, with a median gap of 33 microseconds between consecutive events of the pooled series (@tbl-definitions). The distribution of the gaps, in @fig-gaps, is bimodal: one mode at 1--30 $\mu$s and one at 0.3--10 ms. Most of the first mode is not market dynamics. It consists of consecutive frames of the same change of the book: a level consumed and refilled, or a size update that moves the best quote by one tick and back.
+
+![Distribution of the gap between consecutive events of the pooled four-type series, BTC 1 March 2026. With every mid change as an event the distribution has a mode at a few microseconds, the frames of one change of the book, and one at milliseconds. The price-move definition removes the first mode.](figures/diagram-1.svg){#fig-gaps}
+
+A Hawkes model fitted to these events does what it is asked to do: it describes the bursts. Fitted on hourly windows with one exponential per pair and a constant baseline, it finds self-excitation with a half-life of about four microseconds, Kolmogorov--Smirnov statistics of the rescaled residuals of 0.34--0.35 on the perpetual and 0.10--0.12 on the spot (@sec-gof explains the test), and a self-excitation of the perpetual that jumps between local optima from one window to the next.
+
+## Removing the bursts is not enough
+
+A symmetric debounce removes the bursts: same-direction repeats of a leg within $\tau$ are merged and reversals within $\tau$ are cancelled. At $\tau = 100$ $\mu$s it halves the events, to 662 thousand, and the KS statistics fall to 0.04--0.06. The structure of the fitted branching matrix is stable for $\tau$ between 30 $\mu$s and 1 ms, so the filter is not tuning the answer.
+
+The second problem is the marks. After the debounce the mean move per event is 0.84 USDT on the perpetual and 1.26 USDT on the spot, and only 24% and 14% of the events are one tick. The perpetual tick is ten times the spot tick, and the spot book is sparse near the touch, so its mid jumps several ticks at a time. With marks this heterogeneous, a model of counts reads the data wrongly. In the fit on debounced events the self-excitation of the perpetual is about 0.7 and the perpetual-to-spot cross-excitation about 0.13, so counted in events the perpetual runs away from the spot. Weighted by the mean marks, the permanent impact of one perpetual up-move on the basis is $+2.2$ USDT, 2.7 times the move itself, and the implied hourly standard deviation of the basis is 320 USDT. The observed basis has a standard deviation of 5.8 USDT on a one-second grid and reverts within seconds after a perpetual move. Two exponentials per pair and a five-minute baseline do not change the picture: every count-based specification on these events makes the basis widen permanently by 2.4--2.7 USDT per perpetual event. The diagnosis recorded at the time was that the spot moves following a perpetual move must be larger in dollars than the perpetual moves following it, which a model of counts with average marks cannot represent.
+
+## Price moves of half a basis point
+
+The definition that works follows ([Fonseca et al. 2015](#ref-dafonseca2015)) and ([Bacry and Delattre 2013](#ref-bacry2013)). For each leg keep a reference price. Record an up (down) event when the mid exceeds (falls below) the reference by at least $\theta = 0.5$ bp, and reset the reference to the current mid. The implementation is a single loop:
+
+```python
+njit(cache=True)
+def _reference_events(mid, thr):          # thr = threshold_bp * 1e-4
+    n = len(mid)
+    idx = np.empty(n, np.int64)
+    mv = np.empty(n, np.float64)
+    k = 0
+    ref = mid[0]
+    for i in range(1, n):
+        if abs(mid[i] / ref - 1.0) >= thr:
+            idx[k] = i
+            mv[k] = mid[i] - ref
+            k += 1
+            ref = mid[i]
+    return idx[:k], mv[:k]
+```
+
+Because the threshold is relative, the two legs get events of the same size, and days are comparable whatever the price level of BTC. On 1 March 2026 the mean move is 4.78 USDT on the perpetual and 4.67 USDT on the spot (@tbl-definitions); across days the mean mark is 0.6--0.9 bp. @eq-basis then holds to a good approximation. The sample shrinks by a factor of ten and still has 50 to 240 thousand events per day.
+
+::: {#tbl-definitions}
+  -------------------------- ----------- ------------ ------------------------ ------
+                                           Median gap   Mean $|$move$|$ (USDT) 
+  Definition                      Events     ($\mu$s)                     perp   spot
+  Every mid change             1,425,787           33                     0.54   0.50
+  Debounce 30 $\mu$s             728,744        2,052                       --     --
+  Debounce 100 $\mu$s            661,691        2,361                     0.84   1.26
+  Debounce 1 ms                  563,595        3,190                       --     --
+  Price move 0.5 bp (main)       127,033       25,434                     4.78   4.67
+  Price move 1 bp                 59,466       87,924                     8.56   8.20
+  -------------------------- ----------- ------------ ------------------------ ------
+
+  : Event counts under alternative definitions, BTC 1 March 2026, cleaned quotes: total events, median gap between consecutive events of the pooled series, mean absolute move per event (where recorded). A debounce at $\tau$ merges same-direction repeats and cancels reversals of a leg within $\tau$.
+:::
+
+Two preprocessing steps come before the threshold rule. The quote streams contain glitches: on 1 March 2026 there are 1,697 changes of the mid larger than 20 USDT, up to 380 USDT, a third of them undone by the next quote. A quote with a spread above 20 bp is dropped, and an isolated jump of more than 20 bp that the next quote reverts is dropped with its reversal. No day loses more than 0.01% of its quotes, and after the filter the basis rebuilt from the mid changes matches a one-second grid to within 0.06 bp. Timestamps are integer nanoseconds throughout, converted by integer arithmetic. Events of the two legs with the same timestamp are ordered perpetual first and separated by nanosecond shifts, so the pooled series is strictly increasing; after the threshold rule such ties are rare, and putting the spot first or ordering at random reproduces the estimates to the third decimal.
+
+# The estimation toolkit {#sec-toolkit}
+
+## An $O(N)$ log-likelihood
+
+The log-likelihood of a point process on $[0, T]$ is $\sum_n \log \lambda_{y_n}(t_n) - \sum_i \int_0^T \lambda_i(u)\, du$. It separates into one term per type, so the parameters of row $i$, the baseline $\mu_i$ and the $dK$ pairs $(\alpha_{ijk}, \beta_{ijk})$, are estimated independently of the other rows: 
+
+$$
+\ell_i = \sum_{n:\, y_n = i} \log \lambda_i(t_n) - \int_0^T \mu_i(u)\, du - \sum_{j, k} \frac{\alpha_{ijk}}{\beta_{ijk}} \sum_{n:\, y_n = j} \Big( 1 - e^{-\beta_{ijk}(T - t_n)} \Big).
+$$ {#eq-loglik}
+
+ Evaluated naively, the intensity at each event is a sum over all earlier events and the cost is $O(N^2)$. With exponential kernels the sum can be carried forward. Let $\Delta_n = t_n - t_{n-1}$ and 
+
+$$
+R_{jk}(t_n) = e^{-\beta_{ijk}\Delta_n}\big( R_{jk}(t_{n-1}) + \mathbf{1}\{y_{n-1} = j\} \big), \qquad \lambda_i(t_n) = \mu_i(t_n) + \sum_{j,k} \alpha_{ijk}\, R_{jk}(t_n),
+$$ {#eq-recursion}
+
+ so that @eq-loglik costs $O(NdK)$ per row ([Laub 2015](#ref-laub2015)). The gradient is analytic. Derivatives with respect to $\alpha$ and $\mu$ reuse $R$; the derivative with respect to $\beta$ needs a second recursion, 
+
+$$
+S_{jk}(t_n) = e^{-\beta_{ijk}\Delta_n}\big( S_{jk}(t_{n-1}) + \Delta_n R_{jk}(t_{n-1}) \big), \qquad S_{jk} = -\frac{\partial R_{jk}}{\partial \beta_{ijk}},
+$$ {#eq-s}
+
+ where $R_{jk}(t_{n-1})$ includes the event at $t_{n-1}$. The core of the compiled implementation, with the gradient accumulators and the compensator loop left out, is:
+
+```python
+for n in range(times.shape[0]):
+    dt = (times[n] - t_prev) / NS_PER_S        # int64 ns -> seconds
+    for j in range(d):
+        for k in range(K):
+            e = np.exp(-b[j, k] * dt)
+            s[j, k] = e * (s[j, k] + dt * r[j, k])
+            r[j, k] = e * r[j, k]
+    if types[n] == i:
+        lam = mu_i
+        for j in range(d):
+            for k in range(K):
+                lam += a[j, k] * r[j, k]
+        ll += np.log(lam)
+        # ... accumulate gradients from r, s and lam
+    tj = types[n]
+    for k in range(K):
+        r[tj, k] += 1.0
+    t_prev = times[n]
+```
+
+The optimisation runs on the logarithms of the parameters with L-BFGS-B and box constraints, and the code multiplies each derivative by its parameter. With Numba, one evaluation on a four-hour window of 20,000 events, two kernels per pair and sixteen baseline bins takes about ten milliseconds per type, and the multi-start fit of a window takes twenty to sixty seconds on a laptop. Event times are kept as integer nanoseconds until the gap $\Delta_n$ is formed, so no time is rounded on the way in.
+
+## Two exponentials per pair
+
+Empirical kernels of order flow decay over many scales, close to a power law ([Hardiman 2013](#ref-hardiman2013)). One exponential per pair fits a few milliseconds, which describes the first reaction of one leg to the other and misses the scale of seconds at which the basis closes. A sum of two exponentials keeps the Markov property and the recursion, with two $R$'s per pair. On 1 March 2026 it adds about a thousand units of log-likelihood per window and brings the KS statistics from 0.05--0.06 to 0.02--0.04. A third exponential adds a few per cent of that gain, separates no new scale that matters for the basis, and drives some baseline bins to zero.
+
+A sum of two identical kernels is not identified: the labels of the components can be swapped. The fix is to constrain the decays to disjoint ranges, a fast component with a half-life between 20 $\mu$s and 30 ms and a slow one between 30 ms and 20 s. Each component then keeps a fixed meaning, reaction and follow-through, across windows and days. In the code this is a box constraint on $\log \beta$, `DEFAULT_BETA_RANGES = ((30.0, 5.0e4), (0.05, 30.0))` in s$^{-1}$.
+
+## A piecewise baseline against spurious criticality {#sec-baseline}
+
+Activity varies by a factor of four to eleven within a day on most days. A constant baseline cannot follow that variation, so the likelihood attributes the slow swings of activity to the kernels and inflates $G$ towards one ([Filimonov et al. 2015](#ref-filimonov2015)). The baseline here is piecewise constant on fifteen-minute bins, sixteen per four-hour window, estimated jointly with the kernels. The integral of $\mu_i$ in @eq-loglik becomes a sum over bins, the recursion is unchanged, and each bin adds one parameter per type. On 1 March 2026 a constant baseline over an hour gives spectral radii of 0.90--0.96; with the bins they are 0.77--0.90. Bins of five minutes drive some spot bins to zero, which is over-parameterisation rather than information. The simulation in @sec-simulation shows why this matters, and that the usual residual test cannot detect the problem.
+
+## Local optima and what to report
+
+The decay rates are the hard parameters. The likelihood is flat along ridges that keep $\alpha/\beta$ roughly constant, and it has local maxima at decays that fit one scale and miss the others ([Filimonov et al. 2015](#ref-filimonov2015); [Lallouache et al. 2016](#ref-lallouache2016)). Each row is therefore fitted from several random starts, with decays drawn log-uniformly in their ranges, and the best optimum is kept. The gap to the second-best optimum is recorded as a diagnostic. The observed information matrix has a condition number of the order of $10^{12}$ in the log-parameters because of the ridges, so standard errors are reported for $G$ and $\rho(G)$, which are well conditioned, and not for $\alpha$ and $\beta$ separately. The standard error of $\rho(\hat G)$ comes from the delta method, using the gradient of the spectral radius with respect to the entries of $G$. Every fit reports $\rho(\hat G)$ and its standard error, as the stationarity check.
+
+## Goodness of fit by time rescaling {#sec-gof}
+
+If $\lambda_i$ is the true intensity, the compensator increments between consecutive events of type $i$, 
+
+$$
+\tau^{(i)}_k = \int_{t^{(i)}_{k-1}}^{t^{(i)}_k} \lambda_i(u)\, du,
+$$ {#eq-rescaling}
+
+ are independent unit exponentials ([Brown et al. 2002](#ref-brown2002)). The compensator of an exponential Hawkes process has a closed form between events and is accumulated by the same recursion as @eq-recursion, including the piecewise baseline. The rescaled times are submitted to the battery of ([Lallouache et al. 2016](#ref-lallouache2016)): the KS statistic against the unit exponential, a Ljung--Box test at fifteen lags for independence, and a test of excess dispersion that counts rescaled events in windows of fixed rescaled length and compares the variance of the counts with the Poisson value. With thousands of events per window and component they reject small departures, so they serve to compare specifications and to describe what a model misses.
+
+# Testing by simulating and recovering {#sec-simulation}
+
+Every estimation routine is tested the same way: simulate a process with known parameters, re-estimate, and check recovery within a tolerance. Simulation uses Ogata's thinning ([Laub 2015](#ref-laub2015)). With exponential kernels the total intensity does not increase between events, so the intensity just after the last event is a valid upper bound.
+
+The reference process has the four-type structure of the basis model, a common decay $\beta = 20$ s$^{-1}$ (half-life 35 ms), and $\rho(G) = 0.82$. One sample of 6,000 s has about 36,000 events, the size of a four-hour window of data. @tbl-simulation collects three experiments.
+
+::: {#tbl-simulation}
+  Experiment            Fit                    $\hat\rho$   $\max|\hat G - G|$ Other
+  --------------------- ------------------ -------------- -------------------- ------------------------------------------
+  One kernel, 5 seeds   $K = 1$              0.812--0.821         0.008--0.031 median $\hat\beta$ 19.6--20.4
+  Two kernels           $K = 2$                     0.831                0.036 $\hat\beta$ 49.5 / 0.49, slow share 0.46
+                        $K = 1$                     0.628                0.168 $\Delta\ell = -1002$
+  Regime shifts         constant                    0.872                   -- KS 0.006
+                        6 bins (1,000 s)            0.870                   -- KS 0.006
+                        24 bins (250 s)             0.831                   -- KS 0.006
+
+  : Simulate-and-recover experiments, samples of 6,000 s from the reference process ($\rho = 0.82$). Top: one exponential per pair, five seeds (range over seeds). Middle: a process with two exponentials per pair (true decays 50 and 0.5 s$^{-1}$, slow share 0.45), fitted with $K = 2$ and $K = 1$; $\Delta\ell$ is the log-likelihood relative to $K = 2$. Bottom: baseline switching between its value and three times its value every ten minutes, fitted with a constant and with piecewise baselines.
+:::
+
+With one kernel the branching matrix is recovered to within 0.01--0.03 in every entry, the spectral radius to within 0.01 and the decay to within 5%. With two kernels the two-kernel fit recovers both decays and the share of the slow component; the one-kernel fit on the same data misses the slow component, finds $\rho = 0.63$ against 0.82, and loses a thousand units of log-likelihood. This is the situation on the data: a single exponential cannot represent two scales and under-estimates the endogeneity when the slow scale matters.
+
+The third experiment reproduces the mechanism of ([Filimonov et al. 2015](#ref-filimonov2015)). With a constant baseline the spectral radius is 0.87 against a true 0.82, the excess read into the self-excitation entries. The KS statistic stays at 0.006 in all three fits. A slowly varying baseline is a misspecification that time rescaling does not see, because the kernels absorb it and the residuals stay clean. Only bins shorter than the regime (250 s) bring $\rho$ back to 0.83; bins of 1,000 s, longer than the regime, gain nothing. This is why the empirical bins are fifteen minutes long, and why a good KS statistic is no evidence against spurious criticality.
+
+A one-millisecond jitter of the event times, or rounding them to one millisecond, leaves $G$, $\rho$ and the decay unchanged to the third decimal. The project's test suite has eighty-two tests on synthetic data, every gradient included, checked against finite differences.
+
+# What the fit says {#sec-results}
+
+The main specification is 0.5 bp events, two exponentials per pair, fifteen-minute baseline bins, six four-hour windows per day fitted separately, four random starts per row. On BTC 1 March 2026, 12:00--16:00 UTC (22,275 events), the estimated branching matrix, with rows as children and columns as parents in the order perp up, perp down, spot up, spot down, is 
+
+$$
+\hat G = \begin{pmatrix}
+0.290 & 0.231 & 0.511 & 0.012 \\
+0.271 & 0.284 & 0 & 0.491 \\
+0.415 & 0 & 0.289 & 0.013 \\
+0 & 0.441 & 0.013 & 0.260
+\end{pmatrix}, \qquad \rho(\hat G) = 0.895 \ (0.008).
+$$ {#eq-ghat}
+
+ Standard errors are at most 0.016 on every entry. The largest entries connect the two legs in the same direction: a perpetual up-move generates 0.42 spot up-moves on average, a spot up-move 0.51 perpetual up-moves. Self-excitation is 0.26--0.29 for every type. The perpetual has a rebound, a move followed by a move of the same leg in the opposite direction, of 0.23--0.27. Cross-excitation in the opposite direction is zero within its standard error. The baseline accounts for 7--13% of the events.
+
+Across the thirteen days the spectral radius is between 0.64 and 0.91 in every window, with standard errors below 0.03, so criticality is rejected by more than ten standard errors everywhere. With every mid change as an event and a constant baseline, the same days give 0.90--0.96. On every BTC day from 2024 the same-direction cross-excitation (0.44--0.59 in the stronger direction) is larger than the self-excitation, with $t$-statistics above 20 on every cross entry. On debounced mid changes the ordering was the reverse: self-excitation of the perpetual around 0.7 against a perpetual-to-spot cross entry around 0.13. The data and the estimator are the same in both fits; only the event definition differs.
+
+The two exponentials separate two scales. Same-direction cross-excitation has a fast component with a half-life of 5--23 ms, the reaction time of one leg to the other, and a slow one of 0.2--0.9 s that carries 41--72% of the cross branching ratio. The fast self-excitation component sits at the upper bound of its range (14--43 $\mu$s of half-life on ten days). It captures the sequence of threshold crossings when one sweep of the book moves the mid in several frames, it carries the smaller part of the self-excitation, and it is not interpreted. The bound is kept rather than widened, so that this component does not absorb the artefacts the event definition removed.
+
+![Quantile--quantile plots of the rescaled inter-event times @eq-rescaling against the unit exponential, BTC 1 March 2026, 12:00--16:00 UTC, quantiles from 1% to 99.9%. Left: under the main specification the four components lie on the diagonal up to the 97th percentile and depart in the far tail. Right: with every mid change as an event the departure starts at the median and the tail quantiles reach two to four times their exponential value.](figures/diagram-2.svg){#fig-qq}
+
+@fig-qq shows the residuals. On the BTC days from 2024 and on ETH the median KS statistics per component are 0.015--0.046, with rescaled times centred on one to the third decimal. With every mid change as an event they were 0.10--0.35, and 0.04--0.06 after the burst filter. The fit is still rejected: the 5% critical value at $n = 5{,}000$ is 0.019, and on the BTC days from 2024 the KS test rejects in 17--100% of the window--component pairs, the Ljung--Box test in 50--100% and the dispersion test in 25--100%. The rescaled times remain mildly autocorrelated and over-dispersed. Both symptoms point to clustering at scales that two exponentials do not cover, the slow drift of activity over minutes that fifteen-minute bins follow only in steps, and a third exponential does not remove it.
+
+# What the event definition does not fix
+
+On threshold events the model gets the direction right. The permanent impact of a perpetual up-move on the basis, $v_B^\top (I - G)^{-1} e_0$, is 0.61--0.84 of the move on the BTC days from 2024 and on ETH, so part of every perpetual move is reabsorbed by the spot. This is a long way from the 2.7 times the move implied by the fit on debounced mid changes. The speed is still wrong. The empirical basis covers half of its five-minute reversion after a perpetual up-move in 1.4--4.4 s; the Palm response of the model, the quantity an event study estimates, takes 4.9--15.5 s on the days where the comparison is meaningful, two to seven times slower.
+
+The remaining gap is structural. A linear Hawkes process with constant marks always leaves the basis a random-walk component, here 29--46% of the permanent variance of the price, because its intensities depend on the event history and not on the level of the basis. The basis in the data is stationary around its level. Closing that gap needs excitation that depends on the state of the basis, which is a change to the model and not to the event definition. The order of the work matters for anyone fitting Hawkes processes to quotes: clean the quotes, choose events with homogeneous marks, and check the implied price dynamics against an event study before tuning kernels and baselines.
+
+# References {.unnumbered}
+
+[]{#ref-bacry2013}E. Bacry, S. Delattre, M. Hoffmann and J.-F. Muzy. Modelling microstructure noise with mutually exciting point processes. *Quantitative Finance*, 13(1):65--77, 2013. doi:10.1080/14697688.2011.647054.
+
+[]{#ref-brown2002}E. N. Brown, R. Barbieri, V. Ventura, R. E. Kass and L. M. Frank. The time-rescaling theorem and its application to neural spike train data analysis. *Neural Computation*, 14(2):325--346, 2002. doi:10.1162/08997660252741149.
+
+[]{#ref-dafonseca2015}J. Da Fonseca and R. Zaatour. Clustering and mean reversion in a Hawkes microstructure model. *Journal of Futures Markets*, 35(9):813--838, 2015.
+
+[]{#ref-filimonov2015}V. Filimonov and D. Sornette. Apparent criticality and calibration issues in the Hawkes self-excited point process model: application to high-frequency financial data. *Quantitative Finance*, 15, 2015. doi:10.1080/14697688.2015.1032544.
+
+[]{#ref-hardiman2013}S. J. Hardiman, N. Bercot and J.-P. Bouchaud. Critical reflexivity in financial markets: a Hawkes process analysis. *The European Physical Journal B*, 86:442, 2013. doi:10.1140/epjb/e2013-40107-3.
+
+[]{#ref-hawkes1971}A. G. Hawkes. Spectra of some self-exciting and mutually exciting point processes. *Biometrika*, 58(1):83--90, 1971. doi:10.1093/biomet/58.1.83.
+
+[]{#ref-lallouache2016}M. Lallouache and D. Challet. The limits of statistical significance of Hawkes processes fitted to financial data. *Quantitative Finance*, 16, 2016. arXiv:1406.3967.
+
+[]{#ref-laub2015}P. J. Laub, T. Taimre and P. K. Pollett. Hawkes processes. arXiv:1507.02822, 2015.
+
+*This article is based on the author's master thesis.*
+
+
+::: {.paper-download}
+[Download PDF](hawkes-tick-event-definition.pdf){.btn-paper download=""} [Code](https://github.com/tommasozeri/hawkes-tick-event-definition){.btn-paper}
+:::
