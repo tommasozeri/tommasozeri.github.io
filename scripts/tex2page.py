@@ -531,9 +531,13 @@ if items and not bib_names:
         txt = re.sub(r'\\(["\'`^~])\{?([A-Za-z])\}?', lambda a: __import__("unicodedata").normalize("NFC", a.group(2) + {'"': "\u0308", "'": "\u0301", "`": "\u0300", "^": "\u0302", "~": "\u0303"}[a.group(1)]), txt)
         flat = re.sub(r"\\[a-zA-Z]+\*?|[{}~]", " ", txt)
         flat = re.sub(r"\s+", " ", flat).strip()
-        yr = re.search(r"\(?((?:1[89]|20)\d\d[a-z]?)\)?", flat)
+        yr = re.search(r"(?<![\d.:/])((?:1[89]|20)\d\d[a-z]?)(?!\d|\.\d)", flat)
         seg = flat[:yr.start()] if yr else flat[:80]
         names = re.findall(r"([A-ZÀ-Ý][A-Za-zÀ-ÿ'\-]+),", seg) or re.findall(r"([A-ZÀ-Ý][A-Za-zÀ-ÿ'\-]{2,})", seg)
+        mi = re.match(r"\s*((?:[A-Z]\.(?:-[A-Z]\.)?\s*)+[^,.]*?[a-zà-ÿ'](?:(?:,\s*|,?\s+and\s+)(?:[A-Z]\.(?:-[A-Z]\.)?\s*)+[^,.]*?[a-zà-ÿ'])*)\.", flat)
+        if mi:  # initials-first author list: "E. Bacry, I. Mastromatteo and J.-F. Muzy."
+            parts = [x.strip() for x in re.split(r",\s*and\s+|,\s*|\s+and\s+", mi.group(1)) if x.strip()]
+            names = [x.split()[-1] for x in parts]
         if opt and opt.strip():
             name, year = re.sub(r"\s*\(?\d{4}[a-z]?\)?\s*$", "", opt).strip(), (yr.group(1) if yr else "")
         elif names:
