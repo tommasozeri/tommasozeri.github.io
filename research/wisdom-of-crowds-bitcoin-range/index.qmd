@@ -2,6 +2,7 @@
 title: "How Wise Is the Crowd about Bitcoin's Next Hour? Kalshi Range Contracts against Statistical Forecasts"
 author: Tommaso Zeri
 date: 2026-11-20
+image: cover.jpg
 lang: en
 idioma: English
 categories: [Prediction Markets, Forecast Evaluation, Crypto]
